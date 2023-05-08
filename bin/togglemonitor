@@ -1,0 +1,8 @@
+#/bin/sh
+cmd=$(hyprctl monitors | grep -c "DP-2")
+if [[ $cmd -le 0 ]]; then
+	hyprctl keyword monitor DP-2,2560x1440,0x0,1
+	hyprctl keyword monitor DP-2,transform,3
+else
+	hyprctl keyword monitor DP-2,disable
+fi
