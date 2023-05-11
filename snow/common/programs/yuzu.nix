@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }: 
 {
-  home.packages = with pkgs; [ yuzu-updated ];
+  home.packages = with pkgs; [ yuzu-earlyaccess ];
 
   home.persistence = {
     "/persist/snow/flakes".directories = [ 

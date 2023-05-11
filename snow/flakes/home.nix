@@ -29,7 +29,6 @@
     xdg-utils
     nautilus
     mkxp-z
-    yuzu-updated
     blender
     deluge
     pavucontrol

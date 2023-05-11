@@ -6,5 +6,5 @@
   win10sur = pkgs.callPackage ./win10sur { };
   # breezex-cursor = pkgs.callPackage ./breezex-cursor { };
   mkxp-z = pkgs.callPackage ./mkxp-z { };
-  yuzu-updated = pkgs.callPackage ./yuzu-updated { };
+  # yuzu-updated = pkgs.callPackage ./yuzu-updated { };
 }
