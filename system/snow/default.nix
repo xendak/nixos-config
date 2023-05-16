@@ -23,8 +23,8 @@
   };
 
   # genshin
-  programs.an-anime-game-launcher.enable = true;
-  programs.the-honkers-railway-launcher.enable = true;
+  programs.anime-game-launcher.enable = true;
+  programs.honkers-railway-launcher.enable = true;
 
   # NTFS-3G for Windows Partititions
   environment.systemPackages = [

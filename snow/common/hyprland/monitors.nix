@@ -11,6 +11,6 @@ concatStringsSep "\n" (map
   '')
   monitors
 )
-+
-concatStringsSep "\n" (lib.concatMap (monitor: map (b: "wsbind=${monitor.name},${toString b}") monitor.bind) monitors)
+# +
+# concatStringsSep "\n" (lib.concatMap (monitor: map (b: "wsbind=${toString b},${monitor.name}") monitor.bind) monitors)
 

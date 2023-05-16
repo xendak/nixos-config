@@ -10,7 +10,6 @@
     "/persist/snow/flakes/" = {
       allowOther = true;
       directories = [ 
-        "Games/Lutris"
         "Games/Wine" 
         "Games/Wine-Prefix" 
         ".config/lutris" 

@@ -31,10 +31,11 @@
         inherit lib;
         inherit (config) monitors;
       }) +
-      builtins.replaceStrings ["#TRANSFORM"] 
-      [
-      	( "monitor=DP-2,transform,3" )
-      ]
+      # +
+      # builtins.replaceStrings ["#TRANSFORM"] 
+      # [
+      # 	( "monitor=DP-2,transform,3" )
+      # ]
       (import ./config.nix {
         inherit (config) colorscheme;
         inherit config;

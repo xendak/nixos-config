@@ -22,7 +22,7 @@
   fileSystems."/persist" =
     { device = "/dev/disk/by-label/FLAKE";
       fsType = "btrfs";
-      options = [ "subvol=persist" "compress=zstd" "noatime" "user_xattr" ];
+      options = [ "subvol=persist" "compress=zstd" "noatime" ];
       neededForBoot = true;
     };
 
