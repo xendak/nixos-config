@@ -1,4 +1,4 @@
-{ pkgs, config, inputs, ... }:
+{ pkgs, lib, ... }:
  
 # let
 #   aagl-gtk-on-nix = import (

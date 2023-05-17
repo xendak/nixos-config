@@ -1,17 +1,15 @@
 { inputs, outputs, lib, config, pkgs, ...}:
 {
   imports = [
-    #./fonts
-    ../common
-    #./hyprland
-    # ./programs
-    # ./games
     ./setup.nix
+
+    ../common
     ../common/hyprland/waybar/waybar-flakes.nix
-    # ./gtk.nix
-    # ./qt.nix
-    # ./xdg.nix
-    # ./font.nix
+
+    ../common/games/yuzu.nix
+    ../common/games/lutris.nix
+    ../common/games/steam.nix
+    ../common/games/mihoyo.nix
   ];
 
   home.packages = with pkgs; [
@@ -19,6 +17,7 @@
     polkit_gnome
     obs-studio
     mangohud
+    gamescope
     mpv
     jq
     unzip
@@ -55,6 +54,9 @@
   };
 
   xdg.mimeApps.enable = true;
+  xdg.mimeApps.defaultApplications = {
+		"application/x-ms-dos-executable" = [ "wine.desktop" ];
+	};
 
   i18n = {
     inputMethod = {
@@ -89,6 +91,8 @@
           "Documents"
           ".config/fcitx5"
           ".config/OpenRGB"
+          # ".local/share/anime-game-launcher"
+          # ".local/share/honkers-railway-launcher"
           # ".nixops"
           # ".local/share/direnv"
           # ".local/share/keyrings"
@@ -138,7 +142,6 @@
     # WAYLAND_DISPLAY = "wayland-0";
   };
 
-  # colorscheme = inputs.nix-colors.colorschemes.nord; #TODO:
   monitors = [
     {
       name = "DP-1";

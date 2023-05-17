@@ -1,6 +1,5 @@
 { pkgs, ... }: {
   imports = [
-    ./games
     ./programs
     ./hyprland
     ./qt.nix
