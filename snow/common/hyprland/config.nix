@@ -144,7 +144,7 @@
   exec-once=waybar
   exec-once=openrgb -d "XPG Spectrix S40G" -m Off
   #exec-once=xrandr --output XWAYLAND0 --primary # fix xwayland gaming issues
-  exec-once=mkdir $HOME/Games/tmp
+  exec-once=mkdir -p $HOME/Games/tmp/Screenshots
   exec-once=hyprctl setcursor '${config.gtk.cursorTheme.name}' 36
   exec-once=hyprpaper
   exec-once=mako
@@ -199,8 +199,8 @@
   # Screenshots
   bind=,Print,exec,grimblast --notify copysave output "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d-%M)_full.png"
   bind=SHIFT,Print,exec,grimblast --notify copysave active "$HOME/Games/tmp/Screenshots/$(date +%d-%M)_full.png"
-  bind=ALTSHIFT,c,exec,grimblast --notify copysave area "$HOME/Games/tmp/Screenshots/$(date +%d-%M)_snip.png"
-  bind=ALTSHIFT,s,exec,grimblast --notify copysave area "$HOME/Pictures/Screenshots/Snips/$(date +%Y-%m-%d-%M)_snip.png"
+  bind=ALTSHIFT,c,exec,grimblast --notify copysave area "$HOME/Games/tmp/Screenshots/$(date +%d-%M-%S)_snip.png"
+  bind=ALTSHIFT,s,exec,grimblast --notify copysave area "$HOME/Pictures/Screenshots/Snips/$(date +%Y-%m-%d-%M-%S)_snip.png"
 
   # Keyboard controls (brightness, media, sound, etc)
   bind=,XF86MonBrightnessUp,exec,light -A 10

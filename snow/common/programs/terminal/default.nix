@@ -5,6 +5,7 @@
     ./fish.nix 
     ./git.nix
     ./nvim
+    ./nnn.nix
   ];
 }
 
