@@ -408,5 +408,5 @@
           toggle_preview "$1" &
       fi
   fi
-  ''
+  '';
 }
