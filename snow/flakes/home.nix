@@ -115,6 +115,7 @@
     AREA_SAVE_FILE = "$(date +%Y-%m-%d_%M)_snip.png";
     AREA_CONFIG_DIR = "Snips";
     NNN_TMPFILE = "$XDG_CONFIG_HOME/.config/nnn/.lastd";
+    NNN_FIFO = "$XDG_CONFIG_HOME/.config/nnn/nnn.fifo";
     NNN_PLUG = "p:preview-tui";
     SPLIT = "v";
     GTK_THEME = "${config.gtk.theme.name}:dark";

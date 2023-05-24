@@ -23,6 +23,7 @@ in
     };
     settings = {
       window_padding_width = 15;
+      allow_remote_control = "yes";
       foreground = "#${colors.base05}";
       background = "#${colors.base00}";
       selection_background = "#${colors.base05}";
