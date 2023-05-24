@@ -10,7 +10,7 @@ in
   home = {
     packages = [ kitty-xterm ];
     sessionVariables = {
-      TERMINAL = "kitty -1";
+      TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
     };
     sessionPath = [ "$HOME/Flake/bin" ];
   };
