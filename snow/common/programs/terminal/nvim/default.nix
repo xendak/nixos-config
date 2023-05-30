@@ -1,4 +1,7 @@
 { config, pkgs, lib, ... }:
+let
+  color = pkgs.writeText "color.vim" (import ./theme.nix config.colorscheme);
+in
 {
   imports = [
 #    ./lsp.nix
@@ -23,7 +26,8 @@
       "Use truecolor
       set termguicolors
       "Set colorscheme
-      colorscheme nix-${config.colorscheme.slug}
+      "colorscheme nix-${config.colorscheme.slug}
+      source ${color}
 
       "Set fold level to highest in file
       "so everything starts out unfolded at just the right level
