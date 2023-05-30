@@ -207,9 +207,9 @@ in
   services.openssh = {
     enable = true;
     # Forbid root login through SSH.
-    settings.permitRootLogin = "no";
+    settings.PermitRootLogin = "no";
     # Use keys only. Remove if you want to SSH using password (not recommended)
-    settings.passwordAuthentication = false;
+    settings.PasswordAuthentication = false;
   };
 
   # localtime specific

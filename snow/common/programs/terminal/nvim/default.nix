@@ -11,11 +11,11 @@
   programs.neovim = {
     enable = true;
 
-    extraRuntime = {
-      "colors/nix-${config.colorscheme.slug}.vim" = {
-        text = import ./theme.nix config.colorscheme;
-      };
-    };
+    # extraRuntime = {
+    #   "colors/nix-${config.colorscheme.slug}.vim" = {
+    #     text = import ./theme.nix config.colorscheme;
+    #   };
+    # };
 
     extraConfig = /* vim */ ''
       "Use system clipboard

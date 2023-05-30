@@ -42,6 +42,15 @@
     homeManagerModules = import ./modules/home-manager;
 
     packages = forEachPkgs (pkgs: import ./pkgs { inherit pkgs; });
+    # packages = forEachPkgs (pkgs: (import ./pkgs { inherit pkgs; }) // {
+    #     neovim = let
+    #       homeCfg = mkHome [ ./home/misterio/generic.nix ] pkgs;
+    #     in pkgs.writeShellScriptBin "nvim" ''
+    #       ${homeCfg.config.programs.neovim.finalPackage}/bin/nvim \
+    #       -u ${homeCfg.config.xdg.configFile."nvim/init.lua".source} \
+    #       "$@"
+    #     '';
+    #   });
     devShells = forEachPkgs (pkgs: import ./shell.nix { inherit pkgs; });
     formatter = forEachPkgs (pkgs: pkgs.nixpkgs-fmt);
 

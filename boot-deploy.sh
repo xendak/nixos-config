@@ -8,4 +8,4 @@ cl="/home/flakes/.config/chromium/Local State"
 [[ -f "$cl" ]] && rm "$cl" 
 cd $HOME/Flake
 
-sudo nixos-rebuild boot --flake .#$USER
+sudo nixos-rebuild boot --flake .#$USER --show-trace
