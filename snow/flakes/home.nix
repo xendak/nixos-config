@@ -78,6 +78,7 @@
     username = lib.mkDefault "flakes";
     homeDirectory = lib.mkDefault "/home/flakes/";
     stateVersion = lib.mkDefault "23.05";
+    sessionPath = [ "$HOME/Flakes/bin" ];
     persistence = { 
       "/persist/snow/flakes" = {
         directories = [
@@ -102,46 +103,41 @@
         allowOther = true;
       };
     };
-  };
+    sessionVariables = {
+      SCREENSHOT_DIR = "$HOME/Pictures/Screenshots";
+      XCURSOR_PATH = "${config.gtk.cursorTheme.package}/share/icons/:$XCURSOR_PATH";
+      FULLSCREEN_SAVE_FILE = "$(date +%Y-%m-%d_%M).png";
+      AREA_SAVE_FILE = "$(date +%Y-%m-%d_%M)_snip.png";
+      AREA_CONFIG_DIR = "Snips";
+      NNN_TMPFILE = "$XDG_CONFIG_HOME/.config/nnn/.lastd";
+      NNN_FIFO = "/tmp/nnn.fifo";
+      NNN_PLUG = "p:preview-tui";
+      SPLIT = "v";
+      GTK_THEME = "${config.gtk.theme.name}:dark";
+      EDITOR = "nvim";
+      TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
+      BROWSER = "firefox";
+      FILEBROWSER = "nautilus";
+      TERMBROWSER = "n";
+      MOZ_ENABLE_WAYLAND = 1;
+      ANKI_WAYLAND = "1";
+      NIXOS_OZONE_WL = "1";
+      LIBSEAT_BACKEND = "logind";
+      XCURSOR_SIZE = 36;
+      QT_QPA_PLATFORM = "wayland;xcb";
+      QT_WAYLAND_DISABLE_WINDOWDECORATION = "0";
+      WLR_NO_HARDWARE_CURSORS = 1;
+      INPUT_METHOD = "fcitx";
+      XIM_SERVERS = "fcitx";
+      XMODIFIERS = "@im=fcitx";
+      XMODIFIER = "@im=fcitx";
+      GTK_IM_MODULE = "fcitx";
+      QT_IM_MODULE = "fcitx";
+      WINEPREFIX = "$HOME/Games/Wine-Prefix";
 
-  home.sessionPath = [
-    "$HOME/Flakes/bin"
-  ];
-
-  home.sessionVariables = {
-    SCREENSHOT_DIR = "$HOME/Pictures/Screenshots";
-    XCURSOR_PATH = "${config.gtk.cursorTheme.package}/share/icons/:$XCURSOR_PATH";
-    FULLSCREEN_SAVE_FILE = "$(date +%Y-%m-%d_%M).png";
-    AREA_SAVE_FILE = "$(date +%Y-%m-%d_%M)_snip.png";
-    AREA_CONFIG_DIR = "Snips";
-    NNN_TMPFILE = "$XDG_CONFIG_HOME/.config/nnn/.lastd";
-    NNN_FIFO = "/tmp/nnn.fifo";
-    NNN_PLUG = "p:preview-tui";
-    SPLIT = "v";
-    GTK_THEME = "${config.gtk.theme.name}:dark";
-    EDITOR = "nvim";
-    TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
-    BROWSER = "firefox";
-    FILEBROWSER = "nautilus";
-    TERMBROWSER = "n";
-    MOZ_ENABLE_WAYLAND = 1;
-    ANKI_WAYLAND = "1";
-    NIXOS_OZONE_WL = "1";
-    LIBSEAT_BACKEND = "logind";
-    XCURSOR_SIZE = 36;
-    QT_QPA_PLATFORM = "wayland;xcb";
-    QT_WAYLAND_DISABLE_WINDOWDECORATION = "0";
-    WLR_NO_HARDWARE_CURSORS = 1;
-    INPUT_METHOD = "fcitx";
-    XIM_SERVERS = "fcitx";
-    XMODIFIERS = "@im=fcitx";
-    XMODIFIER = "@im=fcitx";
-    GTK_IM_MODULE = "fcitx";
-    QT_IM_MODULE = "fcitx";
-    WINEPREFIX = "$HOME/Games/Wine-Prefix";
-
-    # DISPLAY = "";
-    # WAYLAND_DISPLAY = "wayland-0";
+      # DISPLAY = "";
+      # WAYLAND_DISPLAY = "wayland-0";
+    };
   };
 
   monitors = [

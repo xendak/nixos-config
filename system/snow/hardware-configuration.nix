@@ -9,9 +9,19 @@
       options = [ "rw" "uid=1000" ];
     };
   fileSystems."/mnt/LocalDisk" =
-    { device = "/dev/disk/by-uuid/3EA83264A8321ABB";
+    { device = "/dev/disk/by-uuid/50A43AA6A43A8F0A";
       fsType = "ntfs3";
       options = [ "rw" "uid=1000" ];
+    };
+  fileSystems."/mnt/Nixos/Games" =
+    { device = "/dev/disk/by-label/NIXOS";
+      fsType = "btrfs";
+      options = [ "rw" "subvol=Games" "compress=zstd" "noatime" ];
+    };
+  fileSystems."/mnt/Nixos/Programming" =
+    { device = "/dev/disk/by-label/NIXOS";
+      fsType = "btrfs";
+      options = [ "rw" "subvol=Programming" "compress=zstd" "noatime" ];
     };
   fileSystems."/mnt/Storage" =
     { device = "/dev/disk/by-uuid/920881090880EE13";
