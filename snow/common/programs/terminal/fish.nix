@@ -43,7 +43,7 @@
       wh = "readlink -f (which $argv)";
       kb = ''
         if test (count $argv) -lt 1; or test "$argv[1]" = "help"
-          echo "Valid Options:
+          echo "Valid Options: FIXED
                   m or moonlander -> cd to kb/moonlander/km/xendak 
                   ap or annepro   -> cd to kb/annepro2/km/xendak
                   c or compile    -> specify keyboard to compile options ap m annepro moonlander
