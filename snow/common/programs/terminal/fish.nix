@@ -42,7 +42,7 @@
       fish_greeting = "";
       wh = "readlink -f (which $argv)";
       kb = ''
-        if test (count $argv) -lt 1; or test "$argv[1]" = ""help""
+        if test (count $argv) -lt 1; or test "$argv[1]" = 'help'
           echo "Valid Options: FIXED 2
                   m or moonlander -> cd to kb/moonlander/km/xendak 
                   ap or annepro   -> cd to kb/annepro2/km/xendak
@@ -50,7 +50,7 @@
                   f or flash      -> same as above, but for flashing utility to use
                   cf or fc        -> same as above, but for both utility to use"
         else
-          if test "$argv[1]" = "m"; or test "$argv[1]" = "moonlander"
+          if test "$argv[1]" = "m"; or test "$argv[1]" = \"moonlander\"
             cd $HOME/Programming/Keyboard/qmk_firmware/keyboards/moonlander/keymaps/xendak
           else if test "$argv[1]" = "ap"; or test "$argv[1]" = "annepro"
             cd $HOME/Programming/Keyboard/qmk_firmware/keyboards/annepro2/keymaps/xendak
