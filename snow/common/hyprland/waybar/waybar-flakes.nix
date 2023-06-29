@@ -11,17 +11,14 @@
   # ];
   nixpkgs.overlays = [
     (final: prev: let
-      waybarSrc = fetchFromGitHub {
-        owner = "NixOS";
-        repo = "nixpkgs";
-        rev = "4afc316e4272c34429d031e290c6b5a7ed975875";
-        sha256 = "1wgnlzc85y46c5rhwlvwrq99igw62q6nzk42rrnmfcjc7fmyfk90";
-      };
+      stablePkgs = import (fetchTarball {
+        url = "https://github.com/NixOS/nixpkgs/archive/nixos-21.05.tar.gz";
+        sha256 = "0b7z0sqh9dwh4y9w7i1vdpw5a7s0n6ln8vnc05siz1djdwfjnrh6";
+      }) {};
     in prev // {
-      waybar = prev.waybar.override {
-        src = waybarSrc;
-        mesonFlags = prev.waybar.mesonFlags ++ [ "-Dexperimental=true" ];
-      };
+      waybar = stablePkgs.waybar.overrideAttrs (oldAttrs: {
+        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+      });
     })
   ];
 
