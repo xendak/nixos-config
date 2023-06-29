@@ -1,48 +1,10 @@
 { pkgs, ... }:
 {
-  programs.fish = {
-    enable = true;
-    shellAbbrs = {
 
-      jqless = "jq -C | less -r";
-
-      nd = "nix develop -c $SHELL";
-      ns = "nix shell";
-      nsn = "nix shell nixpkgs#";
-      nb = "nix build";
-      nbn = "nix build nixpkgs#";
-      nf = "nix flake";
-
-      nr = "nixos-rebuild --flake .";
-      nrs = "nixos-rebuild --flake . switch";
-      snr = "sudo nixos-rebuild --flake .";
-      snrs = "sudo nixos-rebuild --flake . switch";
-      hm = "home-manager --flake .";
-      hms = "home-manager --flake . switch";
-
-      nv = "nvim";
-      nvi = "nvim";
-      v = "nvim";
-      vi = "nvim";
-      vim = "nvim";
-    };
-
-    shellAliases = {
-      upd = "sh /home/flakes/Flake/deploy.sh";
-      upb = "sh /home/flakes/Flake/boot-deploy.sh";
-      # Get ip
-      getip = "curl ifconfig.me";
-      # SSH with kitty terminfo
-      kssh = "kitty +kitten ssh";
-      # Clear screen and scrollback
-      clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
-    };
-
-    functions = {
-      fish_greeting = "";
-      wh = "readlink -f (which $argv)";
-      kb = ''
-        if test (count $argv) -lt 1; or test "$argv[1]" = '''"help'''"
+  # Function failed so we write as text
+  xdg.configFile."fish/functions/kb.fish".text = ''
+    function kb
+        if test (count $argv) -lt 1; or test "$argv[1]" = "help"
           echo "Valid Options: FIXED 2
                   m or moonlander -> cd to kb/moonlander/km/xendak 
                   ap or annepro   -> cd to kb/annepro2/km/xendak
@@ -50,7 +12,7 @@
                   f or flash      -> same as above, but for flashing utility to use
                   cf or fc        -> same as above, but for both utility to use"
         else
-          if test "$argv[1]" = "m"; or test "$argv[1]" = \"moonlander\"
+          if test "$argv[1]" = "m"; or test "$argv[1]" = "moonlander"
             cd $HOME/Programming/Keyboard/qmk_firmware/keyboards/moonlander/keymaps/xendak
           else if test "$argv[1]" = "ap"; or test "$argv[1]" = "annepro"
             cd $HOME/Programming/Keyboard/qmk_firmware/keyboards/annepro2/keymaps/xendak
@@ -89,7 +51,51 @@
             end
           end
         end
-      '';
+    end
+  '';
+
+  programs.fish = {
+    enable = true;
+    shellAbbrs = {
+
+      jqless = "jq -C | less -r";
+
+      nd = "nix develop -c $SHELL";
+      ns = "nix shell";
+      nsn = "nix shell nixpkgs#";
+      nb = "nix build";
+      nbn = "nix build nixpkgs#";
+      nf = "nix flake";
+
+      nr = "nixos-rebuild --flake .";
+      nrs = "nixos-rebuild --flake . switch";
+      snr = "sudo nixos-rebuild --flake .";
+      snrs = "sudo nixos-rebuild --flake . switch";
+      hm = "home-manager --flake .";
+      hms = "home-manager --flake . switch";
+
+      nv = "nvim";
+      nvi = "nvim";
+      v = "nvim";
+      vi = "nvim";
+      vim = "nvim";
+    };
+
+    shellAliases = {
+      upd = "sh /home/flakes/Flake/deploy.sh";
+      upb = "sh /home/flakes/Flake/boot-deploy.sh";
+      upn = "cp /home/flakes/Flake/flake.lock /home/flakes/Flake/flake.lock.old && nix flake update"
+      # Get ip
+      getip = "curl ifconfig.me";
+      # SSH with kitty terminfo
+      kssh = "kitty +kitten ssh";
+      # Clear screen and scrollback
+      clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
+    };
+
+    functions = {
+      fish_greeting = "";
+      wh = "readlink -f (which $argv)";
       cd = "
         if count $argv > /dev/null
           builtin cd $argv
@@ -149,7 +155,7 @@
           else
               set -x NNN_TMPFILE \"$HOME/.config/nnn/.lastd\"
           end
-          command nnn $argv
+          command nnn -deiH $argv
 
           if test -e $NNN_TMPFILE
               source $NNN_TMPFILE
