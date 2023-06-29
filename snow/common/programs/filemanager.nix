@@ -1,9 +1,9 @@
 { config, lib, pkgs, user, ... }:
 {
   home.packages = with pkgs; [
-    nautilus
-    nemo
-    dolphin
+    cinnamon.nemo
+    gnome.nautilus
+    libsForQt5.dolphin
   ];
 }
 
