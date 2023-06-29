@@ -1,12 +1,27 @@
 { config, lib, pkgs, user, ... }:
 {
+  # nixpkgs.overlays = [
+  #   (final: prev: {
+  #     waybar =
+  #       prev.waybar.overrideAttrs (oldAttrs: {
+  #         mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+  #         buildInputs = oldAttrs.buildInputs ++ [ prev.fmt_9 ];
+  #       });
+  #   })
+  # ];
   nixpkgs.overlays = [
-    (final: prev: {
-      waybar =
-        prev.waybar.overrideAttrs (oldAttrs: {
-          mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-          buildInputs = oldAttrs.buildInputs ++ [ prev.fmt_9 ];
-        });
+    (final: prev: let
+      waybarSrc = fetchFromGitHub {
+        owner = "NixOS";
+        repo = "nixpkgs";
+        rev = "4afc316e4272c34429d031e290c6b5a7ed975875";
+        sha256 = "1wgnlzc85y46c5rhwlvwrq99igw62q6nzk42rrnmfcjc7fmyfk90";
+      };
+    in prev // {
+      waybar = prev.waybar.override {
+        src = waybarSrc;
+        mesonFlags = prev.waybar.mesonFlags ++ [ "-Dexperimental=true" ];
+      };
     })
   ];
 
