@@ -25,7 +25,6 @@
     wineWowPackages.waylandFull
     bottom
     xdg-utils
-    nautilus
     mkxp-z
     blender
     deluge

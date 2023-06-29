@@ -17,9 +17,8 @@
     # yuzu-ea = prev.yuzu-early-access.overrideAttrs (oldAttrs: {
     #   patches = (oldAttrs.patches or [ ]) ++ [ ./yuzu-no-error.patch ];
     # });
-    nautilus = prev.gnome.nautilus.overrideAttrs (oldAttrs: {
-      patches = (oldAttrs.patches or [ ]) ++ [ ./nautilus-typeahead.patch ];
-    });
+    #   patches = (oldAttrs.patches or [ ]) ++ [ ./nautilus-typeahead.patch ];
+    # });
     xdg-utils-spawn-terminal = prev.xdg-utils.overrideAttrs (oldAttrs: {
       patches = (oldAttrs.patches or [ ]) ++ [ ./xdg-open-spawn-terminal.diff ];
     });
