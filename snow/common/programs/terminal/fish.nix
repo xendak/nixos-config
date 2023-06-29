@@ -84,7 +84,7 @@
     shellAliases = {
       upd = "sh /home/flakes/Flake/deploy.sh";
       upb = "sh /home/flakes/Flake/boot-deploy.sh";
-      upn = "cp /home/flakes/Flake/flake.lock /home/flakes/Flake/flake.lock.old && nix flake update"
+      upn = "cp /home/flakes/Flake/flake.lock /home/flakes/Flake/flake.lock.old && nix flake update";
       # Get ip
       getip = "curl ifconfig.me";
       # SSH with kitty terminfo
