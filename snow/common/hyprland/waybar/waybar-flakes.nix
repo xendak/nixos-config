@@ -13,7 +13,7 @@
     (final: prev: let
       stablePkgs = import (fetchTarball {
         url = "https://github.com/NixOS/nixpkgs/archive/nixos-23.05.tar.gz";
-        sha256 = "0b7z0sqh9dwh4y9w7i1vdpw5a7s0n6ln8vnc05siz1djdwfjnrh6";
+        sha256 = "1y6zipys4803ckvnamfljb8raglgkbz1fz1fg03cxp4jqiiva5s1";
       }) {};
     in prev // {
       waybar = stablePkgs.waybar.overrideAttrs (oldAttrs: {
