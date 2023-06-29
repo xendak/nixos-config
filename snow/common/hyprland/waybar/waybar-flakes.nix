@@ -5,6 +5,7 @@
       waybar =
         prev.waybar.overrideAttrs (oldAttrs: {
           mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+          buildInputs = oldAttrs.buildInputs ++ [ prev.fmt_9 ];
         });
     })
   ];
