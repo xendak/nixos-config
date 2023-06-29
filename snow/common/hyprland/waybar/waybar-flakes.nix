@@ -1,24 +1,11 @@
 { config, lib, pkgs, user, ... }:
 {
-  # nixpkgs.overlays = [
-  #   (final: prev: {
-  #     waybar =
-  #       prev.waybar.overrideAttrs (oldAttrs: {
-  #         mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-  #         buildInputs = oldAttrs.buildInputs ++ [ prev.fmt_9 ];
-  #       });
-  #   })
-  # ];
   nixpkgs.overlays = [
-    (final: prev: let
-      stablePkgs = import (fetchTarball {
-        url = "https://github.com/NixOS/nixpkgs/archive/nixos-23.05.tar.gz";
-        sha256 = "1y6zipys4803ckvnamfljb8raglgkbz1fz1fg03cxp4jqiiva5s1";
-      }) {};
-    in prev // {
-      waybar = stablePkgs.waybar.overrideAttrs (oldAttrs: {
-        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-      });
+    (final: prev: {
+      waybar =
+        prev.waybar.overrideAttrs (oldAttrs: {
+          mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+        });
     })
   ];
 
