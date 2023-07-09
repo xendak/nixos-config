@@ -6,7 +6,7 @@
     ../common
     ../common/hyprland/waybar/waybar-flakes.nix
 
-    ../common/games/yuzu.nix
+    ../common/games/emulators.nix
     ../common/games/lutris.nix
     ../common/games/steam.nix
     ../common/games/mihoyo.nix
