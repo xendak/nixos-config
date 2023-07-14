@@ -12,6 +12,7 @@
       directories = [ 
         "Games/Wine" 
         "Games/Wine-Prefix" 
+        "Games/Lutris-Prefix"
         ".config/lutris" 
         ".local/share/lutris" 
         ".local/cache/lutris"

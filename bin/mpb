@@ -1,3 +1,0 @@
-#!/bin/sh
-
-mpv --title=mpb --shuffle /mnt/Storage/Stuff/3DH/Videos

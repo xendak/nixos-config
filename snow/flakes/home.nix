@@ -22,11 +22,14 @@
     unzip
     unrar
     p7zip
-    wineWowPackages.waylandFull
+
+    wineWowPackages.stable
+    
     bottom
     xdg-utils
     mkxp-z
-    # blender
+
+    blender
     deluge
     pavucontrol
     playerctl
