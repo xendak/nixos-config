@@ -15,14 +15,13 @@ in {
   };
 
   xdg.configFile."discordcanary/settings.json".text = ''
-    {
-      "SKIP_HOST_UPDATE": true,
-      "openasar": {
-        "setup": true,
-        "css": "@import url('https://refact0r.github.io/midnight-discord/midnight.css');\n\n:root {\n\t/* link color */\n\t--link-color: #${colors.base08};\n    /* main accent color (mentions, folder icons, unread indicators) */\n\t--accent-color: #${colors.base0C};\n\t/* darker accent color (background of any accent items with text) */\n\t--accent-background: #${colors.base00};\n\t/* even darker accent color (background of accent buttons when hover) */\n\t--accent-background-2: #${colors.base01};\n\t/* even darker accent color (background of accent buttons when clicked) */\n\t--accent-background-3: #${colors.base02}90;\n\t/* background of mention text and messages that mention you */\n\t--mention-modifier: #${colors.base03};\n\t/* background of messages that mention you on hover */\n\t--mention-hover-modifier: #${colors.base03}60;\n\t/* bright text for colored buttons */\n\t--bright-text: #${colors.base0D};\n\t/* header text for headers and certain text */\n\t--header-text: #${colors.base0B};\n\t/* main text color (messages, titles, unread text/indicators) */\n\t--primary-text: #${colors.base05};\n\t/* secondary text color (channels, descriptions, buttons) */\n\t--secondary-text: #${colors.base04};\n\t/* muted text color (input box placeholders, muted channels, message times) */\n\t--muted-text: #${colors.base04}60;\n\t/* background of muted colored buttons on hover */\n\t--muted-background-hover: #${colors.base03}30;\n\t/* background of muted colored buttons on click */\n\t--muted-background-active: #${colors.base03}90;\n\t/* background of pretty much everything not using primary background */\n\t--secondary-background: #${colors.base01};\n\t/* main chat/channel list/member list background */\n\t--primary-background: #${colors.base00};\n\t/* overlay background on stuff when hovered over */\n\t--hover-modifier: #${colors.base03};\n\t/* overlay background on stuff when clicked or selected */\n\t--active-modifier: #${colors.base01};\n\t/* overlay background on messages when hovered over */\n\t--message-hover-modifier: #${colors.base03}90;\n\t--status-danger: #${colors.base08};\n\t--roundness: 16px;\n}\n",
-        "quickstart": true
-      },
-      "OPEN_ON_STARTUP": false
-    }
+{
+  "SKIP_HOST_UPDATE": true,
+  "openasar": {
+    "setup": true,
+    "css": "\n\n/* IMPORTANT: make sure to enable dark mode in discord settings for the theme to apply properly!! */\n\n@import url('https://refact0r.github.io/midnight-discord/midnight.css');\n\n/* change colors and variables here */\n:root {\n\t/* amount of spacing and padding */\n\t--spacing: 12px;\n\t/* radius of round corners */\n\t--roundness: 16px;\n\n\t/* color of links */\n\t--accent-1: #${colors.base08};\n\t/* color of unread dividers and some indicators */\n\t--accent-2: #${colors.base05};\n\t/* color of accented buttons */\n\t--accent-3: #${colors.base01};\n\t/* color of accented buttons when hovered */\n\t--accent-4: #${colors.base01}90;\n\t/* color of accented buttons when clicked */\n\t--accent-5: #${colors.base02}90;\n\n\t/* color of mentions and messages that mention you */\n\t--mention: #${colors.base03};\n\t/* color of mentions and messages that mention you when hovered */\n\t--mention-hover: #${colors.base03}60;\n\n\t/* color of bright text on colored buttons */\n\t--text-1: #${colors.base0D};\n\t/* color of headings and important text */\n\t--text-2: #${colors.base0B};\n\t/* color of normal text */\n\t--text-3: #${colors.base05};\n\t/* color of icon buttons and channels */\n\t--text-4: #${colors.base0C}90;\n\t/* color of muted channels/chats and timestamps */\n\t--text-5: #${colors.base04}60;\n\n\t/* color of dark buttons when clicked */\n\t--bg-1: #${colors.base01}60;\n\t/* color of dark buttons */\n\t--bg-2: #${colors.base00};\n\t/* color of spacing around panels and secondary elements */\n\t--bg-3: #${colors.base00}80;\n\t/* main background color */\n\t--bg-4: #${colors.base00};\n\n\t/* color of channels and icon buttons when hovered */\n\t--hover: #${colors.base0C};\n\t/* color of channels and icon buttons when clicked or selected */\n\t--active: #${colors.base01}70;\n\t/* color of messages when hovered */\n\t--message-hover: #${colors.base00}70;\n}",
+    "quickstart": true
+  }
+}
   ''; 
 }
