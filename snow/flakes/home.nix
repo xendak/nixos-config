@@ -29,7 +29,7 @@
     xdg-utils
     mkxp-z
 
-    blender
+    # blender
     deluge
     pavucontrol
     playerctl
