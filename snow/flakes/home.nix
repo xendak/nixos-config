@@ -101,11 +101,13 @@
           ".local/share/Terraria"
           ".local/share/fonts"
           ".local/state/wireplumber"
+          ".local/share/ssh"
         ];
         allowOther = true;
       };
     };
     sessionVariables = {
+      UserKnownHostsFile = "$HOME/.local/share/ssh";
       SCREENSHOT_DIR = "$HOME/Pictures/Screenshots";
       XCURSOR_PATH = "${config.gtk.cursorTheme.package}/share/icons/:$XCURSOR_PATH";
       FULLSCREEN_SAVE_FILE = "$(date +%Y-%m-%d_%M).png";
