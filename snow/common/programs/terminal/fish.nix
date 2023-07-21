@@ -4,7 +4,7 @@
   # Function failed so we write as text
   xdg.configFile."fish/functions/kb.fish".text = ''
     function kb
-        if test (count $argv) -lt 1; or test "$argv[1]" = "help"
+        if test (count $argv) -lt 1; or test $argv[1] = "help"
           echo "Valid Options: FIXED 2
                   m or moonlander -> cd to kb/moonlander/km/xendak 
                   ap or annepro   -> cd to kb/annepro2/km/xendak
@@ -12,14 +12,14 @@
                   f or flash      -> same as above, but for flashing utility to use
                   cf or fc        -> same as above, but for both utility to use"
         else
-          if test "$argv[1]" = "m"; or test "$argv[1]" = "moonlander"
+          if test $argv[1] = "m"; or test $argv[1] = "moonlander"
             cd $HOME/Programming/Keyboard/qmk_firmware/keyboards/moonlander/keymaps/xendak
-          else if test "$argv[1]" = "ap"; or test "$argv[1]" = "annepro"
+          else if test $argv[1] = "ap"; or test $argv[1] = "annepro"
             cd $HOME/Programming/Keyboard/qmk_firmware/keyboards/annepro2/keymaps/xendak
-          else if test "$argv[1]" = "compile"; or test "$argv[1]" = "c"
-            if test "$argv[2]" = "m"; or test "$argv[2]" = "moonlander"
+          else if test $argv[1] = "compile"; or test $argv[1] = "c"
+            if test $argv[2] = "m"; or test $argv[2] = "moonlander"
               qmk compile -kb moonlander -km xendak
-            else if test "$argv[2]" = "ap"; or test "$argv[2]" = "annepro"
+            else if test $argv[2] = "ap"; or test $argv[2] = "annepro"
               qmk compile -kb annepro2 -km xendak
             else
               echo "Valid Options:
@@ -27,10 +27,10 @@
                       ap or annepro   -> compiles kb/annepro2/km/xendak
                   "
             end
-          else if test "$argv[1]" = "flash"; or test "$argv[1]" = "f"
-            if test "$argv[2]" = "m"; or test "$argv[2]" = "moonlander"
+          else if test $argv[1] = "flash"; or test $argv[1] = "f"
+            if test $argv[2] = "m"; or test $argv[2] = "moonlander"
               sudo wally-cli $HOME/Programming/Keyboard/qmk_firmware/moonlander_xendak.bin
-            else if test "$argv[2]" = "ap"; or test "$argv[2]" = "annepro"
+            else if test $argv[2] = "ap"; or test $argv[2] = "annepro"
               echo "gotta remember to specify this later"
             else
               echo "Valid Options:
@@ -38,10 +38,10 @@
                       ap or annepro   -> flashes kb/annepro2/km/xendak
                   "
             end
-          else if test "$argv[1]" = "cf"; or test "$argv[1]" = "fc"
-            if test "$argv[2]" = "m"; or test "$argv[2]" = "moonlander"
+          else if test $argv[1] = "cf"; or test $argv[1] = "fc"
+            if test $argv[2] = "m"; or test $argv[2] = "moonlander"
               qmk compile -kb moonlander -km xendak && sudo wally-cli $HOME/Programming/Keyboard/qmk_firmware/moonlander_xendak.bin
-            else if test "$argv[2]" = "ap"; or test "$argv[2]" = "annepro"
+            else if test $argv[2] = "ap"; or test $argv[2] = "annepro"
               echo "gotta remember to specify this later"
             else
               echo "Valid Options:
