@@ -2,7 +2,7 @@
 
 {
   fonts = {
-    fonts = with pkgs; [
+    packages = with pkgs; [
       scientifica
       material-symbols
       noto-fonts
@@ -26,7 +26,7 @@
       };
     };
 
-    enableDefaultFonts = false;
+    enableDefaultPackages = false;
     # optimizeForVeryHighDPI = lib.mkDefault true;
 
     fontconfig.defaultFonts = {
