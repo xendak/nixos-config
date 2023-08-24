@@ -19,12 +19,14 @@
     inactive_opacity=0.89
     fullscreen_opacity=1.0
     rounding=6
-    blur=true
-    blur_size=5
-    blur_passes=3
-    blur_xray=true
-    blur_new_optimizations=true
-    blur_ignore_opacity=true
+    blur {
+      enabled=true
+      size=5
+      passes=3
+      xray=true
+      new_optimizations=true
+      ignore_opacity=true
+    }
     drop_shadow=true
     shadow_range=20
     shadow_offset=2 2
