@@ -33,11 +33,21 @@
     pkgs.i2c-tools
   ];
 
-  services.hardware = {
-    openrgb.enable = true;
-    openrgb.motherboard = "intel";
+  services = {
+    hardware = {
+      openrgb.enable = true;
+      openrgb.motherboard = "intel";
+    };
+    blueman.enable = true;
   };
+
   hardware = {
+    bluetooth.enable = true;
+    bluetooth.settings = {
+    General = {
+      Enable = "Source,Sink,Media,Socket";
+      };
+    };
     i2c.enable = true;
 
     cpu.intel.updateMicrocode = true;
@@ -51,6 +61,8 @@
   };
 
   networking.useDHCP = lib.mkDefault true;
+
+  systemd.user.services.telephony_client.enable = false;
 
   system.stateVersion = "23.05";
 

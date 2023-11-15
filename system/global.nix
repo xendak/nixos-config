@@ -13,7 +13,7 @@ in
     #inputs.hardware.nixosModules.common-gpu-amd
     #inputs.hardware.nixosModules.common-cpu-intel
     #inputs.hardware.nixosModules.common-pc-ssd
-
+    
     ./extras/fish.nix
     ./extras/fonts.nix
     #./extras/openssh.nix
@@ -33,6 +33,10 @@ in
 
       inputs.agenix.overlays.default
       # inputs.ragenix.overlays.default
+
+      # Eww systray
+      inputs.rust-overlay.overlays.default
+      inputs.eww.overlays.default
 
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
@@ -81,6 +85,14 @@ in
   hardware.enableRedistributableFirmware = true;
 
 
+  environment.etc."/bluetooth/main.conf".text = ''
+    [General]
+    ControllerMode=dual
+    Enable=Source,Sink,Media,Socket
+
+    [Policy]
+    AutoEnable=true
+  '';
   # root xdg
   environment.etc."xdg/Xresources".text = ''
     Xcursor.size: 36
@@ -124,11 +136,11 @@ in
       shell = pkgs.fish;
       extraGroups = [ "audio" "video" "input" "wheel" ];
       #password = "1";
-      passwordFile = "/persist/snow/secrets/passwd-flakes";
+      hashedPasswordFile = "/persist/snow/secrets/passwd-flakes";
       packages = [ pkgs.home-manager ];
     };
     users.root = {
-      passwordFile = "/persist/snow/secrets/passwd-root";
+      hashedPasswordFile = "/persist/snow/secrets/passwd-root";
     };
   };
 
@@ -173,6 +185,8 @@ in
     directories = [
       "/etc/nixos"
       "/var/lib/systemd"
+      "/var/lib/bluetooth"
+      # "/etc/bluetooth"
     ];
     files = [
       "/etc/adjtime"

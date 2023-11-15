@@ -132,6 +132,13 @@
         echo "Headset exists: $headset_id"
     fi
 
+    jbl=$(pw-cli ls Node | grep "bluez" | cut -d'=' -f2)
+    if [ ! -z "$jbl" ]; then
+        jbl_id=$(pw-dump Node Device | jq '.[].info.props|select(."node.name" == '"$headset"') | ."object.id"')
+        devices+=("$jbl_id")
+        echo "Headset exists: $jbl_id"
+    fi
+
     # Get the current default sink ID
     default_sink_name=$(pw-metadata 0 'default.audio.sink' | grep 'value' | sed "s/.* value:'//;s/' type:.*$//;" | jq .name)
     default_sink_id=$(pw-dump Node Device | jq '.[].info.props|select(."node.name" == '"$default_sink_name"') | ."object.id"')

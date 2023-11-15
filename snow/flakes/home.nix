@@ -25,11 +25,15 @@
 
     wineWowPackages.stable
     
+    eww-wayland
+
     bottom
     xdg-utils
     mkxp-z
-
-    # blender
+    
+    eb-garamond
+    blender
+    
     deluge
     pavucontrol
     playerctl
@@ -121,7 +125,7 @@
       EDITOR = "nvim";
       TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
       BROWSER = "firefox";
-      FILEBROWSER = "nautilus";
+      FILEBROWSER = "dolphin";
       TERMBROWSER = "n";
       MOZ_ENABLE_WAYLAND = 1;
       ANKI_WAYLAND = "1";
@@ -138,6 +142,7 @@
       GTK_IM_MODULE = "fcitx";
       QT_IM_MODULE = "fcitx";
       WINEPREFIX = "$HOME/Games/Wine-Prefix";
+      XDG_CURRENT_DESKTOP = "GNOME"; # fixing QT no icon bullshit
 
       # DISPLAY = "";
       # WAYLAND_DISPLAY = "wayland-0";

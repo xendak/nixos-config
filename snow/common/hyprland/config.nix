@@ -100,6 +100,8 @@
   windowrulev2 = float,class:^(f_terminal)$
   windowrulev2 = size 1200 900,class:^(f_terminal)$
   windowrulev2 = float,class:^(org.gnome.Nautilus)$
+  windowrulev2 = float,class:^(org.kde.dolphin)$
+  windowrulev2 = size 1200 900,title:^(.*)(Home)(.*)$
   windowrulev2 = minsize 513 372,class:^(org.gnome.Nautilus)$,title:^(Merge Folder)$
   windowrulev2 = size 1350 900,title:^(Home)$
   windowrulev2 = float,class:^(.*)(exe)$,title:^(.*)(exe)$
@@ -117,7 +119,8 @@
   windowrulev2 = workspace 2 silent,title:^(.*).exe$
   windowrulev2 = workspace 6 silent,title:^(.*)(.bat)$ class:^(.*)(.bat)$
   windowrulev2 = workspace 4 silent,class:^(Steam)$
-  windowrulev2 = workspace special silent,class:^(lutris)$
+  windowrulev2 = workspace 4 silent,class:^(steam)$
+  windowrulev2 = workspace 4 silent,class:^(lutris)$
   windowrulev2 = workspace 3 silent,class:^(discord)$
   windowrulev2 = opacity 1.0,class:^(mpv)$
   windowrulev2 = opacity 1.0,class:^(discord)$

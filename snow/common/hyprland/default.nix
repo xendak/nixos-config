@@ -16,7 +16,7 @@
     inputs.hyprwm-contrib.packages.${system}.grimblast
     inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
     inputs.hyprland-portal.packages.${pkgs.system}.xdg-desktop-portal-hyprland
-    inputs.hyprland-portal.packages.${pkgs.system}.hyprland-share-picker
+    # inputs.hyprland-portal.packages.${pkgs.system}.hyprland-share-picker
   ];
 
   programs.waybar.package = pkgs.waybar.overrideAttrs (oa: {
