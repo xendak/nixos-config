@@ -59,24 +59,24 @@
     };
     
     # Set GTK4 properly
-    home.file = {
-      ".config/gtk-4.0/gtk-dark.css" = {
-        enable = true;
-        source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
-      };
-      ".config/gtk-4.0/gtk.css" = {
-        enable = true;
-        source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
-      };
-      ".config/gtk-4.0/assets" = {
-        enable = true;
-        source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
-      };
-#      ".local/share/icons/default/index.theme".text = ''
-#        [Icon Theme]
-#        Inherits=${config.gtk.cursorTheme.name}
-#      '';
-    };
+    # home.file = {
+    #   ".config/gtk-4.0/gtk-dark.css" = {
+    #     enable = true;
+    #     source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
+    #   };
+    #   ".config/gtk-4.0/gtk.css" = {
+    #     enable = true;
+    #     source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
+    #   };
+    #   ".config/gtk-4.0/assets" = {
+    #     enable = true;
+    #     source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
+    #   };
+#   #    ".local/share/icons/default/index.theme".text = ''
+#   #      [Icon Theme]
+#   #      Inherits=${config.gtk.cursorTheme.name}
+#   #    '';
+    # };
     
     # prefer dark
     dconf.settings = {

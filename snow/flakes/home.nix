@@ -25,11 +25,11 @@
 
     wineWowPackages.stable
     
-    eww-wayland
+    eww
 
     bottom
     xdg-utils
-    mkxp-z
+    # mkxp-z
     
     eb-garamond
     blender
