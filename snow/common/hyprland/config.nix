@@ -8,8 +8,8 @@
     gaps_in=5
     gaps_out=10
     border_size=2.7
-    col.active_border=0xff${colorscheme.colors.base0C}
-    col.inactive_border=0xff${colorscheme.colors.base02}
+    col.active_border=0xff${colorscheme.palette.base0C}
+    col.inactive_border=0xff${colorscheme.palette.base02}
     resize_on_border=true
     hover_icon_on_border=false
   }

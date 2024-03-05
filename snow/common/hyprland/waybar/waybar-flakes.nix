@@ -185,32 +185,32 @@
         font-size: 14px;
       }
 
-      @define-color base   #${config.colorscheme.colors.base00};
-      @define-color mantle #${config.colorscheme.colors.base02};
-      @define-color crust  #${config.colorscheme.colors.base01};
+      @define-color base   #${config.colorscheme.palette.base00};
+      @define-color mantle #${config.colorscheme.palette.base02};
+      @define-color crust  #${config.colorscheme.palette.base01};
 
-      @define-color text     #${config.colorscheme.colors.base05};
+      @define-color text     #${config.colorscheme.palette.base05};
       @define-color subtext0 #a6adc8;
       @define-color subtext1 #bac2de;
 
-      @define-color surface0 #${config.colorscheme.colors.base00};
-      @define-color surface1 #${config.colorscheme.colors.base02};
-      @define-color surface2 #${config.colorscheme.colors.base01};
+      @define-color surface0 #${config.colorscheme.palette.base00};
+      @define-color surface1 #${config.colorscheme.palette.base02};
+      @define-color surface2 #${config.colorscheme.palette.base01};
 
       @define-color overlay0 #6c7086;
       @define-color overlay1 #7f849c;
       @define-color overlay2 #9399b2;
 
-      @define-color blue      #${config.colorscheme.colors.base0D};
-      @define-color lavender  #${config.colorscheme.colors.base0C};
+      @define-color blue      #${config.colorscheme.palette.base0D};
+      @define-color lavender  #${config.colorscheme.palette.base0C};
       @define-color sapphire  #74c7ec;
       @define-color sky       #89dceb;
-      @define-color teal      #${config.colorscheme.colors.base05};
-      @define-color green     #${config.colorscheme.colors.base0B};
-      @define-color yellow    #${config.colorscheme.colors.base0A};
+      @define-color teal      #${config.colorscheme.palette.base05};
+      @define-color green     #${config.colorscheme.palette.base0B};
+      @define-color yellow    #${config.colorscheme.palette.base0A};
       @define-color peach     #fab387;
       @define-color maroon    #eba0ac;
-      @define-color red       #${config.colorscheme.colors.base08};
+      @define-color red       #${config.colorscheme.palette.base08};
       @define-color mauve     #cba6f7;
       @define-color pink      #f5c2e7;
       @define-color flamingo  #f2cdcd;
@@ -218,7 +218,7 @@
 
       @keyframes blink_critical {
         to {
-          color: #${config.colorscheme.colors.base09};
+          color: #${config.colorscheme.palette.base09};
           background-color: @red;
         }
       }
