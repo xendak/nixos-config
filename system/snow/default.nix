@@ -1,5 +1,5 @@
 # my main desktop
-{ lib, pkgs, inputs, ...}: {
+{ config, lib, pkgs, inputs, outputs, ...}: {
   imports = [
     ../global.nix
     ./btrfs-optin-persistence.nix
@@ -10,6 +10,7 @@
     inputs.hardware.nixosModules.common-pc-ssd
 
     inputs.aagl.nixosModules.default
+
   ];
 
 
@@ -33,6 +34,23 @@
     pkgs.i2c-tools
   ];
 
+  users = {
+    users.flakes = {
+      isNormalUser = true;
+      shell = pkgs.fish;
+      extraGroups = [ "audio" "video" "input" "wheel" ];
+      #password = "1";
+      hashedPasswordFile = "/persist/snow/secrets/passwd-flakes";
+      packages = [ pkgs.home-manager ];
+    };
+  };
+
+  home-manager = {
+    users.flakes = import ../../snow/flakes/home.nix;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit inputs outputs; };
+  };
+
   services = {
     hardware = {
       openrgb.enable = true;
@@ -44,8 +62,8 @@
   hardware = {
     bluetooth.enable = true;
     bluetooth.settings = {
-    General = {
-      Enable = "Source,Sink,Media,Socket";
+      General = {
+        Enable = "Source,Sink,Media,Socket";
       };
     };
     i2c.enable = true;

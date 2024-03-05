@@ -97,6 +97,7 @@
           "Documents"
           ".config/fcitx5"
           ".config/OpenRGB"
+          ".config/dconf"
           # ".local/share/anime-game-launcher"
           # ".local/share/honkers-railway-launcher"
           # ".nixops"

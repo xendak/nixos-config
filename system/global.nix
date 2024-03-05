@@ -98,17 +98,6 @@ in
     Xcursor.size: 36
     Xcursor.theme: Bibata-Modern-Classic
   '';
-  # prefer dark
-
-  # root xdg
-  # source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
-  # environment.etc = {
-  #   "xdg/Xresources".source = "${config.home.homeDirectory}/.Xresources";
-  #   "xdg/gtk-2.0/gtkrc".source = "${config.xdg.configHome}/gtk-2.0/gtkrc";
-  #   "xdg/gtk-3.0".source = "${config.xdg.configHome}/gtk-3.0";
-  #   "xdg/gtk-4.0".source = "${config.xdg.configHome}/gtk-4.0";
-  # };
-
 
   # XDG - PORTAL
   environment.systemPackages = with pkgs; [
@@ -131,25 +120,11 @@ in
   # User & Host -----------------------------
   users = {
     mutableUsers = false;
-    users.flakes = {
-      isNormalUser = true;
-      shell = pkgs.fish;
-      extraGroups = [ "audio" "video" "input" "wheel" ];
-      #password = "1";
-      hashedPasswordFile = "/persist/snow/secrets/passwd-flakes";
-      packages = [ pkgs.home-manager ];
-    };
     users.root = {
       hashedPasswordFile = "/persist/snow/secrets/passwd-root";
     };
   };
-
-  home-manager = {
-    users.flakes = import ../snow/flakes/home.nix;
-    useUserPackages = true;
-    extraSpecialArgs = { inherit inputs outputs; };
-  };
-
+  
   networking.hostName = "Snow";
   networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
 
