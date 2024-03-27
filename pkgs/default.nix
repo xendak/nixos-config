@@ -8,4 +8,5 @@
   # breezex-cursor = pkgs.callPackage ./breezex-cursor { };
   mkxp-z = pkgs.callPackage ./mkxp-z { };
   # yuzu-updated = pkgs.callPackage ./yuzu-updated { };
+  nix-inspect = pkgs.callPackage ./nix-inspect { };
 }

@@ -15,6 +15,10 @@
       url = "github:hyprwm/hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
     xdph = {
       url = "github:hyprwm/xdg-desktop-portal-hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +30,17 @@
     agenix.url = "github:ryantm/agenix";
     aagl = {
       url = "github:ezKEa/aagl-gtk-on-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-index-db = {
+      url = "github:Mic92/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    matugen.url = "github:InioX/matugen";
+    ags = {
+      url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     rust-overlay = {
@@ -48,7 +63,7 @@
     forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
   in
   {
-    #nixosModules = import ./modules/nixos;
+    templates = import ./templates;
     overlays = import ./overlays { inherit inputs; };
     homeManagerModules = import ./modules/home-manager;
 
@@ -72,19 +87,26 @@
       };
     };  
 
+    nixosConfigurations = {
+      drops = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs outputs; };
+        modules = [ ./system/dew ];
+      };
+    };  
+
     homeConfigurations = {
       "Snow@flakes" = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages."x86_64-linux";
       extraSpecialArgs = { inherit inputs outputs; };
-      modules = [ ./snow/flakes/home.nix ];
+      modules = [ ./home/flakes/home.nix ];
       };
     };
 
     homeConfigurations = {
-      "Snow@drops" = home-manager.lib.homeManagerConfiguration {
+      "Dew@drops" = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages."x86_64-linux";
       extraSpecialArgs = { inherit inputs outputs; };
-      modules = [ ./snow/drops/home.nix ];
+      modules = [ ./home/drops/home.nix ];
       };
     };
 

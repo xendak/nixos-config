@@ -109,46 +109,17 @@ in
     qt6.qtwayland
   ];
 
+  # xdg.portal = {
+  #   enable = true;
+  #   #wlr.enable = true;
+  #   #gtkUsePortal = true;
+  #   extraPortals = [ inputs.hyprland-portal.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
+  #   configPackages = [ inputs.hyprland.hyprland ];
+  # };
+
   xdg.portal = {
-    enable = true;
-    #wlr.enable = true;
-    #gtkUsePortal = true;
-    extraPortals = [ inputs.hyprland-portal.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
-
-  };
-
-  # User & Host -----------------------------
-  users = {
-    mutableUsers = false;
-    users.root = {
-      hashedPasswordFile = "/persist/snow/secrets/passwd-root";
-    };
-  };
-  
-  networking.hostName = "Snow";
-  networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
-
-  # GENSHIN PATCH ---------------------------
-  networking.hosts = {
-    "0.0.0.0" = [
-      "overseauspider.yuanshen.com"
-      "log-upload-os.hoyoverse.com"
-      "log-upload-os.mihoyo.com"
-
-      "public-data-api.mihoyo.com"
-      "sg-public-data-api.hoyoverse.com"
-
-      "log-upload.mihoyo.com"
-      "devlog-upload.mihoyo.com"
-      "uspider.yuanshen.com"
-      "sg-public-data-api.hoyoverse.com"
-
-      "prd-lender.cdp.internal.unity3d.com"
-      "thind-prd-knob.data.ie.unity3d.com"
-      "thind-gke-usc.prd.data.corp.unity3d.com"
-      "cdp.cloud.unity3d.com"
-      "remote-config-proxy-prd.uca.cloud.unity3d.com"
-    ];
+    extraPortals = [ pkgs.inputs.hyprland.xdg-desktop-portal-hyprland ];
+    configPackages = [ pkgs.inputs.hyprland.hyprland ];
   };
 
   # Persistence -----------------------------
@@ -168,8 +139,8 @@ in
       "/etc/machine-id"
       "/etc/ssh/ssh_host_ed25519_key"
       "/etc/ssh/ssa_host_rsa_key"
-      #{ file = "/snow/secrets/passwd-root"; parentDirectory = { mode = "0700"; }; }
-      #{ file = "/snow/secrets/passwd-flakes"; parentDirectory = { mode = "0700"; }; }
+      #{ file = "/home/secrets/passwd-root"; parentDirectory = { mode = "0700"; }; }
+      #{ file = "/home/secrets/passwd-flakes"; parentDirectory = { mode = "0700"; }; }
     ];
   };
 

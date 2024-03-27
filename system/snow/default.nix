@@ -34,19 +34,55 @@
     pkgs.i2c-tools
   ];
 
+  # User & Host -----------------------------
+  users = {
+    mutableUsers = false;
+    users.root = {
+      hashedPasswordFile = "/persist/home/secrets/passwd-root";
+    };
+  };
+  
+  networking.useDHCP = lib.mkDefault true;
+  networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
+  home = "Snow";
+
+  # GENSHIN PATCH ---------------------------
+  networking.hosts = {
+    "0.0.0.0" = [
+      "overseauspider.yuanshen.com"
+      "log-upload-os.hoyoverse.com"
+      "log-upload-os.mihoyo.com"
+
+      "public-data-api.mihoyo.com"
+      "sg-public-data-api.hoyoverse.com"
+
+      "log-upload.mihoyo.com"
+      "devlog-upload.mihoyo.com"
+      "uspider.yuanshen.com"
+      "sg-public-data-api.hoyoverse.com"
+
+      "prd-lender.cdp.internal.unity3d.com"
+      "thind-prd-knob.data.ie.unity3d.com"
+      "thind-gke-usc.prd.data.corp.unity3d.com"
+      "cdp.cloud.unity3d.com"
+      "remote-config-proxy-prd.uca.cloud.unity3d.com"
+    ];
+  };
+
+
   users = {
     users.flakes = {
       isNormalUser = true;
       shell = pkgs.fish;
       extraGroups = [ "audio" "video" "input" "wheel" ];
       #password = "1";
-      hashedPasswordFile = "/persist/snow/secrets/passwd-flakes";
+      hashedPasswordFile = "/persist/home/secrets/passwd-flakes";
       packages = [ pkgs.home-manager ];
     };
   };
 
   home-manager = {
-    users.flakes = import ../../snow/flakes/home.nix;
+    users.flakes = import ../../home/flakes/home.nix;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs outputs; };
   };
@@ -77,8 +113,6 @@
     };
     opentabletdriver.enable = true;
   };
-
-  networking.useDHCP = lib.mkDefault true;
 
   systemd.user.services.telephony_client.enable = false;
 
