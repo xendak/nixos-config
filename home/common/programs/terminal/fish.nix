@@ -29,6 +29,7 @@
       vim = "nvim";
 
       ll = "eza -lah";
+      ls = "eza";
       exa = "eza";
 
       rpr = "cd $HOME/Programming/Rust";

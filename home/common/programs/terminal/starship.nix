@@ -10,15 +10,15 @@ in
     "$schema" = 'https://starship.rs/config-schema.json'
 
     format = """
-    [](color_orange)\
+    [](color_green)\
     $os\
     $username\
-    [](bg:color_yellow fg:color_orange)\
+    [](bg:color_purple fg:color_green)\
     $directory\
-    [](fg:color_yellow bg:color_aqua)\
+    [](fg:color_purple bg:color_red)\
     $git_branch\
     $git_status\
-    [](fg:color_aqua bg:color_blue)\
+    [](fg:color_red bg:color_blue)\
     $c\
     $rust\
     $golang\
@@ -43,16 +43,16 @@ in
     color_bg1 = '#${c.base05}'
     color_bg3 = '#${c.base04}'
     color_blue = '#${c.base0C}'
-    color_aqua = '#${c.base08}'
-    color_orange = '#${c.base0B}'
-    color_green = '#${c.base09}'
+    color_red = '#${c.base08}'
+    color_green = '#${c.base0B}'
+    color_orange = '#${c.base09}'
     color_purple = '#${c.base0E}'
-    color_red = '#${c.base0D}'
+    color_aqua = '#${c.base0D}'
     color_yellow = '#${c.base0F}'
 
     [os]
     disabled = false
-    style = "bg:color_orange fg:color_fg0"
+    style = "bg:color_green fg:color_fg0"
 
     [os.symbols]
     Windows = "󰍲"
@@ -78,12 +78,12 @@ in
 
     [username]
     show_always = true
-    style_user = "bg:color_orange fg:color_fg0"
-    style_root = "bg:color_orange fg:color_fg0"
+    style_user = "bg:color_green fg:color_fg0"
+    style_root = "bg:color_green fg:color_fg0"
     format = '[ $user ]($style)'
 
     [directory]
-    style = "fg:color_fg0 bg:color_yellow"
+    style = "fg:color_fg0 bg:color_purple"
     format = "[ $path ]($style)"
     truncation_length = 3
     truncation_symbol = "…/"
@@ -97,12 +97,12 @@ in
 
     [git_branch]
     symbol = ""
-    style = "bg:color_aqua"
-    format = '[[ $symbol $branch ](fg:color_fg0 bg:color_aqua)]($style)'
+    style = "bg:color_red"
+    format = '[[ $symbol $branch ](fg:color_fg0 bg:color_red)]($style)'
 
     [git_status]
-    style = "bg:color_aqua"
-    format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)'
+    style = "bg:color_red"
+    format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_red)]($style)'
 
     [nodejs]
     symbol = ""
@@ -168,12 +168,12 @@ in
 
     [character]
     disabled = false
-    success_symbol = '[ᐉ ](bold fg:color_green)'
-    error_symbol = '[ᐉ ](bold fg:color_red)'
+    success_symbol = '[ᐉ ](bold fg:color_orange)'
+    error_symbol = '[ᐉ ](bold fg:color_aqua)'
     vimcmd_symbol = '[ᐉ ](bold fg:color_blue)'
-    vimcmd_replace_one_symbol = '[ᐉ ](bold fg:color_purple)'
-    vimcmd_replace_symbol = '[ᐉ ](bold fg:color_purple)'
-    vimcmd_visual_symbol = '[ᐉ ](bold fg:color_yellow)'
+    vimcmd_replace_one_symbol = '[ᐉ ](bold fg:color_yellow)'
+    vimcmd_replace_symbol = '[ᐉ ](bold fg:color_yellow)'
+    vimcmd_visual_symbol = '[ᐉ ](bold fg:color_purple)'
 
   '';
 }
