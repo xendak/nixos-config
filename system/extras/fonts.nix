@@ -5,6 +5,7 @@
     packages = with pkgs; [
       scientifica
       material-symbols
+      font-awesome
       noto-fonts
       noto-fonts-cjk
       noto-fonts-emoji

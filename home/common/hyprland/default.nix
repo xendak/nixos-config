@@ -236,10 +236,10 @@
         "ALT, Tab, togglespecialworkspace"
         "ALTSHIFT, tab, movetoworkspace, special"
 
-        ",Print, exec, ${grimblast} --notify copysave output '${print}_full.png'"
-        "SHIFT,Print, exec, ${grimblast} --notify copysave active '${print}_active.png'"
-        "ALTSHIFT,C, exec, ${grimblast} --notify copysave area '${print}_snip.png'"
-        "ALTSHIFT,S, exec, ${grimblast} --notify copysave area '${tmpprint}_snip.png'"
+        ",Print, exec, ${grimblast} --notify copysave output \"${print}_full.png\""
+        "SHIFT,Print, exec, ${grimblast} --notify copysave active \"${print}_active.png\""
+        "ALTSHIFT,C, exec, ${grimblast} --notify copysave area \"${print}_snip.png\""
+        "ALTSHIFT,S, exec, ${grimblast} --notify copysave area \"${tmpprint}_snip.png\""
 
         (mvfocus "k" "u")
         (mvfocus "j" "d")

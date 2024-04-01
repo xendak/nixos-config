@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+  programs.zoxide.enable = true;
   programs.fish = {
     enable = true;
     shellAbbrs = {
@@ -30,6 +31,7 @@
 
       ll = "eza -lah";
       ls = "eza";
+      la = "eza -a";
       exa = "eza";
 
       rpr = "cd $HOME/Programming/Rust";
@@ -38,7 +40,7 @@
     shellAliases = {
       upd = "sh $HOME/Flake/deploy.sh";
       upb = "sh $HOME/Flake/boot-deploy.sh";
-      upn = "cp $HOME/Flake/flake.lock /home/flakes/Flake/flake.lock.old && nix flake update";
+      upn = "cp $HOME/Flake/flake.lock $HOME/Flake/flake.lock.old && nix flake update";
       # Get ip
       getip = "curl ifconfig.me";
       # SSH with kitty terminfo
@@ -101,11 +103,10 @@
         end
       ";
       cd = "
-        if count $argv > /dev/null
-          builtin cd $argv
-        else
-          bultin cd ~
-        end
+          z $argv
+      ";
+      ls = "
+        eza $argv
       ";
       fish_mode_prompt = "";
       fish_prompt = "

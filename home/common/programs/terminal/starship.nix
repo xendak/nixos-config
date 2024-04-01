@@ -10,6 +10,7 @@ in
     "$schema" = 'https://starship.rs/config-schema.json'
 
     format = """
+    ╭─\   
     [](color_green)\
     $os\
     $username\
@@ -34,7 +35,8 @@ in
     [](fg:color_bg3 bg:color_bg1)\
     $cmd_duration\
     [ ](fg:color_bg1)\
-    $line_break$character"""
+    $line_break\
+    ╰─$character"""
 
     palette = 'gruvbox_dark'
 

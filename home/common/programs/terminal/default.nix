@@ -4,9 +4,10 @@
     ./kitty.nix 
     ./fish.nix 
     ./git.nix
+    ./starship.nix
     ./nvim
     ./nnn
-    ./starship.nix
+    ./helix
     # ./nix-index.nix
   ];
   home.packages = with pkgs; [
