@@ -83,14 +83,14 @@
     nixosConfigurations = {
       flakes = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs; };
-        modules = [ ./system/snow ];
+        modules = [ ./system/Snow ];
       };
     };  
 
     nixosConfigurations = {
       drops = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs; };
-        modules = [ ./system/dew ];
+        modules = [ ./system/Dew ];
       };
     };  
 
