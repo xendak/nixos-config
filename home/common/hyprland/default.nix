@@ -323,7 +323,7 @@
     };
 
     extraConfig = ''
-     bind=SUPER,X,exec,sh "${config.xdg.configHome}/.config/rofi/powermenu.sh"
+     bind=SUPER,X,exec,sh "${config.xdg.configHome}/rofi/powermenu.sh"
      # powermenu submap
      bind=SUPER,X,submap,powermenu
      submap=powermenu

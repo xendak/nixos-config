@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 {
-  xdg.configFile."hyprland/scripts/sound_sink_toggle.sh".source = pkgs.writeShellScript "sound_sink_toggle.sh" ''
+  xdg.configFile."hypr/scripts/sound_sink_toggle.sh".source = pkgs.writeShellScript "sound_sink_toggle.sh" ''
     devices=()
 
     # Find existing audio devices and their IDs
@@ -57,7 +57,7 @@
     fi
   '';
 
-  xdg.configFile."hyprland/scripts/get-media-player.sh".source = pkgs.writeShellScript "get-media-player.sh" ''
+  xdg.configFile."hypr/scripts/get-media-player.sh".source = pkgs.writeShellScript "get-media-player.sh" ''
     #!/bin/sh
     player=$(playerctl --player=i,com,spotify,firefox,%any metadata --format '{{playerName}}')
     player_name=$player
