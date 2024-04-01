@@ -30,7 +30,7 @@
       vim = "nvim";
 
       ll = "eza -lah";
-      # ls = "eza";
+      ls = "eza";
       la = "eza -a";
       exa = "eza";
 
@@ -101,12 +101,6 @@
             end
           end
         end
-      ";
-      cd = "
-          z $argv
-      ";
-      ls = "
-        eza $argv
       ";
       fish_mode_prompt = "";
       fish_prompt = "

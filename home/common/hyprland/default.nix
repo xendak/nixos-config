@@ -2,6 +2,7 @@
   imports = [
     inputs.hyprland.homeManagerModules.default
     ./plugins.nix
+    ./scripts.nix
   ];
 
   programs = {
