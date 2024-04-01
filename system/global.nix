@@ -16,6 +16,7 @@ in
     
     ./extras/fish.nix
     ./extras/fonts.nix
+    ./openssh.nix
     #./extras/openssh.nix
     ./extras/pipewire.nix
     ./extras/quietboot.nix
@@ -167,14 +168,6 @@ in
   #     lightdm.enable = false;
   #   };
   # };
-
-  services.openssh = {
-    enable = true;
-    # Forbid root login through SSH.
-    settings.PermitRootLogin = "no";
-    # Use keys only. Remove if you want to SSH using password (not recommended)
-    settings.PasswordAuthentication = false;
-  };
 
   # localtime specific
   time.timeZone = "America/Sao_Paulo";
