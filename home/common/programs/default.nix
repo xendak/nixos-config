@@ -7,9 +7,7 @@
     ./anki.nix
     ./browser
     ./terminal # ./kitty.nix ./fish.nix ./git.nix ./nvim
-    #./mako.nix
     ./kvantum
     ./zathura.nix
-    ./hyprpaper.nix
   ];
 }

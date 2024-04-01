@@ -30,11 +30,11 @@
       vim = "nvim";
 
       ll = "eza -lah";
-      ls = "eza";
+      # ls = "eza";
       la = "eza -a";
       exa = "eza";
 
-      rpr = "cd $HOME/Programming/Rust";
+      # rpr = "cd $HOME/Programming/Rust";
     };
 
     shellAliases = {

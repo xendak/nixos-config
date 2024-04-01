@@ -138,7 +138,11 @@ in
       "/etc/adjtime"
       "/etc/machine-id"
       "/etc/ssh/ssh_host_ed25519_key"
+      "/etc/ssh/ssh_host_ed25519_key.pub"
       "/etc/ssh/ssa_host_rsa_key"
+      "/etc/ssh/ssa_host_rsa_key.pub"
+      "/etc/ssh/ssa_host_ecdsa_key"
+      "/etc/ssh/ssh_host_ecdsa_key.pub"
       #{ file = "/home/secrets/passwd-root"; parentDirectory = { mode = "0700"; }; }
       #{ file = "/home/secrets/passwd-flakes"; parentDirectory = { mode = "0700"; }; }
     ];

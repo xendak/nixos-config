@@ -1,9 +1,7 @@
-{ pkgs, lib, outputs, config, ... }:
+{ pkgs, config, ... }:
 let
-  inherit (config.lib.formats.rasi) mkLiteral;
   inherit (config.colorscheme) colors;
-  #inherit (config.wallpaper) wallpaper;
-  wallpaper = "./rofi.png";
+  wallpaper = "/persist/home/${config.home.username}/Flake/home/common/programs/rofi/bg.png";
 in
   {
     home.packages = with pkgs; [
