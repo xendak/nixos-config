@@ -1,6 +1,5 @@
 { pkgs, ... }:
 {
-  programs.zoxide.enable = true;
   programs.fish = {
     enable = true;
     shellAbbrs = {

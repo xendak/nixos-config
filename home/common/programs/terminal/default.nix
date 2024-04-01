@@ -3,6 +3,7 @@
   imports = [
     ./kitty.nix 
     ./fish.nix 
+    ./zoxide.nix
     ./git.nix
     ./starship.nix
     ./nvim
