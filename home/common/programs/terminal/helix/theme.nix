@@ -1,6 +1,6 @@
 { colorscheme }: {
   "${colorscheme.slug}" = {
-    palette = builtins.mapAttrs (name: value: "#${value}") colorscheme.colors; # Add leading '#'
+    palette = builtins.mapAttrs (name: value: "#${value}") colorscheme.palette; # Add leading '#'
     "attributes" = "base09";
     "comment" = { fg = "base03"; modifiers = [ "italic" ]; };
     "constant" = "base09";
@@ -39,11 +39,12 @@
     "ui.background" = { bg = "base00"; };
     "ui.bufferline" = { fg = "base04"; bg = "base00"; };
     "ui.bufferline.active" = { fg = "base00"; bg = "base03"; modifiers = [ "bold" ]; };
-    "ui.cursor" = { fg = "base04"; modifiers = [ "reversed" ]; };
+    "ui.cursor" = { fg = "base02"; bg = "base0C" ; };
     "ui.cursor.insert" = { fg = "base0A"; modifiers = [ "underlined" ]; };
     "ui.cursor.match" = { fg = "base0A"; modifiers = [ "underlined" ]; };
-    "ui.cursor.select" = { fg = "base0A"; modifiers = [ "underlined" ]; };
+    "ui.cursor.select" = { fg = "base02"; bg = "base05" ; };
     "ui.cursorline.primary" = { fg = "base05"; bg = "base01"; };
+    "ui.cursorline" = "base01";
     "ui.gutter" = { bg = "base00"; };
     "ui.help" = { fg = "base06"; bg = "base01"; };
     "ui.linenr" = { fg = "base03"; bg = "base00"; };
@@ -53,7 +54,7 @@
     "ui.menu.selected" = { fg = "base01"; bg = "base04"; };
     "ui.popup" = { bg = "base01"; };
     "ui.selection" = { bg = "base02"; };
-    "ui.selection.primary" = { bg = "base02"; };
+    "ui.selection.primary" = { bg = "base0C"; fg = "base02"; };
     "ui.statusline" = { fg = "base0B"; bg = "base02"; };
     "ui.statusline.inactive" = { bg = "base01"; fg = "base02"; };
     "ui.statusline.insert" = { fg = "base00"; bg = "base0B"; };

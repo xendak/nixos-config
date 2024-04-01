@@ -11,6 +11,8 @@ in
       editor = {
         color-modes = true;
         line-number = "relative";
+        cursorline = true;
+        lsp.display-inlay-hints = true;
         indent-guides.render = true;
         cursor-shape = {
           normal = "block";
@@ -20,5 +22,6 @@ in
       };
     };
     themes = import ./theme.nix { inherit colorscheme; };
+    languages = import ./languages.nix { inherit config; };
   };
 }
