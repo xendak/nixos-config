@@ -1,8 +1,7 @@
-{ pkgs, ...}:
-{
+{pkgs, ...}: {
   imports = [
-    ./kitty.nix 
-    ./fish.nix 
+    ./kitty.nix
+    ./fish.nix
     ./zoxide.nix
     ./git.nix
     ./starship.nix
@@ -32,6 +31,6 @@
   ];
   programs.fzf = {
     enable = true;
-    defaultOptions = [ "--color 16" ];
+    defaultOptions = ["--color 16"];
   };
 }

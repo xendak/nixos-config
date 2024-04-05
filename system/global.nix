@@ -37,7 +37,6 @@ in
 
       # Eww systray
       inputs.rust-overlay.overlays.default
-      inputs.eww.overlays.default
 
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default

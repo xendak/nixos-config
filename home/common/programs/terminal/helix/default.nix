@@ -1,11 +1,36 @@
-{ config, ... }:
-let
-  inherit (config) colorscheme;
-in
 {
+  lib,
+  pkgs,
+  config,
+  inputs,
+  ...
+}: let
+  inherit (config) colorscheme;
+in {
   home.sessionVariables.COLORTERM = "truecolor";
   programs.helix = {
     enable = true;
+    package = inputs.helix.packages.${pkgs.system}.default.overrideAttrs (old: {
+      makeWrapperArgs = with pkgs;
+        old.makeWrapperArgs
+        or []
+        ++ [
+          "--suffix"
+          "PATH"
+          ":"
+          (lib.makeBinPath [
+            clang-tools
+            marksman
+            nil
+            efm-langserver
+            nodePackages.bash-language-server
+            nodePackages.vscode-css-languageserver-bin
+            nodePackages.vscode-langservers-extracted
+            nodePackages.prettier
+            shellcheck
+          ])
+        ];
+    });
     settings = {
       theme = colorscheme.slug;
       editor = {
@@ -19,9 +44,20 @@ in
           insert = "bar";
           select = "underline";
         };
+
+        whitespace.characters = {
+          newline = "↴";
+          tab = "⇥";
+        };
+      };
+
+      keys.normal.space.u = {
+        f = ":format"; # format using LSP formatter
+        w = ":set whitespace.render all";
+        W = ":set whitespace.render none";
       };
     };
-    themes = import ./theme.nix { inherit colorscheme; };
-    languages = import ./languages.nix { inherit config; };
+    themes = import ./theme.nix {inherit colorscheme;};
+    languages = import ./languages.nix {inherit lib pkgs config;};
   };
 }

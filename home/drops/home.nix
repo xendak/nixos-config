@@ -1,15 +1,19 @@
-{ inputs, outputs, lib, config, pkgs, ...}:
 {
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./setup.nix
 
     ../common
-    #../common/hyprland/waybar/waybar-drops.nix
     ../common/games/steam.nix
+    ../common/programs/ags
 
     inputs.ags.homeManagerModules.default
     inputs.nix-index-db.hmModules.nix-index
-
   ];
 
   home.packages = with pkgs; [
@@ -23,15 +27,15 @@
     p7zip
 
     obs-studio
-    
+
     bottom
     xdg-utils
-    
+
     wineWowPackages.stable
 
     eb-garamond
     blender
-    
+
     deluge
     pavucontrol
     playerctl
@@ -55,6 +59,7 @@
     # keyboard
     qmk
     wally-cli
+    clang-tools
 
     # ags
     swww
@@ -64,30 +69,16 @@
     dart-sass
     fd
     inputs.matugen.packages.${system}.default
-
   ];
 
   programs = {
     home-manager.enable = true;
-    ags = {
-      enable = true;
-      # configDir = ./ags;
-      extraPackages = [ pkgs.libsoup_3 ];
-    };
   };
-
-  # home.file = {
-  #   ".config/ags" = {
-  #     recursive = true;
-  #     enable = true;
-  #     source = ./ags;
-  #   };
-  # };
 
   xdg.mimeApps.enable = true;
   xdg.mimeApps.defaultApplications = {
-		"application/x-ms-dos-executable" = [ "wine.desktop" ];
-	};
+    "application/x-ms-dos-executable" = ["wine.desktop"];
+  };
 
   i18n = {
     inputMethod = {
@@ -100,18 +91,18 @@
       ];
     };
   };
-  
+
   services.udiskie.enable = true;
   services.playerctld.enable = true;
   systemd.user.startServices = "sd-switch";
-  
+
   # Home --------------------
   home = {
     username = lib.mkDefault "drops";
     homeDirectory = lib.mkDefault "/home/drops/";
     stateVersion = lib.mkDefault "23.05";
-    sessionPath = [ "$HOME/Flake/bin" ];
-    persistence = { 
+    sessionPath = ["$HOME/Flake/bin"];
+    persistence = {
       "/persist/home/drops" = {
         directories = [
           "Flake"

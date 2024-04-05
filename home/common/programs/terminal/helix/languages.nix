@@ -1,12 +1,14 @@
-# Language config for helix
-
-{ config, ... }:
-let 
-
-  indent = { tab-width = 4; unit = "    "; };
-
-in
 {
+  lib,
+  pkgs,
+  config,
+  ...
+}: let
+  indent = {
+    tab-width = 4;
+    unit = "    ";
+  };
+in {
   language-server = {
     rust-analyzer.config = {
       # Use in local configs:
@@ -55,15 +57,37 @@ in
       };
 
       diagnostics.disabled = [
-          "inactive-code"
-          "inactive_code"
-          "unresolved-proc-macro"
-          "unresolved_proc_macro"
+        "inactive-code"
+        "inactive_code"
+        "unresolved-proc-macro"
+        "unresolved_proc_macro"
       ];
+    };
+    vscode-json-language-server.config.provideFormatter = false;
+    efm-prettier = {
+      command = "efm-langserver";
+      config = {
+        documentFormatting = true;
+        languages."=" = [
+          {
+            formatCommand = "prettier --stdin-filepath \${INPUT}";
+            formatStdin = true;
+          }
+        ];
+      };
     };
 
     yaml-language-server.config.yaml.keyOrdering = false;
     clangd.args = ["--inlay-hints" "--background-index"];
+    # nil.config = {
+    #   nil_ls.settings.nil.nix.flake.autoEvalInputs = true;
+    #   nil.formatting.command = [ "nixpkgs-fmt" ];
+    # };
+
+    nil = {
+      command = lib.getExe pkgs.nil;
+      config.nil.formatting.command = ["${lib.getExe pkgs.alejandra}" "-q"];
+    };
   };
 
   language = [
@@ -87,7 +111,7 @@ in
         "{" = "}";
         "$" = "$";
         "`" = "`";
-        "\"" = "\"";
+        "\"" = ''"'';
       };
     }
 
@@ -95,6 +119,10 @@ in
       name = "just";
       auto-format = false;
       inherit indent;
+    }
+    {
+      name = "json";
+      language-servers = ["efm-prettier" "vscode-json-language-server"];
     }
 
     {
@@ -113,6 +141,14 @@ in
     {
       name = "protobuf";
       inherit indent;
+    }
+
+    {
+      name = "cpp";
+      formatter = {
+        command = "${pkgs.clang-tools}/bin/clang-format";
+        args = ["--style=Google"];
+      };
     }
 
     {

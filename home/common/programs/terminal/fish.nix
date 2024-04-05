@@ -52,7 +52,7 @@
       fish_greeting = "";
       home = "cd ~/";
       wh = "readlink -f (which $argv)";
-      kb = "
+      qb = "
         if test (count $argv) -lt 1; or test $argv[1] = \"help\"
           echo \"Valid Options: FIXED 2
                   m or moonlander -> cd to kb/moonlander/km/xendak 

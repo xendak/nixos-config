@@ -9,6 +9,7 @@
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
+    inputs.auto-cpufreq.nixosModules.default 
 
   ];
 
@@ -30,7 +31,19 @@
   # genshin
   #programs.anime-game-launcher.enable = true;
   #programs.honkers-railway-launcher.enable = true;
+  programs.auto-cpufreq.enable = true;
+    # optionally, you can configure your auto-cpufreq settings, if you have any
+    programs.auto-cpufreq.settings = {
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
 
+    battery = {
+      governor = "powersave";
+      turbo = "auto";
+    };
+  };
   # NTFS-3G for Windows Partititions
   environment.systemPackages = [
     pkgs.ntfs3g
@@ -110,35 +123,30 @@
     upower.enable = true;
     fstrim.enable = true;
 
-    tlp = {
-      enable = true;
-      settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+    # tlp = {
+    #   enable = true;
+    #   settings = {
+    #     CPU_SCALING_GOVERNOR_ON_AC = "performance";
+    #     CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+    #     CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+    #     CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
 
-        CPU_MIN_PERF_ON_AC = 0;
-        CPU_MAX_PERF_ON_AC = 100;
-        CPU_MIN_PERF_ON_BAT = 0;
-        CPU_MAX_PERF_ON_BAT = 70;
+    #     CPU_MIN_PERF_ON_AC = 0;
+    #     CPU_MAX_PERF_ON_AC = 100;
+    #     CPU_MIN_PERF_ON_BAT = 0;
+    #     CPU_MAX_PERF_ON_BAT = 70;
 
-       #Optional helps save long term battery health
-       START_CHARGE_THRESH_BAT1 = 20; # 40 and bellow it starts to charge
-       STOP_CHARGE_THRESH_BAT1 = 85; # 80 and above it stops charging
-       STOP_CHARGE_THRESH_BAT0 = 1; # 80 and above it stops charging
+    #     #Optional helps save long term battery health
+    #     START_CHARGE_THRESH_BAT1 = 20; # 40 and bellow it starts to charge
+    #     STOP_CHARGE_THRESH_BAT1 = 85; # 80 and above it stops charging
+    #     STOP_CHARGE_THRESH_BAT0 = 1; # 80 and above it stops charging
+    #   };
+    # };
+  
 
-     };
-   };
-
-
-   hardware = {
-     openrgb.enable = true;
-     openrgb.motherboard = "intel";
-   };
-   blueman.enable = true;
- };
+    blueman.enable = true;
+  };
 
  hardware = {
    bluetooth.enable = true;
