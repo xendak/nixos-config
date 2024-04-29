@@ -6,14 +6,14 @@
   ...
 }: {
   imports = [
+    inputs.nix-index-db.hmModules.nix-index
+
     ./setup.nix
 
     ../common
     ../common/games/steam.nix
     ../common/programs/ags.nix
 
-    inputs.ags.homeManagerModules.default
-    inputs.nix-index-db.hmModules.nix-index
   ];
 
   home.packages = with pkgs; [

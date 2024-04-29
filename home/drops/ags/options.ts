@@ -7,7 +7,7 @@ import icons from "lib/icons"
 const options = mkOptions(OPTIONS, {
     autotheme: opt(false),
 
-    wallpaper: opt(`/home/drops/Flake/home/drops/pictures/bg`, { persistent: true }),
+    wallpaper: opt(`/home/drops/Flake/home/drops/wallpaper/bg.png`, { persistent: true }),
 
     theme: {
         dark: {
@@ -98,7 +98,7 @@ const options = mkOptions(OPTIONS, {
             action: opt(() => App.toggleWindow("applauncher")),
         },
         date: {
-            format: opt("%H:%M - %a %e"),
+            format: opt("%H:%M - %a%e"),
             action: opt(() => App.toggleWindow("datemenu")),
         },
         battery: {
@@ -174,7 +174,7 @@ const options = mkOptions(OPTIONS, {
 
     quicksettings: {
         avatar: {
-            image: opt(`/home/drops/Flake/home/drops/pictures/profile`),
+            image: opt(`/home/drops/Flake/home/drops/profile.png`),
             size: opt(70),
         },
         width: opt(380),

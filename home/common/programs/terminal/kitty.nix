@@ -1,18 +1,19 @@
-{ config, pkgs, ... }:
-
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   inherit (config.colorscheme) colors;
   kitty-xterm = pkgs.writeShellScriptBin "xterm" ''
     ${config.programs.kitty.package}/bin/kitty -1 "$@"
   '';
-in
-{
+in {
   home = {
-    packages = [ kitty-xterm ];
+    packages = [kitty-xterm];
     sessionVariables = {
       TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
     };
-    sessionPath = [ "$HOME/Flake/bin" ];
+    sessionPath = ["$HOME/Flake/bin"];
   };
 
   programs.kitty = {
@@ -21,6 +22,7 @@ in
       name = config.fontProfiles.monospace.family;
       size = 12;
     };
+    keybindings = { "ctrl+backspace" = "send_text all \\x17"; };
     settings = {
       window_padding_width = 15;
       allow_remote_control = "yes";

@@ -4,8 +4,6 @@
     ./setup.nix
 
     ../common
-    ../common/hyprland/waybar/waybar-flakes.nix
-
     ../common/games/emulators.nix
     ../common/games/lutris.nix
     ../common/games/steam.nix
@@ -13,31 +11,27 @@
   ];
 
   home.packages = with pkgs; [
-    polkit_gnome
     obs-studio
     mangohud
     gamescope
-    mpv
-    jq
-    unzip
-    unrar
-    p7zip
 
     wineWowPackages.stable
     
-    eww
-
-    bottom
-    xdg-utils
     # mkxp-z
     
     eb-garamond
     blender
-    
+
     deluge
     pavucontrol
-    playerctl
 
+    mpv
+    playerctl
+    jq
+    unzip
+    unrar
+    p7zip
+    polkit_gnome
     hyprpaper
     grim
     pipewire

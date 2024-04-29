@@ -46,6 +46,7 @@
       kssh = "kitty +kitten ssh";
       # Clear screen and scrollback
       clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
+      cls = "printf '\\033[2J\\033[3J\\033[1;1H'";
     };
 
     functions = {
@@ -168,6 +169,10 @@
       ''
         bind \ee edit_command_buffer
       '' +
+      # ctrl backspace hopefully?
+      ''
+        bind \cH backward-kill-word 
+      ''+
       # nnn integration
       '' 
         set -gx NNN_FCOLORS "030201050006060009060402"

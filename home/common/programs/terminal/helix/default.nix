@@ -26,6 +26,7 @@ in {
             nodePackages.bash-language-server
             nodePackages.vscode-css-languageserver-bin
             nodePackages.vscode-langservers-extracted
+            vscode-extensions.llvm-org.lldb-vscode
             nodePackages.prettier
             shellcheck
           ])
@@ -39,6 +40,9 @@ in {
         cursorline = true;
         lsp.display-inlay-hints = true;
         indent-guides.render = true;
+        smart-tab = {
+          enable = false;
+        };
         cursor-shape = {
           normal = "block";
           insert = "bar";
@@ -50,7 +54,14 @@ in {
           tab = "⇥";
         };
       };
-
+      keys.normal.space.space = {
+        s = ":write";
+        q = ":quit";
+      };
+      keys.normal = {
+        tab = "move_parent_node_end";
+        S-tab = "move_parent_node_start";
+      };
       keys.normal.space.u = {
         f = ":format"; # format using LSP formatter
         w = ":set whitespace.render all";

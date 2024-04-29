@@ -14,6 +14,7 @@
   };
 
   home.packages = with pkgs; [
+    swayidle
     inputs.hyprwm-contrib.packages.${system}.grimblast
     inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
     inputs.hyprland-portal.packages.${pkgs.system}.xdg-desktop-portal-hyprland
@@ -159,6 +160,7 @@
       windowrulev2 = let
         float = regex: "float, class:^(${regex})$";
         size = regex: "size 1300 800, title:^(${regex})$";
+        sizec = regex: "size 1300 800, class:^(${regex})$";
         minsize = regex: "minsize 1300 800, title:^(${regex})$";
         maximize = regex: "maximize, title:^(${regex})$";
         outoftheway = regex: "workspace 9 silent, title:^(${regex})$";
@@ -168,6 +170,7 @@
         (float "(org.kde)(.*)")
         (float "pavucontrol")
         (float "f_terminal")
+        (sizec "f_terminal")
         (float "moe.laucher(.*)")
         (float "mpv")
         (float "Winetricks")
@@ -218,7 +221,7 @@
         "SUPER, E,            exec,     ${filebrowser}"
         "SUPERSHIFT, E,       exec,     ${terminal} --class f_terminal -e $SHELL -ic '${termbrowser} -ndeiH'"
         "ALTSHIFT,   E,       exec,     ${terminal} -e $SHELL -ic '${termbrowser} -ndeiH'"
-        "SUPER, D,            exec,     ${rofi} -show drun -matching fuzzy -sorting-method fzf -sort -theme '${config.xdg.configHome}/rofi/config.rasi'"
+        "SUPER, D,            exec,     ${rofi} -show drun -matching fuzzy -sorting-method fzf -sort -theme \"${config.xdg.configHome}/rofi/config.rasi\""
         "SUPER, R,            ${e} -t applauncher"
         "SUPER, O,            ${e} -t overview"
         "SUPER, M,            ${e} -t datemenu"
@@ -322,19 +325,23 @@
       ];
     };
 
+    # OPEN RGB FOR DESKTOP and Custom commands
     extraConfig = ''
-     bind=SUPER,X,exec,sh "${config.xdg.configHome}/rofi/powermenu.sh"
-     # powermenu submap
-     bind=SUPER,X,submap,powermenu
-     submap=powermenu
-     binde=,r,exec,systemctl reboot
-     binde=,d,exec,systemctl poweroff
-     binde=,q,exec,systemctl pkill Hyprland
-     binde=,p,exec,systemctl mpc -q pause && wpctl set-mute @DEFAULT_SINK@ toggle && systemctl suspend
-     binde=,escape,exec,pkill rofi
+      exec-once=openrgb -d "XPG Spectrix S40G" -m Off
+    
+    
+      bind=SUPER,X,exec,sh "${config.xdg.configHome}/rofi/powermenu.sh"
+      # powermenu submap
+      bind=SUPER,X,submap,powermenu
+      submap=powermenu
+      binde=,r,exec,systemctl reboot
+      binde=,d,exec,systemctl poweroff
+      binde=,q,exec,systemctl pkill Hyprland
+      binde=,p,exec,systemctl mpc -q pause && wpctl set-mute @DEFAULT_SINK@ toggle && systemctl suspend
+      binde=,escape,exec,pkill rofi
 
-     bind=,escape,submap,reset
-     submap=reset
+      bind=,escape,submap,reset
+      submap=reset
     '';
 
       # extraConfig = 
