@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: 
+{ pkgs, config, ... }: 
 {
   home.packages = with pkgs; [ yuzu-early-access ];
 
@@ -6,7 +6,7 @@
     "/persist/home/${config.home.username}".directories = [ 
       ".local/share/yuzu"
       ".config/yuzu"
-      "Games/Yuzu"
+      "Games/Emulators/Yuzu"
     ];
     "/persist/home/${config.home.username}".allowOther = true;
   };

@@ -12,6 +12,7 @@ in
 				ublock-origin
         vimium
         violentmonkey
+        bitwarden
         browserpass
         stylus
         add-custom-search-engine

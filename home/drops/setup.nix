@@ -2,8 +2,8 @@
 let
   inherit (inputs.nix-colors) colorSchemes;
   # inherit (inputs.nix-colors.lib-contrib { inherit pkgs; }) colorschemeFromPicture nixWallpaperFromScheme;
-  sshKey = "/persist/home/secrets/agenix-${config.home.username}";
-  # sshKey = "";
+  # sshKey = "/persist/home/secrets/agenix-${config.home.username}";
+  sshKey = config.age.secrets.github.path;
 in
 {
   imports = [
@@ -11,6 +11,8 @@ in
     inputs.nix-colors.homeManagerModule
     ../common/colors
   ] ++ (builtins.attrValues outputs.homeManagerModules);
+
+  age.secrets.github.file = ../../secrets/github.age;
 
   home.file.".ssh/config".text = ''
     Host github.com

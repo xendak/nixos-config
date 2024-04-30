@@ -1,9 +1,12 @@
-{ pkgs, config, ... }:
 {
+  pkgs,
+  config,
+  ...
+}: {
   programs.password-store = {
     enable = true;
     settings = {
-      PASSWORD_STORE_DIR = "$XDG_CONFIG_HOME/.password-store";
+      PASSWORD_STORE_DIR = "${config.xdg.configHome}/.password-store";
     };
     package = pkgs.pass.withExtensions (p: [p.pass-otp]);
   };

@@ -12,8 +12,8 @@
 
     ../common
     ../common/games/steam.nix
-    ../common/programs/ags.nix
-
+    ../common/programs/pass.nix
+    ../common/programs/rustdesk.nix
   ];
 
   home.packages = with pkgs; [

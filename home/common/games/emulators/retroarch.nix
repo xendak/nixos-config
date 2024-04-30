@@ -1,8 +1,6 @@
-{ pkgs, lib, ... }: 
+{ pkgs, config, ... }: 
 {
   home.packages = with pkgs; [ 
-    yuzu-early-access
-    mgba
     (retroarch.override {
       cores = with libretro; [
         snes9x
@@ -13,12 +11,9 @@
 
   home.persistence = {
     "/persist/home/${config.home.username}".directories = [ 
-      ".local/share/yuzu"
       ".local/share/retroarch"
       ".config/retroarch"
-      ".config/mgba"
-      ".config/yuzu"
-      "Games/Yuzu"
+      "Games/Emulators/RetroArch"
     ];
     "/persist/home/${config.home.username}".allowOther = true;
   };

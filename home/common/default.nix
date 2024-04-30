@@ -1,4 +1,4 @@
-{ }: {
+{ ... }: {
   imports = [
     ./programs
     ./hyprland
@@ -6,7 +6,6 @@
     ./gtk.nix
     ./xdg.nix
     ./font.nix
-    ./pass.nix
   ];
   programs.command-not-found.enable = false;
 }

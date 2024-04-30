@@ -11,5 +11,6 @@ in
   {
     "dewdrops.age".publicKeys = [ dew drops ];
     "snowflakes.age".publicKeys = [ snow flakes ];
-    "./xxx.age".publicKeys = users ++ systems;
+    # "github.age".publicKeys = users ++ systems;
+    "github.age".publicKeys = [ drops ];
   }

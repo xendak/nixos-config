@@ -123,26 +123,26 @@
     upower.enable = true;
     fstrim.enable = true;
 
-    # tlp = {
-    #   enable = true;
-    #   settings = {
-    #     CPU_SCALING_GOVERNOR_ON_AC = "performance";
-    #     CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+    tlp = {
+      enable = true;
+      settings = {
+        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
-    #     CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-    #     CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
 
-    #     CPU_MIN_PERF_ON_AC = 0;
-    #     CPU_MAX_PERF_ON_AC = 100;
-    #     CPU_MIN_PERF_ON_BAT = 0;
-    #     CPU_MAX_PERF_ON_BAT = 70;
+        CPU_MIN_PERF_ON_AC = 0;
+        CPU_MAX_PERF_ON_AC = 100;
+        CPU_MIN_PERF_ON_BAT = 0;
+        CPU_MAX_PERF_ON_BAT = 70;
 
-    #     #Optional helps save long term battery health
-    #     START_CHARGE_THRESH_BAT1 = 20; # 40 and bellow it starts to charge
-    #     STOP_CHARGE_THRESH_BAT1 = 85; # 80 and above it stops charging
-    #     STOP_CHARGE_THRESH_BAT0 = 1; # 80 and above it stops charging
-    #   };
-    # };
+        #Optional helps save long term battery health
+        START_CHARGE_THRESH_BAT1 = 20; # 40 and bellow it starts to charge
+        STOP_CHARGE_THRESH_BAT1 = 100; # 80 and above it stops charging
+        STOP_CHARGE_THRESH_BAT0 = 0; # 80 and above it stops charging
+      };
+    };
   
 
     blueman.enable = true;
