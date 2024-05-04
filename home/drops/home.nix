@@ -70,7 +70,6 @@
     pavucontrol
     playerctl
 
-    hyprpaper
     grim
     pipewire
     slurp

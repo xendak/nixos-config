@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ lib, config, pkgs, inputs, ... }:
 let
   colors = config.colorscheme.palette;
 in
@@ -12,8 +12,8 @@ in
     '';
   };
 
-  systemd.user.targets.hyprland-session.Unit.Wants = [ "xdg-desktop-autostart.target" ];
-  wayland.windowManager.sway = with colors; {
+  # systemd.user.targets.hyprland-session.Unit.Wants = [ "xdg-desktop-autostart.target" ];
+  wayland.windowManager.sway = {
     enable = true;
     systemd.enable = true;
     xwayland = true;
@@ -24,7 +24,7 @@ in
       shadows on
       shadow_offset 0 0
       shadow_blur_radius 20
-      shadow_color #${base09}BB
+      shadow_color #${colors.base09}BB
       shadow_inactive_color #000000B0
 
       default_dim_inactive 0.2
@@ -38,11 +38,11 @@ in
       for_window [app_id="spad"] move scratchpad, resize set width 900 height 600
       for_window [app_id="smusicpad"] move scratchpad, resize set width 850 height 550
 
-      set $bg-color 	         #${base00}
-      set $inactive-bg-color   #${base02}
-      set $text-color          #${base05}
-      set $inactive-text-color #${base04}
-      set $urgent-bg-color     #${base09}
+      set $bg-color 	         #${colors.base00}
+      set $inactive-bg-color   #${colors.base02}
+      set $text-color          #${colors.base05}
+      set $inactive-text-color #${colors.base04}
+      set $urgent-bg-color     #${colors.base09}
 
       # window colors
       #                       border              background         text                 indicator
@@ -213,4 +213,3 @@ in
     };
   };
 }
-
