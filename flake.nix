@@ -23,6 +23,11 @@
       url = "github:hyprwm/xdg-desktop-portal-hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    swayfx = {
+      url = "github:/WillPower3309/swayfx";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hyprwm-contrib.url = "github:hyprwm/contrib";
     hyprpicker.url = "github:hyprwm/hyprpicker";
     hyprland-portal.url = "github:hyprwm/xdg-desktop-portal-hyprland";
@@ -42,8 +47,7 @@
     };
 
     helix = {
-      url =
-        "github:pascalkuthe/helix?rev=e86b77843b8756d53cc756837f91aa8d368495bc";
+      url = "github:pascalkuthe/helix?rev=e86b77843b8756d53cc756837f91aa8d368495bc";
     };
 
     matugen.url = "github:InioX/matugen";
@@ -58,12 +62,22 @@
   };
 
   outputs =
-    { self, nixpkgs, home-manager, agenix, hyprland, aagl, helix, ... }@inputs:
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      agenix,
+      hyprland,
+      aagl,
+      helix,
+      ...
+    }@inputs:
     let
       inherit (self) outputs;
       forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" ];
       forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
-    in {
+    in
+    {
       templates = import ./templates;
       overlays = import ./overlays { inherit inputs; };
       homeManagerModules = import ./modules/home-manager;
@@ -83,14 +97,18 @@
 
       nixosConfigurations = {
         flakes = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = {
+            inherit inputs outputs;
+          };
           modules = [ ./system/Snow ];
         };
       };
 
       nixosConfigurations = {
         drops = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = {
+            inherit inputs outputs;
+          };
           modules = [ ./system/Dew ];
         };
       };
@@ -98,7 +116,9 @@
       homeConfigurations = {
         "Snow@flakes" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+          };
           modules = [ ./home/flakes/home.nix ];
         };
       };
@@ -106,7 +126,9 @@
       homeConfigurations = {
         "Dew@drops" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+          };
           modules = [ ./home/drops/home.nix ];
         };
       };

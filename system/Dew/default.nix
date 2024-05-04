@@ -1,5 +1,5 @@
 # my main desktop
-{ config, lib, pkgs, inputs, outputs, ...}: {
+{ config, lib, pkgs, inputs, outputs, ... }: {
   imports = [
     ../global.nix
     ./btrfs-optin-persistence.nix
@@ -9,12 +9,12 @@
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
-    inputs.auto-cpufreq.nixosModules.default 
+    inputs.auto-cpufreq.nixosModules.default
 
   ];
 
-
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules =
+    [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
   boot.kernelModules = [ "kvm-intel" "i2c-dev" "i2c-i801" "coretemp" ];
   boot.loader.systemd-boot.enable = true;
   boot = {
@@ -28,12 +28,40 @@
     supportedFilesystems = [ "btrfs" "ntfs" ];
   };
 
+  age.secrets.pw = {
+    file = ../../secrets/pw.age;
+    symlink = false;
+    name = "id_ed25519";
+    owner = "drops";
+    group = "users";
+    mode = "440";
+  };
+  age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
+  # environment.etc."something".source = "${config.age.secrets.pw.path}";
+
+  systemd.services = {
+    "agenix-secrets" = {
+      wantedBy = [ "default.target" ];
+      after = [ "agenix.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = let
+          script = pkgs.writeScript "myuser-start" ''
+            #!${pkgs.runtimeShell}
+            cat ${config.age.secrets.pw.path} > "/home/drops/.ssh/id_ed25519"
+            chown drops:users /home/drops/.ssh/id_ed25519
+          '';
+        in "${script}";
+      };
+    };
+  };
+
   # genshin
   #programs.anime-game-launcher.enable = true;
   #programs.honkers-railway-launcher.enable = true;
   programs.auto-cpufreq.enable = true;
-    # optionally, you can configure your auto-cpufreq settings, if you have any
-    programs.auto-cpufreq.settings = {
+  # optionally, you can configure your auto-cpufreq settings, if you have any
+  programs.auto-cpufreq.settings = {
     charger = {
       governor = "performance";
       turbo = "auto";
@@ -58,13 +86,10 @@
     config.boot.kernelPackages.cpupower
   ];
 
-
   # User & Host -----------------------------
   users = {
     mutableUsers = false;
-    users.root = {
-      hashedPasswordFile = "/persist/home/secrets/passwd-root";
-    };
+    users.root = { hashedPasswordFile = "/persist/home/secrets/passwd-root"; };
     users.drops = {
       isNormalUser = true;
       shell = pkgs.fish;
@@ -81,12 +106,8 @@
   networking.hostName = "Dew";
   environment.persistence."/persist" = {
     hideMounts = true;
-    directories = [
-      "/etc/NetworkManager"
-      "/var/lib/NetworkManager"
-    ];
+    directories = [ "/etc/NetworkManager" "/var/lib/NetworkManager" ];
   };
-
 
   # GENSHIN PATCH ---------------------------
   networking.hosts = {
@@ -123,50 +144,47 @@
     upower.enable = true;
     fstrim.enable = true;
 
-    tlp = {
-      enable = true;
-      settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+    # tlp = {
+    #   enable = true;
+    #   settings = {
+    #     CPU_SCALING_GOVERNOR_ON_AC = "performance";
+    #     CPU_SCALING_GOVERNOR_ON_BAT = "performance";
 
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+    #     CPU_ENERGY_PERF_POLICY_ON_BAT = "performance";
+    #     CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
 
-        CPU_MIN_PERF_ON_AC = 0;
-        CPU_MAX_PERF_ON_AC = 100;
-        CPU_MIN_PERF_ON_BAT = 0;
-        CPU_MAX_PERF_ON_BAT = 70;
+    #     CPU_MIN_PERF_ON_AC = 0;
+    #     CPU_MAX_PERF_ON_AC = 100;
+    #     CPU_MIN_PERF_ON_BAT = 0;
+    #     CPU_MAX_PERF_ON_BAT = 70;
 
-        #Optional helps save long term battery health
-        START_CHARGE_THRESH_BAT1 = 20; # 40 and bellow it starts to charge
-        STOP_CHARGE_THRESH_BAT1 = 100; # 80 and above it stops charging
-        STOP_CHARGE_THRESH_BAT0 = 0; # 80 and above it stops charging
-      };
-    };
-  
+    #     #Optional helps save long term battery health
+    #     START_CHARGE_THRESH_BAT1 = 45; # 40 and bellow it starts to charge
+    #     STOP_CHARGE_THRESH_BAT1 = 80; # 80 and above it stops charging
+    #     STOP_CHARGE_THRESH_BAT0 = 1; # 80 and above it stops charging
+    #     START_CHARGE_THRESH_BAT0 = 45;
+    #   };
+    # };
 
     blueman.enable = true;
   };
 
- hardware = {
-   bluetooth.enable = true;
-   bluetooth.settings = {
-     General = {
-       Enable = "Source,Sink,Media,Socket";
-     };
-   };
-   i2c.enable = true;
+  hardware = {
+    bluetooth.enable = true;
+    bluetooth.settings = {
+      General = { Enable = "Source,Sink,Media,Socket"; };
+    };
+    i2c.enable = true;
 
-   cpu.intel.updateMicrocode = true;
-   opengl = {
-     enable = true;
+    cpu.intel.updateMicrocode = true;
+    opengl = {
+      enable = true;
       # extraPackages = with pkgs; [ amdvlk ];
       driSupport = true;
       driSupport32Bit = true;
     };
     opentabletdriver.enable = true;
   };
-
 
   systemd.user.services.telephony_client.enable = false;
 

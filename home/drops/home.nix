@@ -8,15 +8,42 @@
   imports = [
     inputs.nix-index-db.hmModules.nix-index
 
+    # inputs.agenix.homeManagerModules.default
+
     ./setup.nix
 
     ../common
+
+    ../common/swayfx
+#    ../common/hyprland
+
     ../common/games/steam.nix
+    ../common/games/emulators/retroarch.nix
     ../common/programs/pass.nix
     ../common/programs/rustdesk.nix
   ];
 
+
+  home.file = {
+    ".ssh/known_hosts".source = ./known_hosts;
+    ".ssh/id_ed25519.pub".source = ./id_ed25519.pub;
+  };
+
+  # ssh tryout
+  # home.activation = {
+  #   removeExistingKeys = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
+  #     rm -rf $HOME/.ssh/id_ed25519
+  #     mkdir -p $HOME/.ssh
+  #   '';
+  #   newKeys = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+  #     if test -f "/etc/something";then 
+  #       cat ${config.age.secrets.pw.path} > $HOME/.ssh/id_ed25519
+  #     fi
+  #   '';
+  # };
+
   home.packages = with pkgs; [
+    age
     polkit_gnome
     mangohud
     gamescope
@@ -25,6 +52,9 @@
     unzip
     unrar
     p7zip
+
+    # TEMP
+    wezterm
 
     obs-studio
 

@@ -22,7 +22,7 @@
     jq # JSON pretty printer and manipulator
 
     nil # Nix LSP
-    nixfmt # Nix formatter
+    nixfmt-rfc-style # Nix formatter
     nvd # Differ
     nix-output-monitor
     nh # Nice wrapper for NixOS and HM

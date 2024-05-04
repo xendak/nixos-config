@@ -5,7 +5,7 @@
   home.persistence = {
     "/persist/home/${config.home.username}" = {
         directories = [ 
-          ".local/config/rustdesk"
+          ".config/rustdesk"
       ];
       allowOther = true;
     };

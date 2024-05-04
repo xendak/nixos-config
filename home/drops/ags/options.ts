@@ -7,7 +7,7 @@ import icons from "lib/icons"
 const options = mkOptions(OPTIONS, {
     autotheme: opt(false),
 
-    wallpaper: opt(`/home/drops/Flake/home/drops/wallpaper/bg.png`, { persistent: true }),
+    wallpaper: opt(`/persist/home/drops/Flake/home/drops/wallpaper/bg.png`, { persistent: true }),
 
     theme: {
         dark: {

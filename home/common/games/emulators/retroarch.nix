@@ -9,12 +9,15 @@
     })
   ];
 
+
   home.persistence = {
-    "/persist/home/${config.home.username}".directories = [ 
-      ".local/share/retroarch"
-      ".config/retroarch"
-      "Games/Emulators/RetroArch"
-    ];
-    "/persist/home/${config.home.username}".allowOther = true;
+    "/persist/home/${config.home.username}" = {
+      directories = [ 
+        ".local/share/retroarch"
+        ".config/retroarch"
+        "Games/Emulators/RetroArch"
+      ];
+      allowOther = true;
+    };
   };
 }

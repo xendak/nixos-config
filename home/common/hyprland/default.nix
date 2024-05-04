@@ -1,7 +1,7 @@
 { inputs, lib, config, pkgs, ... }: {
   imports = [
     inputs.hyprland.homeManagerModules.default
-    ./plugins.nix
+    ./plugins/hyprexpo
     ./scripts.nix
   ];
 
@@ -45,6 +45,10 @@
         "swayidle -w"
       ];
       
+
+      debug = {
+        disable_logs = false;
+      };
 
       monitor = map (m: let
         resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
@@ -159,8 +163,9 @@
 
       windowrulev2 = let
         float = regex: "float, class:^(${regex})$";
-        size = regex: "size 1300 800, title:^(${regex})$";
-        sizec = regex: "size 1300 800, class:^(${regex})$";
+        t_float = regex: "float, title:^(${regex})$";
+        t_size = regex: "size 1300 800, title:^(${regex})$";
+        size = regex: "size 1300 800, class:^(${regex})$";
         minsize = regex: "minsize 1300 800, title:^(${regex})$";
         maximize = regex: "maximize, title:^(${regex})$";
         outoftheway = regex: "workspace 9 silent, title:^(${regex})$";
@@ -170,17 +175,22 @@
         (float "(org.kde)(.*)")
         (float "pavucontrol")
         (float "f_terminal")
-        (sizec "f_terminal")
         (float "moe.laucher(.*)")
         (float "mpv")
         (float "Winetricks")
         (float "Picture-in-(.*)")
         (float "deluge")
+        (float "rustdesk")
+        (maximize "494083424@toast(.*)")
         (maximize "Terraria")
         (maximize "gamescope")
         (minsize "(.*)(.exe)")
-        (size "(.*)(Home)(.*)")
-        (size "(.*)(Save)(.*)")
+        (size "f_terminal")
+        (t_size "(.*)(Home)(.*)")
+        (t_size "(.*)(Save)(.*)")
+        "workspace 4 silent, title:^(494083424@toast(.*))$"
+        "workspace 5 silent, class:^(rustdesk)$"
+        "workspace 4 silent, title:^(494083424@toast(.*))$"
         "workspace 2 silent, class:^(firefox)$"
         "workspace 3 silent, class:^(discord)(.*)$"
         "workspace 4 silent, class:^(Steam)$"
@@ -221,7 +231,7 @@
         "SUPER, E,            exec,     ${filebrowser}"
         "SUPERSHIFT, E,       exec,     ${terminal} --class f_terminal -e $SHELL -ic '${termbrowser} -ndeiH'"
         "ALTSHIFT,   E,       exec,     ${terminal} -e $SHELL -ic '${termbrowser} -ndeiH'"
-        "SUPER, D,            exec,     ${rofi} -show drun -matching fuzzy -sorting-method fzf -sort -theme \"${config.xdg.configHome}/rofi/config.rasi\""
+        "SUPER, D,            exec,     rofi -show drun -matching fuzzy -sorting-method fzf -sort -theme \"${config.xdg.configHome}/rofi/config.rasi\""
         "SUPER, R,            ${e} -t applauncher"
         "SUPER, O,            ${e} -t overview"
         "SUPER, M,            ${e} -t datemenu"
@@ -242,8 +252,8 @@
 
         ",Print, exec, ${grimblast} --notify copysave output \"${print}_full.png\""
         "SHIFT,Print, exec, ${grimblast} --notify copysave active \"${print}_active.png\""
-        "ALTSHIFT,C, exec, ${grimblast} --notify copysave area \"${print}_snip.png\""
-        "ALTSHIFT,S, exec, ${grimblast} --notify copysave area \"${tmpprint}_snip.png\""
+        "ALTSHIFT,S, exec, ${grimblast} --notify copysave area \"${print}_snip.png\""
+        "ALTSHIFT,C, exec, ${grimblast} --notify copysave area \"${tmpprint}_snip.png\""
 
         (mvfocus "k" "u")
         (mvfocus "j" "d")

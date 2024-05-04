@@ -12,6 +12,9 @@
   };
 
   home.persistence = {
-    "/persist/home/${config.home.username}/.config".directories = [".password-store"];
+    "/persist/home/${config.home.username}/.config" = {
+      allowOther = true;
+      directories = [".password-store"];
+    };
   };
 }
