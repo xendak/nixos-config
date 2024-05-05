@@ -42,14 +42,15 @@
   systemd.services = {
     "agenix-secrets" = {
       wantedBy = [ "default.target" ];
-      after = [ "agenix.service" ];
+      after = [ "wpa_supplicant.service" ];
+      before = [ "getty@tty1.service" ];
       serviceConfig = {
         Type = "oneshot";
         ExecStart = let
           script = pkgs.writeScript "myuser-start" ''
             #!${pkgs.runtimeShell}
-            cat ${config.age.secrets.pw.path} > "/home/drops/.ssh/id_ed25519"
-            chown drops:users /home/drops/.ssh/id_ed25519
+            cat ${config.age.secrets.pw.path} > "/persist/home/drops/.ssh/id_ed25519"
+            chown drops:users /persist/home/drops/.ssh/id_ed25519
           '';
         in "${script}";
       };

@@ -1,6 +1,6 @@
 { config, pkgs, ... }: 
 {
-  home.packages = with pkgs; [ anki ];
+  home.packages = with pkgs; [ anki-bin ];
 
   home.persistence = {
     "/persist/home/${config.home.username}" = {

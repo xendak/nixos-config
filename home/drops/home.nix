@@ -14,8 +14,10 @@
 
     ../common
 
-    ../common/swayfx
-#    ../common/hyprland
+    # ../common/swayfx
+    ../common/hyprland
+    ../common/hyprland/plugins/hyprbars.nix
+    ../common/hyprland/plugins/hyprexpo.nix
 
     ../common/games/steam.nix
     ../common/games/emulators/retroarch.nix
@@ -23,6 +25,13 @@
     ../common/programs/rustdesk.nix
   ];
 
+  programs = {
+    fish.loginShellInit = ''
+      if test (tty) = "/dev/tty1"
+        exec sway &> /dev/null
+      end
+    '';
+  };
 
   home.file = {
     ".ssh/known_hosts".source = ./known_hosts;

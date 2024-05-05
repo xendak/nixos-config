@@ -26,7 +26,7 @@
 
   qt = {
     enable = true;
-    platformTheme = "gtk";
+    platformTheme.name = "gtk";
     style.name = "kvantum";
     style.package = with pkgs; [
       libsForQt5.qtstyleplugin-kvantum

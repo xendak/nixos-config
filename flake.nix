@@ -5,7 +5,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     impermanence.url = "github:nix-community/impermanence";
     hardware.url = "github:nixos/nixos-hardware";
-    hyprpaper.url = "github:hyprwm/hyprpaper";
     nix-colors.url = "github:misterio77/nix-colors";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -50,7 +49,9 @@
       url = "github:pascalkuthe/helix?rev=e86b77843b8756d53cc756837f91aa8d368495bc";
     };
 
-    matugen.url = "github:InioX/matugen";
+    matugen.url = "github:InioX/matugen?rev=e795cda353235e503bb292f56bdd6573974f4add";
+    # github:owner/repo?rev=
+
     ags = {
       url = "github:Aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
