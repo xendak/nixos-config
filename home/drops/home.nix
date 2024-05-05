@@ -16,8 +16,8 @@
 
     # ../common/swayfx
     ../common/hyprland
-    ../common/hyprland/plugins/hyprbars.nix
-    ../common/hyprland/plugins/hyprexpo.nix
+#    ../common/hyprland/plugins/hyprbars.nix
+#    ../common/hyprland/plugins/hyprexpo.nix
 
     ../common/games/steam.nix
     ../common/games/emulators/retroarch.nix
