@@ -43,8 +43,8 @@
   systemd.services = {
     "agenix-secrets" = {
       wantedBy = [ "default.target" ];
-      after = [ "wpa_supplicant.service" ];
-      before = [ "getty@tty1.service" ];
+      wants = [ "agenix.service" ];
+      after = [ "agenix.service" "kanata.service" ];
       serviceConfig = {
         Type = "oneshot";
         ExecStart = let
