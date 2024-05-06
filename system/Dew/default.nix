@@ -35,7 +35,7 @@
     name = "id_ed25519";
     owner = "drops";
     group = "users";
-    mode = "440";
+    mode = "600";
   };
   age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
   # environment.etc."something".source = "${config.age.secrets.pw.path}";
@@ -44,12 +44,13 @@
     "agenix-secrets" = {
       wantedBy = [ "default.target" ];
       wants = [ "agenix.service" ];
-      after = [ "agenix.service" "kanata.service" ];
+      after = [ "agenix.service" "home-manager-drops.service" "kanata-laptop.service" ];
       serviceConfig = {
         Type = "oneshot";
         ExecStart = let
           script = pkgs.writeScript "myuser-start" ''
             #!${pkgs.runtimeShell}
+            mkdir -p /home/drops/.ssh
             cat ${config.age.secrets.pw.path} > "/home/drops/.ssh/id_ed25519"
             chown drops:users /home/drops/.ssh/id_ed25519
             chmod 600 /home/drops/.ssh/id_ed25519
