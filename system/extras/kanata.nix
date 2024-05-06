@@ -50,12 +50,12 @@ let
     (deffakekeys
       to-base (layer-switch graphite)
     )
-
+    
     (defalias
       ;; tap within 100ms for capslk, hold more than 100ms for lctl
-      cap (tap-hold 100 100 bspc lctl)
-      1g (tap-hold-release 100 100 1 (layer-switch qwerty))
-      1q (tap-hold-release 100 100 1 (layer-switch graphite))
+      cap (tap-hold 150 150 bspc lctl)
+      1g (tap-hold-release 150 150 1 (layer-switch qwerty))
+      1q (tap-hold-release 150 150 1 (layer-switch graphite))
 
       tap (multi
           (layer-switch no-mod-graphite)
