@@ -52,6 +52,7 @@
             #!${pkgs.runtimeShell}
             cat ${config.age.secrets.pw.path} > "/home/drops/.ssh/id_ed25519"
             chown drops:users /home/drops/.ssh/id_ed25519
+            chmod 440 /home/drops/.ssh/id_ed25519
           '';
         in "${script}";
       };
