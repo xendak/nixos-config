@@ -29,6 +29,7 @@ in
   };
 
   programs.ssh = {
+    startAgent = true;
     # Each hosts public key
     knownHosts = builtins.mapAttrs
       (name: _: {
