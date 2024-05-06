@@ -116,7 +116,7 @@ in
       nmap <space>o :only<cr>
 
       "Telescope and nnn
-      let g:nnn#command = 'n -n'
+      let g:nnn#command = 'nnn -ndeiH'
       nmap <space>F :NnnPicker %:p:h<CR>
       nmap <space>E :Telescope fd<CR>
       nmap <space>T :Telescope<CR>
