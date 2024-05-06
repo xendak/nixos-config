@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [
@@ -12,6 +12,7 @@
       vim-floaterm
       vim-sneak
       which-key-nvim
+      nnn
     ];
   };
 }

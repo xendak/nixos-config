@@ -54,18 +54,26 @@ in {
           tab = "⇥";
         };
       };
-      keys.normal.space.space = {
-        s = ":write";
-        q = ":quit";
-      };
-      keys.normal = {
-        tab = "move_parent_node_end";
-        S-tab = "move_parent_node_start";
-      };
-      keys.normal.space.u = {
-        f = ":format"; # format using LSP formatter
-        w = ":set whitespace.render all";
-        W = ":set whitespace.render none";
+      keys = {
+        insert = {
+          "C-[" = "goto_prev_paragraph";
+          "C-]" = "goto_next_paragraph";
+        };
+        normal = {
+          "{" = "goto_prev_paragraph";
+          "}" = "goto_next_paragraph";
+          tab = "move_parent_node_end";
+          S-tab = "move_parent_node_start";
+        };
+        normal.space.space = {
+          s = ":write";
+          q = ":quit";
+        };
+        normal.space.u = {
+          f = ":format"; # format using LSP formatter
+          w = ":set whitespace.render all";
+          W = ":set whitespace.render none";
+        };
       };
     };
     themes = import ./theme.nix {inherit colorscheme;};

@@ -37,6 +37,9 @@
   home.file = {
     ".ssh/known_hosts".source = ./known_hosts;
     ".ssh/id_ed25519.pub".source = ./id_ed25519.pub;
+    ".ssh/config".source = pkgs.writeText "config" ''
+      AddKeysToAgent yes
+    '';
   };
 
   home.packages = with pkgs; [
@@ -106,10 +109,7 @@
       FULLSCREEN_SAVE_FILE = "$(date +%Y-%m-%d_%M).png";
       AREA_SAVE_FILE = "$(date +%Y-%m-%d_%M)_snip.png";
       AREA_CONFIG_DIR = "Snips";
-      NNN_TMPFILE = "$XDG_CONFIG_HOME/.config/nnn/.lastd";
-      NNN_FIFO = "/tmp/nnn.fifo";
       NNN_BMS = "p:$HOME/Programming;f:$HOME/Flake;c:$HOME/.config;w:/mnt/Windows";
-      NNN_PLUG = "p:preview-tui;f:fzcd";
       SPLIT = "v";
       GTK_THEME = "${config.gtk.theme.name}:dark";
       EDITOR = "nvim";

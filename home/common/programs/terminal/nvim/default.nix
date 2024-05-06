@@ -115,6 +115,10 @@ in
       "Close other splits
       nmap <space>o :only<cr>
 
+      "Telescope and nnn
+      nmap <space>F :NnnPicker %:p:h<CR>
+      nmap <space>E :Telescope<CR>
+
       "Sudo save
       cmap w!! w !sudo tee > /dev/null %
     '';
