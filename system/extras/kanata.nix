@@ -17,7 +17,7 @@ let
     (deflayer graphite
       grv @1g   2    3    4    5    6    7    8    9    0    -    =    bspc
       tab  /    u    o    f    grv  z    w    d    l    q    [    ]    \
-      @cap @i   e    a    h    y    g    s    t    r    @n   ,    ret
+      @cap i   e    a    h    y    g    s    t    r    n   ,    ret
       lsft x    -    .    p    k    v    c    m    j    b    rsft
       lctl lmet lalt           spc            ralt rmet rctl)
 
