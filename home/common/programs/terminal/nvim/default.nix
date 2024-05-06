@@ -116,8 +116,10 @@ in
       nmap <space>o :only<cr>
 
       "Telescope and nnn
+      let g:nnn#command = 'n -n'
       nmap <space>F :NnnPicker %:p:h<CR>
-      nmap <space>E :Telescope<CR>
+      nmap <space>E :Telescope fd<CR>
+      nmap <space>T :Telescope<CR>
 
       "Sudo save
       cmap w!! w !sudo tee > /dev/null %
