@@ -5,6 +5,14 @@
   ];
 
   home.packages = with pkgs; [
+
+    swww
+    glib
+    bun
+    dart-sass
+    fd
+    inputs.matugen.packages.${system}.default
+
     ollama
     pywal
     sassc

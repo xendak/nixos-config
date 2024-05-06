@@ -20,6 +20,12 @@
     httpie # Better curl
     diffsitter # Better diff
     jq # JSON pretty printer and manipulator
+    unzip
+    unrar
+    p7zip
+    xdg-utils
+
+    bat
 
     nil # Nix LSP
     nixfmt-rfc-style # Nix formatter
