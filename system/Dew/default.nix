@@ -5,6 +5,7 @@
     ./btrfs-optin-persistence.nix
     ./hardware-configuration.nix
     ../extras/powersave.nix
+    ../extras/kanata.nix
 
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-gpu-amd
@@ -49,8 +50,8 @@
         ExecStart = let
           script = pkgs.writeScript "myuser-start" ''
             #!${pkgs.runtimeShell}
-            cat ${config.age.secrets.pw.path} > "/persist/home/drops/.ssh/id_ed25519"
-            chown drops:users /persist/home/drops/.ssh/id_ed25519
+            cat ${config.age.secrets.pw.path} > "/home/drops/.ssh/id_ed25519"
+            chown drops:users /home/drops/.ssh/id_ed25519
           '';
         in "${script}";
       };
