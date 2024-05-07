@@ -84,8 +84,8 @@ in {
     #   nil.formatting.command = [ "nixpkgs-fmt" ];
     # };
 
-    nil = {
-      command = lib.getExe pkgs.nil;
+    nixd = {
+      command = lib.getExe pkgs.nixd;
       config.nil.formatting.command = ["${lib.getExe pkgs.alejandra}" "-q"];
     };
   };

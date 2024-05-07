@@ -27,7 +27,8 @@
 
     bat
 
-    nil # Nix LSP
+    nixd # Nix LSP
+    alejandra
     nixfmt-rfc-style # Nix formatter
     nvd # Differ
     nix-output-monitor
