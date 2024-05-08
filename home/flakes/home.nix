@@ -1,27 +1,47 @@
 {
-  inputs,
-  outputs,
   lib,
   config,
   pkgs,
+  inputs,
   ...
 }: {
   imports = [
+    inputs.nix-index-db.hmModules.nix-index
+
     ./setup.nix
 
     ../common
-    ../common/games/emulators.nix
-    ../common/games/lutris.nix
-    ../common/games/steam.nix
-    ../common/games/mihoyo.nix
+    ../common/wayland
+    ../common/wayland/hyprland
+
+    ../common/games
+    ../common/games
+
+    #../common/games/lutris.nix
+    #../common/games/steam.nix
+    #../common/games/mihoyo.nix
+
+
+    # ../common/wayland/swayfx
+#    ../common/wayland/hyprland/plugins/hyprbars.nix
+#    ../common/wayland/hyprland/plugins/hyprexpo.nix
+
+    ../common/programs/pass.nix
   ];
+
+
+  home.file = {
+    ".ssh/known_hosts".source = ../common/ssh/known_hosts;
+    ".ssh/id_ed25519.pub".source = ../common/ssh/id_ed25519.pub;
+    ".ssh/config".source = pkgs.writeText "config" ''
+      AddKeysToAgent yes
+    '';
+  };
 
   home.packages = with pkgs; [
     obs-studio
     mangohud
     gamescope
-    mpv
-    clang-tools
 
     wineWowPackages.stable
 
@@ -49,7 +69,7 @@
   home = {
     username = lib.mkDefault "flakes";
     homeDirectory = lib.mkDefault "/home/flakes/";
-    stateVersion = lib.mkDefault "23.05";
+    stateVersion = lib.mkDefault "24.05";
     sessionPath = ["$HOME/Flakes/bin"];
     persistence = {
       "/persist/snow/flakes" = {

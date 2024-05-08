@@ -95,7 +95,7 @@ in
   '';
   # root xdg
   environment.etc."xdg/Xresources".text = ''
-    Xcursor.size: 36
+    Xcursor.size: 32
     Xcursor.theme: Bibata-Modern-Classic
   '';
 
@@ -212,6 +212,6 @@ in
     };
   };
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.05";
 
 }

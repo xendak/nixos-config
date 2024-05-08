@@ -27,6 +27,8 @@
 
     bat
 
+    clang-tools
+
     nixd # Nix LSP
     alejandra
     nixfmt-rfc-style # Nix formatter

@@ -33,7 +33,7 @@
     file = ../../secrets/pw.age;
     symlink = false;
     name = "id_ed25519";
-    owner = "drops";
+    owner = config.home.username;
     group = "users";
     mode = "600";
   };
@@ -192,6 +192,6 @@
 
   systemd.user.services.telephony_client.enable = false;
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.05";
 
 }

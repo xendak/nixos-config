@@ -35,8 +35,8 @@
   };
 
   home.file = {
-    ".ssh/known_hosts".source = ./known_hosts;
-    ".ssh/id_ed25519.pub".source = ./id_ed25519.pub;
+    ".ssh/known_hosts".source = ../common/ssh/known_hosts;
+    ".ssh/id_ed25519.pub".source = ../id_ed25519.pub;
     ".ssh/config".source = pkgs.writeText "config" ''
       AddKeysToAgent yes
     '';
@@ -75,7 +75,7 @@
   home = {
     username = lib.mkDefault "drops";
     homeDirectory = lib.mkDefault "/home/drops/";
-    stateVersion = lib.mkDefault "23.05";
+    stateVersion = lib.mkDefault "24.05";
     sessionPath = ["$HOME/Flake/bin"];
     persistence = {
       "/persist/home/drops" = {

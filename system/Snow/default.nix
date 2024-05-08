@@ -4,6 +4,7 @@
     ../global.nix
     ./btrfs-optin-persistence.nix
     ./hardware-configuration.nix
+    ../extras/kanata.nix
 
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-gpu-amd
@@ -22,6 +23,39 @@
     # kernelPackages = pkgs.linuxPackages_xanmod_latest;
     supportedFilesystems = [ "btrfs" "ntfs" ];
   };
+
+  age.secrets.pw = {
+    file = ../../secrets/pw.age;
+    symlink = false;
+    name = "id_ed25519";
+    owner = config.home.username;
+    group = "users";
+    mode = "600";
+  };
+  age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
+  # environment.etc."something".source = "${config.age.secrets.pw.path}";
+
+  systemd.services = {
+    "agenix-secrets" = {
+      wantedBy = [ "default.target" ];
+      wants = [ "agenix.service" ];
+      after = [ "agenix.service" "home-manager-drops.service" "kanata-laptop.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = let
+          script = pkgs.writeScript "myuser-start" ''
+            #!${pkgs.runtimeShell}
+            mkdir -p /home/snow/.ssh
+            cat ${config.age.secrets.pw.path} > "/home/snow/.ssh/id_ed25519"
+            chown drops:users /home/snow/.ssh/id_ed25519
+            chmod 600 /home/snow/.ssh/id_ed25519
+          '';
+        in "${script}";
+      };
+    };
+  };
+
+
 
   # genshin
   programs.anime-game-launcher.enable = true;
@@ -116,6 +150,6 @@
 
   systemd.user.services.telephony_client.enable = false;
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.05";
 
 }

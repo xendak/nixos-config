@@ -3,6 +3,14 @@ let
   colors = config.colorscheme.palette;
 in
 {
+  programs = {
+    fish.loginShellInit = ''
+      if test (tty) = "/dev/tty1"
+        exec sway &> /dev/null
+      end
+    '';
+  };
+
   # systemd.user.targets.hyprland-session.Unit.Wants = [ "xdg-desktop-autostart.target" ];
   wayland.windowManager.sway = {
     enable = true;

@@ -187,9 +187,9 @@
         (size "f_terminal")
         (t_size "(.*)(Home)(.*)")
         (t_size "(.*)(Save)(.*)")
-        "workspace 4 silent, title:^(494083424@toast(.*))$"
+        "workspace special silent, title:^(494083424@toast(.*))$"
         "workspace 5 silent, class:^(rustdesk)$"
-        "workspace 4 silent, title:^(494083424@toast(.*))$"
+        "workspace special silent, title:^(494083424@toast(.*))$"
         "workspace 2 silent, class:^(firefox)$"
         "workspace 3 silent, class:^(discord)(.*)$"
         "workspace 4 silent, class:^(Steam)$"
@@ -336,9 +336,6 @@
 
     # OPEN RGB FOR DESKTOP and Custom commands
     extraConfig = ''
-      exec-once=openrgb -d "XPG Spectrix S40G" -m Off
-    
-    
       bind=SUPER,X,exec,sh "${config.xdg.configHome}/rofi/powermenu.sh"
       # powermenu submap
       bind=SUPER,X,submap,powermenu
@@ -351,6 +348,10 @@
 
       bind=,escape,submap,reset
       submap=reset
+    ''
+    +
+    lib.mkIf (lib.elem pkgs.openrgb-with-all-plugins config.environment.systemPackages) ''
+      exec-once=openrgb -d "XPG Spectrix S40G" -m Off
     '';
 
       # extraConfig = 
