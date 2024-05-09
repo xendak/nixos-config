@@ -74,11 +74,19 @@
     users.root = {
       hashedPasswordFile = "/persist/home/secrets/passwd-root";
     };
+    users.flakes = {
+      isNormalUser = true;
+      shell = pkgs.fish;
+      extraGroups = [ "audio" "video" "input" "wheel" ];
+      #password = "1";
+      hashedPasswordFile = "/persist/home/secrets/passwd-flakes";
+      packages = [ pkgs.home-manager ];
+    };
   };
   
   networking.useDHCP = lib.mkDefault true;
   networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
-  home = "Snow";
+  networking.hostName = "Snow";
 
   # GENSHIN PATCH ---------------------------
   networking.hosts = {
@@ -104,16 +112,6 @@
   };
 
 
-  users = {
-    users.flakes = {
-      isNormalUser = true;
-      shell = pkgs.fish;
-      extraGroups = [ "audio" "video" "input" "wheel" ];
-      #password = "1";
-      hashedPasswordFile = "/persist/home/secrets/passwd-flakes";
-      packages = [ pkgs.home-manager ];
-    };
-  };
 
   home-manager = {
     users.flakes = import ../../home/flakes/home.nix;

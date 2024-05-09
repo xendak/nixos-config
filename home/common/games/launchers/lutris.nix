@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ config, pkgs, lib, ... }: {
   home.packages = with pkgs; [ 
     (lutris.override {
       extraPkgs = pkgs: with pkgs; [ vulkan-loader vulkan-tools curl nghttp2 xdelta mangohud winetricks gamescope];

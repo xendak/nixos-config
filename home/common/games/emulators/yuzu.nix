@@ -1,6 +1,6 @@
-{ pkgs, config, ... }: 
+{ pkgs, config, inputs, ... }: 
 {
-  home.packages = with pkgs; [ yuzu-early-access ];
+  home.packages = [ inputs.suyu.packages.${pkgs.system}.suyu ];
 
   home.persistence = {
     "/persist/home/${config.home.username}" = {
