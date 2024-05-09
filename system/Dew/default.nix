@@ -8,7 +8,6 @@
     ../extras/kanata.nix
 
     inputs.hardware.nixosModules.common-cpu-intel
-    inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
     inputs.auto-cpufreq.nixosModules.default
 
@@ -146,7 +145,6 @@
   services = {
     acpid.enable = true;
     upower.enable = true;
-    fstrim.enable = true;
 
     # tlp = {
     #   enable = true;

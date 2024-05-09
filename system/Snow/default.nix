@@ -16,7 +16,7 @@
 
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
-  boot.kernelModules = [ "kvm-intel" "amdgpu" "i2c-dev" "i2c-i801" ];
+  boot.kernelModules = [ "kvm-intel" "amdgpu" "i2c-dev" "i2c-i801" "coretemp" ];
   boot.loader.systemd-boot.enable = true;
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
@@ -39,7 +39,7 @@
     "agenix-secrets" = {
       wantedBy = [ "default.target" ];
       wants = [ "agenix.service" ];
-      after = [ "agenix.service" "home-manager-drops.service" "kanata-laptop.service" ];
+      after = [ "agenix.service" "home-manager-flakes.service" "kanata-laptop.service" ];
       serviceConfig = {
         Type = "oneshot";
         ExecStart = let
@@ -47,7 +47,7 @@
             #!${pkgs.runtimeShell}
             mkdir -p /home/flakes/.ssh
             cat ${config.age.secrets.pw.path} > "/home/flakes/.ssh/id_ed25519"
-            chown drops:users /home/flakes/.ssh/id_ed25519
+            chown flakes:users /home/flakes/.ssh/id_ed25519
             chmod 600 /home/flakes/.ssh/id_ed25519
           '';
         in "${script}";
@@ -61,14 +61,17 @@
   programs.anime-game-launcher.enable = true;
   programs.honkers-railway-launcher.enable = true;
 
-  # NTFS-3G for Windows Partititions
   environment.systemPackages = [
     pkgs.ntfs3g
     pkgs.openrgb-with-all-plugins
     pkgs.i2c-tools
+    pkgs.qogir-icon-theme
+    pkgs.morewaita-icon-theme
+    pkgs.gnome.adwaita-icon-theme
+    config.boot.kernelPackages.cpupower
   ];
 
-  # User & Host -----------------------------
+ # User & Host -----------------------------
   users = {
     mutableUsers = false;
     users.root = {

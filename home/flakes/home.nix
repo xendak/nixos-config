@@ -15,7 +15,6 @@
     ../common/wayland/hyprland
 
     ../common/games
-    ../common/games
 
     #../common/games/lutris.nix
     #../common/games/steam.nix
@@ -72,7 +71,7 @@
     stateVersion = lib.mkDefault "23.11";
     sessionPath = ["$HOME/Flakes/bin"];
     persistence = {
-      "/persist/snow/flakes" = {
+      "/persist/home/flakes" = {
         directories = [
           "Flake"
           "Downloads"

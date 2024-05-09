@@ -7,7 +7,7 @@ import icons from "lib/icons"
 const options = mkOptions(OPTIONS, {
     autotheme: opt(false),
 
-    wallpaper: opt(`/persist/home/drops/Flake/home/drops/wallpaper/bg.png`, { persistent: true }),
+    wallpaper: opt(`/persist/home/drops/Flake/home/common/wallpapers/1.png`, { persistent: true }),
 
     theme: {
         dark: {
@@ -57,7 +57,7 @@ const options = mkOptions(OPTIONS, {
 
     font: {
         size: opt(13),
-        name: opt("Ubuntu Nerd Font"),
+        name: opt("Sofia Pro"),
     },
 
     bar: {

@@ -1,8 +1,6 @@
 { inputs, lib, pkgs, config, outputs, ... }:
 let
   inherit (inputs.nix-colors) colorSchemes;
-  # inherit (inputs.nix-colors.lib-contrib { inherit pkgs; }) colorschemeFromPicture nixWallpaperFromScheme;
-  sshKey = "/persist/home/secrets/agenix-${config.home.username}";
 in
 {
   imports = [
@@ -10,11 +8,6 @@ in
     inputs.nix-colors.homeManagerModule
     ../common/colors
   ] ++ (builtins.attrValues outputs.homeManagerModules);
-
-  home.file.".ssh/config".text = ''
-    Host github.com
-      IdentityFile ${sshKey}
-  '';
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;

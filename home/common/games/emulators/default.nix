@@ -1,6 +1,6 @@
 { ... }: {
   imports = [
-    ./yuzu.nix
+    ./suyu.nix
     ./retroarch.nix
   ];
 }

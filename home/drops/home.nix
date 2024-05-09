@@ -14,9 +14,9 @@
 
     ../common
     ../common/wayland
+    ../common/wayland/hyprland
 
     # ../common/wayland/swayfx
-    ../common/wayland/hyprland
     # ../common/wayland/hyprland/plugins/hyprbars.nix
     # ../common/wayland/hyprland/plugins/hyprexpo.nix
 

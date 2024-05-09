@@ -24,8 +24,8 @@ let
 
   im_width =
     if m.height == 1440 then "40" else if m.height == 1080 then "40" else "200";
-  wallpaper =
-    "/persist/home/${config.home.username}/Flake/home/common/programs/rofi/bg.png";
+  wallpaper = "/persist/home/${config.home.username}/Flake/home/common/wallpapers/1.png";
+  #wallpaper = "${config.home.wallpaper}";
 in {
   home.packages = with pkgs;
     [
