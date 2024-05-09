@@ -12,7 +12,7 @@
     };
     hyprland = {
       # url = "github:hyprwm/hyprland";
-      url = "git+https://github.com/hyprwm/Hyprland?submodules=1"; 
+      url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland-plugins = {
@@ -23,11 +23,7 @@
       url = "github:hyprwm/xdg-desktop-portal-hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    swayfx = {
-      url = "github:WillPower3309/swayfx";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
+    swayfx.url = "github:WillPower3309/swayfx";
     hyprwm-contrib.url = "github:hyprwm/contrib";
     hyprpicker.url = "github:hyprwm/hyprpicker";
     hyprland-portal.url = "github:hyprwm/xdg-desktop-portal-hyprland";
@@ -63,76 +59,73 @@
     };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      agenix,
-      hyprland,
-      aagl,
-      helix,
-      ...
-    }@inputs:
-    let
-      inherit (self) outputs;
-      forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" ];
-      forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
-    in
-    {
-      templates = import ./templates;
-      overlays = import ./overlays { inherit inputs; };
-      homeManagerModules = import ./modules/home-manager;
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    agenix,
+    hyprland,
+    aagl,
+    helix,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    forEachSystem = nixpkgs.lib.genAttrs ["x86_64-linux"];
+    forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
+  in {
+    templates = import ./templates;
+    overlays = import ./overlays {inherit inputs;};
+    homeManagerModules = import ./modules/home-manager;
 
-      packages = forEachPkgs (pkgs: import ./pkgs { inherit pkgs; });
-      # packages = forEachPkgs (pkgs: (import ./pkgs { inherit pkgs; }) // {
-      #     neovim = let
-      #       homeCfg = mkHome [ ./home/misterio/generic.nix ] pkgs;
-      #     in pkgs.writeShellScriptBin "nvim" ''
-      #       ${homeCfg.config.programs.neovim.finalPackage}/bin/nvim \
-      #       -u ${homeCfg.config.xdg.configFile."nvim/init.lua".source} \
-      #       "$@"
-      #     '';
-      #   });
-      devShells = forEachPkgs (pkgs: import ./shell.nix { inherit pkgs; });
-      formatter = forEachPkgs (pkgs: pkgs.nixpkgs-fmt);
+    packages = forEachPkgs (pkgs: import ./pkgs {inherit pkgs;});
+    # packages = forEachPkgs (pkgs: (import ./pkgs { inherit pkgs; }) // {
+    #     neovim = let
+    #       homeCfg = mkHome [ ./home/misterio/generic.nix ] pkgs;
+    #     in pkgs.writeShellScriptBin "nvim" ''
+    #       ${homeCfg.config.programs.neovim.finalPackage}/bin/nvim \
+    #       -u ${homeCfg.config.xdg.configFile."nvim/init.lua".source} \
+    #       "$@"
+    #     '';
+    #   });
+    devShells = forEachPkgs (pkgs: import ./shell.nix {inherit pkgs;});
+    formatter = forEachPkgs (pkgs: pkgs.nixpkgs-fmt);
 
-      nixosConfigurations = {
-        flakes = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          modules = [ ./system/Snow ];
+    nixosConfigurations = {
+      flakes = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
         };
-      };
-
-      nixosConfigurations = {
-        drops = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-          };
-          modules = [ ./system/Dew ];
-        };
-      };
-
-      homeConfigurations = {
-        "Snow@flakes" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = {
-            inherit inputs outputs;
-          };
-          modules = [ ./home/flakes/home.nix ];
-        };
-      };
-
-      homeConfigurations = {
-        "Dew@drops" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = {
-            inherit inputs outputs;
-          };
-          modules = [ ./home/drops/home.nix ];
-        };
+        modules = [./system/Snow];
       };
     };
+
+    nixosConfigurations = {
+      drops = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
+        };
+        modules = [./system/Dew];
+      };
+    };
+
+    homeConfigurations = {
+      "Snow@flakes" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        extraSpecialArgs = {
+          inherit inputs outputs;
+        };
+        modules = [./home/flakes/home.nix];
+      };
+    };
+
+    homeConfigurations = {
+      "Dew@drops" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        extraSpecialArgs = {
+          inherit inputs outputs;
+        };
+        modules = [./home/drops/home.nix];
+      };
+    };
+  };
 }

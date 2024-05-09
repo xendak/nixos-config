@@ -17,35 +17,25 @@
 
     # ../common/wayland/swayfx
     ../common/wayland/hyprland
-#    ../common/wayland/hyprland/plugins/hyprbars.nix
-#    ../common/wayland/hyprland/plugins/hyprexpo.nix
+    ../common/wayland/hyprland/plugins/hyprbars.nix
+    ../common/wayland/hyprland/plugins/hyprexpo.nix
 
-    ../common/games/steam.nix
+    ../common/games/launchers/steam.nix
     ../common/games/emulators/retroarch.nix
     ../common/programs/pass.nix
     ../common/programs/rustdesk.nix
   ];
 
-  programs = {
-    fish.loginShellInit = ''
-      if test (tty) = "/dev/tty1"
-        exec sway &> /dev/null
-      end
-    '';
-  };
-
   home.file = {
     ".ssh/known_hosts".source = ../common/ssh/known_hosts;
-    ".ssh/id_ed25519.pub".source = ../id_ed25519.pub;
+    ".ssh/id_ed25519.pub".source = ../common/ssh/id_ed25519.pub;
     ".ssh/config".source = pkgs.writeText "config" ''
       AddKeysToAgent yes
     '';
   };
 
   home.packages = with pkgs; [
-    mangohud
     gamescope
-    mpv
     obs-studio
 
     wineWowPackages.stable
@@ -58,9 +48,6 @@
     # keyboard
     qmk
     wally-cli
-    clang-tools
-
-    # ags
   ];
 
   programs = {
@@ -75,7 +62,7 @@
   home = {
     username = lib.mkDefault "drops";
     homeDirectory = lib.mkDefault "/home/drops/";
-    stateVersion = lib.mkDefault "24.05";
+    stateVersion = lib.mkDefault "23.11";
     sessionPath = ["$HOME/Flake/bin"];
     persistence = {
       "/persist/home/drops" = {

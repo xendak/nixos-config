@@ -336,6 +336,7 @@
 
     # OPEN RGB FOR DESKTOP and Custom commands
     extraConfig = ''
+      exec-once=openrgb -d "XPG Spectrix S40G" -m Off
       bind=SUPER,X,exec,sh "${config.xdg.configHome}/rofi/powermenu.sh"
       # powermenu submap
       bind=SUPER,X,submap,powermenu
@@ -348,10 +349,6 @@
 
       bind=,escape,submap,reset
       submap=reset
-    ''
-    +
-    lib.mkIf (lib.elem pkgs.openrgb-with-all-plugins config.environment.systemPackages) ''
-      exec-once=openrgb -d "XPG Spectrix S40G" -m Off
     '';
 
       # extraConfig = 

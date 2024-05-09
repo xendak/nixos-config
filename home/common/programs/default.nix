@@ -10,5 +10,6 @@
     ./terminal # ./kitty.nix ./fish.nix ./git.nix ./nvim
     ./kvantum
     ./zathura.nix
+    ./yt.nix
   ];
 }

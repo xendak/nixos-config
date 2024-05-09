@@ -1,6 +1,13 @@
-{ lib, config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, ... }:
 let
   colors = config.colorscheme.palette;
+  swayfx-unwrapped = (pkgs.swayfx-unwrapped.override {wlroots = pkgs.wlroots_0_16;}).overrideAttrs (old: {
+      #version = "0.4.0-git";
+      #src = pkgs.lib.cleanSource inputs.swayfx;
+      nativeBuildInputs = old.nativeBuildInputs ++ [pkgs.cmake];
+      #buildInputs = old.buildInputs ++ [ pkgs.scenefx pkgs.mesa pkgs.libdrm ];
+  });
+  # swayfx-unwrapped = inputs.swayfx.packages.${pkgs.system}.default;
 in
 {
   programs = {
@@ -16,7 +23,11 @@ in
     enable = true;
     systemd.enable = true;
     xwayland = true;
-    package = inputs.swayfx.packages.${pkgs.system}.default;
+    checkConfig = false;
+    #package = inputs.swayfx.packages.${pkgs.system}.default;
+    # package = pkgs.swayfx.override {inherit swayfx-unwrapped;};
+    #package = inputs.swayfx.packages.${pkgs.system}.swayfx-unwrapped; 
+    # package = pkgs.swayfx.override {inherit swayfx-unwrapped;};
     extraConfig = ''
       ## SWAYFX CONFIG
       corner_radius 14
@@ -67,7 +78,7 @@ in
           before-sleep 'waylock'
     '';
     config = {
-      terminal = "wezterm";
+      terminal = "kitty";
       menu = "rofi -show drun -matching fuzzy -sorting-method fzf -sort -theme \"${config.xdg.configHome}/rofi/config.rasi\"";
       modifier = "Mod4";
 
@@ -110,10 +121,10 @@ in
 
           "${mod}+Return" = "exec ${cfg.terminal}";
           "${mod}+Shift+q" = "reload";
-          "${mod}+Shift+s" = "exec 'pkill ags ; ags & disown'";
+          "${mod}+Shift+b" = "exec 'pkill ags ; ags & disown'";
           "${mod}+d" = "exec ${cfg.menu}";
           "${mod}+e" = "exec dolphin";
-          "${mod}+e" = "exec firefox";
+          "${mod}+w" = "exec firefox";
 
           "${mod}+v" = "exec 'swayscratch spad'";
           "${mod}+z" = "exec 'swayscratch smusicpad'";
@@ -137,18 +148,18 @@ in
           "${mod}+Shift+Up" = "move up";
           "${mod}+Shift+Right" = "move right";
 
-          "${mod}+Shift+b" = "splith";
+          "${mod}+Alt+b" = "splith";
           "${mod}+Shift+v" = "splitv";
           "${mod}+f" = "fullscreen";
           "${mod}+a" = "focus parent";
 
           "${mod}+s" = "layout stacking";
-          "${mod}+w" = "layout tabbed";
+          "${mod}+Shift+s" = "layout tabbed";
 
-          "${mod}+e" = "layout toggle split";
+          "${mod}+shift+e" = "layout toggle split";
 
-          "${mod}+Shift+space" = "floating toggle";
-          "${mod}+space" = "focus mode_toggle";
+          "${mod}+space" = "floating toggle";
+          "${mod}+Shift+space" = "focus mode_toggle";
 
           "${mod}+1" = "workspace number 1";
           "${mod}+2" = "workspace number 2";
@@ -184,7 +195,7 @@ in
           natural_scroll = "enabled";
         };
         "*" = {
-          xkb_layout = "algtr-intl";
+          xkb_layout = "algr-intl";
           xkb_options = "ctrl:nocaps";
         };
       };
@@ -194,7 +205,7 @@ in
           position = "0,0";
         };
       };
-
+      bars = [];
       gaps = {
         bottom = 5;
         horizontal = 5;

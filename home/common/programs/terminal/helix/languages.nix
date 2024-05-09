@@ -84,13 +84,18 @@ in {
     #   nil.formatting.command = [ "nixpkgs-fmt" ];
     # };
 
-    nixd = {
+    nixd-lsp = {
       command = lib.getExe pkgs.nixd;
-      config.nil.formatting.command = ["${lib.getExe pkgs.alejandra}" "-q"];
     };
   };
 
   language = [
+    {
+      name = "nix";
+      language-servers = ["nixd-lsp"];
+      formatter = ["${lib.getExe pkgs.alejandra}"];
+    }
+
     {
       name = "bash";
       inherit indent;

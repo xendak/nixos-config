@@ -28,7 +28,7 @@
     file = ../../secrets/pw.age;
     symlink = false;
     name = "id_ed25519";
-    owner = config.home.username;
+    owner = "flakes";
     group = "users";
     mode = "600";
   };
@@ -45,10 +45,10 @@
         ExecStart = let
           script = pkgs.writeScript "myuser-start" ''
             #!${pkgs.runtimeShell}
-            mkdir -p /home/snow/.ssh
-            cat ${config.age.secrets.pw.path} > "/home/snow/.ssh/id_ed25519"
-            chown drops:users /home/snow/.ssh/id_ed25519
-            chmod 600 /home/snow/.ssh/id_ed25519
+            mkdir -p /home/flakes/.ssh
+            cat ${config.age.secrets.pw.path} > "/home/flakes/.ssh/id_ed25519"
+            chown drops:users /home/flakes/.ssh/id_ed25519
+            chmod 600 /home/flakes/.ssh/id_ed25519
           '';
         in "${script}";
       };
@@ -150,6 +150,6 @@
 
   systemd.user.services.telephony_client.enable = false;
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "23.11";
 
 }

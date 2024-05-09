@@ -69,7 +69,7 @@
   home = {
     username = lib.mkDefault "flakes";
     homeDirectory = lib.mkDefault "/home/flakes/";
-    stateVersion = lib.mkDefault "24.05";
+    stateVersion = lib.mkDefault "23.11";
     sessionPath = ["$HOME/Flakes/bin"];
     persistence = {
       "/persist/snow/flakes" = {
