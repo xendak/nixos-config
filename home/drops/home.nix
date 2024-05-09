@@ -17,8 +17,8 @@
 
     # ../common/wayland/swayfx
     ../common/wayland/hyprland
-    ../common/wayland/hyprland/plugins/hyprbars.nix
-    ../common/wayland/hyprland/plugins/hyprexpo.nix
+    # ../common/wayland/hyprland/plugins/hyprbars.nix
+    # ../common/wayland/hyprland/plugins/hyprexpo.nix
 
     ../common/games/launchers/steam.nix
     ../common/games/emulators/retroarch.nix
