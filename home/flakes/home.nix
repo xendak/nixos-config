@@ -46,6 +46,8 @@
 
     # mkxp-z
 
+    foot
+
     eb-garamond
     blender
 

@@ -4,19 +4,19 @@
     inputs.ags.homeManagerModules.default
   ];
 
-  home.packages = with pkgs; [
+  home.packages = [
+    inputs.matugen.packages.${pkgs.system}.default
 
-    swww
-    glib
-    bun
-    dart-sass
-    fd
-    inputs.matugen.packages.${system}.default
+    pkgs.swww
+    pkgs.glib
+    pkgs.bun
+    pkgs.dart-sass
+    pkgs.fd
 
-    ollama
-    pywal
-    sassc
-    (python311.withPackages (p: [
+    pkgs.ollama
+    pkgs.pywal
+    pkgs.sassc
+    (pkgs.python311.withPackages (p: [
       p.material-color-utilities
       p.pywayland
     ]))

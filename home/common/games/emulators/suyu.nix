@@ -7,7 +7,7 @@
       directories = [ 
         ".local/share/suyu"
         ".config/suyu"
-        "Games/Emulators/Suyu"
+        "Games/Suyu"
       ];
       allowOther = true;
     };
