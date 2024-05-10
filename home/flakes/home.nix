@@ -40,9 +40,6 @@
   home.packages = with pkgs; [
     obs-studio
     mangohud
-    gamescope
-
-    wineWowPackages.stable
 
     # mkxp-z
 

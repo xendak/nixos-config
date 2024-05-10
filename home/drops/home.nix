@@ -20,6 +20,7 @@
     # ../common/wayland/hyprland/plugins/hyprbars.nix
     # ../common/wayland/hyprland/plugins/hyprexpo.nix
 
+    ../common/games/wine.nix
     ../common/games/launchers/steam.nix
     ../common/games/emulators/retroarch.nix
     ../common/programs/pass.nix
@@ -35,10 +36,7 @@
   };
 
   home.packages = with pkgs; [
-    gamescope
     obs-studio
-
-    wineWowPackages.stable
 
     eb-garamond
     blender
