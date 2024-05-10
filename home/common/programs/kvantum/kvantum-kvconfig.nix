@@ -1,5 +1,4 @@
-{ config, ... }:
-let 
+{config, ...}: let
   inherit (config.colorscheme) colors;
 in {
   home.file = {

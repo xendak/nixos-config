@@ -1,8 +1,10 @@
-{ pkgs, config, ... }:
-let 
-  c = config.colorscheme.palette;
-in
 {
+  pkgs,
+  config,
+  ...
+}: let
+  c = config.colorscheme.palette;
+in {
   programs.starship = {
     enable = true;
   };
@@ -10,7 +12,7 @@ in
     "$schema" = 'https://starship.rs/config-schema.json'
 
     format = """
-    ╭─\   
+    ╭─\
     [](color_green)\
     $os\
     $username\

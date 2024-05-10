@@ -22,7 +22,7 @@ in {
       name = config.fontProfiles.monospace.family;
       size = 12;
     };
-    keybindings = { "ctrl+backspace" = "send_text all \\x17"; };
+    keybindings = {"ctrl+backspace" = "send_text all \\x17";};
     settings = {
       window_padding_width = 15;
       allow_remote_control = "yes";

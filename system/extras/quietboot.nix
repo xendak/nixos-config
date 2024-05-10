@@ -1,6 +1,9 @@
-{ pkgs, config, ... }:
 {
-  boot = { 
+  pkgs,
+  config,
+  ...
+}: {
+  boot = {
     loader.timeout = 5;
     kernelParams = [
       "quiet"

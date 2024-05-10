@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   home.packages = with pkgs; [
     polkit_gnome
     pavucontrol
@@ -16,7 +15,7 @@
   ];
   xdg.mimeApps.enable = true;
   xdg.mimeApps.defaultApplications = {
-    "application/x-ms-dos-executable" = [ "wine.desktop" ];
+    "application/x-ms-dos-executable" = ["wine.desktop"];
   };
 
   i18n = {

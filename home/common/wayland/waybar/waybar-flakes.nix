@@ -1,11 +1,15 @@
-{ config, lib, pkgs, user, ... }:
 {
+  config,
+  lib,
+  pkgs,
+  user,
+  ...
+}: {
   nixpkgs.overlays = [
     (final: prev: {
-      waybar =
-        prev.waybar.overrideAttrs (oldAttrs: {
-          mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-        });
+      waybar = prev.waybar.overrideAttrs (oldAttrs: {
+        mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];
+      });
     })
   ];
 
@@ -87,9 +91,9 @@
       }
 
       window > box {
-        border-color: @crust; 
+        border-color: @crust;
         border-radius: 4px;
-        border-style: solid; 
+        border-style: solid;
         background-color: transparent;/* Keep transparent to blur */
       }
 
@@ -178,10 +182,9 @@
       #battery.charging {
         animation-name: none;
       }
-  '';
+    '';
 
-    settings = 
-    [
+    settings = [
       {
         "layer" = "top";
         "output" = "DP-1";
@@ -250,17 +253,17 @@
           "tooltip" = true;
           "tooltip-format" = "<span font='WenQuanYi Zen Hei Mono'><big>{:\t\t%Y %B \t week: %V }</big>\n<tt>{calendar}</tt></span>";
           "calendar" = {
-            "mode"           = "year";
-            "mode-mon-col"   = 3;
-            "weeks-pos"      = "right";
-            "on-scroll"      = 1;
+            "mode" = "year";
+            "mode-mon-col" = 3;
+            "weeks-pos" = "right";
+            "on-scroll" = 1;
             "on-click-right" = "mode";
             "format" = {
-              "months"=     "<span color='#ffead3'><b>{}</b></span>"; # TODO: FIX COLORS with base16
-              "days"=       "<span color='#ecc6d9'><b>{}</b></span>";
-              "weeks"=      "<span color='#99ffdd'><b>W{}</b></span>";
-              "weekdays"=   "<span color='#ffcc66'><b>{}</b></span>";
-              "today"=      "<span color='#ff6699'><b><u>{}</u></b></span>";
+              "months" = "<span color='#ffead3'><b>{}</b></span>"; # TODO: FIX COLORS with base16
+              "days" = "<span color='#ecc6d9'><b>{}</b></span>";
+              "weeks" = "<span color='#99ffdd'><b>W{}</b></span>";
+              "weekdays" = "<span color='#ffcc66'><b>{}</b></span>";
+              "today" = "<span color='#ff6699'><b><u>{}</u></b></span>";
             };
           };
         };
@@ -273,7 +276,6 @@
         #   "return-type" = "json";
         # };
 
-
         "custom/calendar" = {
           "format" = "<span font='Font Awesome 6 Pro' font_weight='medium' size='x-large' rise='-3pt'>&#xf784;</span> <span font_weight='medium'>{}</span>";
           "exec" = "date +%d%a%b";
@@ -281,19 +283,19 @@
           "tooltip" = true;
           "tooltip-format" = "<tt>{calendar}</tt>";
           "calendar" = {
-            "mode"           = "year";
-            "mode-mon-col"   = 3;
-            "weeks-pos"      = "right";
-            "on-scroll"      = 1;
+            "mode" = "year";
+            "mode-mon-col" = 3;
+            "weeks-pos" = "right";
+            "on-scroll" = 1;
             "on-click-right" = "mode";
             "format" = {
-                      "months"=     "<span color='#ffead3'><b>{}</b></span>"; # TODO: FIX COLORS with base16
-                      "days"=       "<span color='#ecc6d9'><b>{}</b></span>";
-                      "weeks"=      "<span color='#99ffdd'><b>W{}</b></span>";
-                      "weekdays"=   "<span color='#ffcc66'><b>{}</b></span>";
-                      "today"=      "<span color='#ff6699'><b><u>{}</u></b></span>";
-                      };
+              "months" = "<span color='#ffead3'><b>{}</b></span>"; # TODO: FIX COLORS with base16
+              "days" = "<span color='#ecc6d9'><b>{}</b></span>";
+              "weeks" = "<span color='#99ffdd'><b>W{}</b></span>";
+              "weekdays" = "<span color='#ffcc66'><b>{}</b></span>";
+              "today" = "<span color='#ff6699'><b><u>{}</u></b></span>";
             };
+          };
         };
 
         "network" = {
@@ -359,8 +361,10 @@
           "return-type" = "json";
           "interval" = 1;
           "exec" = "$HOME/.config/waybar/bluetooth-battery.sh";
-          /* "exec" = "$HOME/.config/waybar/modules/bluetooth-battery-waybar-module.sh"; 
-             "exec-if" = "bluetooth_battery_status.sh >/dev/null 2>&1"; */
+          /*
+          "exec" = "$HOME/.config/waybar/modules/bluetooth-battery-waybar-module.sh";
+          "exec-if" = "bluetooth_battery_status.sh >/dev/null 2>&1";
+          */
           "signal" = 9;
           "on-click" = "blueman-applet && blueman-manager";
         };
@@ -378,7 +382,7 @@
           "on-click" = "pkill -9 rofi || rofi -no-lazy-grab -show drun -theme $HOME/.config/rofi/config.rasi";
         };
 
-        "custom/mpris-media" = { 
+        "custom/mpris-media" = {
           "format" = "<span font='Font Awesome 6 Pro' size='x-large' font_weight='medium' rise='-2pt'>&#xf269;</span> {}";
           "return-type" = "json";
           "max-length" = 70;
@@ -433,11 +437,12 @@
             "Running" = "<span font='Font Awesome 6 Pro' rise='-2pt' size='large' font_weight='medium'>&#xe132;</span>";
           };
           "interval" = 1;
-          /*"exec" = "$HOME/.config/waybar/recording.sh";
-          "on-click" = "$HOME/.config/waybar/stop-recording.sh";*/
+          /*
+            "exec" = "$HOME/.config/waybar/recording.sh";
+          "on-click" = "$HOME/.config/waybar/stop-recording.sh";
+          */
         };
       }
     ];
   };
-
 }

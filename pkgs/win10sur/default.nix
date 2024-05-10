@@ -1,19 +1,19 @@
-{ lib
-, stdenvNoCC
-, gtk3
-, hicolor-icon-theme
-, numix-icon-theme-circle
-, jdupes
-, fetchgit
-, bash
-, colorVariants ? [ ] # default: black blue
-, circleFolders ?  false
-, whitePanel ? false
-}:
-
-let pname = "win10sur";
+{
+  lib,
+  stdenvNoCC,
+  gtk3,
+  hicolor-icon-theme,
+  numix-icon-theme-circle,
+  jdupes,
+  fetchgit,
+  bash,
+  colorVariants ? [], # default: black blue
+  circleFolders ? false,
+  whitePanel ? false,
+}: let
+  pname = "win10sur";
 in
-  lib.checkListOfEnum "${pname}: theme variants" [ 
+  lib.checkListOfEnum "${pname}: theme variants" [
     "purple"
     "pink"
     "red"
@@ -22,14 +22,13 @@ in
     "orange"
     "brown"
     "black"
-    "a" # all colors 
-  ] colorVariants
-
+    "a" # all colors
+  ]
+  colorVariants
   stdenvNoCC.mkDerivation
   rec {
     inherit pname;
     version = "2022-05-18";
-
 
     src = fetchgit {
       url = "https://github.com/yeyushengfan258/Win10Sur-icon-theme.git";
@@ -60,11 +59,11 @@ in
       runHook preInstall
 
       mkdir -p $out/share/icons
-      
+
       ./install.sh -d $out/share/icons \
         ${lib.optionalString (colorVariants != []) "-" + builtins.toString colorVariants} \
         ${lib.optionalString circleFolders "--circle"} \
-        ${lib.optionalString whitePanel "--white"} 
+        ${lib.optionalString whitePanel "--white"}
 
       jdupes --link-soft --recurse $out/share
       mv $out/share/icons/win10sur-2022-05-18-dark $out/share/icons/Win10SurDark

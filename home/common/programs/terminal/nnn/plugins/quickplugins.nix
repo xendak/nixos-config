@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   xdg.configFile."nnn/plugins/rg".source = pkgs.writeShellScript "rg" ''
     . "$(dirname "$0")"/.nnn-plugin-helper
 

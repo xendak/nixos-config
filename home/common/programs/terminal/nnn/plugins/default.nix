@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   imports = [
     ./preview-tui.nix
     ./fzcd.nix

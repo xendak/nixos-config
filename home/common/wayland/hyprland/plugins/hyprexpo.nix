@@ -20,7 +20,7 @@ in {
         gesture_distance = 300;
         gesture_positive = true;
       };
-      bind = [ "SUPERSHIFT, tab, hyprexpo:expo, toggle" ];
+      bind = ["SUPERSHIFT, tab, hyprexpo:expo, toggle"];
     };
   };
 }

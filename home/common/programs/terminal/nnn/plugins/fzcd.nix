@@ -1,5 +1,8 @@
-{ pkgs, config, ... }:
 {
+  pkgs,
+  config,
+  ...
+}: {
   xdg.configFile."nnn/plugins/fzcd".source = pkgs.writeShellScript "fzcd" ''
 
     # shellcheck disable=SC1090,SC1091

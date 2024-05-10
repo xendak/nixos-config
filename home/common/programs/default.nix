@@ -1,5 +1,4 @@
-{ ... }:
-{
+{...}: {
   imports = [
     ./rofi # might put pw-rofi sometime there
     ./ags.nix

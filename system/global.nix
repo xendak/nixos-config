@@ -1,10 +1,15 @@
-{ config, pkgs, lib, inputs, outputs, ... }:
-let
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  outputs,
+  ...
+}: let
   ENGLISH = "en_US.UTF-8";
   JAPANESE = "ja_JP.UTF-8";
   PORTUGUESE = "pt_BR.UTF-8";
-in
-{
+in {
   imports = [
     inputs.impermanence.nixosModules.impermanence
     inputs.home-manager.nixosModules.home-manager
@@ -13,7 +18,7 @@ in
     #inputs.hardware.nixosModules.common-gpu-amd
     #inputs.hardware.nixosModules.common-cpu-intel
     #inputs.hardware.nixosModules.common-pc-ssd
-    
+
     ./extras/fish.nix
     ./extras/fonts.nix
     ./openssh.nix
@@ -59,7 +64,7 @@ in
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
-    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
+    registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
 
     # This will additionally add your inputs to the system's legacy channels
     # Making legacy nix commands consistent as well, awesome!
@@ -78,12 +83,10 @@ in
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
         "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI="
       ];
- 
     };
   };
 
   hardware.enableRedistributableFirmware = true;
-
 
   environment.etc."/bluetooth/main.conf".text = ''
     [General]
@@ -101,7 +104,6 @@ in
 
   # XDG - PORTAL
   environment.systemPackages = with pkgs; [
-
     lm_sensors
     agenix
     libsForQt5.qtstyleplugins
@@ -118,8 +120,8 @@ in
   # };
 
   xdg.portal = {
-    extraPortals = [ pkgs.inputs.hyprland.xdg-desktop-portal-hyprland ];
-    configPackages = [ pkgs.inputs.hyprland.hyprland ];
+    extraPortals = [pkgs.inputs.hyprland.xdg-desktop-portal-hyprland];
+    configPackages = [pkgs.inputs.hyprland.hyprland];
   };
 
   # Persistence -----------------------------
@@ -149,8 +151,8 @@ in
   };
 
   # Services -----------------------------
-  services.dbus.packages = [ pkgs.gcr ];
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  services.dbus.packages = [pkgs.gcr];
+  services.udev.packages = with pkgs; [gnome.gnome-settings-daemon];
 
   services.udisks2.enable = true;
   services.fstrim.enable = true;
@@ -173,9 +175,8 @@ in
   time.hardwareClockInLocalTime = true;
   services.localtimed.enable = true;
 
-
   # locale configs
-  i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" "ja_JP.UTF-8/UTF-8" "pt_BR.UTF-8/UTF-8" ];
+  i18n.supportedLocales = ["en_US.UTF-8/UTF-8" "ja_JP.UTF-8/UTF-8" "pt_BR.UTF-8/UTF-8"];
   i18n.defaultLocale = lib.mkDefault ENGLISH;
   i18n.extraLocaleSettings = {
     LANG = JAPANESE;
@@ -199,9 +200,9 @@ in
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
-      wantedBy = [ "graphical-session.target" ];
-      wants = [ "graphical-session.target" ];
-      after = [ "graphical-session.target" ];
+      wantedBy = ["graphical-session.target"];
+      wants = ["graphical-session.target"];
+      after = ["graphical-session.target"];
       serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
@@ -213,5 +214,4 @@ in
   };
 
   system.stateVersion = "23.11";
-
 }

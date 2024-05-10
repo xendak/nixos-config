@@ -1,31 +1,57 @@
-{ pname, version, src, branchName
-, stdenv, lib, wrapQtAppsHook
-, cmake, pkg-config
-, libpulseaudio, libjack2, alsa-lib, sndio
-, vulkan-loader, vulkan-headers
-, qtbase, qtwebengine, qttools
-, nlohmann_json, rapidjson
-, zlib, zstd, libzip, lz4
-, glslang
-, boost
-, catch2_3
-, fmt_9
-, SDL2
-, udev
-, libusb1
-, ffmpeg
+{
+  pname,
+  version,
+  src,
+  branchName,
+  stdenv,
+  lib,
+  wrapQtAppsHook,
+  cmake,
+  pkg-config,
+  libpulseaudio,
+  libjack2,
+  alsa-lib,
+  sndio,
+  vulkan-loader,
+  vulkan-headers,
+  qtbase,
+  qtwebengine,
+  qttools,
+  nlohmann_json,
+  rapidjson,
+  zlib,
+  zstd,
+  libzip,
+  lz4,
+  glslang,
+  boost,
+  catch2_3,
+  fmt_9,
+  SDL2,
+  udev,
+  libusb1,
+  ffmpeg,
 }:
-
 stdenv.mkDerivation rec {
   inherit pname version src;
 
-  nativeBuildInputs = [ cmake pkg-config wrapQtAppsHook ];
+  nativeBuildInputs = [cmake pkg-config wrapQtAppsHook];
   buildInputs = [
-    libpulseaudio libjack2 alsa-lib sndio
-    vulkan-loader vulkan-headers
-    qtbase qtwebengine qttools
-    nlohmann_json rapidjson
-    zlib zstd libzip lz4
+    libpulseaudio
+    libjack2
+    alsa-lib
+    sndio
+    vulkan-loader
+    vulkan-headers
+    qtbase
+    qtwebengine
+    qttools
+    nlohmann_json
+    rapidjson
+    zlib
+    zstd
+    libzip
+    lz4
     glslang
     boost
     catch2_3
@@ -76,7 +102,7 @@ stdenv.mkDerivation rec {
       Using the early-access branch is recommanded if you would like to try out experimental features, with a cost of stability.
     '';
     license = licenses.gpl2Plus;
-    maintainers = with maintainers; [ ivar joshuafern ];
+    maintainers = with maintainers; [ivar joshuafern];
     platforms = platforms.linux;
     broken = stdenv.isAarch64; # Currently aarch64 is not supported.
   };

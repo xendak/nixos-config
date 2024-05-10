@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}:
+{pkgs, ...}:
 # {
 # 	home.sessionVariables = {
 # 	  QT_QPA_PLATFORMTHEME = "gtk2";

@@ -1,5 +1,9 @@
-{ pkgs, lib, config, ... }:
-let
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: let
   host = config.home;
 
   wipeScript = ''
@@ -40,8 +44,7 @@ let
     # we can unmount /mnt and continue on the boot process.
     umount /mnt
   '';
-
 in {
-	boot.initrd.supportedFilesystems = [ "btrfs" ];
-	boot.initrd.postDeviceCommands = pkgs.lib.mkBefore wipeScript; 
+  boot.initrd.supportedFilesystems = ["btrfs"];
+  boot.initrd.postDeviceCommands = pkgs.lib.mkBefore wipeScript;
 }

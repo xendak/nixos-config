@@ -1,24 +1,25 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  ...
+}:
 # old prompt
 # $username$hostname($shlvl)($cmd_duration) $fill ($nix_shell)$custom
 # $directory(${git})(${cloud}) $fill $time
 # $jobs$character
-
 # sym ᐉ
 {
   programs.starship = {
     enable = true;
     settings = {
-      format =
-        let
-          git = "  -> $git_branch$git_commit$git_state$git_status";
-          cloud = "  -> $aws$gcloud$openstack";
-        in
-        ''
-           $jobs  $hostname$username(${git})(${cloud})($cmd_duration)
-          ╭─[](yellow)[ ($nix_shell)($rust)($c)](bg:yellow fg:black)[](fg:black bg:yellow)$directory[](yellow) $fill
-          ╰─$character
-        '';
+      format = let
+        git = "  -> $git_branch$git_commit$git_state$git_status";
+        cloud = "  -> $aws$gcloud$openstack";
+      in ''
+         $jobs  $hostname$username(${git})(${cloud})($cmd_duration)
+        ╭─[](yellow)[ ($nix_shell)($rust)($c)](bg:yellow fg:black)[](fg:black bg:yellow)$directory[](yellow) $fill
+        ╰─$character
+      '';
       fill = {
         symbol = " ";
         disabled = false;
@@ -59,7 +60,7 @@
       };
       custom = {
         nix_inspect = let
-          excluded = [ "kitty" "imagemagick" "ncurses" "user-environment" ];
+          excluded = ["kitty" "imagemagick" "ncurses" "user-environment"];
         in {
           disabled = false;
           when = "test -z $IN_NIX_SHELL";
@@ -98,7 +99,7 @@
       git_commit.style = "bold green";
       git_state.style = "bold green";
       git_status.style = "bold green";
-      
+
       # style change try
       c = {
         format = "[$symbol]($style)";

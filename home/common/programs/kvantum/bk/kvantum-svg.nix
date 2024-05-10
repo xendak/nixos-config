@@ -1,5 +1,4 @@
-{ config, ... }:
-let 
+{config, ...}: let
   inherit (config.colorscheme) colors;
 in {
   home.file = {
@@ -1884,7 +1883,7 @@ in {
         <path id="checkbox-tristate-focused" d="m413.08 230.09a8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8zm-4 7h8v2h-8z" fill="#CHECKBOX_INACTIVE#" stroke-width="0" style="paint-order:stroke fill markers"/>
         </svg>
 
-        '';
-      };
+      '';
+    };
   };
 }

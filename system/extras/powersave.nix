@@ -1,4 +1,4 @@
-    #echo 0 > /proc/sys/kernel/nmi_watchdog
+#echo 0 > /proc/sys/kernel/nmi_watchdog
 let
   script = ''
     echo 1500 > /proc/sys/vm/dirty_writeback_centisecs

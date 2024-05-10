@@ -1,5 +1,10 @@
-{ config, lib, pkgs, user, ... }:
 {
+  config,
+  lib,
+  pkgs,
+  user,
+  ...
+}: {
   home.packages = with pkgs; [
     #cinnamon.nemo
     #gnome.nautilus
@@ -10,9 +15,8 @@
   home.persistence = {
     "/persist/home/${config.home.username}" = {
       allowOther = true;
-      directories = [ ".local/share/dolphin" ];
-      files = [ ".config/dolphinrc" ];
+      directories = [".local/share/dolphin"];
+      files = [".config/dolphinrc"];
     };
   };
 }
-

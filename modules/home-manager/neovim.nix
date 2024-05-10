@@ -1,39 +1,44 @@
-{ config, lib, pkgs, inputs, ... }: # TODO remove `inputs`
-
-with lib;
-
-let
-
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+# TODO remove `inputs`
+with lib; let
   cfg = config.programs.neovim;
 
   # TODO change back to `../lib` before upstreaming
-  fileType = (import "${inputs.home-manager}/modules/lib/file-type.nix" {
-    inherit (config.home) homeDirectory;
-    inherit lib pkgs;
-  }).fileType;
+  fileType =
+    (import "${inputs.home-manager}/modules/lib/file-type.nix" {
+      inherit (config.home) homeDirectory;
+      inherit lib pkgs;
+    })
+    .fileType;
 
-  jsonFormat = pkgs.formats.json { };
+  jsonFormat = pkgs.formats.json {};
 
   pluginWithConfigType = types.submodule {
     options = {
       config = mkOption {
         type = types.nullOr types.lines;
-        description =
-          "Script to configure this plugin. The scripting language should match type.";
+        description = "Script to configure this plugin. The scripting language should match type.";
         default = null;
       };
 
       type = mkOption {
         type =
-          types.either (types.enum [ "lua" "viml" "teal" "fennel" ]) types.str;
-        description =
-          "Language used in config. Configurations are aggregated per-language.";
+          types.either (types.enum ["lua" "viml" "teal" "fennel"]) types.str;
+        description = "Language used in config. Configurations are aggregated per-language.";
         default = "viml";
       };
 
-      optional = mkEnableOption "optional" // {
-        description = "Don't load by default (load with :packadd)";
-      };
+      optional =
+        mkEnableOption "optional"
+        // {
+          description = "Don't load by default (load with :packadd)";
+        };
 
       plugin = mkOption {
         type = types.package;
@@ -41,7 +46,7 @@ let
       };
 
       runtime = mkOption {
-        default = { };
+        default = {};
         # passing actual "${xdg.configHome}/nvim" as basePath was a bit tricky
         # due to how fileType.target is implemented
         type = fileType "<varname>xdg.configHome/nvim</varname>" "nvim";
@@ -55,39 +60,41 @@ let
     };
   };
 
-  allPlugins = cfg.plugins ++ optional cfg.coc.enable {
-    type = "viml";
-    plugin = cfg.coc.package;
-    config = cfg.coc.pluginConfig;
-    optional = false;
-  };
+  allPlugins =
+    cfg.plugins
+    ++ optional cfg.coc.enable {
+      type = "viml";
+      plugin = cfg.coc.package;
+      config = cfg.coc.pluginConfig;
+      optional = false;
+    };
 
   luaPackages = cfg.finalPackage.unwrapped.lua.pkgs;
   resolvedExtraLuaPackages = cfg.extraLuaPackages luaPackages;
 
-  extraMakeWrapperArgs = lib.optionalString (cfg.extraPackages != [ ])
+  extraMakeWrapperArgs =
+    lib.optionalString (cfg.extraPackages != [])
     ''--suffix PATH : "${lib.makeBinPath cfg.extraPackages}"'';
-  extraMakeWrapperLuaCArgs =
-    lib.optionalString (resolvedExtraLuaPackages != [ ]) ''
-      --suffix LUA_CPATH ";" "${
-        lib.concatMapStringsSep ";" luaPackages.getLuaCPath
-        resolvedExtraLuaPackages
-      }"'';
-  extraMakeWrapperLuaArgs = lib.optionalString (resolvedExtraLuaPackages != [ ])
+  extraMakeWrapperLuaCArgs = lib.optionalString (resolvedExtraLuaPackages != []) ''
+    --suffix LUA_CPATH ";" "${
+      lib.concatMapStringsSep ";" luaPackages.getLuaCPath
+      resolvedExtraLuaPackages
+    }"'';
+  extraMakeWrapperLuaArgs =
+    lib.optionalString (resolvedExtraLuaPackages != [])
     ''
       --suffix LUA_PATH ";" "${
         lib.concatMapStringsSep ";" luaPackages.getLuaPath
         resolvedExtraLuaPackages
       }"'';
-in
-{
-  disabledModules = [ "programs/neovim.nix" ]; # TODO remove me
+in {
+  disabledModules = ["programs/neovim.nix"]; # TODO remove me
   imports = [
-    (mkRemovedOptionModule [ "programs" "neovim" "withPython" ]
+    (mkRemovedOptionModule ["programs" "neovim" "withPython"]
       "Python2 support has been removed from neovim.")
-    (mkRemovedOptionModule [ "programs" "neovim" "extraPythonPackages" ]
+    (mkRemovedOptionModule ["programs" "neovim" "extraPythonPackages"]
       "Python2 support has been removed from neovim.")
-    (mkRemovedOptionModule [ "programs" "neovim" "configure" ] ''
+    (mkRemovedOptionModule ["programs" "neovim" "configure"] ''
       programs.neovim.configure is deprecated.
             Other programs.neovim options can override its settings or ignore them.
             Please use the other options at your disposal:
@@ -155,18 +162,19 @@ in
         # In case we get a plain list, we need to turn it into a function,
         # as expected by the function in nixpkgs.
         # The only way to do so is to call `const`, which will ignore its input.
-        type = with types;
-          let fromType = listOf package;
-          in coercedTo fromType
-            (flip warn const ''
-              Assigning a plain list to extraPython3Packages is deprecated.
-                     Please assign a function taking a package set as argument, so
-                       extraPython3Packages = [ pkgs.python3Packages.xxx ];
-                     should become
-                       extraPython3Packages = ps: [ ps.xxx ];
-            '')
-            (functionTo fromType);
-        default = _: [ ];
+        type = with types; let
+          fromType = listOf package;
+        in
+          coercedTo fromType
+          (flip warn const ''
+            Assigning a plain list to extraPython3Packages is deprecated.
+                   Please assign a function taking a package set as argument, so
+                     extraPython3Packages = [ pkgs.python3Packages.xxx ];
+                   should become
+                     extraPython3Packages = ps: [ ps.xxx ];
+          '')
+          (functionTo fromType);
+        default = _: [];
         defaultText = literalExpression "ps: [ ]";
         example =
           literalExpression "pyPkgs: with pyPkgs; [ python-language-server ]";
@@ -182,18 +190,19 @@ in
       # Lua packageset to evaluate the function that this option was set to.
       # This ensures that we always use the same Lua version as the Neovim package.
       extraLuaPackages = mkOption {
-        type = with types;
-          let fromType = listOf package;
-          in coercedTo fromType
-            (flip warn const ''
-              Assigning a plain list to extraLuaPackages is deprecated.
-                     Please assign a function taking a package set as argument, so
-                       extraLuaPackages = [ pkgs.lua51Packages.xxx ];
-                     should become
-                       extraLuaPackages = ps: [ ps.xxx ];
-            '')
-            (functionTo fromType);
-        default = _: [ ];
+        type = with types; let
+          fromType = listOf package;
+        in
+          coercedTo fromType
+          (flip warn const ''
+            Assigning a plain list to extraLuaPackages is deprecated.
+                   Please assign a function taking a package set as argument, so
+                     extraLuaPackages = [ pkgs.lua51Packages.xxx ];
+                   should become
+                     extraLuaPackages = ps: [ ps.xxx ];
+          '')
+          (functionTo fromType);
+        default = _: [];
         defaultText = literalExpression "ps: [ ]";
         example = literalExpression "luaPkgs: with luaPkgs; [ luautf8 ]";
         description = ''
@@ -281,13 +290,13 @@ in
 
       extraPackages = mkOption {
         type = with types; listOf package;
-        default = [ ];
+        default = [];
         example = literalExpression "[ pkgs.shfmt ]";
         description = "Extra packages available to nvim.";
       };
 
       extraRuntime = mkOption {
-        default = { };
+        default = {};
         # passing actual "${xdg.configHome}/nvim" as basePath was a bit tricky
         # due to how fileType.target is implemented
         type = fileType "<varname>xdg.configHome/nvim</varname>" "nvim";
@@ -301,7 +310,7 @@ in
 
       plugins = mkOption {
         type = with types; listOf (either package pluginWithConfigType);
-        default = [ ];
+        default = [];
         example = literalExpression ''
           with pkgs.vimPlugins; [
             yankring
@@ -333,7 +342,7 @@ in
 
         settings = mkOption {
           inherit (jsonFormat) type;
-          default = { };
+          default = {};
           example = literalExpression ''
             {
               "suggest.noselect" = true;
@@ -374,69 +383,77 @@ in
     };
   };
 
-  config =
-    let
-      defaultPlugin = {
-        type = "viml";
-        plugin = null;
-        config = null;
-        optional = false;
-        runtime = { };
-      };
+  config = let
+    defaultPlugin = {
+      type = "viml";
+      plugin = null;
+      config = null;
+      optional = false;
+      runtime = {};
+    };
 
-      # transform all plugins into a standardized attrset
-      pluginsNormalized =
-        map (x: defaultPlugin // (if (x ? plugin) then x else { plugin = x; }))
-          allPlugins;
+    # transform all plugins into a standardized attrset
+    pluginsNormalized = map (x:
+      defaultPlugin
+      // (
+        if (x ? plugin)
+        then x
+        else {plugin = x;}
+      ))
+    allPlugins;
 
-      suppressNotVimlConfig = p:
-        if p.type != "viml" then p // { config = null; } else p;
+    suppressNotVimlConfig = p:
+      if p.type != "viml"
+      then p // {config = null;}
+      else p;
 
-      neovimConfig = pkgs.neovimUtils.makeNeovimConfig {
-        inherit (cfg) extraPython3Packages withPython3 withRuby viAlias vimAlias;
-        withNodeJs = cfg.withNodeJs || cfg.coc.enable;
-        plugins = map suppressNotVimlConfig pluginsNormalized;
-        customRC = cfg.extraConfig;
-      };
-
-    in
+    neovimConfig = pkgs.neovimUtils.makeNeovimConfig {
+      inherit (cfg) extraPython3Packages withPython3 withRuby viAlias vimAlias;
+      withNodeJs = cfg.withNodeJs || cfg.coc.enable;
+      plugins = map suppressNotVimlConfig pluginsNormalized;
+      customRC = cfg.extraConfig;
+    };
+  in
     mkIf cfg.enable {
-
       programs.neovim.generatedConfigViml = neovimConfig.neovimRcContent;
 
-      programs.neovim.generatedConfigs =
-        let
-          grouped = lib.lists.groupBy (x: x.type) pluginsNormalized;
-          concatConfigs = lib.concatMapStrings (p: p.config);
-          configsOnly = lib.foldl
-            (acc: p: if p.config != null then acc ++ [ p.config ] else acc) [ ];
-        in
+      programs.neovim.generatedConfigs = let
+        grouped = lib.lists.groupBy (x: x.type) pluginsNormalized;
+        concatConfigs = lib.concatMapStrings (p: p.config);
+        configsOnly =
+          lib.foldl
+          (acc: p:
+            if p.config != null
+            then acc ++ [p.config]
+            else acc) [];
+      in
         mapAttrs (name: vals: lib.concatStringsSep "\n" (configsOnly vals))
-          grouped;
+        grouped;
 
-      home.packages = [ cfg.finalPackage ];
+      home.packages = [cfg.finalPackage];
 
-      home.sessionVariables = mkIf cfg.defaultEditor { EDITOR = "nvim"; };
+      home.sessionVariables = mkIf cfg.defaultEditor {EDITOR = "nvim";};
 
-      xdg.configFile =
-        let hasLuaConfig = hasAttr "lua" config.programs.neovim.generatedConfigs;
-        in mkMerge (
-          (map (x: x.runtime) pluginsNormalized) ++
-          [
+      xdg.configFile = let
+        hasLuaConfig = hasAttr "lua" config.programs.neovim.generatedConfigs;
+      in
+        mkMerge (
+          (map (x: x.runtime) pluginsNormalized)
+          ++ [
             cfg.extraRuntime
             {
-              "nvim/init.lua" =
-                let
-                  luaRcContent =
-                    lib.optionalString (neovimConfig.neovimRcContent != "")
-                      "vim.cmd [[source ${
-                  pkgs.writeText "nvim-init-home-manager.vim"
-                  neovimConfig.neovimRcContent
-                }]]" + config.programs.neovim.extraLuaConfig
-                    + lib.optionalString hasLuaConfig
-                      config.programs.neovim.generatedConfigs.lua;
-                in
-                mkIf (luaRcContent != "") { text = luaRcContent; };
+              "nvim/init.lua" = let
+                luaRcContent =
+                  lib.optionalString (neovimConfig.neovimRcContent != "")
+                  "vim.cmd [[source ${
+                    pkgs.writeText "nvim-init-home-manager.vim"
+                    neovimConfig.neovimRcContent
+                  }]]"
+                  + config.programs.neovim.extraLuaConfig
+                  + lib.optionalString hasLuaConfig
+                  config.programs.neovim.generatedConfigs.lua;
+              in
+                mkIf (luaRcContent != "") {text = luaRcContent;};
 
               "nvim/coc-settings.json" = mkIf cfg.coc.enable {
                 source = jsonFormat.generate "coc-settings.json" cfg.coc.settings;
@@ -445,16 +462,23 @@ in
           ]
         );
 
-      programs.neovim.finalPackage = pkgs.wrapNeovimUnstable cfg.package
-        (neovimConfig // {
-          wrapperArgs = (lib.escapeShellArgs neovimConfig.wrapperArgs) + " "
-            + extraMakeWrapperArgs + " " + extraMakeWrapperLuaCArgs + " "
-            + extraMakeWrapperLuaArgs;
-          wrapRc = false;
-        });
+      programs.neovim.finalPackage =
+        pkgs.wrapNeovimUnstable cfg.package
+        (neovimConfig
+          // {
+            wrapperArgs =
+              (lib.escapeShellArgs neovimConfig.wrapperArgs)
+              + " "
+              + extraMakeWrapperArgs
+              + " "
+              + extraMakeWrapperLuaCArgs
+              + " "
+              + extraMakeWrapperLuaArgs;
+            wrapRc = false;
+          });
 
-      programs.bash.shellAliases = mkIf cfg.vimdiffAlias { vimdiff = "nvim -d"; };
-      programs.fish.shellAliases = mkIf cfg.vimdiffAlias { vimdiff = "nvim -d"; };
-      programs.zsh.shellAliases = mkIf cfg.vimdiffAlias { vimdiff = "nvim -d"; };
+      programs.bash.shellAliases = mkIf cfg.vimdiffAlias {vimdiff = "nvim -d";};
+      programs.fish.shellAliases = mkIf cfg.vimdiffAlias {vimdiff = "nvim -d";};
+      programs.zsh.shellAliases = mkIf cfg.vimdiffAlias {vimdiff = "nvim -d";};
     };
 }

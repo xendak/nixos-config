@@ -1,10 +1,9 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   imports = [
     ./plugins
   ];
   home.packages = with pkgs; [
-    (nnn.override { withNerdIcons = true; })
+    (nnn.override {withNerdIcons = true;})
   ];
 
   home.sessionVariables = {

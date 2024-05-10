@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-let
+{pkgs, ...}: let
   nnn = pkgs.vimUtils.buildVimPlugin {
     name = "nnn";
     src = pkgs.fetchFromGitHub {
@@ -9,8 +8,7 @@ let
       hash = "sha256-ZLokeEA70pdVmKOjK5vB8tRE0zGHicsunIHgW1Px0sw=";
     };
   };
-in
-{
+in {
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [
       vim-nix

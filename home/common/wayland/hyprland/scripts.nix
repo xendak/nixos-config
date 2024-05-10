@@ -1,5 +1,8 @@
-{ pkgs, config, ... }:
 {
+  pkgs,
+  config,
+  ...
+}: {
   xdg.configFile."hypr/scripts/sound_sink_toggle.sh".source = pkgs.writeShellScript "sound_sink_toggle.sh" ''
     devices=()
 
@@ -64,4 +67,3 @@
     exec $player_name
   '';
 }
-

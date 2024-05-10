@@ -1,4 +1,10 @@
-{ inputs, lib, config, pkgs, ... }: {
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.hyprland.homeManagerModules.default
     ./scripts.nix
@@ -25,7 +31,7 @@
   # });
 
   wayland.windowManager.hyprland = {
-    enable = true;  
+    enable = true;
 
     settings = let
       rofi = "${pkgs.rofi}/bin/rofi";
@@ -43,26 +49,29 @@
         "hyprctl setcursor '${config.gtk.cursorTheme.name}' 36"
         "swayidle -w"
       ];
-      
 
       debug = {
         disable_logs = false;
       };
 
-      monitor = map (m: let
-        resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
-        position = "${toString m.x}x${toString m.y}";
-      in
-        "${m.name},${if m.enabled then "${resolution},${position},1" else "disable"}"
+      monitor = map (
+        m: let
+          resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
+          position = "${toString m.x}x${toString m.y}";
+        in "${m.name},${
+          if m.enabled
+          then "${resolution},${position},1"
+          else "disable"
+        }"
       ) (config.monitors);
 
-      workspace = map (m:
-        "${m.name},${m.workspace}"
-        ) (lib.filter (m: m.enabled && m.workspace != null) config.monitors);
+      workspace = map (
+        m: "${m.name},${m.workspace}"
+      ) (lib.filter (m: m.enabled && m.workspace != null) config.monitors);
 
-        # monitor = [
-        #   ",preferred,auto,1"
-        # ];
+      # monitor = [
+      #   ",preferred,auto,1"
+      # ];
 
       general = {
         gaps_in = 5;
@@ -94,32 +103,32 @@
           brightness = 0.8;
           popups = true;
         };
-      }; 
+      };
 
-    animations = {
-      enabled = true;
+      animations = {
+        enabled = true;
 
-      bezier = [ 
-        "easein,0.11, 0, 0.5, 0"
-        "easeout,0.5, 1, 0.89, 1"
-        "easeinout,0.45, 0, 0.55, 1"
-        "whoa,0.68,0.25,0.265,1.25"
-        "smooth,0.445,0.05,0.55,0.95"
-        "slow,0,0.85,0.3,1"
-        "overshot,0.7,0.6,0.1,1.1"
-      ];
+        bezier = [
+          "easein,0.11, 0, 0.5, 0"
+          "easeout,0.5, 1, 0.89, 1"
+          "easeinout,0.45, 0, 0.55, 1"
+          "whoa,0.68,0.25,0.265,1.25"
+          "smooth,0.445,0.05,0.55,0.95"
+          "slow,0,0.85,0.3,1"
+          "overshot,0.7,0.6,0.1,1.1"
+        ];
 
-      animation = [
-        "windowsIn,1,3,easeout,slide"
-        "windowsOut,1,3,easein,slide"
-        "windowsMove,1,0.5,easeout"
-        "fadeIn,1,3,easeout"
-        "fadeOut,1,3,easein"
-        "fadeSwitch,1,3,easeout"
-        "fadeShadow,1,3,easeout"
-        "fadeDim,1,3,easeout"
-        "border,1,3,easeout"
-        "workspaces,1,2,easeout,slide"
+        animation = [
+          "windowsIn,1,3,easeout,slide"
+          "windowsOut,1,3,easein,slide"
+          "windowsMove,1,0.5,easeout"
+          "fadeIn,1,3,easeout"
+          "fadeOut,1,3,easein"
+          "fadeSwitch,1,3,easeout"
+          "fadeShadow,1,3,easeout"
+          "fadeDim,1,3,easeout"
+          "border,1,3,easeout"
+          "workspaces,1,2,easeout,slide"
         ];
       };
 
@@ -128,7 +137,7 @@
         vrr = 1;
         mouse_move_enables_dpms = true;
       };
-    
+
       gestures = {
         workspace_swipe = true;
       };
@@ -223,96 +232,96 @@
         termbrowser = config.home.sessionVariables.TERMBROWSER;
         print = "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d-%M)";
         tmpprint = "$HOME/Games/tmp/Screenshots/$(date +%Y-%m-%d-%M-%S)";
-      in [
-        "SUPER, Return,       exec,     ${terminal}"
-        "SUPERSHIFT, Return,  exec,     ${terminal} --class f_terminal"
-        "SUPER, W,            exec,     ${browser}"
-        "SUPER, E,            exec,     ${filebrowser}"
-        "SUPERSHIFT, E,       exec,     ${terminal} --class f_terminal -e $SHELL -ic '${termbrowser} -ndeiH'"
-        "ALTSHIFT,   E,       exec,     ${terminal} -e $SHELL -ic '${termbrowser} -ndeiH'"
-        "SUPER, D,            exec,     rofi -show drun -matching fuzzy -sorting-method fzf -sort -theme \"${config.xdg.configHome}/rofi/config.rasi\""
-        "SUPER, R,            ${e} -t applauncher"
-        "SUPER, O,            ${e} -t overview"
-        "SUPER, M,            ${e} -t datemenu"
-        "SUPER, B,            ${e} -t quicksettings"
-        ",XF86PowerOff,       ${e} -r 'powermenu.shutdown()'"
-        # ",XF86Launch4,   ${e} -r 'recorder.start()'"
-        # ",Print,         ${e} -r 'recorder.screenshot()'"
-        # "SHIFT,Print,    ${e} -r 'recorder.screenshot(true)'"
+      in
+        [
+          "SUPER, Return,       exec,     ${terminal}"
+          "SUPERSHIFT, Return,  exec,     ${terminal} --class f_terminal"
+          "SUPER, W,            exec,     ${browser}"
+          "SUPER, E,            exec,     ${filebrowser}"
+          "SUPERSHIFT, E,       exec,     ${terminal} --class f_terminal -e $SHELL -ic '${termbrowser} -ndeiH'"
+          "ALTSHIFT,   E,       exec,     ${terminal} -e $SHELL -ic '${termbrowser} -ndeiH'"
+          "SUPER, D,            exec,     rofi -show drun -matching fuzzy -sorting-method fzf -sort -theme \"${config.xdg.configHome}/rofi/config.rasi\""
+          "SUPER, R,            ${e} -t applauncher"
+          "SUPER, O,            ${e} -t overview"
+          "SUPER, M,            ${e} -t datemenu"
+          "SUPER, B,            ${e} -t quicksettings"
+          ",XF86PowerOff,       ${e} -r 'powermenu.shutdown()'"
+          # ",XF86Launch4,   ${e} -r 'recorder.start()'"
+          # ",Print,         ${e} -r 'recorder.screenshot()'"
+          # "SHIFT,Print,    ${e} -r 'recorder.screenshot(true)'"
 
-        "SUPER, Tab, focuscurrentorlast"
-        "SUPER, Q, killactive"
-        "SUPERSHIFT, space, togglefloating"
-        "SUPERSHIFT, F, fullscreen"
-        "SUPER, F, fullscreen, 1"
-        "SUPER, P, togglesplit"
-        "ALT, Tab, togglespecialworkspace"
-        "ALTSHIFT, tab, movetoworkspace, special"
+          "SUPER, Tab, focuscurrentorlast"
+          "SUPER, Q, killactive"
+          "SUPERSHIFT, space, togglefloating"
+          "SUPERSHIFT, F, fullscreen"
+          "SUPER, F, fullscreen, 1"
+          "SUPER, P, togglesplit"
+          "ALT, Tab, togglespecialworkspace"
+          "ALTSHIFT, tab, movetoworkspace, special"
 
-        ",Print, exec, ${grimblast} --notify copysave output \"${print}_full.png\""
-        "SHIFT,Print, exec, ${grimblast} --notify copysave active \"${print}_active.png\""
-        "ALTSHIFT,S, exec, ${grimblast} --notify copysave area \"${print}_snip.png\""
-        "ALTSHIFT,C, exec, ${grimblast} --notify copysave area \"${tmpprint}_snip.png\""
+          ",Print, exec, ${grimblast} --notify copysave output \"${print}_full.png\""
+          "SHIFT,Print, exec, ${grimblast} --notify copysave active \"${print}_active.png\""
+          "ALTSHIFT,S, exec, ${grimblast} --notify copysave area \"${print}_snip.png\""
+          "ALTSHIFT,C, exec, ${grimblast} --notify copysave area \"${tmpprint}_snip.png\""
 
-        (mvfocus "k" "u")
-        (mvfocus "j" "d")
-        (mvfocus "l" "r")
-        (mvfocus "h" "l")
-        (mvtows "left" "e-1")
-        (mvtows "right" "e+1")
-        (resizeactive "k" "0 -20")
-        (resizeactive "j" "0 20")
-        (resizeactive "l" "20 0")
-        (resizeactive "h" "-20 0")
-        (mvactive "k" "0 -20")
-        (mvactive "j" "0 20")
-        (mvactive "l" "20 0")
-        (mvactive "h" "-20 0")
+          (mvfocus "k" "u")
+          (mvfocus "j" "d")
+          (mvfocus "l" "r")
+          (mvfocus "h" "l")
+          (mvtows "left" "e-1")
+          (mvtows "right" "e+1")
+          (resizeactive "k" "0 -20")
+          (resizeactive "j" "0 20")
+          (resizeactive "l" "20 0")
+          (resizeactive "h" "-20 0")
+          (mvactive "k" "0 -20")
+          (mvactive "j" "0 20")
+          (mvactive "l" "20 0")
+          (mvactive "h" "-20 0")
 
-        # with arrow keys
-        (mvfocus "up" "u")
-        (mvfocus "down" "d")
-        (mvfocus "right" "r")
-        (mvfocus "left" "l")
-        (resizeactive "up" "0 -20")
-        (resizeactive "down" "0 20")
-        (resizeactive "right" "20 0")
-        (resizeactive "left" "-20 0")
-        (mvactive "up" "0 -20")
-        (mvactive "down" "0 20")
-        (mvactive "right" "20 0")
-        (mvactive "left" "-20 0")
+          # with arrow keys
+          (mvfocus "up" "u")
+          (mvfocus "down" "d")
+          (mvfocus "right" "r")
+          (mvfocus "left" "l")
+          (resizeactive "up" "0 -20")
+          (resizeactive "down" "0 20")
+          (resizeactive "right" "20 0")
+          (resizeactive "left" "-20 0")
+          (mvactive "up" "0 -20")
+          (mvactive "down" "0 20")
+          (mvactive "right" "20 0")
+          (mvactive "left" "-20 0")
 
-        # monitor kbs
-        (focusmon "k" "u")
-        (focusmon "j" "d")
-        (focusmon "l" "r")
-        (focusmon "h" "l")
-        (worktomon "k" "u")
-        (worktomon "j" "d")
-        (worktomon "l" "r")
-        (worktomon "h" "l")
-        (wintomon "k" "mon:u")
-        (wintomon "j" "mon:d")
-        (wintomon "l" "mon:r")
-        (wintomon "h" "mon:l")
+          # monitor kbs
+          (focusmon "k" "u")
+          (focusmon "j" "d")
+          (focusmon "l" "r")
+          (focusmon "h" "l")
+          (worktomon "k" "u")
+          (worktomon "j" "d")
+          (worktomon "l" "r")
+          (worktomon "h" "l")
+          (wintomon "k" "mon:u")
+          (wintomon "j" "mon:d")
+          (wintomon "l" "mon:r")
+          (wintomon "h" "mon:l")
 
-        (focusmon "up" "u")
-        (focusmon "down" "d")
-        (focusmon "right" "r")
-        (focusmon "left" "l")
-        (worktomon "up" "u")
-        (worktomon "down" "d")
-        (worktomon "right" "r")
-        (worktomon "left" "l")
-        (wintomon "up" "mon:u")
-        (wintomon "down" "mon:d")
-        (wintomon "right" "mon:r")
-        (wintomon "left" "mon:l")
-
-      ]
-      ++ (map (i: ws (toString i) (toString i)) arr)
-      ++ (map (i: mvtows (toString i) (toString i)) arr);
+          (focusmon "up" "u")
+          (focusmon "down" "d")
+          (focusmon "right" "r")
+          (focusmon "left" "l")
+          (worktomon "up" "u")
+          (worktomon "down" "d")
+          (worktomon "right" "r")
+          (worktomon "left" "l")
+          (wintomon "up" "mon:u")
+          (wintomon "down" "mon:d")
+          (wintomon "right" "mon:r")
+          (wintomon "left" "mon:l")
+        ]
+        ++ (map (i: ws (toString i) (toString i)) arr)
+        ++ (map (i: mvtows (toString i) (toString i)) arr);
 
       bindle = [
         "SUPER, bracketright,   exec, ${brightnessctl} set +5%"
@@ -325,7 +334,7 @@
         ",XF86AudioMicMute, exec, ${wpctl} set-mute @DEFAULT_SOURCE@ toggle"
       ];
 
-      bindl =  [
+      bindl = [
         ",XF86AudioPlay,    exec, ${playerctl} play-pause"
         ",XF86AudioStop,    exec, ${playerctl} pause"
         ",XF86AudioPause,   exec, ${playerctl} pause"
@@ -351,19 +360,19 @@
       submap=reset
     '';
 
-      # extraConfig = 
-      #   (import ./monitors.nix {
-      #     inherit lib;
-      #     inherit (config) monitors;
-      #   }) +
-      #   # +
-      #   # builtins.replaceStrings ["#TRANSFORM"] 
-      #   # [
-      #   # 	( "monitor=DP-2,transform,3" )
-      #   # ]
-      #   (import ./${config.home.username}-config.nix {
-      #     inherit (config) colorscheme;
-      #     inherit config;
-      #   });
+    # extraConfig =
+    #   (import ./monitors.nix {
+    #     inherit lib;
+    #     inherit (config) monitors;
+    #   }) +
+    #   # +
+    #   # builtins.replaceStrings ["#TRANSFORM"]
+    #   # [
+    #   # 	( "monitor=DP-2,transform,3" )
+    #   # ]
+    #   (import ./${config.home.username}-config.nix {
+    #     inherit (config) colorscheme;
+    #     inherit config;
+    #   });
   };
 }

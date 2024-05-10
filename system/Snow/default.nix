@@ -1,5 +1,12 @@
 # my main desktop
-{ config, lib, pkgs, inputs, outputs, ...}: {
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  outputs,
+  ...
+}: {
   imports = [
     ../global.nix
     ./btrfs-optin-persistence.nix
@@ -11,17 +18,15 @@
     inputs.hardware.nixosModules.common-pc-ssd
 
     inputs.aagl.nixosModules.default
-
   ];
 
-
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
-  boot.kernelModules = [ "kvm-intel" "amdgpu" "i2c-dev" "i2c-i801" "coretemp" ];
+  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
+  boot.kernelModules = ["kvm-intel" "amdgpu" "i2c-dev" "i2c-i801" "coretemp"];
   boot.loader.systemd-boot.enable = true;
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
     # kernelPackages = pkgs.linuxPackages_xanmod_latest;
-    supportedFilesystems = [ "btrfs" "ntfs" ];
+    supportedFilesystems = ["btrfs" "ntfs"];
   };
 
   age.secrets.pw = {
@@ -32,14 +37,14 @@
     group = "users";
     mode = "600";
   };
-  age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
+  age.identityPaths = ["/persist/etc/ssh/ssh_host_ed25519_key"];
   # environment.etc."something".source = "${config.age.secrets.pw.path}";
 
   systemd.services = {
     "agenix-secrets" = {
-      wantedBy = [ "default.target" ];
-      wants = [ "agenix.service" ];
-      after = [ "agenix.service" "home-manager-flakes.service" "kanata-laptop.service" ];
+      wantedBy = ["default.target"];
+      wants = ["agenix.service"];
+      after = ["agenix.service" "home-manager-flakes.service" "kanata-laptop.service"];
       serviceConfig = {
         Type = "oneshot";
         ExecStart = let
@@ -55,8 +60,6 @@
     };
   };
 
-
-
   # genshin
   programs.anime-game-launcher.enable = true;
   programs.honkers-railway-launcher.enable = true;
@@ -71,7 +74,7 @@
     config.boot.kernelPackages.cpupower
   ];
 
- # User & Host -----------------------------
+  # User & Host -----------------------------
   users = {
     mutableUsers = false;
     users.root = {
@@ -80,15 +83,15 @@
     users.flakes = {
       isNormalUser = true;
       shell = pkgs.fish;
-      extraGroups = [ "audio" "video" "input" "wheel" ];
+      extraGroups = ["audio" "video" "input" "wheel"];
       #password = "1";
       hashedPasswordFile = "/persist/home/secrets/passwd-flakes";
-      packages = [ pkgs.home-manager ];
+      packages = [pkgs.home-manager];
     };
   };
-  
+
   networking.useDHCP = lib.mkDefault true;
-  networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
+  networking.nameservers = ["8.8.8.8" "8.8.4.4"];
   networking.hostName = "Snow";
 
   # GENSHIN PATCH ---------------------------
@@ -114,12 +117,10 @@
     ];
   };
 
-
-
   home-manager = {
     users.flakes = import ../../home/flakes/home.nix;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs outputs; };
+    extraSpecialArgs = {inherit inputs outputs;};
   };
 
   services = {
@@ -152,5 +153,4 @@
   systemd.user.services.telephony_client.enable = false;
 
   system.stateVersion = "23.11";
-
 }

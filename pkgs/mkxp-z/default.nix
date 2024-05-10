@@ -1,7 +1,30 @@
-{ lib, stdenv, fetchFromGitLab, physfs, openal, libvorbis, libogg, SDL2, ninja
-, SDL2_sound, SDL2_ttf, freetype, SDL2_image, pixman, libpng, libjpeg, zlib
-, libuchardet, meson, libiconv, xxd, pkg-config, libtheora, fluidsynth, ruby }:
-
+{
+  lib,
+  stdenv,
+  fetchFromGitLab,
+  physfs,
+  openal,
+  libvorbis,
+  libogg,
+  SDL2,
+  ninja,
+  SDL2_sound,
+  SDL2_ttf,
+  freetype,
+  SDL2_image,
+  pixman,
+  libpng,
+  libjpeg,
+  zlib,
+  libuchardet,
+  meson,
+  libiconv,
+  xxd,
+  pkg-config,
+  libtheora,
+  fluidsynth,
+  ruby,
+}:
 stdenv.mkDerivation rec {
   pname = "mkxp-z";
   version = "2.4.0";
@@ -34,7 +57,7 @@ stdenv.mkDerivation rec {
     ruby
   ];
 
-  nativeBuildInputs = [ meson ninja pkg-config xxd ];
+  nativeBuildInputs = [meson ninja pkg-config xxd];
 
   postPatch = ''
     sed -i '25,26s/)/, required: false)/' src/meson.build

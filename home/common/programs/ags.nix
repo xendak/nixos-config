@@ -1,5 +1,8 @@
-{ inputs, pkgs, ... }:
 {
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.ags.homeManagerModules.default
   ];
@@ -21,7 +24,6 @@
       p.pywayland
     ]))
   ];
-
 
   # home.file = {
   #   ".config/ags" = {
