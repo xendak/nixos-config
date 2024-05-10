@@ -20,6 +20,7 @@
       hm = "home";
       ninit = "nix flake init -t $HOME/Flake#";
 
+
       nv = "nvim";
       nvi = "nvim";
       v = "nvim";
@@ -49,6 +50,7 @@
 
     functions = {
       fish_greeting = "";
+      rgv = "nvim (rg --vimgrep $argv | psub)";
       home = "cd ~/";
       wh = "readlink -f (which $argv)";
       kp = ''

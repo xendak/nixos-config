@@ -28,7 +28,9 @@
 
           add_lsp(lspconfig.dockerls, {})
           add_lsp(lspconfig.bashls, {})
-          add_lsp(lspconfig.clangd, {})
+          add_lsp(lspconfig.clangd, {
+            cmd =  { "clangd", "--offset-encoding=utf-16" }
+          })
           add_lsp(lspconfig.nixd, {
             settings = { nixd = {
               formatting = { command = { "alejandra" }}

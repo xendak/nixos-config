@@ -4,5 +4,6 @@
     ./fzcd.nix
     ./plugin-helper.nix
     ./quickplugins.nix
+    ./zoxide.nix
   ];
 }
