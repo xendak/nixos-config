@@ -9,6 +9,6 @@
   home.sessionVariables = {
     NNN_TMPFILE = "$XDG_CONFIG_HOME/nnn/.lastd";
     NNN_FIFO = "/tmp/nnn.fifo";
-    NNN_PLUG = "p:preview-tui;l:fzcd;g:rg;f:fd";
+    NNN_PLUG = "p:preview-tui;l:fzcd;g:rg;f:fd;z:zoxide";
   };
 }

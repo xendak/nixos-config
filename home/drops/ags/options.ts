@@ -89,11 +89,11 @@ const options = mkOptions(OPTIONS, {
         launcher: {
             icon: {
                 colored: opt(true),
-                icon: opt(icon(distro, icons.ui.search)),
+                icon: opt(icon(icons.ui.nixos, icons.ui.search)),
             },
             label: {
                 colored: opt(false),
-                label: opt(" Applications"),
+                label: opt(""),
             },
             action: opt(() => App.toggleWindow("applauncher")),
         },
@@ -114,7 +114,7 @@ const options = mkOptions(OPTIONS, {
         },
         taskbar: {
             iconSize: opt(0),
-            monochrome: opt(true),
+            monochrome: opt(false),
             exclusive: opt(false),
         },
         messages: {
@@ -140,7 +140,7 @@ const options = mkOptions(OPTIONS, {
     },
 
     applauncher: {
-        iconSize: opt(62),
+        iconSize: opt(64),
         width: opt(0),
         margin: opt(80),
         maxItem: opt(6),

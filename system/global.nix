@@ -86,6 +86,22 @@ in {
     };
   };
 
+  # Adds non sudo wally cli
+  security.sudo = {
+    enable = true;
+    extraRules = [
+      {
+        commands = [
+          {
+            command = "lib.getExe pkgs.wally-cli";
+            options = ["NOPASSWD"];
+          }
+        ];
+        groups = ["wheel"];
+      }
+    ];
+  };
+
   hardware.enableRedistributableFirmware = true;
 
   environment.etc."/bluetooth/main.conf".text = ''

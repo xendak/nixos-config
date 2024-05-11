@@ -1,18 +1,12 @@
 {
   pkgs,
-  config,
   ...
 }: {
   xdg.configFile."nnn/plugins/zoxide".source = pkgs.writeShellScript "zoxide" ''
     # Description: Navigate to directory using jump/autojump/zoxide/z
     #
     # Dependencies:
-    #   - jump - https://github.com/gsamokovarov/jump
-    #   - OR autojump - https://github.com/wting/autojump
-    #   - OR zoxide - https://github.com/ajeetdsouza/zoxide
-    #   - OR z - https://github.com/rupa/z (z requires fzf)
-    #   - OR z (fish) - https://github.com/jethrokuan/z (z requires fzf)
-    #   - OR z.lua - https://github.com/skywind3000/z.lua (z.lua can enhanced with fzf)
+    #   - zoxide - https://github.com/ajeetdsouza/zoxide
     #
     # Note: The dependencies STORE NAVIGATION PATTERNS
     #

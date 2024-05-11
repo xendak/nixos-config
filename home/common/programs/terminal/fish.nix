@@ -1,4 +1,10 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: let
+  wally = lib.getExe pkgs.wally-cli;
+in {
   programs.fish = {
     enable = true;
     shellAbbrs = {
@@ -19,7 +25,6 @@
       #hms = "home-manager --flake . switch";
       hm = "home";
       ninit = "nix flake init -t $HOME/Flake#";
-
 
       nv = "nvim";
       nvi = "nvim";
@@ -93,7 +98,7 @@
             end
           else if test $argv[1] = \"flash\"; or test $argv[1] = \"f\"
             if test $argv[2] = \"m\"; or test $argv[2] = \"moonlander\"
-              sudo wally-cli $HOME/Programming/Keyboard/qmk_firmware/zsa_moonlander_xendak.bin
+              ${wally} $HOME/Programming/Keyboard/qmk_firmware/zsa_moonlander_xendak.bin
             else if test $argv[2] = \"ap\"; or test $argv[2] = \"annepro\"
               echo \"gotta remember to specify this later\"
             else
@@ -104,7 +109,7 @@
             end
           else if test $argv[1] = \"cf\"; or test $argv[1] = \"fc\"
             if test $argv[2] = \"m\"; or test $argv[2] = \"moonlander\"
-              qmk compile -kb moonlander -km xendak && sudo wally-cli $HOME/Programming/Keyboard/qmk_firmware/zsa_moonlander_xendak.bin
+              qmk compile -kb moonlander -km xendak && ${wally} $HOME/Programming/Keyboard/qmk_firmware/zsa_moonlander_xendak.bin
             else if test $argv[2] = \"ap\"; or test $argv[2] = \"annepro\"
               echo \"gotta remember to specify this later\"
             else
