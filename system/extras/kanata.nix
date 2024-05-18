@@ -23,9 +23,9 @@ let
 
     (defalias
       ;; tap within 100ms for capslk, hold more than 100ms for lctl
-      cap (tap-hold 150 150 bspc lctl)
-      grvq (tap-hold-release 150 150 grv (layer-switch qwerty))
-      grvg (tap-hold-release 150 150 grv (layer-switch graphite))
+      cap (tap-hold 200 200 bspc lctl)
+      grvq (tap-hold-release 200 200 grv (layer-switch qwerty))
+      grvg (tap-hold-release 200 200 grv (layer-switch graphite))
 
     )
   '';
@@ -37,7 +37,7 @@ in {
       config = kbd_graphite;
     };
     keyboards.annepro2 = {
-      devices = ["/dev/input/by-path/annepro2-kbd"];
+      devices = ["/dev/input/by-id/usb-Obins_Anne_Pro_2_C18__QMK_-event-kbd"];
       config = kbd_graphite;
     };
   };
