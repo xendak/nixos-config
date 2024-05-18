@@ -44,8 +44,8 @@
       c = config.colorscheme.palette;
       wallpaper =
         if config.home.username == "drops"
-        then "../../wallpapers/10.jpg"
-        else "../../wallpapers/13.jpg";
+        then "$HOME/Flake/home/common/wallpapers/10.jpg"
+        else "$HOME/Flake/home/common/wallpapers/13.jpg";
     in {
       exec-once = [
         "swww img ${wallpaper}"
