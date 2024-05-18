@@ -55,7 +55,7 @@ in {
 
     functions = {
       fish_greeting = "";
-      rgv = "nvim (rg --vimgrep $argv | psub)";
+      rgv = "nvim -q (rg --vimgrep $argv | psub)";
       home = "cd ~/";
       wh = "readlink -f (which $argv)";
       kp = ''

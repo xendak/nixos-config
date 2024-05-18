@@ -18,9 +18,9 @@
     '';
   };
 
-  home.packages = with pkgs; [
-    swayidle
-    inputs.hyprwm-contrib.packages.${system}.grimblast
+  home.packages = [
+    pkgs.swayidle
+    inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast
     inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
     inputs.hyprland-portal.packages.${pkgs.system}.xdg-desktop-portal-hyprland
     # inputs.hyprland-portal.packages.${pkgs.system}.hyprland-share-picker
@@ -42,11 +42,16 @@
       # swaylock = "${config.programs.swaylock.package}/bin/swaylock";
       playerctl = "${config.services.playerctld.package}/bin/playerctl";
       c = config.colorscheme.palette;
+      wallpaper =
+        if config.home.username == "drops"
+        then "../../wallpapers/10.jpg"
+        else "../../wallpapers/13.jpg";
     in {
       exec-once = [
+        "swww img ${wallpaper}"
         "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
         "mkdir -p $HOME/Games/tmp/Screenshots"
-        "hyprctl setcursor '${config.gtk.cursorTheme.name}' 36"
+        "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"
         "swayidle -w"
       ];
 
@@ -189,16 +194,16 @@
         (float "Picture-in-(.*)")
         (float "deluge")
         (float "rustdesk")
-        (maximize "494083424@toast(.*)")
+        (maximize "(.*)@toast(.*)")
         (maximize "Terraria")
         (maximize "gamescope")
         (minsize "(.*)(.exe)")
         (size "f_terminal")
         (t_size "(.*)(Home)(.*)")
         (t_size "(.*)(Save)(.*)")
-        "workspace special silent, title:^(494083424@toast(.*))$"
+        "workspace special silent, title:^(.*)@toast(.*))$"
         "workspace 5 silent, class:^(rustdesk)$"
-        "workspace special silent, title:^(494083424@toast(.*))$"
+        "workspace special silent, title:^(.*)@toast(.*))$"
         "workspace 2 silent, class:^(firefox)$"
         "workspace 3 silent, class:^(discord)(.*)$"
         "workspace 4 silent, class:^(Steam)$"
