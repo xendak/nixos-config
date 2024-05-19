@@ -21,8 +21,8 @@
     #../common/games/mihoyo.nix
 
     # ../common/wayland/swayfx
-    ../common/wayland/hyprland/plugins/hyprbars.nix
-    ../common/wayland/hyprland/plugins/hyprexpo.nix
+    # ../common/wayland/hyprland/plugins/hyprbars.nix
+    # ../common/wayland/hyprland/plugins/hyprexpo.nix
 
     ../common/programs/pass.nix
   ];

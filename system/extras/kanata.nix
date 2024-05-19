@@ -36,9 +36,9 @@ in {
       devices = ["/dev/input/by-path/platform-i8042-serio-0-event-kbd"];
       config = kbd_graphite;
     };
-    keyboards.annepro2 = {
-      devices = ["/dev/input/by-id/usb-Obins_Anne_Pro_2_C18__QMK_-event-kbd"];
-      config = kbd_graphite;
-    };
+    # keyboards.annepro2 = {
+    #   devices = ["/dev/input/by-id/usb-Obins_Anne_Pro_2_C18__QMK_-event-kbd"];
+    #   config = kbd_graphite;
+    # };
   };
 }

@@ -176,6 +176,14 @@
     blueman.enable = true;
   };
 
+  environment.etc."/bluetooth/main.conf".text = ''
+    [General]
+    ControllerMode=dual
+    Enable=Source,Sink,Media,Socket
+
+    [Policy]
+    AutoEnable=false
+  '';
   hardware = {
     bluetooth.enable = true;
     bluetooth.settings = {

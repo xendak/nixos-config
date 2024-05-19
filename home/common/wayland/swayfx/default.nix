@@ -2,16 +2,30 @@
   config,
   pkgs,
   inputs,
+  lib,
   ...
 }: let
   colors = config.colorscheme.palette;
+  wallpaper =
+    if config.home.username == "drops"
+    then "$HOME/Flake/home/common/wallpapers/10.jpg"
+    else "$HOME/Flake/home/common/wallpapers/13.jpg";
   swayfx-unwrapped = (pkgs.swayfx-unwrapped.override {wlroots = pkgs.wlroots_0_16;}).overrideAttrs (old: {
-    #version = "0.4.0-git";
-    #src = pkgs.lib.cleanSource inputs.swayfx;
     nativeBuildInputs = old.nativeBuildInputs ++ [pkgs.cmake];
-    #buildInputs = old.buildInputs ++ [ pkgs.scenefx pkgs.mesa pkgs.libdrm ];
   });
-  # swayfx-unwrapped = inputs.swayfx.packages.${pkgs.system}.default;
+
+  # Function to generate sway output configuration from monitor settings
+  generateSwayOutputConfig = monitor: {
+    resolution = "${toString monitor.width}x${toString monitor.height}";
+    position = "${toString monitor.x},${toString monitor.y}";
+    refreshRate = toString monitor.refreshRate;
+  };
+
+  # Create the outputs configuration for all monitors
+  outputs = lib.lists.foldl' (cfg: monitor:
+    cfg // { "${monitor.name}" = generateSwayOutputConfig monitor; }
+  ) {} config.monitors;
+
 in {
   programs = {
     fish.loginShellInit = ''
@@ -21,16 +35,12 @@ in {
     '';
   };
 
-  # systemd.user.targets.hyprland-session.Unit.Wants = [ "xdg-desktop-autostart.target" ];
   wayland.windowManager.sway = {
     enable = true;
     systemd.enable = true;
     xwayland = true;
     checkConfig = false;
-    #package = inputs.swayfx.packages.${pkgs.system}.default;
-    # package = pkgs.swayfx.override {inherit swayfx-unwrapped;};
-    #package = inputs.swayfx.packages.${pkgs.system}.swayfx-unwrapped;
-    # package = pkgs.swayfx.override {inherit swayfx-unwrapped;};
+    package = inputs.swayfx.packages.${pkgs.system}.default;
     extraConfig = ''
       ## SWAYFX CONFIG
       corner_radius 14
@@ -44,24 +54,24 @@ in {
 
       layer_effects "notif" blur enable; shadows enable; corner_radius 20
       layer_effects "osd" blur enable; shadows enable; corner_radius 20
-      layer_effects "work"  shadows enable
+      layer_effects "work" shadows enable
       layer_effects "panel" shadows enable
-      layer_effects "calendarbox"shadows enable; corner_radius 12
+      layer_effects "calendarbox" shadows enable; corner_radius 12
 
       for_window [app_id="spad"] move scratchpad, resize set width 900 height 600
       for_window [app_id="smusicpad"] move scratchpad, resize set width 850 height 550
 
-      set $bg-color 	         #${colors.base00}
-      set $inactive-bg-color   #${colors.base02}
-      set $text-color          #${colors.base05}
-      set $inactive-text-color #${colors.base04}
-      set $urgent-bg-color     #${colors.base09}
+      set $bg-color           #${colors.base00}
+      set $inactive-bg-color  #${colors.base02}
+      set $text-color         #${colors.base05}
+      set $inactive-text-color#${colors.base04}
+      set $urgent-bg-color    #${colors.base09}
 
       # window colors
       #                       border              background         text                 indicator
       client.focused          $bg-color           $bg-color          $text-color          $bg-color
-      client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color  $inactive-bg-color
-      client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color  $inactive-bg-color
+      client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color $inactive-bg-color
+      client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color $inactive-bg-color
       client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          $urgent-bg-color
 
       font pango:Sofia Pro 12
@@ -70,15 +80,6 @@ in {
       title_align center
       default_border normal 2
       default_floating_border normal 2
-
-      exec_always --no-startup-id xrdb -merge ~/.Xresources &
-      exec --no-startup-id ags &
-      exec_always --no-startup-id mpDris2 &
-      exec_always --no-startup-id autotiling-rs &
-      exec --no-startup-id swayidle -w \
-          timeout 360 'waylock' \
-          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-          before-sleep 'waylock'
     '';
     config = {
       terminal = "kitty";
@@ -107,40 +108,52 @@ in {
       keybindings = let
         cfg = config.wayland.windowManager.sway.config;
         mod = cfg.modifier;
+        print = "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d-%M)";
+        tmpprint = "$HOME/Games/tmp/Screenshots/$(date +%Y-%m-%d-%M-%S)";
+        wpctl = "${pkgs.wireplumber}/bin/wpctl";
+        brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
+        playerctl = "${config.services.playerctld.package}/bin/playerctl";
+        termbrowser = config.home.sessionVariables.TERMBROWSER;
+        filebrowser = config.home.sessionVariables.FILEBROWSER;
+        browser = config.home.sessionVariables.BROWSER;
+        terminal = config.home.sessionVariables.TERMINAL;
       in {
-        "print" = "exec 'grim -g \"$(slurp)\" - | wl-copy'";
-        "Shift+print" = "exec 'grim - | wl-copy'";
+        "print" = "exec 'grimblast --notify copysave output \"${print}_full.png\"'";
+        "Shift+Print" = "exec 'grimblast --notify copysave active \"${print}_active.png\"'";
+        "Alt+Shift+s" = "exec 'grimblast --notify copysave area \"${print}_snip.png\"'";
+        "Alt+Shift+c" = "exec 'grimblast --notify copysave area \"${tmpprint}_snip.png\"'";
 
         "XF86MonBrightnessUp" = "exec 'brightnessctl s 5+'";
         "XF86MonBrightnessDown" = "exec 'brightnessctl s 5-'";
+        "${mod}+bracketright" = "exec '${brightnessctl} set +5%'";
+        "${mod}+bracketleft" = "exec '${brightnessctl} set 5%-'";
+        "XF86AudioRaiseVolume" = "exec '${wpctl} set-volume @DEFAULT_SINK@ 0.05+'";
+        "XF86AudioLowerVolume" = "exec '${wpctl} set-volume @DEFAULT_SINK@ 0.05-'";
+        "${mod}+Shift+period" = "exec '${wpctl} set-volume @DEFAULT_SINK@ 0.05+'";
+        "${mod}+Shift+comma" = "exec '${wpctl} set-volume @DEFAULT_SINK@ 0.05-'";
+        "${mod}+Shift+slash" = "exec '${wpctl} set-mute @DEFAULT_SINK@ toggle'";
+        "XF86AudioMicMute" = "exec '${wpctl} set-mute @DEFAULT_SOURCE@ toggle'";
+        "XF86AudioPlay" = "exec '${playerctl} play-pause'";
+        "XF86AudioStop" = "exec '${playerctl} pause'";
+        "XF86AudioPause" = "exec '${playerctl} pause'";
+        "XF86AudioPrev" = "exec '${playerctl} previous'";
+        "XF86AudioNext" = "exec '${playerctl} next'";
 
-        "XF86AudioRaiseVolume" = "exec 'pamixer -u ; pamixer -i 5'";
-        "XF86AudioLowerVolume" = "exec 'pamixer -u ; pamixer -d 5'";
-        "XF86AudioMute" = "exec 'pamixer -t'";
-
-        "${mod}+Return" = "exec ${cfg.terminal}";
-        "${mod}+Shift+q" = "reload";
-        "${mod}+Shift+b" = "exec 'pkill ags ; ags & disown'";
+        "${mod}+Return" = "exec ${terminal}";
+        "${mod}+Shift+r" = "reload";
         "${mod}+d" = "exec ${cfg.menu}";
-        "${mod}+e" = "exec dolphin";
-        "${mod}+w" = "exec firefox";
+        "${mod}+Shift+e" = "exec ${cfg.terminal} --class f_terminal -e $SHELL -ic '${termbrowser} -ndeiH'";
+        "Alt+Shift+e" = "exec ${cfg.terminal} -e $SHELL -ic '${termbrowser} -ndeiH'";
+        "${mod}+e" = "exec ${filebrowser}";
+        "${mod}+w" = "exec ${browser}";
 
         "${mod}+v" = "exec 'swayscratch spad'";
         "${mod}+z" = "exec 'swayscratch smusicpad'";
-        #"${mod}+${cfg.left}" = "focus left";
-        #"${mod}+${cfg.down}" = "focus down";
-        #"${mod}+${cfg.up}" = "focus up";
-        #"${mod}+${cfg.right}" = "focus right";
 
         "${mod}+Left" = "focus left";
         "${mod}+Down" = "focus down";
         "${mod}+Up" = "focus up";
         "${mod}+Right" = "focus right";
-
-        #"${mod}+Shift+${cfg.left}" = "move left";
-        #"${mod}+Shift+${cfg.down}" = "move down";
-        #"${mod}+Shift+${cfg.up}" = "move up";
-        #"${mod}+Shift+${cfg.right}" = "move right";
 
         "${mod}+Shift+Left" = "move left";
         "${mod}+Shift+Down" = "move down";
@@ -155,7 +168,7 @@ in {
         "${mod}+s" = "layout stacking";
         "${mod}+Shift+s" = "layout tabbed";
 
-        "${mod}+shift+e" = "layout toggle split";
+        "${mod}+p" = "layout toggle split";
 
         "${mod}+space" = "floating toggle";
         "${mod}+Shift+space" = "focus mode_toggle";
@@ -185,7 +198,7 @@ in {
         "${mod}+Shift+minus" = "move scratchpad";
         "${mod}+minus" = "scratchpad show";
 
-        "${mod}+Shift+c" = "kill";
+        "${mod}+q" = "kill";
         "${mod}+r" = "mode resize";
       };
       input = {
@@ -194,16 +207,21 @@ in {
           natural_scroll = "enabled";
         };
         "*" = {
-          xkb_layout = "algr-intl";
+          xkb_layout = "us";
+          xkb_variant = "altgr-intl";
           xkb_options = "ctrl:nocaps";
         };
       };
-      output = {
-        "eDP-1" = {
-          resolution = "1920x1080";
-          position = "0,0";
-        };
-      };
+      output = outputs;
+
+      startup = [
+        { command = "swww init && swww img ${wallpaper}"; }
+        { command = "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"; }
+        { command = "mkdir -p $HOME/tmp"; }
+        { command = "swayidle -w"; }
+        { command = "openrgb -d \"XPG Spectrix S40G\" -m Off"; }
+      ];
+
       bars = [];
       gaps = {
         bottom = 5;
@@ -220,3 +238,4 @@ in {
     };
   };
 }
+

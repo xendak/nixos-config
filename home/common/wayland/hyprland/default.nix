@@ -18,11 +18,20 @@
     '';
   };
 
+  xdg.portal = let
+    hyprland = config.wayland.windowManager.hyprland.package;
+    xdph = pkgs.xdg-desktop-portal-hyprland.override {inherit hyprland;};
+  in {
+    extraPortals = [xdph];
+    configPackages = [hyprland];
+  };
+
   home.packages = [
     pkgs.swayidle
+    pkgs.brightnessctl
     inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast
     inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
-    inputs.hyprland-portal.packages.${pkgs.system}.xdg-desktop-portal-hyprland
+    # inputs.hyprland-portal.packages.${pkgs.system}.xdg-desktop-portal-hyprland
     # inputs.hyprland-portal.packages.${pkgs.system}.hyprland-share-picker
   ];
 
@@ -48,6 +57,7 @@
         else "$HOME/Flake/home/common/wallpapers/13.jpg";
     in {
       exec-once = [
+        "swww-daemon"
         "swww img ${wallpaper}"
         "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
         "mkdir -p $HOME/Games/tmp/Screenshots"

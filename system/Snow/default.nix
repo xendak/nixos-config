@@ -11,7 +11,7 @@
     ../global.nix
     ./btrfs-optin-persistence.nix
     ./hardware-configuration.nix
-    ../extras/kanata.nix
+    # ../extras/kanata.nix
 
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-gpu-amd
@@ -44,7 +44,7 @@
     "agenix-secrets" = {
       wantedBy = ["default.target"];
       wants = ["agenix.service"];
-      after = ["agenix.service" "home-manager-flakes.service" "kanata-laptop.service"];
+      after = ["agenix.service" "home-manager-flakes.service"];
       serviceConfig = {
         Type = "oneshot";
         ExecStart = let
@@ -64,7 +64,11 @@
   programs.anime-game-launcher.enable = true;
   programs.honkers-railway-launcher.enable = true;
 
-  environment.systemPackages = [
+  environment.systemPackages = let
+    sddm-themes = pkgs.callPackage ../../../modules/sddm.nix {};
+  in
+  [
+    sddm-themes.astronaut
     pkgs.ntfs3g
     pkgs.openrgb-with-all-plugins
     pkgs.i2c-tools
@@ -124,13 +128,30 @@
   };
 
   services = {
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+      theme = "astronaut";
+      settings.Theme.CursorTheme = config.gtk.cursorTheme.name;
+    };
+
     hardware = {
       openrgb.enable = true;
       openrgb.motherboard = "intel";
     };
+
     blueman.enable = true;
   };
 
+  environment.etc."/bluetooth/main.conf".text = ''
+    [General]
+    ControllerMode=dual
+    Enable=Source,Sink,Media,Socket
+    DiscoverableTimeout = 0
+
+    [Policy]
+    AutoEnable=true
+  '';
   hardware = {
     bluetooth.enable = true;
     bluetooth.settings = {

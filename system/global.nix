@@ -104,14 +104,6 @@ in {
 
   hardware.enableRedistributableFirmware = true;
 
-  environment.etc."/bluetooth/main.conf".text = ''
-    [General]
-    ControllerMode=dual
-    Enable=Source,Sink,Media,Socket
-
-    [Policy]
-    AutoEnable=true
-  '';
   # root xdg
   environment.etc."xdg/Xresources".text = ''
     Xcursor.size: 32
@@ -125,6 +117,7 @@ in {
     libsForQt5.qtstyleplugins
     qt5.qtwayland
     qt6.qtwayland
+    xdg-desktop-portal-gtk
   ];
 
   # xdg.portal = {
@@ -136,8 +129,8 @@ in {
   # };
 
   xdg.portal = {
-    extraPortals = [pkgs.inputs.hyprland.xdg-desktop-portal-hyprland];
-    configPackages = [pkgs.inputs.hyprland.hyprland];
+    extraPortals = [ pkgs.inputs.hyprland.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
+    configPackages = [ pkgs.inputs.hyprland.hyprland ];
   };
 
   # Persistence -----------------------------
