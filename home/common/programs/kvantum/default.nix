@@ -7,6 +7,7 @@
   imports = [
     ./kvantum-svg.nix
     ./kvantum-kvconfig.nix
+    ./patcher/config.nix
   ];
 
   # home.file = {
@@ -29,6 +30,7 @@
         mkdir -p "/home/${config.home.username}/.config/Kvantum"
         cp "${newKvantumConfig}" "/home/${config.home.username}/.config/Kvantum/kvantum.kvconfig"
         chmod 666 "/home/${config.home.username}/.config/Kvantum/kvantum.kvconfig"
+        sh $HOME/Flake/home/common/programs/kvantum/patcher/patch.sh
       '';
   };
 }

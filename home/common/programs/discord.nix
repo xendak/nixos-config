@@ -25,6 +25,10 @@ in {
     })
   ];
 
+  home.file = {
+    "/tmp/settings.json".source = cfg_file;
+  };
+
   home.persistence = {
     "/persist/home/${config.home.username}" = {
       directories = [".config/discordcanary"];
@@ -38,10 +42,10 @@ in {
       mkdir -p "/home/${config.home.username}/.config/discordcanary"
     '';
 
-    newDiscordConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    newDiscordConfig = lib.hm.dag.entryAfter ["linkGeneration"] ''
         rm -rf "/home/${config.home.username}/.config/discordcanary/settings.json"
         mkdir -p "/home/${config.home.username}/.config/discordcanary"
-        cp ${cfg_file} "/home/${config.home.username}/.config/discordcanary/settings.json"
+        cp $HOME/tmp/settings.json /home/${config.home.username}/.config/discordcanary/settings.json
         chmod 666 "/home/${config.home.username}/.config/discordcanary/settings.json"
     '';
   };

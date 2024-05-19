@@ -33,6 +33,11 @@
     ".ssh/config".source = pkgs.writeText "config" ''
       AddKeysToAgent yes
     '';
+    ".config/xdg-desktop-portal/portals.conf".source = pkgs.writeText "portals.conf" ''
+      [preferred]
+      default=gtk
+      org.freedesktop.impl.portal.FileChooser=gtk
+    '';
   };
 
   home.packages = with pkgs; [

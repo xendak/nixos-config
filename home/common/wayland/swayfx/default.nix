@@ -109,7 +109,7 @@ in {
         cfg = config.wayland.windowManager.sway.config;
         mod = cfg.modifier;
         print = "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d-%M)";
-        tmpprint = "$HOME/Games/tmp/Screenshots/$(date +%Y-%m-%d-%M-%S)";
+        tmpprint = "$HOME/tmp/Screenshots/$(date +%Y-%m-%d-%M-%S)";
         wpctl = "${pkgs.wireplumber}/bin/wpctl";
         brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
         playerctl = "${config.services.playerctld.package}/bin/playerctl";

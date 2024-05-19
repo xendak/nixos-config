@@ -60,10 +60,10 @@
         "swww-daemon"
         "swww img ${wallpaper}"
         "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
-        "mkdir -p $HOME/Games/tmp/Screenshots"
+        "mkdir -p $HOME/tmp/Screenshots"
         "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"
         "swayidle -w"
-      ];
+      ] ++ (if config.home.username == "flakes" then ["sh $HOME/Flake/bin/bt-once.sh"] else []);
 
       debug = {
         disable_logs = false;
@@ -246,7 +246,7 @@
         filebrowser = config.home.sessionVariables.FILEBROWSER;
         termbrowser = config.home.sessionVariables.TERMBROWSER;
         print = "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d-%M)";
-        tmpprint = "$HOME/Games/tmp/Screenshots/$(date +%Y-%m-%d-%M-%S)";
+        tmpprint = "$HOME/tmp/Screenshots/$(date +%Y-%m-%d-%M-%S)";
       in
         [
           "SUPER, Return,       exec,     ${terminal}"
