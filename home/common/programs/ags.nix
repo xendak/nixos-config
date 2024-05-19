@@ -5,6 +5,7 @@
 }: {
   imports = [
     inputs.ags.homeManagerModules.default
+    ./greetings
   ];
 
   home.packages = [

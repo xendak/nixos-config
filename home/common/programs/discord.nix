@@ -6,7 +6,7 @@
 }: let
   inherit (config.colorscheme) colors;
 
-  cfg_file = pkgs.writeText ''
+  cfg_file = pkgs.writeText "settings.json" ''
     {
       "SKIP_HOST_UPDATE": true,
       "openasar": {
@@ -41,7 +41,7 @@ in {
     newDiscordConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
         rm -rf "/home/${config.home.username}/.config/discordcanary/settings.json"
         mkdir -p "/home/${config.home.username}/.config/discordcanary"
-        echo "${cfg_file}" > "/home/${config.home.username}/.config/discordcanary/settings.json"
+        cp ${cfg_file} "/home/${config.home.username}/.config/discordcanary/settings.json"
         chmod 666 "/home/${config.home.username}/.config/discordcanary/settings.json"
     '';
   };

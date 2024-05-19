@@ -5,6 +5,7 @@
   pkgs,
   inputs,
   outputs,
+  greetings,
   ...
 }: {
   imports = [
@@ -64,11 +65,7 @@
   programs.anime-game-launcher.enable = true;
   programs.honkers-railway-launcher.enable = true;
 
-  environment.systemPackages = let
-    sddm-themes = pkgs.callPackage ../../../modules/sddm.nix {};
-  in
-  [
-    sddm-themes.astronaut
+  environment.systemPackages = [
     pkgs.ntfs3g
     pkgs.openrgb-with-all-plugins
     pkgs.i2c-tools
@@ -127,12 +124,31 @@
     extraSpecialArgs = {inherit inputs outputs;};
   };
 
+  system.activationScripts.hyprlandDesktop = let
+    hyprlandDesktop = pkgs.writeText "Hyprland.desktop" ''
+      [Desktop Entry]
+      Name=Hyprland
+      Comment=Hyprland wayland session
+      Exec=Hyprland
+      Type=Application
+    '';
+  in ''
+    mkdir -p /usr/share/xsessions
+    mkdir -p /usr/share/wayland-sessions
+    cp ${hyprlandDesktop} /usr/share/xsessions/Hyprland.desktop
+    cp ${hyprlandDesktop} /usr/share/wayland-sessions/Hyprland.desktop
+    chmod 644 /usr/share/xsessions/Hyprland.desktop
+    chmod 644 /usr/share/wayland-sessions/Hyprland.desktop
+  '';
+
   services = {
-    displayManager.sddm = {
+    greetd = {
       enable = true;
-      wayland.enable = true;
-      theme = "astronaut";
-      settings.Theme.CursorTheme = config.gtk.cursorTheme.name;
+      settings.default_session.command = pkgs.writeShellScript "greeter" ''
+        export XKB_DEFAULT_LAYOUT=${config.services.xserver.xkb.layout}
+        export XCURSOR_THEME=${config.home-manager.users.flakes.home.pointerCursor.name}
+        ${greetings}/bin/greeter
+      '';
     };
 
     hardware = {
