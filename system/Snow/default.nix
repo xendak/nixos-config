@@ -124,33 +124,24 @@
     extraSpecialArgs = {inherit inputs outputs;};
   };
 
-  system.activationScripts.hyprlandDesktop = let
-    hyprlandDesktop = pkgs.writeText "Hyprland.desktop" ''
-      [Desktop Entry]
-      Name=Hyprland
-      Comment=Hyprland wayland session
-      Exec=Hyprland
-      Type=Application
-    '';
-  in ''
-    mkdir -p /usr/share/xsessions
-    mkdir -p /usr/share/wayland-sessions
-    cp ${hyprlandDesktop} /usr/share/xsessions/Hyprland.desktop
-    cp ${hyprlandDesktop} /usr/share/wayland-sessions/Hyprland.desktop
-    chmod 644 /usr/share/xsessions/Hyprland.desktop
-    chmod 644 /usr/share/wayland-sessions/Hyprland.desktop
-  '';
+  # system.activationScripts.hyprlandDesktop = let
+  #   hyprlandDesktop = pkgs.writeText "Hyprland.desktop" ''
+  #     [Desktop Entry]
+  #     Name=Hyprland
+  #     Comment=Hyprland wayland session
+  #     Exec=Hyprland
+  #     Type=Application
+  #   '';
+  # in ''
+  #   mkdir -p /usr/share/xsessions
+  #   mkdir -p /usr/share/wayland-sessions
+  #   cp ${hyprlandDesktop} /usr/share/xsessions/Hyprland.desktop
+  #   cp ${hyprlandDesktop} /usr/share/wayland-sessions/Hyprland.desktop
+  #   chmod 644 /usr/share/xsessions/Hyprland.desktop
+  #   chmod 644 /usr/share/wayland-sessions/Hyprland.desktop
+  # '';
 
   services = {
-    greetd = {
-      enable = true;
-      settings.default_session.command = pkgs.writeShellScript "greeter" ''
-        export XKB_DEFAULT_LAYOUT=${config.services.xserver.xkb.layout}
-        export XCURSOR_THEME=${config.home-manager.users.flakes.home.pointerCursor.name}
-        ${greetings}/bin/greeter
-      '';
-    };
-
     hardware = {
       openrgb.enable = true;
       openrgb.motherboard = "intel";
