@@ -16,6 +16,8 @@
     ../common/wayland
     ../common/wayland/hyprland
 
+    ../common/programs/vesktop
+
     # ../common/wayland/swayfx
     # ../common/wayland/hyprland/plugins/hyprbars.nix
     # ../common/wayland/hyprland/plugins/hyprexpo.nix
@@ -24,7 +26,7 @@
     ../common/games/launchers/steam.nix
     ../common/games/emulators/retroarch.nix
     ../common/programs/pass.nix
-    ../common/programs/rustdesk.nix
+    # ../common/programs/rustdesk.nix
   ];
 
   home.file = {
@@ -32,6 +34,17 @@
     ".ssh/id_ed25519.pub".source = ../common/ssh/id_ed25519.pub;
     ".ssh/config".source = pkgs.writeText "config" ''
       AddKeysToAgent yes
+    '';
+    ".config/xdg-desktop-portal/portals.conf".source = pkgs.writeText "portals.conf" ''
+      [preferred]
+      default=hyprland;kde;gtk
+      org.freedesktop.impl.portal.FileChooser=kde
+    '';
+    ".config/fish/completions/nix-run.fish".source = pkgs.writeText "nix-run.fish" ''
+      function __nixpkgs_completions
+          cat ~/Flake/bin/nixpkgs_list
+      end
+      complete -c nix-run -f -a "(__nixpkgs_completions)"
     '';
   };
 
