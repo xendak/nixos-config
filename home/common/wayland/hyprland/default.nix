@@ -56,14 +56,20 @@
         then "$HOME/Flake/home/common/wallpapers/10.jpg"
         else "$HOME/Flake/home/common/wallpapers/13.jpg";
     in {
-      exec-once = [
-        "swww-daemon"
-        "swww img ${wallpaper}"
-        "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
-        "mkdir -p $HOME/tmp/Screenshots"
-        "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"
-        "swayidle -w"
-      ] ++ (if config.home.username == "flakes" then ["sh $HOME/Flake/bin/bt-once.sh"] else []);
+      exec-once =
+        [
+          "swww-daemon"
+          "swww img ${wallpaper}"
+          "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
+          "mkdir -p $HOME/tmp/Screenshots"
+          "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"
+          "swayidle -w"
+        ]
+        ++ (
+          if config.home.username == "flakes"
+          then ["sh $HOME/Flake/bin/bt-once.sh"]
+          else []
+        );
 
       debug = {
         disable_logs = false;
@@ -191,7 +197,9 @@
         size = regex: "size 1300 800, class:^(${regex})$";
         minsize = regex: "minsize 1300 800, title:^(${regex})$";
         maximize = regex: "maximize, title:^(${regex})$";
+        f_input = regex: "forceinput, title:^(${regex})$";
         outoftheway = regex: "workspace 9 silent, title:^(${regex})$";
+        ly = regex: "${regex}, class:^(io.github.waylyrics.Waylyrics)$";
       in [
         (float "(.*)(league)(.*)")
         (float "(org.gnome)(.*)")
@@ -205,12 +213,25 @@
         (float "deluge")
         (float "rustdesk")
         (maximize "(.*)@toast(.*)")
+        (f_input "Terraria")
+        (f_input "gamescope")
+        (f_input "(.*)(.exe)")
         (maximize "Terraria")
         (maximize "gamescope")
         (minsize "(.*)(.exe)")
         (size "f_terminal")
         (t_size "(.*)(Home)(.*)")
         (t_size "(.*)(Save)(.*)")
+        (ly "float")
+        (ly "size 100% 10%")
+        (ly "move 0 0")
+        (ly "pin")
+        (ly "nofocus")
+        (ly "noblur")
+        (ly "nodim")
+        (ly "noanim")
+        (ly "noshadow")
+        (ly "noborder")
         "workspace special silent, title:^(.*)@toast(.*))$"
         "workspace 5 silent, class:^(rustdesk)$"
         "workspace special silent, title:^(.*)@toast(.*))$"
@@ -278,6 +299,8 @@
           "SHIFT,Print, exec, ${grimblast} --notify copysave active \"${print}_active.png\""
           "ALTSHIFT,S, exec, ${grimblast} --notify copysave area \"${print}_snip.png\""
           "ALTSHIFT,C, exec, ${grimblast} --notify copysave area \"${tmpprint}_snip.png\""
+          "ALTSHIFT,L, exec, wl-waylyrics"
+          "ALTSHIFT,W, exec, wl-ocr"
 
           (mvfocus "k" "u")
           (mvfocus "j" "d")

@@ -13,7 +13,7 @@
     libsForQt5.ark
     libsForQt5.kio-extras
     libsForQt5.ffmpegthumbs
-    libsForQt5.kdesdk-thumbnailers
+    libsForQt5.kdegraphics-thumbnailers
   ];
 
   home.persistence = {

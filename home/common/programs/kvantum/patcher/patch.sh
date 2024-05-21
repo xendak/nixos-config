@@ -117,7 +117,7 @@ dec_to_hex() {
 adjust_color() {
     local color=$1
     local adjustBy=$2
-    if (( color <= 0x$adjustBy )); then
+    if (( color <= $adjustBy )); then
         (( color -= $adjustBy ))
     else
         (( color += $adjustBy ))
@@ -148,7 +148,8 @@ initialColor=$bg1
 adjustBy=$bgalt
 
 # Process the initial color
-newColor=$(process_color $initialColor $adjustBy)
+newColor=$(process_color $bg1 $bgalt)
+newButton=$(process_color $button 8)
 
 
 sed "
@@ -158,7 +159,7 @@ sed "
     s/#ffffff/$foreground/
     s/#0000ff/$accent/
     s/#ff0000/$negative/
-    s/#444444/$button/
+    s/#444444/$newButton/
     s/#888888/$inactive/
     " $TEMPLATE/$templateName.svg > $save_folder/$finalName/$finalName.svg
 
@@ -171,7 +172,7 @@ sed "
     s/#ffffff/$foreground/
     s/#0000ff/$accent/
     s/#ff0000/$negative/
-    s/#444444/$button/
+    s/#444444/$newButton/
     s/#888888/$inactive/
     s/#8888ff/$link/
     s/#4444ff/$visitedlink/

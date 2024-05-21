@@ -10,7 +10,7 @@
     mpv
     mpd
     ncmpcpp
-    osdlyrics
+    waylyrics
   ];
   home.persistence = {
     "/persist/home/${config.home.username}" = {
