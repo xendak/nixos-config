@@ -1,12 +1,5 @@
 #!/bin/sh
 
-# Check if Waylyrics is running
-if pgrep waylyrics > /dev/null;
-then
-    hyprctl setprop "Waylyrics" nofocus 0
-    hyprctl dispatch focuswindow "Waylyrics"
-    (sleep 5 && hyprctl setprop "Waylyrics" nofocus 1) &
-
-else
-    exec waylyrics &
-fi
+hyprctl setprop "Waylyrics" nofocus 0
+hyprctl dispatch focuswindow "Waylyrics"
+(sleep 5 && hyprctl setprop "Waylyrics" nofocus 1) &

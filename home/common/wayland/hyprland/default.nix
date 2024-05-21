@@ -67,7 +67,10 @@
         ]
         ++ (
           if config.home.username == "flakes"
-          then ["sh $HOME/Flake/bin/bt-once.sh"]
+          then [
+            "sh $HOME/Flake/bin/bt-once.sh"
+            "openrgb -d \"XPG Spectrix S40G\" -m Off"
+          ]
           else []
         );
 
@@ -213,9 +216,9 @@
         (float "deluge")
         (float "rustdesk")
         (maximize "(.*)@toast(.*)")
-        (f_input "Terraria")
-        (f_input "gamescope")
-        (f_input "(.*)(.exe)")
+        # (f_input "Terraria")
+        # (f_input "gamescope")
+        # (f_input "(.*)(.exe)")
         (maximize "Terraria")
         (maximize "gamescope")
         (minsize "(.*)(.exe)")
@@ -237,6 +240,7 @@
         "workspace special silent, title:^(.*)@toast(.*))$"
         "workspace 2 silent, class:^(firefox)$"
         "workspace 3 silent, class:^(discord)(.*)$"
+        "workspace 3 silent, class:^(vesktop)(.*)$"
         "workspace 4 silent, class:^(Steam)$"
         "workspace 4 silent, class:^(steam)$"
         "workspace 4 silent, class:^(lutris)$"
@@ -299,8 +303,6 @@
           "SHIFT,Print, exec, ${grimblast} --notify copysave active \"${print}_active.png\""
           "ALTSHIFT,S, exec, ${grimblast} --notify copysave area \"${print}_snip.png\""
           "ALTSHIFT,C, exec, ${grimblast} --notify copysave area \"${tmpprint}_snip.png\""
-          "ALTSHIFT,L, exec, wl-waylyrics"
-          "ALTSHIFT,W, exec, wl-ocr"
 
           (mvfocus "k" "u")
           (mvfocus "j" "d")
@@ -383,9 +385,18 @@
 
     # OPEN RGB FOR DESKTOP and Custom commands
     extraConfig = ''
-      exec-once=openrgb -d "XPG Spectrix S40G" -m Off
-      bind=SUPER,X,exec,sh "${config.xdg.configHome}/rofi/powermenu.sh"
+      # lyrics & ocr submap since most keys arent being recognized
+      bind=ALTSHIFT,L,submap,lyrics
+      submap=lyrics
+      binde=,s,exec, wl-ocr
+      binde=,l,exec, waylyrics
+      binde=,q,exec, pkill waylyrics
+      binde=,f,exec, wl-waylyrics
+      binde=,escape, submap,reset
+      submap=reset
+
       # powermenu submap
+      bind=SUPER,X,exec,sh "${config.xdg.configHome}/rofi/powermenu.sh"
       bind=SUPER,X,submap,powermenu
       submap=powermenu
       binde=,r,exec,systemctl reboot
