@@ -27,7 +27,7 @@ check_size=14
 menubar_mouse_tracking=true
 toolbutton_style=0
 double_click=false
-translucent_windows=true
+translucent_windows=false
 blurring=true
 popup_blurring=true
 vertical_spin_indicators=true
@@ -76,8 +76,8 @@ tooltip_blur_radius=14
 
 [GeneralColors]
 window.color=#000000
-base.color=#000000
-alt.base.color=#000000
+base.color=#101010
+alt.base.color=#__bgalt__
 button.color=#444444
 light.color=#ffffff
 mid.light.color=#ffffff
@@ -96,11 +96,11 @@ link.visited.color=#4444ff
 progress.indicator.text.color=#ffffff
 
 [Hacks]
-transparent_ktitle_label=true
-transparent_dolphin_view=true
-transparent_pcmanfm_sidepane=true
+transparent_ktitle_label=false
+transparent_dolphin_view=false
+transparent_pcmanfm_sidepane=false
 blur_translucent=true
-transparent_menutitle=true
+transparent_menutitle=false
 respect_darkness=true
 kcapacitybar_as_progressbar=true
 force_size_grip=true
@@ -111,7 +111,7 @@ lxqtmainmenu_iconsize=22
 normal_default_pushbutton=true
 single_top_toolbar=true
 tint_on_mouseover=0
-transparent_pcmanfm_view=true
+transparent_pcmanfm_view=false
 middle_click_scroll=false
 no_selection_tint=false
 opaque_colors=false

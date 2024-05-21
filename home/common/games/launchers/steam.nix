@@ -19,12 +19,13 @@
       ];
   };
 in {
-  home.packages = with pkgs; [
+  home.packages = [
     steam-with-pkgs
-    gamescope
-    protontricks
+    pkgs.gamescope
+    pkgs.protontricks
     # steamtinkerlaunch
   ];
+
   home.persistence = {
     "/persist/home/${config.home.username}" = {
       allowOther = true;

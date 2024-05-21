@@ -12,8 +12,7 @@
       "openasar": {
         "setup": true,
         "quickstart": true,
-"css": @import url('https://refact0r.github.io/midnight-discord/midnight.css');:root {--spacing: 12px;--roundness: 16px;--font: 'Sofia Pro';--online-indicator: var(--accent-2);--moon-icon: block; --discord-icon: none;--accent-1: #${colors.base0D};--accent-2: #${colors.base08};--accent-3: #${colors.base01};--accent-4: #${colors.base02};--accent-5: #${colors.base00};--mention: #${colors.base05}60;--mention-hover: #${colors.base05}90;--text-1: #${colors.base07};--text-2: #${colors.base0B};--text-3: #${colors.base05};--text-4: #${colors.base0E};--text-5: #${colors.base03};--bg-1: #${colors.base02};--bg-2: #${colors.base01};--bg-3:  #${colors.base01};--bg-4: #${colors.base00};--hover: #${colors.base0C}60;--active: #${colors.base0B};--message-hover: #${colors.base02}20;}
-        "quickstart": true
+"css": "@import url('https://refact0r.github.io/midnight-discord/midnight.css');:root {--spacing: 12px;--roundness: 16px;--font: 'Sofia Pro';--online-indicator: var(--text-2);--moon-icon: block; --discord-icon: none;--accent-1: #${colors.base0D};--accent-2: #${colors.base08};--accent-3: #${colors.base0B}60;--accent-4: #${colors.base02};--accent-5: #${colors.base00};--mention: #${colors.base01}80;--mention-hover: #${colors.base01}c0;--text-1: #${colors.base07};--text-2: #${colors.base0B};--text-3: #${colors.base05};--text-4: #${colors.base05};--text-5: #${colors.base03};--bg-1: #${colors.base02};--bg-2: #${colors.base0C}90;--bg-3:  #${colors.base01};--bg-4: #${colors.base00};--hover: #${colors.base0C}20;--active: #${colors.base0C}60;--message-hover: #${colors.base02}90;}"
       }
     }
   '';
@@ -45,7 +44,7 @@ in {
     newDiscordConfig = lib.hm.dag.entryAfter ["linkGeneration"] ''
         rm -rf "/home/${config.home.username}/.config/discordcanary/settings.json"
         mkdir -p "/home/${config.home.username}/.config/discordcanary"
-        cp $HOME/tmp/settings.json /home/${config.home.username}/.config/discordcanary/settings.json
+        cat $HOME/tmp/settings.json > /home/${config.home.username}/.config/discordcanary/settings.json
         chmod 666 "/home/${config.home.username}/.config/discordcanary/settings.json"
     '';
   };

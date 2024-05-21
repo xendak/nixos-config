@@ -1122,7 +1122,7 @@
      y="560"
      width="40"
      height="40"
-     style="fill:#000000;fill-opacity:1"
+     style="fill:#101010;fill-opacity:1"
      x="0" />
   <rect
      id="grip-pressed"
@@ -1709,191 +1709,193 @@
      d="m 170.00264,485 v 30 h 30 v -30 z"
      style="fill:#000000;fill-opacity:1"
      inkscape:connector-curvature="0" />
+
   <path
      id="header-normal-left"
      d="m 5.0026443,495 v -5 H 0.00264425 v 5 z"
-     style="fill:none"
+     style="opacity:1.0;color:#101010;fill-opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-normal-bottomleft"
      d="M 5.0026443,495 H 0.00264425 v 5 H 5.0026443 Z"
-     style="fill:none"
+     style="opacity:1.0;color:#101010;fill-opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-normal-bottom"
      d="M 10.002644,495 H 5.0026443 v 5 h 4.9999997 z"
-     style="fill:none"
+     style="opacity:1.0;color:#101010;fill-opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-normal-bottomright"
      d="m 15.002644,495 h -5 v 5 h 5 z"
-     style="fill:none"
+     style="opacity:1.0;color:#101010;fill-opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-normal-right"
      d="m 15.002644,495 v -5 h -5 v 5 z"
-     style="fill:none"
+     style="opacity:1.0;color:#101010;fill-opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-normal-topright"
      d="m 15.002644,485 h -5 v 5 h 5 z"
-     style="fill:none"
+     style="opacity:1.0;color:#101010;fill-opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-normal-top"
      d="M 10.002644,485 H 5.0026443 v 5 h 4.9999997 z"
-     style="fill:none"
+     style="opacity:1.0;color:#101010;fill-opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-normal-topleft"
      d="M 5.0026443,485 H 0.00264425 v 5 H 5.0026443 Z"
-     style="fill:none"
+     style="opacity:1.0;color:#101010;fill-opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-normal"
      d="m 10.002644,495 v -5 H 5.0026443 v 5 z"
-     style="fill:none"
+     style="opacity:1.0;color:#101010;fill-opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-focused-left"
      d="m 25.002644,495 v -5 h -5 v 5 z"
-     style="opacity:0.4;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-focused-bottomleft"
      d="m 25.002644,495 h -5 v 5 h 5 z"
-     style="opacity:0.4;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-focused-bottom"
      d="m 30.002644,495 h -5 v 5 h 5 z"
-     style="opacity:0.4;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-focused-bottomright"
      d="m 35.002644,495 h -5 v 5 h 5 z"
-     style="opacity:0.4;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-focused-right"
      d="m 35.002644,495 v -5 h -5 v 5 z"
-     style="opacity:0.4;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-focused-topright"
      d="m 35.002644,485 h -5 v 5 h 5 z"
-     style="opacity:0.4;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-focused-top"
      d="m 30.002644,485 h -5 v 5 h 5 z"
-     style="opacity:0.4;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-focused-topleft"
      d="m 25.002644,485 h -5 v 5 h 5 z"
-     style="opacity:0.4;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-focused"
      d="m 30.002644,495 v -5 h -5 v 5 z"
-     style="opacity:0.4;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-pressed-left"
      d="m 45.002644,490 h -5 v 5 h 5 z"
-     style="opacity:0.2;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-pressed-bottomleft"
      d="m 45.002644,495 h -5 v 5 h 5 z"
-     style="opacity:0.2;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-pressed-bottom"
      d="m 50.002644,495 h -5 v 5 h 5 z"
-     style="opacity:0.2;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-pressed-bottomright"
      d="m 55.002644,495 h -5 v 5 h 5 z"
-     style="opacity:0.2;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-pressed-right"
      d="m 55.002644,490 h -5 v 5 h 5 z"
-     style="opacity:0.2;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-pressed-topright"
      d="m 55.002644,485 h -5 v 5 h 5 z"
-     style="opacity:0.2;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-pressed-top"
      d="m 50.002644,485 h -5 v 5 h 5 z"
-     style="opacity:0.2;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-pressed-topleft"
      d="m 45.002644,485 h -5 v 5 h 5 z"
-     style="opacity:0.2;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-pressed"
      d="m 50.002644,490 h -5 v 5 h 5 z"
-     style="opacity:0.2;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-toggled-left"
      d="m 65.002644,495 v -5 h -5 v 5 z"
-     style="opacity:0.3;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-toggled-bottomleft"
      d="m 65.002644,495 h -5 v 5 h 5 z"
-     style="opacity:0.3;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-toggled-bottom"
      d="m 70.002644,495 h -5 v 5 h 5 z"
-     style="opacity:0.3;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-toggled-bottomright"
      d="m 75.002644,495 h -5 v 5 h 5 z"
-     style="opacity:0.3;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-toggled-right"
      d="m 75.002644,495 v -5 h -5 v 5 z"
-     style="opacity:0.3;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-toggled-topright"
      d="m 75.002644,485 h -5 v 5 h 5 z"
-     style="opacity:0.3;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-toggled-top"
      d="m 70.002644,485 h -5 v 5 h 5 z"
-     style="opacity:0.3;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-toggled-topleft"
      d="m 65.002644,485 h -5 v 5 h 5 z"
-     style="opacity:0.3;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-toggled"
      d="m 70.002644,495 v -5 h -5 v 5 z"
-     style="opacity:0.3;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
   <path
      id="header-separator"
      d="m 85.002644,485 h -5 v 5 h 5 z"
-     style="opacity:0.4;fill:#0000ff"
+     style="opacity:1.0;fill:#0000ff"
      inkscape:connector-curvature="0" />
+
   <rect
      id="tab-tear"
      x="280.00266"

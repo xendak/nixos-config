@@ -12,6 +12,7 @@
     wl-mirror
     pfetch
     ydotool
+    wl-ocr
   ];
   xdg.mimeApps.enable = true;
   xdg.mimeApps.defaultApplications = {

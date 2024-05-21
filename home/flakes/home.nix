@@ -9,10 +9,12 @@
     inputs.nix-index-db.hmModules.nix-index
 
     ./setup.nix
+    ../common/programs/vesktop
 
     ../common
     ../common/wayland
     ../common/wayland/hyprland
+    # ../common/wayland/swayfx
 
     ../common/games
 
@@ -20,7 +22,6 @@
     #../common/games/steam.nix
     #../common/games/mihoyo.nix
 
-    # ../common/wayland/swayfx
     # ../common/wayland/hyprland/plugins/hyprbars.nix
     # ../common/wayland/hyprland/plugins/hyprexpo.nix
 
@@ -35,8 +36,14 @@
     '';
     ".config/xdg-desktop-portal/portals.conf".source = pkgs.writeText "portals.conf" ''
       [preferred]
-      default=gtk
-      org.freedesktop.impl.portal.FileChooser=gtk
+      default=hyprland;kde;gtk
+      org.freedesktop.impl.portal.FileChooser=kde
+    '';
+    ".config/fish/completions/nix-run.fish".source = pkgs.writeText "nix-run.fish" ''
+      function __nixpkgs_completions
+          cat ~/Flake/bin/nixpkgs_list
+      end
+      complete -c nix-run -f -a "(__nixpkgs_completions)"
     '';
   };
 
@@ -45,8 +52,6 @@
     mangohud
 
     # mkxp-z
-
-    foot
 
     eb-garamond
     blender

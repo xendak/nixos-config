@@ -1,8 +1,8 @@
 #! /bin/bash
 
-CONFIG='$HOME/tmp/config.kv'
+CONFIG="$HOME/tmp/config.kv"
 SAVE='./out'
-TEMPLATE='./template'
+TEMPLATE="$HOME/Flake/home/common/programs/kvantum/patcher/template"
 HELP=0
 
 while [ True ]; do
@@ -104,8 +104,57 @@ fi
 
 mkdir -p $save_folder/$finalName/
 
+hex_to_dec() {
+    printf "%d" "0x$1"
+}
+
+# Function to convert decimal to hex
+dec_to_hex() {
+    printf "%02X" "$1"
+}
+
+# Function to adjust color component
+adjust_color() {
+    local color=$1
+    local adjustBy=$2
+    if (( color <= 0x$adjustBy )); then
+        (( color -= $adjustBy ))
+    else
+        (( color += $adjustBy ))
+    fi
+    echo $color
+}
+
+# Function to process the color
+process_color() {
+    local color=$1
+    local adjustBy=$2
+
+    local r=$(hex_to_dec "${color:1:2}")
+    local g=$(hex_to_dec "${color:3:2}")
+    local b=$(hex_to_dec "${color:5:2}")
+
+    r=$(adjust_color $r $adjustBy)
+    g=$(adjust_color $g $adjustBy)
+    b=$(adjust_color $b $adjustBy)
+
+    printf "#%s%s%s" $(dec_to_hex $r) $(dec_to_hex $g) $(dec_to_hex $b)
+}
+
+# Get initial color from the first argument
+initialColor=$bg1
+
+# Get adjust_by value from the second argument
+adjustBy=$bgalt
+
+# Process the initial color
+newColor=$(process_color $initialColor $adjustBy)
+
+
 sed "
     s/#000000/$background/
+    s/#101010/$bg1/
+    s/__bgalt__/$newColor/
     s/#ffffff/$foreground/
     s/#0000ff/$accent/
     s/#ff0000/$negative/
@@ -116,6 +165,8 @@ sed "
 sed "
     s/author_name/$author/
     s/comment_line/$comment/
+    s/#101010/$bg1/
+    s/__bgalt__/$newColor/
     s/#000000/$background/
     s/#ffffff/$foreground/
     s/#0000ff/$accent/

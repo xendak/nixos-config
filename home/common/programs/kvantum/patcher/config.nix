@@ -3,21 +3,23 @@
   pkgs,
   ...
 }: let
-  inherit (config.colorscheme) c;
+  inherit (config.colorscheme) colors;
 in {
   home.file = {
     "/tmp/config.kv".source = pkgs.writeText "config.kv" ''
       #colors
-      background=#${c.base00}
-      foreground=#${c.base05}
-      accent=#${c.base0C}
-      negative=#${c.base08}
-      button=#${c.base01}
-      inactive=#${c.base03}
-      link=#${c.base0B}
-      visitedlink=#${c.base0E}
+      background=#${colors.base00}
+      bg1=#${colors.base01}
+      bgalt=4
+      foreground=#${colors.base05}
+      accent=#${colors.base0C}
+      negative=#${colors.base08}
+      button=#${colors.base01}
+      inactive=#${colors.base03}
+      link=#${colors.base0B}
+      visitedlink=#${colors.base0E}
 
-      save_folder="/home/${config.home.username}/.config/kvantum"
+      save_folder="/home/${config.home.username}/.config/Kvantum"
 
       #details
       name=Nixos

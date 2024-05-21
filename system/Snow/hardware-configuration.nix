@@ -17,16 +17,16 @@
     fsType = "ntfs3";
     options = ["rw" "uid=1000"];
   };
-  fileSystems."/mnt/Nixos/Games" = {
+  fileSystems."/mnt/Nixos" = {
     device = "/dev/disk/by-label/NIXOS";
     fsType = "btrfs";
-    options = ["rw" "subvol=Games" "compress=zstd" "noatime"];
+    options = ["rw" "compress=zstd" "noatime"];
   };
-  fileSystems."/mnt/Nixos/Programming" = {
-    device = "/dev/disk/by-label/NIXOS";
-    fsType = "btrfs";
-    options = ["rw" "subvol=Programming" "compress=zstd" "noatime"];
-  };
+  # fileSystems."/mnt/Nixos/Programming" = {
+  #   device = "/dev/disk/by-label/NIXOS";
+  #   fsType = "btrfs";
+  #   options = ["rw" "subvol=Programming" "compress=zstd" "noatime"];
+  # };
   fileSystems."/mnt/Storage" = {
     device = "/dev/disk/by-uuid/920881090880EE13";
     fsType = "ntfs3";

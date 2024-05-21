@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   home.packages = with pkgs; [
     ytmdl
     youtube-music
@@ -6,11 +10,12 @@
     mpv
     mpd
     ncmpcpp
+    osdlyrics
   ];
-  #home.persistence = {
-  #    "/persist/home/${config.home.username}" = {
-  #        directories = [ ".local/share/zoxide" ];
-  #        allowOther = true;
-  #    };
-  #};
+  home.persistence = {
+    "/persist/home/${config.home.username}" = {
+      directories = [".config/YouTube Music"];
+      allowOther = true;
+    };
+  };
 }

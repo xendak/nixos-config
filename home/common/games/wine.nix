@@ -5,7 +5,9 @@
 }: {
   home.packages = with pkgs; [
     gamescope
-    wineWowPackages.stable
+    # wineWowPackages.stable
+    # wineWowPackages.staging
+    wineWowPackages.waylandFull
   ];
 
   home.persistence = {

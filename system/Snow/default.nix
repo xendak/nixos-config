@@ -5,7 +5,6 @@
   pkgs,
   inputs,
   outputs,
-  greetings,
   ...
 }: {
   imports = [
@@ -22,8 +21,14 @@
   ];
 
   boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
-  boot.kernelModules = ["kvm-intel" "amdgpu" "i2c-dev" "i2c-i801" "coretemp"];
+  boot.kernelModules = ["kvm-intel" "amdgpu" "i2c-dev" "i2c-i801" "coretemp" "v4l2loopback"];
   boot.loader.systemd-boot.enable = true;
+  boot.extraModulePackages = [ pkgs.linuxKernel.packages.linux_zen.v4l2loopback ];
+  # sudo modprobe v4l2loopback video_nr=2 card_label="VirtualCamera" exclusive_caps=1
+  # modprobe v4l2loopback exclusive_caps=1 card_label='OBS Virtual Camera'
+  boot.extraModprobeConfig = ''
+    options v4l2loopback video_nr=2 card_label="OBS Virtual Camera"
+  '';
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
     # kernelPackages = pkgs.linuxPackages_xanmod_latest;
@@ -64,6 +69,11 @@
   # genshin
   programs.anime-game-launcher.enable = true;
   programs.honkers-railway-launcher.enable = true;
+  programs.steam = {
+    remotePlay.openFirewall = true;
+    gamescopeSession.enable = true;
+    dedicatedServer.openFirewall = true;
+  };
 
   environment.systemPackages = [
     pkgs.ntfs3g
@@ -73,6 +83,8 @@
     pkgs.morewaita-icon-theme
     pkgs.gnome.adwaita-icon-theme
     config.boot.kernelPackages.cpupower
+    pkgs.linuxKernel.packages.linux_zen.v4l2loopback # uncertain if still needed here..?
+    pkgs.v4l-utils
   ];
 
   # User & Host -----------------------------

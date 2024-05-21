@@ -2,7 +2,7 @@
   fonts = {
     packages = with pkgs; [
       scientifica
-      # material-symbols
+      material-symbols
       font-awesome
       noto-fonts
       noto-fonts-cjk

@@ -11,18 +11,12 @@ in {
       jqless = "jq -C | less -r";
 
       nd = "nix develop -c $SHELL";
-      ns = "nix shell";
-      nsn = "nix shell nixpkgs#";
+      ns = "nix-shell --run fish -p";
+      nr = "nix-run";
       nb = "nix build";
       nbn = "nix build nixpkgs#";
       nf = "nix flake";
 
-      nr = "nixos-rebuild --flake .";
-      nrs = "nixos-rebuild --flake . switch";
-      snr = "sudo nixos-rebuild --flake .";
-      snrs = "sudo nixos-rebuild --flake . switch";
-      #hm = "home-manager --flake .";
-      #hms = "home-manager --flake . switch";
       hm = "home";
       ninit = "nix flake init -t $HOME/Flake#";
 
@@ -36,8 +30,6 @@ in {
       ls = "eza";
       la = "eza -a";
       exa = "eza";
-
-      # rpr = "cd $HOME/Programming/Rust";
     };
 
     shellAliases = {
@@ -53,7 +45,12 @@ in {
       cls = "printf '\\033[2J\\033[3J\\033[1;1H'";
     };
 
+
     functions = {
+      nix-run = "
+        set pkg $argv[1]
+        nix run nixpkgs#$pkg
+      ";
       fish_greeting = "";
       rgv = "nvim -q (rg --vimgrep $argv | psub)";
       home = "cd ~/";
@@ -160,6 +157,29 @@ in {
         # Line 2
         echo -n $cyan'└─O'  $normal
       ";
+
+      nn = {
+        wraps = "nnn";
+        body = "
+          if test -n \"$NNNLVL\" -a \"$NNNLVL\" -ge 1
+            echo \"nnn is already running\"
+            return
+          end
+
+          if test -n \"$XDG_CONFIG_HOME\"
+              set -x NNN_TMPFILE \"$XDG_CONFIG_HOME/nnn/.lastd\"
+          else
+              set -x NNN_TMPFILE \"$HOME/.config/nnn/.lastd\"
+          end
+          command nnn -ndeiH $argv
+
+          if test -e $NNN_TMPFILE
+              source $NNN_TMPFILE
+              rm $NNN_TMPFILE
+          end
+        ";
+      };
+
       n = {
         wraps = "nnn";
         body = "
