@@ -1,15 +1,19 @@
 {
   config,
-  lib,
   pkgs,
-  user,
   ...
 }: {
   home.packages = with pkgs; [
     #cinnamon.nemo
     #gnome.nautilus
+    # kdePackages.dolphin
+    # or
+    # libsForQt5.dolphin
     libsForQt5.dolphin
     libsForQt5.ark
+    libsForQt5.kio-extras
+    libsForQt5.ffmpegthumbs
+    libsForQt5.kdesdk-thumbnailers
   ];
 
   home.persistence = {
