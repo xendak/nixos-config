@@ -11,6 +11,7 @@
     mpd
     ncmpcpp
     waylyrics
+    wl-waylyrics
   ];
   home.persistence = {
     "/persist/home/${config.home.username}" = {
