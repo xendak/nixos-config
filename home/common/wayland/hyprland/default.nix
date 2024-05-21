@@ -89,13 +89,14 @@
         }"
       ) (config.monitors);
 
-      workspace = map (
-        m: "${m.name},${m.workspace}"
-      ) (lib.filter (m: m.enabled && m.workspace != null) config.monitors);
-
-      # monitor = [
-      #   ",preferred,auto,1"
-      # ];
+      workspace =
+        [
+          "3, maximize"
+          "4, float"
+        ]
+        ++ map (
+          m: "${m.name},${m.workspace}"
+        ) (lib.filter (m: m.enabled && m.workspace != null) config.monitors);
 
       general = {
         gaps_in = 5;
@@ -235,14 +236,25 @@
         (ly "noanim")
         (ly "noshadow")
         (ly "noborder")
-        "workspace special silent, title:^(.*)@toast(.*))$"
+        "workspace special silent, title:^((.*)@toast(.*))$"
         "workspace 5 silent, class:^(rustdesk)$"
-        "workspace special silent, title:^(.*)@toast(.*))$"
+        "workspace special silent, title:^((.*)@toast(.*))$"
         "workspace 2 silent, class:^(firefox)$"
         "workspace 3 silent, class:^(discord)(.*)$"
         "workspace 3 silent, class:^(vesktop)(.*)$"
-        "workspace 4 silent, class:^(Steam)$"
-        "workspace 4 silent, class:^(steam)$"
+        # All Steam Rules
+        "float, initialClass:steam"
+        "float, initialClass:((.*)steam(.*))$"
+        "workspace 4 silent, initialTitle:^(Steam)$,initialClass:^(steam)$"
+        "move 10 10%, initialTitle:^(Steam)$,initialClass:^(steam)$"
+        "size 80% 90%, initialTitle:^(Steam)$,initialClass:^(steam)$"
+        "workspace 4 silent, initialTitle:^(Friends(.*))$,initialClass:^(steam)$"
+        "move 84% 10%, initialTitle:^(Friends(.*))$,initialClass:^(steam)$"
+        "size 14% 90%, initialTitle:^(Friends(.*))$,initialClass:^(steam)$"
+        "workspace 4 silent, initialTitle:^((.*)Browser(.*))$,initialClass:^(steam)$"
+        "move 20% 30%, initialTitle:^((.*)Browser(.*))$,initialClass:^(steam)$"
+        "size 70% 70%, initialTitle:^((.*)Browser(.*))$,initialClass:^(steam)$"
+
         "workspace 4 silent, class:^(lutris)$"
         (outoftheway "(.*)(Sharing)(.*)")
       ];
