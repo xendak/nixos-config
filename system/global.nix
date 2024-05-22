@@ -135,7 +135,7 @@ in {
       common.default = ["gtk"];
       hyprland.default = ["gtk" "hyprland"];
     };
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
+    extraPortals = [pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk];
     #configPackages = [ pkgs.inputs.hyprland.hyprland ];
   };
 
@@ -166,7 +166,12 @@ in {
   };
 
   # Services -----------------------------
-  services.dbus.packages = [pkgs.gcr];
+  services.dbus.packages = [
+    pkgs.gcr
+
+    (pkgs.osdlyrics.overrideAttrs
+    (oldAttrs: {buildInputs = oldAttrs.buildInputs ++ [pkgs.python311Packages.dbus-python pkgs.gobject-introspection pkgs.dbus-glib pkgs.mpdris2 pkgs.playerctl];}))
+  ];
   services.udev.packages = with pkgs; [gnome.gnome-settings-daemon];
 
   services.udisks2.enable = true;

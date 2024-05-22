@@ -10,6 +10,7 @@
 
     ./setup.nix
     ../common/programs/vesktop
+    ../../system/extras/mpd.nix
 
     ../common
     ../common/wayland

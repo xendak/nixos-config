@@ -398,13 +398,15 @@
     # OPEN RGB FOR DESKTOP and Custom commands
     extraConfig = ''
       # lyrics & ocr submap since most keys arent being recognized
+      # TODO: make a script to visualize this mode
+      # bind=SUPER,X,exec,sh "${config.xdg.configHome}/rofi/powermenu.sh"
       bind=ALTSHIFT,L,submap,lyrics
       submap=lyrics
       binde=,s,exec, wl-ocr
       binde=,l,exec, waylyrics
       binde=,q,exec, pkill waylyrics
       binde=,f,exec, wl-waylyrics
-      binde=,escape, submap,reset
+      bind=,escape, submap,reset
       submap=reset
 
       # powermenu submap

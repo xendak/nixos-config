@@ -1,5 +1,25 @@
 #!/bin/sh
+# hyprctl setprop "Waylyrics" nofocus 0
+# echo "0" >> /tmp/wl-waylyrics
+# hyprctl dispatch focuswindow "Waylyrics"
+# (sleep 5 && hyprctl setprop "Waylyrics" nofocus 1) &
 
-hyprctl setprop "Waylyrics" nofocus 0
-hyprctl dispatch focuswindow "Waylyrics"
-(sleep 5 && hyprctl setprop "Waylyrics" nofocus 1) &
+
+TMP_FILE="/tmp/wl-waylyrics"
+
+# Check if the file exists
+if [ ! -f "$TMP_FILE" ]; then
+  echo "0" > "$TMP_FILE"
+fi
+
+# Read the content of the file
+CONTENT=$(cat "$TMP_FILE")
+
+if [ "$CONTENT" = "0" ]; then
+  hyprctl setprop "Waylyrics" nofocus 1
+  echo "1" > "$TMP_FILE"
+else
+  hyprctl setprop "Waylyrics" nofocus 0
+  hyprctl dispatch focuswindow "Waylyrics"
+  echo "0" > "$TMP_FILE"
+fi

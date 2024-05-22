@@ -11,7 +11,6 @@
     ../global.nix
     ./btrfs-optin-persistence.nix
     ./hardware-configuration.nix
-    # ../extras/kanata.nix
 
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-gpu-amd
