@@ -397,6 +397,7 @@
 
     # OPEN RGB FOR DESKTOP and Custom commands
     extraConfig = ''
+      env = bitdepth,10
       # lyrics & ocr submap since most keys arent being recognized
       # TODO: make a script to visualize this mode
       # bind=SUPER,X,exec,sh "${config.xdg.configHome}/rofi/powermenu.sh"

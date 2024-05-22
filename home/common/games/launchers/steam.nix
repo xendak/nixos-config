@@ -16,6 +16,9 @@
         stdenv.cc.cc.lib
         libkrb5
         keyutils
+        pango
+        libthai
+        harfbuzz
       ];
   };
 in {
