@@ -79,9 +79,9 @@ in {
                   cf or fc        -> same as above, but for both utility to use\"
         else
           if test $argv[1] = \"m\"; or test $argv[1] = \"moonlander\"
-            cd $HOME/Programming/Keyboard/qmk_firmware/keyboards/zsa/moonlander/keymaps/xendak
+            cd $HOME/Programming/qmk/keyboards/zsa/moonlander/keymaps/xendak
           else if test $argv[1] = \"ap\"; or test $argv[1] = \"annepro\"
-            cd $HOME/Programming/Keyboard/qmk_firmware/keyboards/annepro2/keymaps/xendak
+            cd $HOME/Programming/qmk/keyboards/annepro2/keymaps/xendak
           else if test $argv[1] = \"compile\"; or test $argv[1] = \"c\"
             if test $argv[2] = \"m\"; or test $argv[2] = \"moonlander\"
               qmk compile -kb moonlander -km xendak
@@ -95,7 +95,7 @@ in {
             end
           else if test $argv[1] = \"flash\"; or test $argv[1] = \"f\"
             if test $argv[2] = \"m\"; or test $argv[2] = \"moonlander\"
-              sudo ${wally} $HOME/Programming/Keyboard/qmk_firmware/zsa_moonlander_xendak.bin
+              sudo ${wally} $HOME/Programming/qmk/qmk_firmware/zsa_moonlander_xendak.bin
             else if test $argv[2] = \"ap\"; or test $argv[2] = \"annepro\"
               echo \"gotta remember to specify this later\"
             else
@@ -106,7 +106,7 @@ in {
             end
           else if test $argv[1] = \"cf\"; or test $argv[1] = \"fc\"
             if test $argv[2] = \"m\"; or test $argv[2] = \"moonlander\"
-              qmk compile -kb moonlander -km xendak && sudo ${wally} $HOME/Programming/Keyboard/qmk_firmware/zsa_moonlander_xendak.bin
+              qmk compile -kb moonlander -km xendak && sudo ${wally} $HOME/Programming/qmk/qmk_firmware/zsa_moonlander_xendak.bin
             else if test $argv[2] = \"ap\"; or test $argv[2] = \"annepro\"
               echo \"gotta remember to specify this later\"
             else
