@@ -61,6 +61,12 @@ in {
           autocmd BufRead,BufNewFile *.tera setfiletype htmldjango
         augroup END
 
+        "Disable latex on .txt
+        augroup latex_settings
+          autocmd!
+          autocmd LspAttach,BufRead,BufNewFile *.txt call :LspStop
+        augroup END
+
         "Rust
         augroup rust_settings
           autocmd!
