@@ -64,7 +64,7 @@ in {
         "Disable latex on .txt
         augroup latex_settings
           autocmd!
-          autocmd LspAttach,BufRead,BufNewFile *.txt call :LspStop
+          autocmd LspAttach,BufRead,BufNewFile *.txt silent exec "LspStop"
         augroup END
 
         "Rust

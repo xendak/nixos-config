@@ -8,6 +8,7 @@
     ./nvim
     ./nnn
     ./helix
+    ./bitwarden.nix
     # ./nix-index.nix
   ];
   home.packages = with pkgs; [
