@@ -1,10 +1,11 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{config, ...}: {
+  programs.rbw = {
+    enable = true;
+    settings = {
+      email = "rg.grossi@outlook.com";
+    };
+  };
   home = {
-    programs = [pkgs.bitwarden-cli];
     persistence = {
       "/persist/home/${config.home.username}" = {
         directories = [".config/Bitwarden CLI"];
