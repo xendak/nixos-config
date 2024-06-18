@@ -1,5 +1,5 @@
 {...}: {
   imports = [
-    ./luna.nix
+    ./gruv.nix
   ];
 }

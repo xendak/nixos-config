@@ -7,6 +7,7 @@
     ./starship.nix
     ./nvim
     ./nnn
+    ./terminals.nix
     ./helix
     ./bitwarden.nix
     # ./nix-index.nix
