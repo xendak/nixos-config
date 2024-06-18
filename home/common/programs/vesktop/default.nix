@@ -4,7 +4,7 @@
   ...
 }: {
   imports = [
-    ./material-theme.nix
+    ./themes/material.nix
   ];
 
   home.packages = [
