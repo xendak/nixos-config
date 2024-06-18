@@ -9,7 +9,7 @@
     };
     regular = {
       family = "Sofia Pro";
-      package = pkgs.sofia-pro-font;
+      package = pkgs.useful-fonts;
     };
   };
 }

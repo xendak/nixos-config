@@ -4,10 +4,10 @@
     name = "luna";
     author = "xendak";
     palette = {
-      base00 = "#292828";
-      base01 = "#32302f";
+      base00 = "#202020";
+      base01 = "#2a2827";
       base02 = "#504945";
-      base03 = "#665c54";
+      base03 = "#5a524c";
       base04 = "#bdae93";
       base05 = "#ddc7a1"; #7b745b
       base06 = "#ebdbb2";

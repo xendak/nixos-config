@@ -7,5 +7,5 @@ cl="$HOME/.config/chromium/Local State"
 [[ -f "$cc" ]] && rm $cc 
 [[ -f "$cl" ]] && rm "$cl" 
 cd $HOME/Flake
-sudo nixos-rebuild switch --flake .#$USER --show-trace
-#sudo nixos-rebuild switch --flake .#$USER --option eval-cache false --show-trace
+#sudo nixos-rebuild switch --flake .#$USER --show-trace
+sudo nixos-rebuild switch --flake .#$USER --option eval-cache false --show-trace

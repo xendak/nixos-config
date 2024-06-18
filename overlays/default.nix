@@ -20,6 +20,9 @@
     });
   };
 
+  stable = final: _: {
+    stable = inputs.nixpkgs-stable.legacyPackages.${final.system};
+  };
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.unstable'
   unstable-packages = final: _prev: {

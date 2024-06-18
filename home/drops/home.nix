@@ -73,7 +73,7 @@
   home = {
     username = lib.mkDefault "drops";
     homeDirectory = lib.mkDefault "/home/drops/";
-    stateVersion = lib.mkDefault "23.11";
+    stateVersion = lib.mkDefault "24.05";
     sessionPath = ["$HOME/Flake/bin"];
     persistence = {
       "/persist/home/drops" = {
