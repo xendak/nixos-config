@@ -11,7 +11,6 @@ in {
       jqless = "jq -C | less -r";
 
       nd = "nix develop -c $SHELL";
-      ns = "nix-shell --run fish -p";
       nr = "nix-run";
       nb = "nix build";
       nbn = "nix build nixpkgs#";
@@ -47,6 +46,7 @@ in {
 
 
     functions = {
+      ns = "nix-shell --run fish -p $argv";
       nix-run = "
         set pkg $argv[1]
         nix run nixpkgs#$pkg
