@@ -17,7 +17,7 @@
     }))
   ];
 
-  services.arrpc.enable = true;
+  # services.arrpc.enable = true;
 
   home.persistence."/persist/home/${config.home.username}".directories = [".config/vesktop"];
 
@@ -105,7 +105,7 @@
         consistent = "image";
       };
       "WebRichPresence (arRPC)" = {
-        enabled = true;
+        enabled = false;
       };
       BANger = {
         enabled = false;
