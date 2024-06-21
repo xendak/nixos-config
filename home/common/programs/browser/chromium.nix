@@ -14,13 +14,14 @@
   # 	};
 
   # try nyxt
-  home.package = with pkgs; [
+  home.packages = with pkgs; [
     nyxt
   ];
   # Add ungoogled-chromium with extensions
   programs.chromium = {
     enable = true;
     package = pkgs.ungoogled-chromium.override {
+      enableWideVine = true;
       commandLineArgs = [
         "--disable-sync"
         "--no-default-browser-check"

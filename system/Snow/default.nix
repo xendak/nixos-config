@@ -181,11 +181,11 @@
     i2c.enable = true;
 
     cpu.intel.updateMicrocode = true;
-    opengl = {
+    graphics = {
       enable = true;
       # extraPackages = with pkgs; [ amdvlk ];
-      driSupport = true;
-      driSupport32Bit = true;
+      # driSupport = true;
+      enable32Bit = true;
     };
     opentabletdriver.enable = true;
   };

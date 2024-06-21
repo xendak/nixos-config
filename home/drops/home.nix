@@ -40,9 +40,15 @@
       default=hyprland;kde;gtk
       org.freedesktop.impl.portal.FileChooser=kde
     '';
+    ".config/fish/completions/ns.fish".source = pkgs.writeText "ns.fish" ''
+      function __nixpkgs_completions
+          bat ~/Flake/bin/nixpkgs_list
+      end
+      complete -c ns -f -a "(__nixpkgs_completions)"
+    '';
     ".config/fish/completions/nix-run.fish".source = pkgs.writeText "nix-run.fish" ''
       function __nixpkgs_completions
-          cat ~/Flake/bin/nixpkgs_list
+          bat ~/Flake/bin/nixpkgs_list
       end
       complete -c nix-run -f -a "(__nixpkgs_completions)"
     '';
