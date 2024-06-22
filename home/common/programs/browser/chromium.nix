@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   ...
 }: {
   # browser XDG-OPEN
@@ -29,7 +30,7 @@
         "--ozone-platform=wayland"
         "--enable-features=UseOzonePlatform"
         "--enable-features=BlockThirdPartyCookiesInIncognito"
-        "--gtk-version=4"
+        # "--gtk-version=4"
 
         "--no-service-autorun"
         "--disable-features=PreloadMediaEngagementData,MediaEngagementBypassAutoplayPolicies"
@@ -45,12 +46,12 @@
         "--disable-speech-synthesis-api"
       ];
     };
-    extensions = [
-      {id = "mnjggcdmjocbbbhaepdhchncahnbgone";} # sponsor block
-      {id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";} # ublock
-      {id = "nngceckbapebfimnlniiiahkandclblb";} # bitwarden
-      {id = "dbepggeogbaibhgnhhndojpepiihcmeb";} # tab manager
-    ];
+    # extensions = [
+    #   {id = "mnjggcdmjocbbbhaepdhchncahnbgone";} # sponsor block
+    #   {id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";} # ublock
+    #   {id = "nngceckbapebfimnlniiiahkandclblb";} # bitwarden
+    #   {id = "dbepggeogbaibhgnhhndojpepiihcmeb";} # tab manager
+    # ];
 
     # for now i will keep using the default pass manager
 
@@ -62,47 +63,47 @@
     #  "SpellcheckLanguage" = [ "pt-BR" "en-US" ];
     #  "ui.zoom.force_enable_zoom_scrollbars" = true;
     #};
-    # extensions = let
-    #   createChromiumExtensionFor = browserVersion: {
-    #     id,
-    #     sha256,
-    #     version,
-    #   }: {
-    #     inherit id;
-    #     crxPath = builtins.fetchurl {
-    #       url = "https://clients2.google.com/service/update2/crx?response=redirect&acceptformat=crx2,crx3&prodversion=${browserVersion}&x=id%3D${id}%26installsource%3Dondemand%26uc";
-    #       name = "${id}.crx";
-    #       inherit sha256;
-    #     };
-    #     inherit version;
-    #   };
-    #   createChromiumExtension = createChromiumExtensionFor (lib.versions.major pkgs.ungoogled-chromium.version);
-    # in [
-    #   (createChromiumExtension {
-    #     # Vimium
-    #     id = "dbepggeogbaibhgnhhndojpepiihcmeb";
-    #     sha256 = "sha256:0kc4dzpydfvbdr30jl5p02cx9y3k4283rgj5p6dqbrly02j3bamz";
-    #     version = "1.67.4";
-    #   })
-    #   (createChromiumExtension {
-    #     # ViolentMonkey
-    #     id = "jinjaccalgkegednnccohejagnlnfdag";
-    #     sha256 = "sha256:0klm9rqd4bwcjp3azn9bca4zwd3gz1mpqsrn8gz16k2shp7p5yh8";
-    #     version = "2.14.0";
-    #   })
-    #   (createChromiumExtension {
-    #     # Bitwarden
-    #     id = "nngceckbapebfimnlniiiahkandclblb";
-    #     sha256 = "sha256:0z2v79gny5i6mi6d9axn5saf1fzgbjci4r5ykqa6wwjmgbi29gyw";
-    #     version = "2024.6.2";
-    #   })
-    #   (createChromiumExtension {
-    #     # uBlock Origin
-    #     id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
-    #     sha256 = "sha256:0zw3h0vmgsf5bcn38j98284bqswrgw0r8vnpsqzfikyrmb06jp43";
-    #     version = "1.47.4";
-    #   })
-    # ];
+    extensions = let
+      createChromiumExtensionFor = browserVersion: {
+        id,
+        sha256,
+        version,
+      }: {
+        inherit id;
+        crxPath = builtins.fetchurl {
+          url = "https://clients2.google.com/service/update2/crx?response=redirect&acceptformat=crx2,crx3&prodversion=${browserVersion}&x=id%3D${id}%26installsource%3Dondemand%26uc";
+          name = "${id}.crx";
+          inherit sha256;
+        };
+        inherit version;
+      };
+      createChromiumExtension = createChromiumExtensionFor (lib.versions.major pkgs.ungoogled-chromium.version);
+    in [
+      (createChromiumExtension {
+        # Vimium
+        id = "dbepggeogbaibhgnhhndojpepiihcmeb";
+        sha256 = "sha256:0m8xski05w2r8igj675sxrlkzxlrl59j3a7m0r6c8pwcvka0r88d";
+        version = "2.1.2";
+      })
+      # (createChromiumExtension {
+      #   # ViolentMonkey
+      #   id = "jinjaccalgkegednnccohejagnlnfdag";
+      #   sha256 = "sha256:0klm9rqd4bwcjp3azn9bca4zwd3gz1mpqsrn8gz16k2shp7p5yh8";
+      #   version = "2.14.0";
+      # })
+      (createChromiumExtension {
+        # Bitwarden
+        id = "nngceckbapebfimnlniiiahkandclblb";
+        sha256 = "sha256:14mk4x3nggkggf68a3bafry9vk54yxcxlsczzs4qmp7m03y16a1n";
+        version = "2024.6.2";
+      })
+      (createChromiumExtension {
+        # uBlock Origin
+        id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
+        sha256 = "sha256:01kk94l38qqp2rbyylswjs8q25kcjaqvvh5b8088xria5mbrhskl";
+        version = "1.58.0";
+      })
+    ];
   };
 
   home.persistence = {

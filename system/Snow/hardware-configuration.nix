@@ -1,7 +1,4 @@
 {
-  config,
-  lib,
-  pkgs,
   modulesPath,
   ...
 }: {
@@ -20,7 +17,7 @@
   fileSystems."/mnt/Nixos" = {
     device = "/dev/disk/by-label/NIXOS";
     fsType = "btrfs";
-    options = ["rw" "compress=zstd" "noatime"];
+    options = ["rw" "compress=zstd" "noatime" "uid=1000"];
   };
   # fileSystems."/mnt/Nixos/Programming" = {
   #   device = "/dev/disk/by-label/NIXOS";
