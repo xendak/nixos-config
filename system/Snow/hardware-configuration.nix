@@ -17,7 +17,7 @@
   fileSystems."/mnt/Nixos" = {
     device = "/dev/disk/by-label/NIXOS";
     fsType = "btrfs";
-    options = ["rw" "compress=zstd" "noatime" "uid=1000"];
+    options = ["rw" "compress=zstd" "noatime"];
   };
   # fileSystems."/mnt/Nixos/Programming" = {
   #   device = "/dev/disk/by-label/NIXOS";
