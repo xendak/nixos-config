@@ -57,6 +57,9 @@
   home.packages = with pkgs; [
     obs-studio
 
+    # disable kanata and leave only external kb
+    evtest
+
     eb-garamond
     blender
 

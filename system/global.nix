@@ -93,6 +93,10 @@ in {
       {
         commands = [
           {
+            command = "${lib.getExe pkgs.evtest}";
+            options = ["NOPASSWD"];
+          }
+          {
             command = "${lib.getExe pkgs.wally-cli}";
             options = ["NOPASSWD"];
           }
