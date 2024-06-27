@@ -4,6 +4,7 @@
   ...
 }: let
   c = config.colorscheme.palette;
+  user = config.home.username;
 in {
   home.persistence = {
     "/persist/home/${config.home.username}" = {
@@ -14,7 +15,11 @@ in {
 
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs;
+    #package = pkgs.emacs;
+    package =
+      if user == "flakes"
+      then pkgs.emacsPgtk
+      else pkgs.emacs;
     extraPackages = epkgs: [
       epkgs.magit
       epkgs.lsp-mode
@@ -81,7 +86,7 @@ in {
       (tab-bar-mode -1)
       (menu-bar-mode -1)
       (tool-bar-mode -1)
-      (scroll-bar-mode -1) 
+      (scroll-bar-mode -1)
 
       (setq initial-scratch-message nil)  ; apparently fix for wayland gtk
       (setq use-dialog-box nil)
