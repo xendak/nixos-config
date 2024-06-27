@@ -87,7 +87,7 @@ in {
       (setq use-dialog-box nil)
       (setq inhibit-startup-screen t)
       (setq package-check-signature nil)
-      (set-frame-font "monospace 13" nil t)
+      (set-frame-font "monospace 12" nil t)
 
       (setq read-buffer-completion-ignore-case t
       read-file-name-completion-ignore-case t
@@ -103,7 +103,7 @@ in {
       (custom-set-faces
        )
 
-      (setq user-emacs-directory (expand-file-name "./config/emacs/"))
+      (setq user-emacs-directory (expand-file-name "./.config/emacs/"))
 
       (let ((backup-dir "~/.local/cache/emacs/backups")
             (auto-saves-dir "~/.local/cache/emacs/auto-saves/"))
@@ -135,7 +135,7 @@ in {
   };
   home.file = {
     ".config/emacs/init.el".source = pkgs.writeText "init.el" ''
-      (setq user-emacs-directory (expand-file-name "./config/emacs/"))
+      (setq user-emacs-directory (expand-file-name "./.config/emacs/"))
     '';
   };
 }

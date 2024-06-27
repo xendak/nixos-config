@@ -15,11 +15,13 @@
       base08 = "#3e9688";
       base09 = "#3e7996";
       base0A = "#3e4c96";
-      base0B = "#883e96";
-      base0C = "#963e4c";
+      base0B = "#c3bea9";
+      base0C = "#7b745b";
       base0D = "#96883e";
       base0E = "#4c963e";
       base0F = "#3e965b";
     };
   };
 }
+
+

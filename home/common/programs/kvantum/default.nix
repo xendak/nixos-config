@@ -5,18 +5,8 @@
   ...
 }: {
   imports = [
-    ./kvantum-svg.nix
-    ./kvantum-kvconfig.nix
     ./patcher/config.nix
-#    ./patcher/patch.sh
-#    sh /home/${config.home.username}/tmp/kv-patch.sh
   ];
-
-  # home.file = {
-  #   ".config/Kvantum/kvantum.kvconfig" ={
-  #     source = config.lib.file.mkOutOfStoreSymlink "/persist/home/${config.home.username}/Flake/home/${config.home.username}/common/programs/kvantum/config";
-  #   };
-  # };
 
   home.activation = {
     removeExistingKvantumConfig = lib.hm.dag.entryBefore ["checkLinkTargets"] ''

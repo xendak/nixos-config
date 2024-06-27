@@ -1205,7 +1205,7 @@
     <path
        transform="scale(1,-1)"
        d="m 610.00043,-369.02874 h 40 v 1.00005 h -40 z"
-       style="fill:#0000FF;fill-opacity:0.1"
+       style="fill:#0000ff;fill-opacity:0.1"
        id="path204"
        inkscape:connector-curvature="0" />
   </g>
@@ -1215,7 +1215,7 @@
     <path
        class="ColorScheme-Text"
        d="m 609.00043,368.02864 c -1.10167,0 -0.99779,-0.10151 -0.99779,1.00012 H 609 Z"
-       style="fill:#0000FF;fill-opacity:0.1"
+       style="fill:#0000ff;fill-opacity:0.1"
        id="path208"
        inkscape:connector-curvature="0" />
   </g>
@@ -1225,7 +1225,7 @@
     <path
        class="ColorScheme-Text"
        d="m 650.99998,368.03139 c 1.10161,0 0.99736,-0.10427 0.99736,0.99736 h -0.99736 z"
-       style="fill:#0000FF;fill-opacity:0.1"
+       style="fill:#0000ff;fill-opacity:0.1"
        id="path211"
        inkscape:connector-curvature="0" />
   </g>
@@ -1235,7 +1235,7 @@
     <path
        transform="matrix(0,-1,-1,0,0,0)"
        d="m -410.02869,-608.99998 h 40 V -608 h -40 z"
-       style="fill:#0000FF;fill-opacity:0.1"
+       style="fill:#0000ff;fill-opacity:0.1"
        id="path214"
        inkscape:connector-curvature="0" />
   </g>
@@ -1245,7 +1245,7 @@
     <path
        transform="matrix(0,1,1,0,0,0)"
        d="m 370.02878,651.00002 h 40 v 1.00004 h -40 z"
-       style="fill:#0000FF;fill-opacity:0.1"
+       style="fill:#0000ff;fill-opacity:0.1"
        id="path217"
        inkscape:connector-curvature="0" />
   </g>
@@ -1254,7 +1254,7 @@
      transform="translate(-608.99779,139.97116)">
     <path
        d="m 610.00043,411.02889 h 40 v 0.99986 h -40 z"
-       style="fill:#0000FF;fill-opacity:0.1"
+       style="fill:#0000ff;fill-opacity:0.1"
        id="path220"
        inkscape:connector-curvature="0" />
   </g>
@@ -1264,7 +1264,7 @@
     <path
        class="ColorScheme-Text"
        d="m 609,412.02609 c -1.10167,0 -0.99736,0.10447 -0.99736,-0.99735 H 609 Z"
-       style="fill:#0000FF;fill-opacity:0.1"
+       style="fill:#0000ff;fill-opacity:0.1"
        id="path223"
        inkscape:connector-curvature="0" />
   </g>
@@ -1274,7 +1274,7 @@
     <path
        class="ColorScheme-Text"
        d="m 650.99998,412.02609 c 1.10161,0 0.99736,0.10447 0.99736,-0.99735 h -0.99736 z"
-       style="fill:#0000FF;fill-opacity:0.1"
+       style="fill:#0000ff;fill-opacity:0.1"
        id="path226"
        inkscape:connector-curvature="0" />
   </g>
