@@ -113,6 +113,7 @@ in {
       (tool-bar-mode -1)
       (scroll-bar-mode -1)
 
+
       (setq inhibit-startup-screen t)
       (setq package-check-signature nil)
       (set-frame-font "monospace 14" nil t)
@@ -131,7 +132,14 @@ in {
       (custom-set-faces
        )
 
+      (setq user-emacs-directory (expand-file-name "./config/emacs/"))
 
+      (require 'package):
+      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+      ;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+      ;; and `package-pinned-packages`. Most users will not need or want to do this.
+      ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+      (package-initialize)
       (add-to-list 'package-archives
       '("MELPA" .
       "http://melpa.org/packages/"))
