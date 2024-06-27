@@ -59,6 +59,7 @@
             cat ${config.age.secrets.pw.path} > "/home/flakes/.ssh/id_ed25519"
             chown flakes:users /home/flakes/.ssh/id_ed25519
             chmod 600 /home/flakes/.ssh/id_ed25519
+            rm /run/agenix/id_ed25519
           '';
         in "${script}";
       };

@@ -7,8 +7,6 @@
   ...
 }: let
   inherit (inputs.nix-colors) colorSchemes;
-  # inherit (inputs.nix-colors.lib-contrib { inherit pkgs; }) colorschemeFromPicture nixWallpaperFromScheme;
-  # sshKey = "/persist/home/secrets/agenix-${config.home.username}";
 in {
   imports =
     [

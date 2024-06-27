@@ -8,8 +8,6 @@
   imports = [
     inputs.nix-index-db.hmModules.nix-index
 
-    # inputs.agenix.homeManagerModules.default
-
     ./setup.nix
 
     ../common

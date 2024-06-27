@@ -12,6 +12,8 @@
     ../common/programs/vesktop
     ../../system/extras/mpd.nix
 
+    ../common/programs/emacs
+
     ../common
     ../common/wayland
     ../common/wayland/hyprland

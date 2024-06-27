@@ -27,11 +27,13 @@
     discordBranch = "stable"; # canary
     firstLaunch = false;
     minimizeToTray = false;
-    arRPC = "on";
+    arRPC = "off";
     splashColor = "rgb(219, 222, 225)";
     splashBackground = "rgb(49, 51, 56)";
     enableMenu = false;
     staticTitle = false;
+    appBadge = false;
+    checkUpdates = false;
   };
 
   xdg.configFile."vesktop/settings/settings.json".text = builtins.toJSON {
