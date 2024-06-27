@@ -30,6 +30,10 @@
   home.file = {
     ".ssh/known_hosts".source = ../common/ssh/known_hosts;
     ".ssh/id_ed25519.pub".source = ../common/ssh/id_ed25519.pub;
+    ".config/qmk/qmk.ini".source = pkgs.writeText "qmk.ini" ''
+      [user]
+      qmk_home = /home/drops/Programming/qmk_userspace/qmk_firmware
+    '';
     ".ssh/config".source = pkgs.writeText "config" ''
       AddKeysToAgent yes
     '';
