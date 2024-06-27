@@ -81,8 +81,10 @@ in {
       (tab-bar-mode -1)
       (menu-bar-mode -1)
       (tool-bar-mode -1)
-      (scroll-bar-mode -1)
+      (scroll-bar-mode -1) 
 
+      (setq initial-scratch-message nil)  ; apparently fix for wayland gtk
+      (setq use-dialog-box nil)
       (setq inhibit-startup-screen t)
       (setq package-check-signature nil)
       (set-frame-font "monospace 13" nil t)
@@ -133,45 +135,7 @@ in {
   };
   home.file = {
     ".config/emacs/init.el".source = pkgs.writeText "init.el" ''
-      (require 'package)
-      (require 'fzf)
-      (require 'base16-stylix-theme)
-      (load-theme 'base16-stylix t)
-
-      (tab-bar-mode -1)
-      (menu-bar-mode -1)
-      (tool-bar-mode -1)
-      (scroll-bar-mode -1)
-
-
-      (setq inhibit-startup-screen t)
-      (setq package-check-signature nil)
-      (set-frame-font "monospace 13" nil t)
-
-      (setq read-buffer-completion-ignore-case t
-      read-file-name-completion-ignore-case t
-      completion-ignore-case t)
-
-
-      (use-package rainbow-delimiters
-                   :ensure t
-                   :hook ((lisp-mode emacs-lisp-mode scheme-mode hy-mode) . rainbow-delimiters-mode))
-
-      (custom-set-variables
-       '(package-selected-packages '(rainbow-delimiters all-the-icons-dired)))
-      (custom-set-faces
-       )
-
       (setq user-emacs-directory (expand-file-name "./config/emacs/"))
-
-      (require 'package):
-      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-      ;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
-      ;; and `package-pinned-packages`. Most users will not need or want to do this.
-      ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-      (add-to-list 'package-archives
-      '("MELPA" .
-      "http://melpa.org/packages/"))
     '';
   };
 }
