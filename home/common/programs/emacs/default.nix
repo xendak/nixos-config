@@ -5,6 +5,13 @@
 }: let
   c = config.colorscheme.palette;
 in {
+  home.persistence = {
+    "/persist/home/${config.home.username}" = {
+      directories = [".local/cache/emacs"];
+      allowOther = true;
+    };
+  };
+
   programs.emacs = {
     enable = true;
     package = pkgs.emacs;
@@ -78,7 +85,7 @@ in {
 
       (setq inhibit-startup-screen t)
       (setq package-check-signature nil)
-      (set-frame-font "monospace 14" nil t)
+      (set-frame-font "monospace 13" nil t)
 
       (setq read-buffer-completion-ignore-case t
       read-file-name-completion-ignore-case t
@@ -94,11 +101,34 @@ in {
       (custom-set-faces
        )
 
+      (setq user-emacs-directory (expand-file-name "./config/emacs/"))
 
+      (let ((backup-dir "~/.local/cache/emacs/backups")
+            (auto-saves-dir "~/.local/cache/emacs/auto-saves/"))
+        (dolist (dir (list backup-dir auto-saves-dir))
+          (when (not (file-directory-p dir))
+            (make-directory dir t)))
+        (setq backup-directory-alist `(("." . ,backup-dir))
+              auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
+              auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
+              tramp-backup-directory-alist `((".*" . ,backup-dir))
+              tramp-auto-save-directory auto-saves-dir))
+
+      (setq backup-by-copying t    ; Don't delink hardlinks
+            delete-old-versions t  ; Clean up the backups
+            version-control t      ; Use version numbers on backups,
+            kept-new-versions 2    ; keep some new versions
+            kept-old-versions 1)   ; and some old ones, too
+
+      (require 'package):
+      (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+      ;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+      ;; and `package-pinned-packages`. Most users will not need or want to do this.
+      ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+      (package-initialize)
       (add-to-list 'package-archives
       '("MELPA" .
       "http://melpa.org/packages/"))
-       (package-initialize)
     '';
   };
   home.file = {
@@ -116,7 +146,7 @@ in {
 
       (setq inhibit-startup-screen t)
       (setq package-check-signature nil)
-      (set-frame-font "monospace 14" nil t)
+      (set-frame-font "monospace 13" nil t)
 
       (setq read-buffer-completion-ignore-case t
       read-file-name-completion-ignore-case t
