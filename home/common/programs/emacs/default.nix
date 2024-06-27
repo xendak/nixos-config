@@ -78,7 +78,7 @@ in {
 
       (setq inhibit-startup-screen t)
       (setq package-check-signature nil)
-      (set-frame-font "monospace 12" nil t)
+      (set-frame-font "monospace 14" nil t)
 
       (setq read-buffer-completion-ignore-case t
       read-file-name-completion-ignore-case t
@@ -99,6 +99,42 @@ in {
       '("MELPA" .
       "http://melpa.org/packages/"))
        (package-initialize)
+    '';
+  };
+  home.file = {
+    ".config/emacs/init.el".source = pkgs.writeText "init.el" ''
+      (require 'package)
+      (require 'fzf)
+      (require 'base16-stylix-theme)
+      (load-theme 'base16-stylix t)
+
+      (tab-bar-mode -1)
+      (menu-bar-mode -1)
+      (tool-bar-mode -1)
+      (scroll-bar-mode -1)
+
+      (setq inhibit-startup-screen t)
+      (setq package-check-signature nil)
+      (set-frame-font "monospace 14" nil t)
+
+      (setq read-buffer-completion-ignore-case t
+      read-file-name-completion-ignore-case t
+      completion-ignore-case t)
+
+
+      (use-package rainbow-delimiters
+                   :ensure t
+                   :hook ((lisp-mode emacs-lisp-mode scheme-mode hy-mode) . rainbow-delimiters-mode))
+
+      (custom-set-variables
+       '(package-selected-packages '(rainbow-delimiters all-the-icons-dired)))
+      (custom-set-faces
+       )
+
+
+      (add-to-list 'package-archives
+      '("MELPA" .
+      "http://melpa.org/packages/"))
     '';
   };
 }
