@@ -18,7 +18,7 @@ in {
     #package = pkgs.emacs;
     package =
       if user == "flakes"
-      then pkgs.emacs-gtk
+      then pkgs.emacs29-pgtk
       else pkgs.emacs;
     extraPackages = epkgs: [
       epkgs.magit
