@@ -51,7 +51,7 @@ in {
         "browser.translations.neverTranslateLanguages" = "pt-br"; # No need :)
         "privacy.clearOnShutdown.history" = false; # We want to save history on exit
         # Hi-DPI
-        "layout.css.devPixelsPerPx" = "1.5";
+        "layout.css.devPixelsPerPx" = "1.2";
         # Allow executing JS in the dev console
         "devtools.chrome.enabled" = true;
         # Disable browser crash reporting
