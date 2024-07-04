@@ -53,7 +53,7 @@ in {
       ";
       fish_greeting = "";
       rgv = "nvim -q (rg --vimgrep $argv | psub)";
-      home = "cd ~/";
+      fdv = "nvim (fd $argv ./ | fzf)";
       wh = "readlink -f (which $argv)";
       kp = ''
           set -l __kp__pid (ps -ef | sed 1d | eval "fzf $FZF_DEFAULT_OPTS -m --header='[kill:process]'" | awk '{print $2}')
@@ -79,9 +79,9 @@ in {
                   cf or fc        -> same as above, but for both utility to use\"
         else
           if test $argv[1] = \"m\"; or test $argv[1] = \"moonlander\"
-            cd $HOME/Programming/qmk/keyboards/zsa/moonlander/keymaps/xendak
+            cd $HOME/Programming/qmk_userspace/keyboards/zsa/moonlander/keymaps/xendak
           else if test $argv[1] = \"ap\"; or test $argv[1] = \"annepro\"
-            cd $HOME/Programming/qmk/keyboards/annepro2/keymaps/xendak
+            cd $HOME/Programming/qmk_userspace/keyboards/annepro2/keymaps/xendak
           else if test $argv[1] = \"compile\"; or test $argv[1] = \"c\"
             if test $argv[2] = \"m\"; or test $argv[2] = \"moonlander\"
               qmk compile -kb moonlander -km xendak
