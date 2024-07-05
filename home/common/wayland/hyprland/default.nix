@@ -167,6 +167,10 @@
         workspace_swipe = true;
       };
 
+      cursor = {
+        no_warps = true;
+      };
+
       input = {
         kb_layout = "us";
         kb_variant = "altgr-intl";

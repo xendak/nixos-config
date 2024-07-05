@@ -6,7 +6,7 @@
 }: let
   addons = inputs.firefox-addons.packages.${pkgs.system};
 in {
-  programs.browserpass.enable = true;
+  # programs.browserpass.enable = true;
   programs.firefox = {
     enable = true;
     policies = {
@@ -35,14 +35,15 @@ in {
 
     profiles.Snow = {
       bookmarks = {};
+      # visit here for addons : https://github.com/nix-community/nur-combined/tree/master/repos/rycee/pkgs/firefox-addons
       extensions = with addons; [
         ublock-origin
         vimium
         violentmonkey
         bitwarden
-        browserpass
         stylus
         add-custom-search-engine
+        reddit-enhancement-suite
       ];
       settings = {
         "browser.startup.page" = 3; # Resume previous session on startup
@@ -148,11 +149,10 @@ in {
       search = {
         force = true;
         default = "DuckDuckGo";
-        order = ["DuckDuckGo" "Google" "Youtube" "NixOS Options" "Nix Packages" "GitHub" "HackerNews"];
+        order = ["DuckDuckGo" "Google" "Jisho" "Translate" "Home Manager" "Youtube" "NixOS Options" "Nix Packages" "GitHub" "HackerNews"];
         engines = {
           "Bing".metaData.hidden = true;
           "Amazon.com".metaData.hidden = true;
-          "Google".metaData.hidden = true;
           "Google".metaData.alias = "@g";
           "Nix Packages" = {
             urls = [
@@ -249,6 +249,24 @@ in {
                     value = "{searchTerms}";
                   }
                 ];
+              }
+            ];
+          };
+          "Translate" = {
+            urls = [
+              {
+                template = "https://translate.google.com/?#auto|auto|{searchTerms}";
+              }
+            ];
+            iconUpdateURL = "https://google.com/favicon.ico";
+            definedAliases = ["@t"];
+          };
+          "Jisho" = {
+            icon = "${pkgs.gruvbox-plus-icons}/share/icons/Gruvbox-Plus-Dark/apps/scalable/dictionary.svg";
+            definedAliases = ["@j"];
+            url = [
+              {
+                template = "https://jisho.org/search/{searchTerms}";
               }
             ];
           };

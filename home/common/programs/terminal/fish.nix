@@ -44,7 +44,6 @@ in {
       cls = "printf '\\033[2J\\033[3J\\033[1;1H'";
     };
 
-
     functions = {
       ns = "nix-shell --run fish -p $argv";
       nix-run = "
@@ -53,7 +52,15 @@ in {
       ";
       fish_greeting = "";
       rgv = "nvim -q (rg --vimgrep $argv | psub)";
-      fdv = "nvim (fd $argv ./ | fzf)";
+      fdv = ''
+        set -l files (fzf --query="$argv" --multi --select-1 --exit-0 --prompt 'files:' --preview 'exa --tree --level=1 (dirname {})')
+        if test -n "$files"
+          $EDITOR $files
+        end
+      '';
+      fcd = ''
+        nnn -ndeiH (fd -t d . | fzf) $argv
+      '';
       wh = "readlink -f (which $argv)";
       kp = ''
           set -l __kp__pid (ps -ef | sed 1d | eval "fzf $FZF_DEFAULT_OPTS -m --header='[kill:process]'" | awk '{print $2}')
@@ -178,6 +185,18 @@ in {
               rm $NNN_TMPFILE
           end
         ";
+      };
+
+      yas = {
+        wraps = "yazi";
+        body = ''
+          set tmp (mktemp -t "yazi-cwd.XXXXXX")
+          yazi $argv --cwd-file="$tmp"
+          if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+          	cd -- "$cwd"
+          end
+          rm -f -- "$tmp"
+        '';
       };
 
       n = {

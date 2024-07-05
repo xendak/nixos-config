@@ -1,5 +1,5 @@
 {...}: {
   imports = [
-    ./grayscale-nier.nix
+    ./luna.nix
   ];
 }

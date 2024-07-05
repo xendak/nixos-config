@@ -174,7 +174,7 @@ in {
     pkgs.gcr
 
     (pkgs.osdlyrics.overrideAttrs
-      (oldAttrs: {buildInputs = oldAttrs.buildInputs ++ [pkgs.python311Packages.dbus-python pkgs.gobject-introspection pkgs.dbus-glib pkgs.mpdris2 pkgs.playerctl];}))
+      (oldAttrs: {buildInputs = oldAttrs.buildInputs ++ [pkgs.python311Packages.dbus-python pkgs.glib pkgs.gobject-introspection pkgs.dbus-glib pkgs.mpdris2 pkgs.playerctl];}))
   ];
   services.udev.packages = with pkgs; [gnome.gnome-settings-daemon];
 
