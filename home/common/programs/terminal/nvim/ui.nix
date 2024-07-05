@@ -53,7 +53,7 @@
               dashboard.button( "n", "󰈔 New file" , ":enew<CR>"),
               dashboard.button( "e", " Explore", ":Explore<CR>"),
               dashboard.button( "g", " Git summary", ":Git | :only<CR>"),
-              dashboard.button( "s", " Notes", ":e ~/Documents/Notes<CR>"),
+              dashboard.button( "s", " Notes", ":e ~/Documents/Notes.md<CR>"),
               dashboard.button( "c", "  Nix config flake" , ":e ~/Flake"),
           }
 

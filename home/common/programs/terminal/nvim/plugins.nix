@@ -18,7 +18,9 @@ in {
       rainbow-delimiters-nvim
       telescope-fzy-native-nvim
       telescope-nvim
-      vim-floaterm
+      # vim-floaterm
+      # FTerm-nvim
+      toggleterm-nvim
       vim-sneak
       which-key-nvim
       nnn

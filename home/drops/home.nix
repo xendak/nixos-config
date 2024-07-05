@@ -23,7 +23,8 @@
     ../common/games/wine.nix
     ../common/games/launchers/steam.nix
     ../common/games/emulators/retroarch.nix
-    ../common/programs/pass.nix
+    # ../common/programs/pass.nix
+    ../common/programs/browser/chromium.nix
     # ../common/programs/rustdesk.nix
   ];
 

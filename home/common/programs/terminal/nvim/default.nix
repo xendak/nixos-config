@@ -131,7 +131,8 @@ in {
         "Telescope and nnn
         let g:nnn#command = 'nnn -ndeiH'
         nmap <space>F :NnnPicker %:p:h<CR>
-        nmap <space>E :Telescope fd<CR>
+        "nmap <space><space> :Telescope fd<CR>
+        "nmap <space>// :Telescope live_grep<CR>
         nmap <space>T :Telescope<CR>
 
         "Sudo save
@@ -142,6 +143,11 @@ in {
       lua
       */
       ''
+        -- telescope
+        vim.keymap.set("n", "<space><space>", require("telescope.builtin").find_files, {desc = "Telescope find files"})
+        vim.keymap.set("n", "<space>b", require("telescope.builtin").buffers, {desc = "Telescope buffers"})
+        vim.keymap.set("n", "<space>/", require("telescope.builtin").live_grep, {desc = "Telescope live grep"})
+
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })

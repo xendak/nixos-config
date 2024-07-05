@@ -29,7 +29,7 @@
     # ../common/wayland/hyprland/plugins/hyprexpo.nix
 
     ../common/programs/browser/chromium.nix
-    ../common/programs/pass.nix
+    # ../common/programs/pass.nix
   ];
 
   home.file = {
