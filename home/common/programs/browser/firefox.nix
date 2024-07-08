@@ -183,7 +183,7 @@ in {
             updateInterval = 24 * 60 * 60 * 1000;
             definedAliases = ["@hn"];
 
-            url = [
+            urls = [
               {
                 template = "https://hn.algolia.com/";
                 params = [
@@ -264,7 +264,7 @@ in {
           "Jisho" = {
             icon = "${pkgs.gruvbox-plus-icons}/share/icons/Gruvbox-Plus-Dark/apps/scalable/dictionary.svg";
             definedAliases = ["@j"];
-            url = [
+            urls = [
               {
                 template = "https://jisho.org/search/{searchTerms}";
               }
@@ -274,7 +274,7 @@ in {
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
             definedAliases = ["@hm"];
 
-            url = [
+            urls = [
               {
                 template = "https://mipmip.github.io/home-manager-option-search/";
                 params = [
