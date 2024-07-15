@@ -1,7 +1,7 @@
 {
   pkgs,
-  config,
   lib,
+  config,
   ...
 }: {
   # browser XDG-OPEN
@@ -105,7 +105,6 @@
       })
     ];
   };
-
   home.persistence = {
     "/persist/home/${config.home.username}" = {
       allowOther = true;
