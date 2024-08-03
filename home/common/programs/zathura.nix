@@ -8,7 +8,7 @@ in {
       font = "${config.fontProfiles.regular.family} 12";
       recolor = true;
       default-bg = "#${colors.base00}";
-      default-fg = "#${colors.base01}";
+      default-fg = "#${colors.base05}";
       statusbar-bg = "#${colors.base02}";
       statusbar-fg = "#${colors.base04}";
       inputbar-bg = "#${colors.base00}";

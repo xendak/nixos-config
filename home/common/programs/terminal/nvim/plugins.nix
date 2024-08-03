@@ -10,20 +10,32 @@
   };
 in {
   programs.neovim = {
-    plugins = with pkgs.vimPlugins; [
-      vim-nix
-      nvim-tree-lua
-      (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
-      plenary-nvim
-      rainbow-delimiters-nvim
-      telescope-fzy-native-nvim
-      telescope-nvim
+    plugins = [
       # vim-floaterm
       # FTerm-nvim
-      toggleterm-nvim
-      vim-sneak
-      which-key-nvim
+      pkgs.vimPlugins.vim-nix
+      pkgs.vimPlugins.nvim-tree-lua
+      (pkgs.vimPlugins.nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
+      pkgs.vimPlugins.plenary-nvim
+      pkgs.vimPlugins.rainbow-delimiters-nvim
+      pkgs.vimPlugins.telescope-fzy-native-nvim
+      pkgs.vimPlugins.telescope-nvim
+      pkgs.vimPlugins.vim-sneak
+      pkgs.vimPlugins.which-key-nvim
       nnn
+      {
+        plugin = pkgs.vimPlugins.toggleterm-nvim;
+        config = ''
+          nnoremap <C-/> :ToggleTerm direction=float<cr>
+          nnoremap <M-/> :ToggleTerm<cr>
+          tnoremap <C-/> <C-\\><C-n>:ToggleTerm<cr>
+          tnoremap <M-/> <C-\\><C-n>:ToggleTerm<cr>
+
+          lua <<EOF
+              require('toggleterm').setup()
+          EOF
+        '';
+      }
     ];
   };
 }

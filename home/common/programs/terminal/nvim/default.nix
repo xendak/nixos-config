@@ -162,6 +162,10 @@ in {
         vim.keymap.set("n", "gl", vim.diagnostic.setloclist, { desc = "Diagnostics on loclist" })
         vim.keymap.set("n", "gq", vim.diagnostic.setqflist, { desc = "Diagnostics on quickfix" })
 
+        -- Terminal mode 
+        vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", {desc = "ESC to change to normal mode in terminal"})
+
+
         function add_sign(name, text)
           vim.fn.sign_define(name, { text = text, texthl = name, numhl = name})
         end
