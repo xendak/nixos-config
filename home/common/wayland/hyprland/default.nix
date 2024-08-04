@@ -296,7 +296,7 @@
           "SUPER, E,            exec,     ${filebrowser}"
           "SUPERSHIFT, E,       exec,     ${terminal} --class f_terminal -e $SHELL -ic '${termbrowser} -ndeiH'"
           "ALTSHIFT,   E,       exec,     ${terminal} -e $SHELL -ic '${termbrowser} -ndeiH'"
-          "SUPER, D,            exec,     rofi -show drun -matching fuzzy -sorting-method fzf -sort -theme \"${config.xdg.configHome}/rofi/config.rasi\""
+          "SUPER, D,            exec,     rofi -show drun -matching fuzzy -sorting-method fzf -sort -drun-match-fields name,generic,categories -theme \"${config.xdg.configHome}/rofi/config.rasi\""
           "SUPER, R,            ${e} -t applauncher"
           "SUPER, O,            ${e} -t overview"
           "SUPER, M,            ${e} -t datemenu"

@@ -5,7 +5,7 @@
   imports = [(modulesPath + "/installer/scan/not-detected.nix")];
 
   fileSystems."/mnt/Windows" = {
-    device = "/dev/disk/by-uuid/FEC63D8AC63D43E5";
+    device = "/dev/disk/by-uuid/1E1E794F1E7920C7";
     fsType = "ntfs3";
     options = ["rw" "uid=1000"];
   };

@@ -108,7 +108,7 @@ in {
     mainbox {
       background-color:              #${colors.base00};
       border:                        0px;
-      border-color:                  @border-color;
+      border-color:                  #${colors.base0C};
       children:                      [ inputbar, listview ];
       spacing:                       0%;
       padding:                       8px;
