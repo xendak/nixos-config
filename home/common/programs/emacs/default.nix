@@ -6,12 +6,12 @@
   c = config.colorscheme.palette;
   user = config.home.username;
 in {
-  home.persistence = {
-    "/persist/home/${config.home.username}" = {
-      directories = [".local/cache/emacs"];
-      allowOther = true;
-    };
-  };
+  #home.persistence = {
+  #  "/persist/home/${config.home.username}" = {
+  #    directories = [".local/cache/emacs"];
+  #    allowOther = true;
+  #  };
+  #};
 
   programs.emacs = {
     enable = true;

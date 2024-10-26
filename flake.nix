@@ -60,6 +60,9 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    # NIXOS WSL
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
   };
 
   outputs = {
@@ -70,6 +73,7 @@
     hyprland,
     aagl,
     helix,
+    nixos-wsl,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -81,15 +85,6 @@
     homeManagerModules = import ./modules/home-manager;
 
     packages = forEachPkgs (pkgs: import ./pkgs {inherit pkgs;});
-    # packages = forEachPkgs (pkgs: (import ./pkgs { inherit pkgs; }) // {
-    #     neovim = let
-    #       homeCfg = mkHome [ ./home/misterio/generic.nix ] pkgs;
-    #     in pkgs.writeShellScriptBin "nvim" ''
-    #       ${homeCfg.config.programs.neovim.finalPackage}/bin/nvim \
-    #       -u ${homeCfg.config.xdg.configFile."nvim/init.lua".source} \
-    #       "$@"
-    #     '';
-    #   });
     devShells = forEachPkgs (pkgs: import ./shell.nix {inherit pkgs;});
     formatter = forEachPkgs (pkgs: pkgs.nixpkgs-fmt);
 
@@ -107,6 +102,18 @@
           inherit inputs outputs;
         };
         modules = [./system/Dew];
+      };
+    };
+    
+    nixosConfigurations = {
+      nixos = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
+        };
+        modules = [
+	  nixos-wsl.nixosModules.default
+	  ./system/wsl
+	];
       };
     };
 
@@ -127,6 +134,16 @@
           inherit inputs outputs;
         };
         modules = [./home/drops/home.nix];
+      };
+    };
+
+    homeConfigurations = {
+      "wsl@nixos" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        extraSpecialArgs = {
+          inherit inputs outputs;
+        };
+        modules = [./home/nixos/home.nix];
       };
     };
   };
