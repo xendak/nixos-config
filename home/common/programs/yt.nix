@@ -4,9 +4,8 @@
   ...
 }: {
   home.packages = with pkgs; [
-    ytmdl
     youtube-music
-    youtube-dl
+    yt-dlp
     mpv
     mpd
     ncmpcpp

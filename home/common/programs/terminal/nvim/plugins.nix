@@ -28,8 +28,8 @@ in {
         config = ''
           nnoremap <C-/> :ToggleTerm direction=float<cr>
           nnoremap <M-/> :ToggleTerm<cr>
-          tnoremap <C-/> <C-\\><C-n>:ToggleTerm<cr>
-          tnoremap <M-/> <C-\\><C-n>:ToggleTerm<cr>
+          tnoremap <C-/> <C-\><C-n>:ToggleTerm<cr>
+          tnoremap <M-/> <C-\><C-n>:ToggleTerm<cr>
 
           lua <<EOF
               require('toggleterm').setup()

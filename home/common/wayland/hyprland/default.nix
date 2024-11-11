@@ -113,10 +113,13 @@
         inactive_opacity = 0.89;
         fullscreen_opacity = 1.0;
         rounding = 9;
-        drop_shadow = true;
-        shadow_range = 30;
-        "col.shadow" = "rgba(${c.base0C}f0)";
-        "col.shadow_inactive" = "rgba(${c.base00}66)";
+
+        shadow = {
+          enabled = true;
+          range = 30;
+          color = "rgba(${c.base0C}f0)";
+          color_inactive = "rgba(${c.base00}66)";
+        };
 
         blur = {
           enabled = true;

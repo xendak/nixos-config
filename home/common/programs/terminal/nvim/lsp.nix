@@ -47,7 +47,7 @@
           add_lsp(lspconfig.lua_ls, {})
           add_lsp(lspconfig.jdtls, {})
           add_lsp(lspconfig.zls, {})
-          add_lsp(lspconfig.tsserver, {})
+          add_lsp(lspconfig.ts_ls, {})
           add_lsp(lspconfig.texlab, {
             chktex = { onEdit = true, onOpenAndSave = true }
           })

@@ -195,7 +195,7 @@ in {
   # };
 
   # localtime specific
-  time.timeZone = "America/Sao_Paulo";
+  time.timeZone = lib.mkDefault "America/Sao_Paulo";
   time.hardwareClockInLocalTime = true;
   services.localtimed.enable = true;
 

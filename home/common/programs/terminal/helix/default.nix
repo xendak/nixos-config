@@ -24,7 +24,6 @@ in {
             nil
             efm-langserver
             nodePackages.bash-language-server
-            nodePackages.vscode-css-languageserver-bin
             nodePackages.vscode-langservers-extracted
             vscode-extensions.llvm-org.lldb-vscode
             nodePackages.prettier
