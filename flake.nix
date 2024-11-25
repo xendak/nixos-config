@@ -52,15 +52,15 @@
     matugen.url = "github:InioX/matugen?rev=e795cda353235e503bb292f56bdd6573974f4add";
     # github:owner/repo?rev=
 
-    ags = {
-      url = "github:Aylur/ags";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    
+      ags = {
+        url = "github:Aylur/ags";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+      rust-overlay = {
+        url = "github:oxalica/rust-overlay";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+
     # NIXOS WSL
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
   };
@@ -104,16 +104,16 @@
         modules = [./system/Dew];
       };
     };
-    
+
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs outputs;
         };
         modules = [
-	  nixos-wsl.nixosModules.default
-	  ./system/wsl
-	];
+          nixos-wsl.nixosModules.default
+          ./system/wsl
+        ];
       };
     };
 
