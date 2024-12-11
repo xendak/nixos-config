@@ -90,9 +90,11 @@
     pkgs.acpi
     pkgs.qogir-icon-theme
     pkgs.morewaita-icon-theme
-    pkgs.gnome.adwaita-icon-theme
+    pkgs.adwaita-icon-theme
     config.boot.kernelPackages.cpupower
   ];
+
+  location.provider = "geoclue2";
 
   # User & Host -----------------------------
   users = {

@@ -81,7 +81,7 @@
     pkgs.i2c-tools
     pkgs.qogir-icon-theme
     pkgs.morewaita-icon-theme
-    pkgs.gnome.adwaita-icon-theme
+    pkgs.adwaita-icon-theme
     config.boot.kernelPackages.cpupower
     pkgs.linuxKernel.packages.linux_zen.v4l2loopback # uncertain if still needed here..?
     pkgs.v4l-utils

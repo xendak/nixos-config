@@ -46,6 +46,7 @@
     XMODIFIER = "@im=fcitx";
     GTK_IM_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";
-    XDG_CURRENT_DESKTOP = "GNOME"; # fixing QT no icon bullshit
+    # XDG_CURRENT_DESKTOP = "GNOME"; # fixing QT no icon bullshit
+    XDG_CURRENT_DESKTOP = "Hyprland"; # fixing QT no icon bullshit
   };
 }

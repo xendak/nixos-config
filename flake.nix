@@ -45,22 +45,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    helix = {
-      url = "github:pascalkuthe/helix?rev=e86b77843b8756d53cc756837f91aa8d368495bc";
+    wezterm.url = "github:wez/wezterm?dir=nix";
+    helix.url = "github:pascalkuthe/helix?rev=e86b77843b8756d53cc756837f91aa8d368495bc";
+    matugen.url = "github:InioX/matugen?rev=e795cda353235e503bb292f56bdd6573974f4add";
+
+    ags = {
+      url = "github:Aylur/ags";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    matugen.url = "github:InioX/matugen?rev=e795cda353235e503bb292f56bdd6573974f4add";
-    # github:owner/repo?rev=
-
-      ags = {
-        url = "github:Aylur/ags";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
-      rust-overlay = {
-        url = "github:oxalica/rust-overlay";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
-
+    # #github:owner/repo?rev=
     # NIXOS WSL
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
   };

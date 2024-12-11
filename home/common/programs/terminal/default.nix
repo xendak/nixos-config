@@ -8,6 +8,7 @@
     ./nvim
     ./nnn
     ./terminals.nix
+    ./wezterm.nix
     ./helix
     ./bitwarden.nix
     # ./nix-index.nix

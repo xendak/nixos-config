@@ -156,8 +156,8 @@ in {
       # "/etc/bluetooth"
     ];
     files = [
-      "/etc/adjtime"
-      "/etc/machine-id"
+      # "/etc/adjtime"
+      # "/etc/machine-id"
       "/etc/ssh/ssh_host_ed25519_key"
       "/etc/ssh/ssh_host_ed25519_key.pub"
       "/etc/ssh/ssa_host_rsa_key"
@@ -176,13 +176,15 @@ in {
     (pkgs.osdlyrics.overrideAttrs
       (oldAttrs: {buildInputs = oldAttrs.buildInputs ++ [pkgs.python311Packages.dbus-python pkgs.glib pkgs.gobject-introspection pkgs.dbus-glib pkgs.mpdris2 pkgs.playerctl];}))
   ];
-  services.udev.packages = with pkgs; [gnome.gnome-settings-daemon];
+  services.udev.packages = with pkgs; [gnome-settings-daemon];
 
   services.udisks2.enable = true;
   services.fstrim.enable = true;
   services.geoclue2.enable = true;
+  services.speechd.enable = false;
 
-  # services.xserver.desktopManager.runXdgAutostartIfNone = true;
+  services.xserver.desktopManager.runXdgAutostartIfNone = true;
+  i18n.inputMethod.fcitx5.waylandFrontend = true;
   # services.xserver = {
   #   enable = true;
   #   dpi = 96;
