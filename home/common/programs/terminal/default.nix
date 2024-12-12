@@ -41,8 +41,17 @@
 
     ltex-ls # Spell checking LSP
   ];
+  
   programs.fzf = {
     enable = true;
     defaultOptions = ["--color 16"];
+  };
+  
+
+  # enable dir-env integration
+  programs.direnv = {
+    enable = true;
+    enableFishIntegration = true;
+    nix-direnv.enable = true;
   };
 }

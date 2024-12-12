@@ -48,6 +48,8 @@
           add_lsp(lspconfig.jdtls, {})
           add_lsp(lspconfig.zls, {})
           add_lsp(lspconfig.ts_ls, {})
+          add_lsp(lspconfig.typst_lsp, {})
+          add_lsp(lspconfig.elixirls, {})
           add_lsp(lspconfig.texlab, {
             chktex = { onEdit = true, onOpenAndSave = true }
           })
