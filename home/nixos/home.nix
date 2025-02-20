@@ -22,7 +22,6 @@
     ../common/programs/terminal/nnn
     ../common/programs/terminal/nvim
     ../common/programs/terminal/helix
-
   ];
 
   

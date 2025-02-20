@@ -11,6 +11,7 @@
     inputs.home-manager.nixosModules.home-manager
     # inputs.agenix.nixosModules.default
     ../extras/fish.nix
+    ../extras/llm.nix
   ];
   time.timeZone = "America/Sao_Paulo";
 
