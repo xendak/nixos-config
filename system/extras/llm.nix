@@ -10,6 +10,9 @@
     };       
     rocmOverrideGfx = "11.0.1";
   };
-  services.open-webui.enable = true;
+  services.open-webui = {
+    enable = true;
+    environment.OLLAMA_API_BASE_URL = "http://localhost:11434";
+  };
 }
 
