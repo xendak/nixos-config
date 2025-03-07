@@ -9,9 +9,10 @@
       noto-fonts-emoji
       source-han-sans
       source-han-code-jp
-      (nerdfonts.override {
-        fonts = ["JetBrainsMono" "Mononoki" "FantasqueSansMono"];
-      })
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.mononoki
+      nerd-fonts.fantasque-sans-mono
+
       cozette
     ];
     # fontconfig = {

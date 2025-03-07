@@ -50,7 +50,7 @@
     matugen.url = "github:InioX/matugen?rev=e795cda353235e503bb292f56bdd6573974f4add";
 
     ags = {
-      url = "github:Aylur/ags";
+      url = "github:Aylur/ags/v1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     rust-overlay = {
@@ -61,6 +61,9 @@
     # #github:owner/repo?rev=
     # NIXOS WSL
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+
+    # trying out
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
   };
 
   outputs = {

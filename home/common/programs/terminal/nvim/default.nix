@@ -129,7 +129,7 @@ in {
         nmap <space>o :only<cr>
 
         "Telescope and nnn
-        let g:nnn#command = 'nnn -ndeiH'
+        let g:nnn#command = 'nnn -deiH'
         nmap <space>F :NnnPicker %:p:h<CR>
         "nmap <space><space> :Telescope fd<CR>
         "nmap <space>// :Telescope live_grep<CR>

@@ -1,14 +1,15 @@
 {pkgs, ...}: {
   imports = [
-    ./kitty.nix
+    # ./kitty.nix
     ./fish.nix
     ./zoxide.nix
     ./git.nix
     ./starship.nix
     ./nvim
     ./nnn
-    ./terminals.nix
-    ./wezterm.nix
+    ./yazi
+    # ./terminals.nix
+    # ./wezterm.nix
     ./helix
     ./bitwarden.nix
     # ./nix-index.nix

@@ -64,9 +64,6 @@
     };
   };
 
-  # genshin
-  #programs.anime-game-launcher.enable = true;
-  #programs.honkers-railway-launcher.enable = true;
   programs.auto-cpufreq.enable = true;
   # optionally, you can configure your auto-cpufreq settings, if you have any
   programs.auto-cpufreq.settings = {
@@ -203,5 +200,5 @@
 
   systemd.user.services.telephony_client.enable = false;
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "25.05";
 }

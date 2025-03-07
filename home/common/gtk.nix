@@ -39,11 +39,12 @@ in {
     #   name = "${config.colorScheme.slug}";
     #   package = gtkThemeFromScheme {scheme = config.colorScheme;};
     # };
-    iconTheme = {
-      name = "Gruvbox-Plus-Dark";
-      package = pkgs.gruvbox-plus-icons;
-    };
-
+    #
+    # iconTheme = {
+    #   name = "Gruvbox-Plus-Dark";
+    #   package = pkgs.gruvbox-plus-icons;
+    # };
+    #
     #      theme = {
     #        name = "Graphite-Dark-nord";
     #        package = (pkgs.graphite-gtk-theme.override { tweaks = ["nord"]; });
@@ -60,11 +61,11 @@ in {
     #   });
     # };
 
-    #iconTheme = {
-    #  name = "Tela circle dark";
-    #  package = (pkgs.tela-circle-icon-theme.override { colorVariants = ["nord"]; circularFolder = true;});
-    #};
-
+    iconTheme = {
+     name = "Tela circle dark";
+     package = (pkgs.tela-circle-icon-theme.override { colorVariants = ["nord"]; circularFolder = true;});
+    };
+    
     # iconTheme = {
     #   name = "Win10SurDark";
     #   package = (pkgs.win10sur.override {
@@ -72,7 +73,7 @@ in {
     #     whitePanel = true;
     #   });
     # };
-
+    
     gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme = 1;

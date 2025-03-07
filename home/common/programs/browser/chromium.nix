@@ -3,69 +3,125 @@
   lib,
   config,
   ...
-}: {
-  # browser XDG-OPEN
-  # 	xdg.mimeApps.defaultApplications = {
-  # 		"text/html" = [ "chromium-browser.desktop" ];
-  # 		"text/xml" = [ "chromium-browser.desktop" ];
-  # 		"x-scheme-handler/http" = [ "chromium-browser.desktop" ];
-  # 		"x-scheme-handler/https" = [ "chromium-browser.desktop" ];
-  # 		"x-scheme-handler/about" = [ "chromium-browser.desktop" ];
-  # 		"x-scheme-handler/unknown" = [ "chromium-browser.desktop" ];
-  # 	};
-
-  # try nyxt
-  home.packages = with pkgs; [
-    nyxt
+}:
+let
+  # Persistence targets
+  chromiumFiles = [
+    "Default/Cookies"
+    "Default/Bookmarks"
+    "Default/Login Data"
+    "Default/History"
+    "Default/Web Data"
+    "Local State"
+    "Default/Preferences"
   ];
-  # Add ungoogled-chromium with extensions
+  
+  chromiumDirs = [
+    "Default/Local Storage"
+    "Default/Sessions"
+    "Default/Session Storage"
+  ];
+
+  # Common command line arguments
+  commandLineArgs = [
+    "--disable-sync"
+    "--no-default-browser-check"
+    "--force-dark-mode"
+    "--ozone-platform=wayland"
+    "--enable-features=UseOzonePlatform"
+    "--enable-features=BlockThirdPartyCookiesInIncognito"
+    "--no-service-autorun"
+    "--disable-features=PreloadMediaEngagementData,MediaEngagementBypassAutoplayPolicies"
+    "--disable-reading-from-canvas"
+    "--no-pings"
+    "--no-first-run"
+    "--no-experiments"
+    "--no-crash-upload"
+    "--disable-wake-on-wifi"
+    "--enable-features=VaapiVideoDecodeLinuxGL"
+    "--ignore-gpu-blocklist"
+    "--enable-zero-copy"
+    "--disable-breakpad"
+    "--disable-sync"
+    "--disable-speech-api"
+    "--disable-speech-synthesis-api"
+  ];
+
+  # Base Chromium package
+  baseChromium = pkgs.ungoogled-chromium.override {
+    enableWideVine = true;
+    inherit commandLineArgs;
+  };
+
+  # Wrapper script using Nix-defined files/dirs
+  persistenceWrapper = pkgs.writeShellScriptBin "chromium-wrapper" ''
+    #!/bin/sh
+    set -euo pipefail
+
+    USER="$(whoami)"
+    PERSIST_ROOT="/persist/home/$USER/.config/chromium"
+    LIVE_ROOT="/home/$USER/.config/chromium"
+
+    # Create directory structure
+    mkdir -p "$LIVE_ROOT/Default" "$PERSIST_ROOT/Default"
+
+    # Sync from persist to live
+    ${pkgs.rsync}/bin/rsync -av \
+      --include='/Default' \
+      ${lib.concatMapStrings (d: "--include='${d}/***' ") chromiumDirs} \
+      ${lib.concatMapStrings (f: "--include='${f}' ") chromiumFiles} \
+      --exclude='*' \
+      "$PERSIST_ROOT/" "$LIVE_ROOT/"
+
+    # Launch Chromium
+
+    # Sync back to persist
+    cleanup() {
+      ${pkgs.rsync}/bin/rsync -av \
+        --include='/Default' \
+        ${lib.concatMapStrings (d: "--include='${d}/***' ") chromiumDirs} \
+        ${lib.concatMapStrings (f: "--include='${f}' ") chromiumFiles} \
+        --exclude='*' \
+        "$LIVE_ROOT/" "$PERSIST_ROOT/"
+    }
+    trap cleanup EXIT
+
+    exec "${baseChromium}/bin/chromium" ${lib.escapeShellArgs commandLineArgs} "$@"
+  '';
+
+  # Final wrapped package
+  wrappedChromium = pkgs.symlinkJoin {
+    name = "chromium";
+    paths = [ baseChromium ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/chromium \
+        --run "exec ${persistenceWrapper}/bin/chromium-wrapper"
+    '';
+  };
+in {
+  # Rest of your configuration remains the same
+  xdg.mimeApps.defaultApplications = {
+    "text/html" = [ "chromium-browser.desktop" ];
+    "text/xml" = [ "chromium-browser.desktop" ];
+    "x-scheme-handler/http" = [ "chromium-browser.desktop" ];
+    "x-scheme-handler/https" = [ "chromium-browser.desktop" ];
+    "x-scheme-handler/about" = [ "chromium-browser.desktop" ];
+    "x-scheme-handler/unknown" = [ "chromium-browser.desktop" ];
+  };
+
   programs.chromium = {
     enable = true;
-    package = pkgs.ungoogled-chromium.override {
-      enableWideVine = true;
-      commandLineArgs = [
-        "--disable-sync"
-        "--no-default-browser-check"
-        "--force-dark-mode"
-        "--ozone-platform=wayland"
-        "--enable-features=UseOzonePlatform"
-        "--enable-features=BlockThirdPartyCookiesInIncognito"
-        # "--gtk-version=4"
+    package = wrappedChromium;
+    # searchEngine = "https://www.google.com/search?q=";
+    # extraOpts = {
+    #   "BrowserSignin" = 0;
+    #   "SyncDisabled" = true;
+    #   "PasswordManagerEnabled" = false;
+    #   "SpellcheckLanguage" = [ "en-US" "pt-BR" "ja-JP" ];
+    #   "ui.zoom.force_enable_zoom_scrollbars" = true;
+    # };
 
-        "--no-service-autorun"
-        "--disable-features=PreloadMediaEngagementData,MediaEngagementBypassAutoplayPolicies"
-        "--disable-reading-from-canvas"
-        "--no-pings"
-        "--no-first-run"
-        "--no-experiments"
-        "--no-crash-upload"
-        "--disable-wake-on-wifi"
-        "--enable-features=VaapiVideoDecodeLinuxGL"
-        "--ignore-gpu-blocklist"
-        "--enable-zero-copy"
-        "--disable-breakpad"
-        "--disable-sync"
-        "--disable-speech-api"
-        "--disable-speech-synthesis-api"
-      ];
-    };
-    # extensions = [
-    #   {id = "mnjggcdmjocbbbhaepdhchncahnbgone";} # sponsor block
-    #   {id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";} # ublock
-    #   {id = "nngceckbapebfimnlniiiahkandclblb";} # bitwarden
-    #   {id = "dbepggeogbaibhgnhhndojpepiihcmeb";} # tab manager
-    # ];
-
-    # for now i will keep using the default pass manager
-
-    #searchEngine = "https://www.google.com/search?q=";
-    #extraOpts = {
-    #  "BrowserSignin" = 0;
-    #  "SyncDisabled" = true;
-    #  "PasswordManagerEnabled" = false;
-    #  "SpellcheckLanguage" = [ "pt-BR" "en-US" ];
-    #  "ui.zoom.force_enable_zoom_scrollbars" = true;
-    #};
     extensions = let
       createChromiumExtensionFor = browserVersion: {
         id,
@@ -80,52 +136,23 @@
         };
         inherit version;
       };
-      createChromiumExtension = createChromiumExtensionFor (lib.versions.major pkgs.ungoogled-chromium.version);
+      createChromiumExtension = createChromiumExtensionFor (lib.versions.major baseChromium.version);
     in [
-      (createChromiumExtension {
-        # Vimium
+      (createChromiumExtension { # Vimium
         id = "dbepggeogbaibhgnhhndojpepiihcmeb";
         sha256 = "sha256:0m8xski05w2r8igj675sxrlkzxlrl59j3a7m0r6c8pwcvka0r88d";
         version = "2.1.2";
       })
-      # (createChromiumExtension {
-      #   # ViolentMonkey
-      #   id = "jinjaccalgkegednnccohejagnlnfdag";
-      #   sha256 = "sha256:0klm9rqd4bwcjp3azn9bca4zwd3gz1mpqsrn8gz16k2shp7p5yh8";
-      #   version = "2.14.0";
-      # })
-      (createChromiumExtension {
-        # Bitwarden
+      (createChromiumExtension { # Bitwarden
         id = "nngceckbapebfimnlniiiahkandclblb";
         sha256 = "sha256:14mk4x3nggkggf68a3bafry9vk54yxcxlsczzs4qmp7m03y16a1n";
-        version = "2024.6.2";
+        version = "2025.2.1";
       })
-      (createChromiumExtension {
-        # uBlock Origin
+      (createChromiumExtension { # Ublock
         id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
         sha256 = "sha256:01kk94l38qqp2rbyylswjs8q25kcjaqvvh5b8088xria5mbrhskl";
-        version = "1.58.0";
+        version = "1.62.0";
       })
     ];
-  };
-  home.persistence = {
-    "/persist/home/${config.home.username}" = {
-      allowOther = true;
-      directories = [
-        ".config/chromium/Default/Local Storage"
-        # not sure if i'll need this, keep track of.
-        #".config/chromium/Default/IndexedDB"
-        # ".config/chromium/Default/Certificate"
-      ];
-      files = [
-        ".config/chromium/Default/Cookies"
-        ".config/chromium/Default/Bookmarks"
-        ".config/chromium/Default/Login Data"
-        ".config/chromium/Default/History"
-        ".config/chromium/Default/Web Data"
-        ".config/chromium/Local State"
-        ".config/chromium/Default/Preferences" # doesnt seem to be workng?
-      ];
-    };
   };
 }

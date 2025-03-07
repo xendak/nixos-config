@@ -1,7 +1,95 @@
-{ inputs, pkgs, ...}: {
+# { inputs, pkgs, ...}: {
+#   programs.wezterm = {
+#     enable = true;
+#     package = inputs.wezterm.packages.${pkgs.system}.default;
+#   };
+# }
+
+{
+  inputs,
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  inherit (config.colorscheme) colors;
+  xterm = {
+    weztern = pkgs.writeShellScriptBin "xterm" ''
+      ${pkgs.wezterm}/bin/wezterm "$@"
+    '';
+  };
+in {
+  home = {
+    packages = [
+      xterm.wezterm
+    ];
+    sessionVariables = {
+      TERMINAL = lib.mkForce "wezterm";
+    };
+    sessionPath = ["$HOME/Flake/bin"];
+  };
+
+  # Wezterm configuration
   programs.wezterm = {
     enable = true;
     package = inputs.wezterm.packages.${pkgs.system}.default;
+    extraConfig = ''
+      return {
+        font = wezterm.font("${config.fontProfiles.monospace.family}",
+          {weight = 'Regular'}),
+        font_size = 12.0
+        color_scheme = "Custom",
+        window_padding = {
+          left = 15,
+          right = 15,
+          top = 15,
+          bottom = 15,
+        },
+        enable_wayland = true,
+        colors = {
+          foreground = "#${colors.base05}",
+          background = "#${colors.base00}",
+          cursor_bg = "#${colors.base05}",
+          cursor_border = "#${colors.base05}",
+          selection_fg = "#${colors.base00}",
+          selection_bg = "#${colors.base05}",
+          ansi = {
+            "#${colors.base00}",
+            "#${colors.base08}",
+            "#${colors.base0B}",
+            "#${colors.base0A}",
+            "#${colors.base0D}",
+            "#${colors.base0E}",
+            "#${colors.base0C}",
+            "#${colors.base05}",
+          },
+          brights = {
+            "#${colors.base03}",
+            "#${colors.base08}",
+            "#${colors.base0B}",
+            "#${colors.base0A}",
+            "#${colors.base0D}",
+            "#${colors.base0E}",
+            "#${colors.base0C}",
+            "#${colors.base07}",
+          },
+          tab_bar = {
+            background = "#${colors.base01}",
+            active_tab = {
+              bg_color = "#${colors.base00}",
+              fg_color = "#${colors.base05}",
+            },
+            inactive_tab = {
+              bg_color = "#${colors.base01}",
+              fg_color = "#${colors.base04}",
+            },
+          },
+        },
+        keys = {
+          {key="Backspace", mods="CTRL", action=wezterm.action{SendString="\x17"}},
+        }
+      }
+    '';
   };
 }
 

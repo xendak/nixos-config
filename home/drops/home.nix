@@ -20,13 +20,19 @@
     # ../common/wayland/hyprland/plugins/hyprbars.nix
     # ../common/wayland/hyprland/plugins/hyprexpo.nix
 
+    ../common/programs/terminal/wezterm.nix
+    # trying out
+    ../common/programs/terminal/foot.nix
+
     ../common/games/wine.nix
     ../common/games/launchers/steam.nix
-    ../common/games/emulators/retroarch.nix
+    # ../common/games/emulators/retroarch.nix
     # ../common/programs/pass.nix
     ../common/programs/browser/chromium.nix
+    ../common/programs/browser/zen.nix
     # ../common/programs/rustdesk.nix
   ];
+
 
   home.file = {
     ".ssh/known_hosts".source = ../common/ssh/known_hosts;
@@ -57,20 +63,22 @@
     '';
   };
 
-  home.packages = with pkgs; [
-    obs-studio
+  home.packages = [
+    pkgs.obs-studio
 
     # disable kanata and leave only external kb
-    evtest
+    pkgs.evtest
 
-    eb-garamond
-    blender
+    pkgs.eb-garamond
+    pkgs.blender
 
-    deluge
+    pkgs.deluge
+
+    # inputs.zen-browser.packages.${pkgs.system}.default
 
     # keyboard
-    qmk
-    wally-cli
+    pkgs.qmk
+    pkgs.wally-cli
   ];
 
   programs = {
@@ -85,7 +93,7 @@
   home = {
     username = lib.mkDefault "drops";
     homeDirectory = lib.mkDefault "/home/drops/";
-    stateVersion = lib.mkDefault "24.05";
+    stateVersion = lib.mkDefault "25.05";
     sessionPath = ["$HOME/Flake/bin"];
     persistence = {
       "/persist/home/drops" = {
