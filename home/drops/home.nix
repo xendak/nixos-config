@@ -131,8 +131,8 @@
       SPLIT = "v";
       GTK_THEME = "${config.gtk.theme.name}:dark";
       EDITOR = "nvim";
-      TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
-      BROWSER = "firefox";
+      # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
+      # BROWSER = "chromium";
       FILEBROWSER = "dolphin";
       TERMBROWSER = "n";
       WINEPREFIX = "$HOME/Games/Wine-Prefix";
