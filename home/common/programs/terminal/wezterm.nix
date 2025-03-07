@@ -37,7 +37,7 @@ in {
       return {
         font = wezterm.font("${config.fontProfiles.monospace.family}",
           {weight = 'Regular'}),
-        font_size = 12.0
+        font_size = 12.0,
         color_scheme = "Custom",
         window_padding = {
           left = 15,
