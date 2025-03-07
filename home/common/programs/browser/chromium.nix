@@ -110,6 +110,10 @@ in {
     "x-scheme-handler/unknown" = [ "chromium-browser.desktop" ];
   };
 
+  home.sessionVariables = {
+    BROWSER = "${wrappedChromium}";
+  };
+
   programs.chromium = {
     enable = true;
     package = wrappedChromium;
