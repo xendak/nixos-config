@@ -27,8 +27,6 @@ let
   # Wrapper script for Zen
   zenWrapper = pkgs.writeShellScriptBin "zen-wrapper" ''
     #!/bin/bash
-    # set -x
-    # set -euo pipefail
 
     USER="$(whoami)"
     PERSIST_ROOT="/persist/home/$USER/.config/zen/${zenProfileName}"
@@ -65,7 +63,7 @@ let
 
     trap cleanup EXIT
 
-    exec "${pkgs.zen-browser}/bin/zen" "$@"
+    exec "${inputs.zen-browser.packages.${pkgs.system}.default}/bin/zen" "$@"
     '';
 
     wrappedZen = pkgs.symlinkJoin {
@@ -78,8 +76,7 @@ let
       '';
     };
 in {
-  # Add similar XDG config if needed
-  home.programs = [
+  home.packages = [
     wrappedZen
   ];
 }

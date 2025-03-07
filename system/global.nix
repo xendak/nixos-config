@@ -239,5 +239,5 @@ in {
     };
   };
 
-  system.stateVersion = "24.05";
+  system.stateVersion = lib.mkDefault "25.05";
 }

@@ -14,7 +14,7 @@
 }: let
   inherit (config.colorscheme) colors;
   xterm = {
-    weztern = pkgs.writeShellScriptBin "xterm" ''
+    wezterm = pkgs.writeShellScriptBin "xterm" ''
       ${pkgs.wezterm}/bin/wezterm "$@"
     '';
   };
