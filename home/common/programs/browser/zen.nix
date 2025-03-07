@@ -2,10 +2,11 @@
   pkgs,
   lib,
   inputs,
+  config,
   ...
 }:
 let
-  zenProfileName = "drops"; # Or your specific profile name
+  zenProfileName = config.home.username; # Or your specific profile name
   zenFiles = [
     "places.sqlite"
     "cookies.sqlite"
@@ -63,7 +64,7 @@ let
 
     trap cleanup EXIT
 
-    exec "${inputs.zen-browser.packages.${pkgs.system}.default}/bin/zen" "$@"
+    exec "${inputs.zen-browser.packages.${pkgs.system}.default}/bin/zen" --profile "$LIVE_ROOT" "$@"
     '';
 
     wrappedZen = pkgs.symlinkJoin {

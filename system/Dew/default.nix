@@ -14,6 +14,8 @@
     ../extras/powersave.nix
     ../extras/kanata.nix
 
+    ../extras/sync-browser.nix
+
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
     inputs.auto-cpufreq.nixosModules.default

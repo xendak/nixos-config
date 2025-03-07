@@ -63,7 +63,7 @@
       NoTrack.enabled = true;
       AlwaysAnimate.enabled = false;
       AlwaysTrust.enabled = false;
-      "WebRichPresence (arRPC)".enabled = true;
+      "WebRichPresence (arRPC)".enabled = false;
       BANger.enabled = false;
       BetterFolders.enabled = false;
       BetterGifAltText.enabled = false;

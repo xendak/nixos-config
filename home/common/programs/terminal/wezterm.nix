@@ -45,6 +45,8 @@ in {
           top = 15,
           bottom = 15,
         },
+        window_close_confirmation = "NeverPrompt",
+        automatically_reload_config = true,
         enable_wayland = true,
         colors = {
           foreground = "#${colors.base05}",
