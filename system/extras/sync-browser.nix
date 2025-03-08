@@ -1,17 +1,24 @@
 {pkgs, ...}: let
   zenFileList = pkgs.writeText "zen-sync-filelist" ''
-    "places.sqlite"
-    "cookies.sqlite"
-    "logins.json"
-    "key4.db"
-    "cert9.db"
-    "permissions.sqlite"
-    "prefs.js"
-    "sessionstore.jsonlz4"
-    "storage"
-    "cache2/entries"
-    "bookmarkbackups"
-    "extension-data"
+    places.sqlite
+    cookies.sqlite
+    logins.json
+    key4.db
+    cert9.db
+    permissions.sqlite
+    prefs.js
+    sessionstore.jsonlz4
+    storage
+    cache2/entries
+    bookmarkbackups
+    addons.json
+    addonStartup.json.lz4
+    extension-preferences.json
+    extension-store-menus
+    extensions
+    extensions.json
+    zen-keyboard-shortcuts.json
+    zen-themes.json
   '';
 
   # File list containing all Chromium paths to sync
@@ -26,6 +33,10 @@
     Default/Local Storage
     Default/Sessions
     Default/Session Storage
+    Default/Extension Rules
+    Default/Extensions
+    Default/Extension Scripts
+    Default/Extension State
   '';
 
   # Main sync script
@@ -52,11 +63,11 @@
     esac
 
     # Argument handling
-    if [ "$1" = "persist-to-live" ]; then
+    if [ "$2" = "persist-to-live" ]; then
       SOURCE="$PERSIST"
       DEST="$LIVE"
       OPTS="-arv --mkpath"
-    elif [ "$1" = "live-to-persist" ]; then
+    elif [ "$2" = "live-to-persist" ]; then
       SOURCE="$LIVE"
       DEST="$PERSIST"
       OPTS="-arv --update --mkpath"
@@ -68,7 +79,7 @@
     fi
 
     # Perform sync with file list
-    rsync $OPTS --files-from="$FILELIST" "$SOURCE/" "$DEST/"
+    ${pkgs.rsync}/bin/rsync $OPTS --files-from="$FILELIST" "$SOURCE/" "$DEST/"
   '';
 
   allSyncScript = pkgs.writeShellScriptBin "all-sync" ''
@@ -97,8 +108,14 @@ in {
     description = "Moves ephemeral chromium data to persistent storage";
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "sh ${syncScript}/bin/sync-browser chromium live-to-persist";
+      # ExecStart = "${syncScript}/bin/sync-browser chromium live-to-persist";
+      # ExecStart = "${pkgs.writeShellScript "chromium-live-to-persist.sh" ''
+      #   ${syncScript}/bin/sync-browser chromium live-to-persist
+      # ''}";
     };
+    script = ''
+      ${syncScript}/bin/sync-browser chromium live-to-persist
+    '';
   };
 
   systemd.user.timers."chromium-sync-live-to-persist" = {
@@ -106,7 +123,7 @@ in {
     wantedBy = ["timers.target"];
     timerConfig = {
       OnUnitActiveSec = "1h";
-      OnBootSec = "5m";
+      # OnBootSec = "5m";
       Unit = "chromium-sync-live-to-persist.service";
     };
   };
@@ -119,12 +136,18 @@ in {
     wantedBy = ["default.target"];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "sh ${allSyncScript}/bin/all-sync persist-to-live";
+      # ExecStart = "${allSyncScript}/bin/all-sync persist-to-live";
+      # ExecStart = "${pkgs.writeShellScript "all-sync-login.sh" ''
+      #   ${allSyncScript}/bin/all-sync persist-to-live
+      # ''}";
     };
+    script = ''
+      ${allSyncScript}/bin/all-sync persist-to-live
+    '';
   };
 
   # Systemd service to restore data on shutdown
-  systemd.services."browser-sync-shutdown" = {
+  systemd.user.services."browser-sync-shutdown" = {
     enable = true;
     description = "Sync browser data before shutdown";
     unitConfig = {
@@ -137,9 +160,15 @@ in {
 
     serviceConfig = {
       Type = "oneshot";
-      ExecStop = "sh ${allSyncScript}/bin/all-sync live-to-persist";
+      # ExecStop = "${allSyncScript}/bin/all-sync live-to-persist";
+      # ExecStop = "${pkgs.writeShellScript "all-sync-shutdown.sh" ''
+      #   ${allSyncScript}/bin/all-sync live-to-persist
+      # ''}";
       TimeoutStopSec = "60s";
       RemainAfterExit = true;
     };
+    script = ''
+      ${allSyncScript}/bin/all-sync live-to-persist
+    '';
   };
 }
