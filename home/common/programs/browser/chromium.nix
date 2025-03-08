@@ -3,26 +3,7 @@
   lib,
   config,
   ...
-}:
-let
-  # Persistence targets
-  chromiumFiles = [
-    "Default/Cookies"
-    "Default/Bookmarks"
-    "Default/Login Data"
-    "Default/History"
-    "Default/Web Data"
-    "Local State"
-    "Default/Preferences"
-  ];
-  
-  chromiumDirs = [
-    "Default/Local Storage"
-    "Default/Sessions"
-    "Default/Session Storage"
-  ];
-
-  # Common command line arguments
+}: let
   commandLineArgs = [
     "--disable-sync"
     "--no-default-browser-check"
@@ -53,70 +34,24 @@ let
     inherit commandLineArgs;
   };
 
-  # Wrapper script using Nix-defined files/dirs
-  persistenceWrapper = pkgs.writeShellScriptBin "chromium-wrapper" ''
-    #!/bin/sh
-    set -euo pipefail
-
-    USER="$(whoami)"
-    PERSIST_ROOT="/persist/home/$USER/.config/chromium"
-    LIVE_ROOT="/home/$USER/.config/chromium"
-
-    # Create directory structure
-    mkdir -p "$LIVE_ROOT/Default" "$PERSIST_ROOT/Default"
-
-    # Sync from persist to live
-    ${pkgs.rsync}/bin/rsync -av \
-      --include='/Default' \
-      ${lib.concatMapStrings (d: "--include='${d}/***' ") chromiumDirs} \
-      ${lib.concatMapStrings (f: "--include='${f}' ") chromiumFiles} \
-      --exclude='*' \
-      "$PERSIST_ROOT/" "$LIVE_ROOT/"
-
-    # Launch Chromium
-
-    # Sync back to persist
-    cleanup() {
-      ${pkgs.rsync}/bin/rsync -av \
-        --include='/Default' \
-        ${lib.concatMapStrings (d: "--include='${d}/***' ") chromiumDirs} \
-        ${lib.concatMapStrings (f: "--include='${f}' ") chromiumFiles} \
-        --exclude='*' \
-        "$LIVE_ROOT/" "$PERSIST_ROOT/"
-    }
-    trap cleanup EXIT
-
-    exec "${baseChromium}/bin/chromium" ${lib.escapeShellArgs commandLineArgs} "$@"
-  '';
-
-  # Final wrapped package
-  wrappedChromium = pkgs.symlinkJoin {
-    name = "chromium";
-    paths = [ baseChromium ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/chromium \
-        --run "exec ${persistenceWrapper}/bin/chromium-wrapper"
-    '';
-  };
 in {
   # Rest of your configuration remains the same
   xdg.mimeApps.defaultApplications = {
-    "text/html" = [ "chromium-browser.desktop" ];
-    "text/xml" = [ "chromium-browser.desktop" ];
-    "x-scheme-handler/http" = [ "chromium-browser.desktop" ];
-    "x-scheme-handler/https" = [ "chromium-browser.desktop" ];
-    "x-scheme-handler/about" = [ "chromium-browser.desktop" ];
-    "x-scheme-handler/unknown" = [ "chromium-browser.desktop" ];
+    "text/html" = ["chromium-browser.desktop"];
+    "text/xml" = ["chromium-browser.desktop"];
+    "x-scheme-handler/http" = ["chromium-browser.desktop"];
+    "x-scheme-handler/https" = ["chromium-browser.desktop"];
+    "x-scheme-handler/about" = ["chromium-browser.desktop"];
+    "x-scheme-handler/unknown" = ["chromium-browser.desktop"];
   };
 
   home.sessionVariables = {
-    BROWSER = "${wrappedChromium}";
+    BROWSER = "chromium";
   };
 
   programs.chromium = {
     enable = true;
-    package = wrappedChromium;
+    package = baseChromium;
     # searchEngine = "https://www.google.com/search?q=";
     # extraOpts = {
     #   "BrowserSignin" = 0;
@@ -142,19 +77,22 @@ in {
       };
       createChromiumExtension = createChromiumExtensionFor (lib.versions.major baseChromium.version);
     in [
-      (createChromiumExtension { # Vimium
+      (createChromiumExtension {
+        # Vimium
         id = "dbepggeogbaibhgnhhndojpepiihcmeb";
         sha256 = "sha256:0m8xski05w2r8igj675sxrlkzxlrl59j3a7m0r6c8pwcvka0r88d";
         version = "2.1.2";
       })
-      (createChromiumExtension { # Bitwarden
+      (createChromiumExtension {
+        # Bitwarden
         id = "nngceckbapebfimnlniiiahkandclblb";
-        sha256 = "sha256:14mk4x3nggkggf68a3bafry9vk54yxcxlsczzs4qmp7m03y16a1n";
+        sha256 = "sha256:1vsvswam4bz0j1sc7ig0xnysshjwj4x7nnzlic711jasf5c3sg3p";
         version = "2025.2.1";
       })
-      (createChromiumExtension { # Ublock
+      (createChromiumExtension {
+        # Ublock
         id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
-        sha256 = "sha256:01kk94l38qqp2rbyylswjs8q25kcjaqvvh5b8088xria5mbrhskl";
+        sha256 = "sha256:0ycnkna72n969crgxfy2lc1qbndjqrj46b9gr5l9b7pgfxi5q0ll";
         version = "1.62.0";
       })
     ];

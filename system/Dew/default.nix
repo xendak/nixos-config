@@ -115,7 +115,7 @@
   networking.hostName = "Dew";
   environment.persistence."/persist" = {
     hideMounts = true;
-    directories = ["/etc/NetworkManager" "/var/lib/NetworkManager"];
+    directories = ["/etc/NetworkManager" "/var/lib/NetworkManager" "/var/lib/nixos"];
   };
 
   # GENSHIN PATCH ---------------------------

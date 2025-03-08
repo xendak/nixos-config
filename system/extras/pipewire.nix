@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   security.rtkit.enable = true;
   services.pipewire.wireplumber.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   services.pipewire = {
     #media-session.enable = true;
     enable = true;
