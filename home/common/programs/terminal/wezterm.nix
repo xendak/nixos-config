@@ -52,6 +52,7 @@ in {
           foreground = "#${colors.base05}",
           background = "#${colors.base00}",
           cursor_bg = "#${colors.base05}",
+          cursor_fg = "#${colors.base00},"
           cursor_border = "#${colors.base05}",
           selection_fg = "#${colors.base00}",
           selection_bg = "#${colors.base05}",
@@ -88,30 +89,52 @@ in {
           },
         },
         keys = {
-          { key="Backspace", mods="CTRL", action=wezterm.action{SendString="\x17"} },
-          { key = "q",  mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
-          { key = "e",  mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
-          { key = "a",  mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
-          { key = "d",  mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
-          { key = 'w',  mods = "ALT", action = wezterm.action.CloseCurrentPane { confirm = false } },
-          { key = '\\', mods = 'ALT', action = wezterm.action_callback(function(win, pane)
-                local panes = pane:tab():panes_with_info()
-                wezterm.log_info(#panes)
-                if #panes > 1 then
-                   win:perform_action(wezterm.action.CloseCurrentPane({ confirm = false }), pane)
-                end
-                win:perform_action(wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }), pane)
-                end) 
+          { key = 's', mods = 'CTRL|ALT', action = wezterm.action.SpawnTab("CurrentPaneDomain") },
+          -- movement
+          { key="o", mods="ALT", action=wezterm.action{PaneSelect={}} },
+          { key = "q",  mods = "ALT", action = wezterm.action({ ActivateTabRelative = -1 }) },
+          { key = "e",  mods = "ALT", action = wezterm.action({ ActivateTabRelative =  1 }) },
+          { key = "a",  mods = "ALT", action = wezterm.action.ActivatePaneDirection 'Left' },
+          { key = "d",  mods = "ALT", action = wezterm.action.ActivatePaneDirection 'Right' },
+          { key = "w",  mods = "ALT", action = wezterm.action.ActivatePaneDirection 'Up' },
+          { key = "s",  mods = "ALT", action = wezterm.action.ActivatePaneDirection 'Down' },
+          { key = 'w',  mods = "CTRL|SHIFT", action = wezterm.action.CloseCurrentPane { confirm = false } },
+          { key = '\\', mods = 'ALT', action = wezterm.action_callback(function(_, pane)
+                    local tab = pane:tab()
+                    local panes = tab:panes_with_info()
+                    if #panes == 1 then
+                        pane:split({
+                            direction = "Bottom",
+                            size = 0.35,
+                        })
+                    elseif not panes[1].is_zoomed then
+                        panes[1].pane:activate()
+                        tab:set_zoomed(true)
+                    elseif panes[1].is_zoomed then
+                        tab:set_zoomed(false)
+                        panes[2].pane:activate()
+                    end
+                end),
           },
-          { key = 'h', mods = 'ALT', action = wezterm.action_callback(function(win, pane)
-              local panes = pane:tab():panes_with_info()
-              wezterm.log_info(#panes)
-              if #panes > 1 then
-                 win:perform_action(wezterm.action.CloseCurrentPane({ confirm = false }), pane)
-              end
-              win:perform_action(wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }), pane)
-              end) 
+          { key = 'h', mods = 'ALT', action = wezterm.action_callback(function(_, pane)
+                    local tab = pane:tab()
+                    local panes = tab:panes_with_info()
+                    if #panes == 1 then
+                        pane:split({
+                            direction = "Right",
+                            size = 0.35,
+                        })
+                    elseif not panes[1].is_zoomed then
+                        panes[1].pane:activate()
+                        tab:set_zoomed(true)
+                    elseif panes[1].is_zoomed then
+                        tab:set_zoomed(false)
+                        panes[2].pane:activate()
+                    end
+                end),
           },
+
+          { key="Backspace", mods="CTRL", action=wezterm.action{SendString="\x17"} }
         }
       }
     '';

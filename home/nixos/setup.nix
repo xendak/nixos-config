@@ -12,7 +12,8 @@ in {
     [
       #inputs.impermanence.nixosModules.home-manager.impermanence
       inputs.nix-colors.homeManagerModule
-      ../common/colors
+      # ../common/colors
+      ../common/colors/kanagawa.nix
     ]
     ++ (builtins.attrValues outputs.homeManagerModules);
 
