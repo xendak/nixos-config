@@ -101,7 +101,7 @@
   home = {
     username = lib.mkDefault "nixos";
     homeDirectory = lib.mkDefault "/home/nixos/";
-    stateVersion = lib.mkDefault "24.05";
+    stateVersion = lib.mkDefault "25.05";
     sessionPath = ["$HOME/Flakes/bin"];
     sessionVariables = {
       UserKnownHostsFile = "$HOME/.local/share/ssh";

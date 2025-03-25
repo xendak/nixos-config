@@ -88,9 +88,31 @@ in {
           },
         },
         keys = {
-          {key="Backspace", mods="CTRL", action=wezterm.action{SendString="\x17"}},
+          { key="Backspace", mods="CTRL", action=wezterm.action{SendString="\x17"} },
+          { key = "q",  mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
+          { key = "e",  mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
+          { key = "a",  mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
+          { key = "d",  mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
+          { key = 'w',  mods = "ALT", action = wezterm.action.CloseCurrentPane { confirm = false } },
+          { key = '\\', mods = 'ALT', action = wezterm.action_callback(function(win, pane)
+                local panes = pane:tab():panes_with_info()
+                wezterm.log_info(#panes)
+                if #panes > 1 then
+                   win:perform_action(wezterm.action.CloseCurrentPane({ confirm = false }), pane)
+                end
+                win:perform_action(wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }), pane)
+                end) 
+          },
+          { key = 'h', mods = 'ALT', action = wezterm.action_callback(function(win, pane)
+              local panes = pane:tab():panes_with_info()
+              wezterm.log_info(#panes)
+              if #panes > 1 then
+                 win:perform_action(wezterm.action.CloseCurrentPane({ confirm = false }), pane)
+              end
+              win:perform_action(wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }), pane)
+              end) 
+          },
         }
-      }
     '';
   };
 }

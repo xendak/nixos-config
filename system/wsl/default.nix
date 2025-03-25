@@ -55,7 +55,7 @@
     extraSpecialArgs = {inherit inputs outputs;};
   };
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "25.05";
 
   wsl = {
     enable = true;
