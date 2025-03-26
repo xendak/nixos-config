@@ -89,7 +89,23 @@ in {
     };
 
     yaml-language-server.config.yaml.keyOrdering = false;
-    clangd.args = ["--inlay-hints" "--background-index"];
+    clangd.args = [
+      "--inlay-hints" 
+      "--background-index"
+      "--offset-encoding=utf-16"
+      "--compile-commands-dir=build"
+      "--completion-style=detailed"
+      "--all-scopes-completion=true"
+      "--recovery-ast"
+      "--suggest-missing-includes"
+      "--clang-tidy"
+      "--all-scopes-completion"
+      "--cross-file-rename"
+      "--function-arg-placeholders=false"
+      "--header-insertion=never"
+      "--pch-storage=memory"
+    ];
+
     # nil.config = {
     #   nil_ls.settings.nil.nix.flake.autoEvalInputs = true;
     #   nil.formatting.command = [ "nixpkgs-fmt" ];

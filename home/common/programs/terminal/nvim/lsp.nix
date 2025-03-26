@@ -29,7 +29,23 @@
           add_lsp(lspconfig.dockerls, {})
           add_lsp(lspconfig.bashls, {})
           add_lsp(lspconfig.clangd, {
-            cmd =  { "clangd", "--offset-encoding=utf-16" }
+            cmd =  { 
+              "clangd", 
+              "--inlay-hints",
+              "--offset-encoding=utf-16",
+              "--compile-commands-dir=build",
+              "--background-index",
+              "--completion-style=detailed",
+              "--all-scopes-completion=true",
+              "--recovery-ast",
+              "--suggest-missing-includes",
+              "--clang-tidy",
+              "--all-scopes-completion",
+              "--cross-file-rename",
+              "--function-arg-placeholders=false",
+              "--header-insertion=never",
+              "--pch-storage=memory",
+            }
           })
           add_lsp(lspconfig.nixd, {
             settings = { nixd = {
@@ -45,10 +61,18 @@
           add_lsp(lspconfig.terraformls, {})
           add_lsp(lspconfig.gopls, {})
           add_lsp(lspconfig.lua_ls, {})
-          add_lsp(lspconfig.jdtls, {})
+          add_lsp(lspconfig.jdtls, { 
+            cmd = {
+              "${lib.getExe pkgs.jdt-language-server}",
+              "--jvm-arg=-javaagent:${pkgs.lombok}/share/java/lombok.jar",
+              "-configuration",
+              "${config.xdg.cacheHome}/.jdt/jdtls_install/config_linux",
+              "-data",
+            }
+          })
           add_lsp(lspconfig.zls, {})
           add_lsp(lspconfig.ts_ls, {})
-          add_lsp(lspconfig.typst_lsp, {})
+          add_lsp(lspconfig.tinymist, {})
           add_lsp(lspconfig.elixirls, { cmd = {"elixir-ls"}})
 
           add_lsp(lspconfig.texlab, {
