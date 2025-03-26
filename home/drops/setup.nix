@@ -13,7 +13,9 @@ in {
       inputs.impermanence.nixosModules.home-manager.impermanence
       inputs.nix-colors.homeManagerModule
 
-      ../common/colors
+      # ../common/colors
+      ../common/colors/grayscale-nier.nix
+
     ]
     ++ (builtins.attrValues outputs.homeManagerModules);
 
