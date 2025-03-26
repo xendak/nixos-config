@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   xdg.configFile."nnn/plugins/zoxide".source = pkgs.writeShellScript "zoxide" ''
     # Description: Navigate to directory using jump/autojump/zoxide/z
     #

@@ -62,10 +62,13 @@ in {
     # };
 
     iconTheme = {
-     name = "Tela circle dark";
-     package = (pkgs.tela-circle-icon-theme.override { colorVariants = ["nord"]; circularFolder = true;});
+      name = "Tela circle dark";
+      package = pkgs.tela-circle-icon-theme.override {
+        colorVariants = ["nord"];
+        circularFolder = true;
+      };
     };
-    
+
     # iconTheme = {
     #   name = "Win10SurDark";
     #   package = (pkgs.win10sur.override {
@@ -73,7 +76,7 @@ in {
     #     whitePanel = true;
     #   });
     # };
-    
+
     gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme = 1;

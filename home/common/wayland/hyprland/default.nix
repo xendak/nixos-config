@@ -52,7 +52,6 @@
       ];
     };
 
-
     settings = let
       rofi = "${pkgs.rofi}/bin/rofi";
       # grimblast = "${pkgs.inputs.hyprwm-contrib.grimblast}/bin/grimblast";

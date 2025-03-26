@@ -33,7 +33,6 @@
     enableWideVine = true;
     inherit commandLineArgs;
   };
-
 in {
   # Rest of your configuration remains the same
   xdg.mimeApps.defaultApplications = {

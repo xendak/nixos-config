@@ -29,11 +29,10 @@
     # ../common/games/emulators/retroarch.nix
     # ../common/programs/pass.nix
     ../common/programs/browser/chromium.nix
-    
+
     ../common/programs/browser/zen.nix
     # ../common/programs/rustdesk.nix
   ];
-
 
   home.file = {
     ".ssh/known_hosts".source = ../common/ssh/known_hosts;

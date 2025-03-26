@@ -5,8 +5,7 @@
   outputs,
   lib,
   ...
-}:
-{
+}: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     # inputs.agenix.nixosModules.default
@@ -14,7 +13,6 @@
     # ../extras/llm.nix
   ];
   time.timeZone = "America/Sao_Paulo";
-
 
   # programs.fish.enable = true;
   programs.dconf.enable = true;
@@ -38,10 +36,10 @@
     isNormalUser = true;
     # FIXME: change your shell here if you don't want fish
     shell = pkgs.fish;
-    extraGroups = [ "wheel" "docker" "input" "audio" "video" ];
-    hashedPassword= "$6$/XlEv26WR0fDTVnf$43kBq/CR1oQ4x5R70xmWUuPlaf1aoHr7G5c6FajQv6ibJ5aFKafokHrSMcDp3itve5JSroM92O29KICplH4vz.";
+    extraGroups = ["wheel" "docker" "input" "audio" "video"];
+    hashedPassword = "$6$/XlEv26WR0fDTVnf$43kBq/CR1oQ4x5R70xmWUuPlaf1aoHr7G5c6FajQv6ibJ5aFKafokHrSMcDp3itve5JSroM92O29KICplH4vz.";
     #hashedPasswordFile = "/mnt/g/persist/home/secrets/passwd-flakes";
-    packages = [ pkgs.home-manager ];
+    packages = [pkgs.home-manager];
   };
   users.users.root = {
     #hashedPasswordFile = "/mnt/g/persist/home/secrets/passwd-root"
@@ -74,7 +72,6 @@
   #   enableOnBoot = true;
   #   autoPrune.enable = true;
   # };
-
 
   nixpkgs = {
     # overlays = [

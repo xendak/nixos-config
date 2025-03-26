@@ -237,8 +237,7 @@ in {
       ''
         set -gx NNN_FCOLORS "030201050006060009060402"
       ''
-      +
-      ''
+      + ''
         fish_add_path --append /mnt/c/Users/rggro/scoop/apps/win32yank/0.1.1
       ''
       +

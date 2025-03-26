@@ -24,8 +24,6 @@
     ../common/programs/terminal/helix
   ];
 
-  
-
   home.file = {
     ".ssh/known_hosts".source = ../common/ssh/known_hosts;
     ".ssh/id_ed25519.pub".source = ../common/ssh/id_ed25519.pub;
@@ -58,7 +56,7 @@
   home.packages = with pkgs; [
     qmk
     wally-cli
-    
+
     fzf
     bc # Calculator
     bottom # System viewer

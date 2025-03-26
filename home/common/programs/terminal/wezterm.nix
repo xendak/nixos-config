@@ -4,7 +4,6 @@
 #     package = inputs.wezterm.packages.${pkgs.system}.default;
 #   };
 # }
-
 {
   inputs,
   config,
@@ -140,7 +139,6 @@ in {
     '';
   };
 }
-
 # {
 #   pkgs,
 #   inputs,
@@ -305,3 +303,4 @@ in {
 #     '';
 #   };
 # }
+

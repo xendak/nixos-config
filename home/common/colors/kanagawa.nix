@@ -4,8 +4,8 @@
     name = "kanagawa";
     author = "xendak";
     palette = {
-      base00 = "#181616";
-      base01 = "#0d0c0c";
+      base00 = "#262626";
+      base01 = "#202020";
       base02 = "#2d4f67";
       base03 = "#a6a69c";
       base04 = "#7fb4ca";
@@ -23,4 +23,3 @@
     };
   };
 }
-

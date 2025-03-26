@@ -2,10 +2,13 @@
   "${colorscheme.slug}" = {
     palette = builtins.mapAttrs (name: value: "#${value}") colorscheme.palette; # Add leading '#'
     "attributes" = "base09";
+
+    "ui.virtual.inlay-hint" = { fg = "base03"; };
     "comment" = {
       fg = "base03";
-      modifiers = ["italic"];
+      modifiers = ["bold"];
     };
+
     "constant" = "base09";
     "constant.character.escape" = "base0C";
     "constant.numeric" = "base09";

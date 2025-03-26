@@ -18,10 +18,12 @@
   };
 
   # Create the outputs configuration for all monitors
-  outputs = lib.lists.foldl' (cfg: monitor:
-    cfg // { "${monitor.name}" = generateSwayOutputConfig monitor; }
-  ) {} config.monitors;
-
+  outputs =
+    lib.lists.foldl' (
+      cfg: monitor:
+        cfg // {"${monitor.name}" = generateSwayOutputConfig monitor;}
+    ) {}
+    config.monitors;
 in {
   programs = {
     fish.loginShellInit = ''
@@ -202,7 +204,7 @@ in {
         "${mod}+minus" = "scratchpad show";
 
         "${mod}+q" = "kill";
-#        "${mod}+r" = "mode resize";
+        #        "${mod}+r" = "mode resize";
       };
       input = {
         "type:touchpad" = {
@@ -218,13 +220,13 @@ in {
       output = outputs;
 
       startup = [
-        { command = "swww init && swww img ${wallpaper}"; }
-        { command = "ags -c $HOME/Programming/dots-swayfx/.config/ags/config.js"; }
+        {command = "swww init && swww img ${wallpaper}";}
+        {command = "ags -c $HOME/Programming/dots-swayfx/.config/ags/config.js";}
         # { command = "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"; }
-        { command = "mkdir -p $HOME/tmp"; }
-        { command = "swayidle -w"; }
-        { command = "openrgb -d \"XPG Spectrix S40G\" -m Off"; }
-        { command = "sh $HOME/Flake/bin/bt-once.sh"; }
+        {command = "mkdir -p $HOME/tmp";}
+        {command = "swayidle -w";}
+        {command = "openrgb -d \"XPG Spectrix S40G\" -m Off";}
+        {command = "sh $HOME/Flake/bin/bt-once.sh";}
       ];
 
       bars = [];
@@ -243,4 +245,3 @@ in {
     };
   };
 }
-

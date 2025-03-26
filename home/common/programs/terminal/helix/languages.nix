@@ -77,6 +77,17 @@ in {
       };
     };
 
+    jdtls = {
+      command = lib.getExe pkgs.jdt-language-server;
+      args = [
+        "--jvm-arg=-javaagent:${pkgs.lombok}/share/java/lombok.jar"
+        "-configuration"
+        "${config.xdg.cacheHome}/.jdt/jdtls_install/config_linux"
+        "-data"
+        "${config.xdg.cacheHome}/.jdt/jdtls_data"
+      ];
+    };
+
     yaml-language-server.config.yaml.keyOrdering = false;
     clangd.args = ["--inlay-hints" "--background-index"];
     # nil.config = {
@@ -99,6 +110,12 @@ in {
     {
       name = "bash";
       inherit indent;
+    }
+
+    {
+      name = "java";
+      language-servers = ["scls" "jdtls"];
+      roots = [ "pom.xml" ];
     }
 
     {
