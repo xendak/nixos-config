@@ -1,4 +1,9 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
   programs.neovim.plugins = with pkgs.vimPlugins; [
     # LSP and completions for injected langs
     otter-nvim
@@ -29,8 +34,8 @@
           add_lsp(lspconfig.dockerls, {})
           add_lsp(lspconfig.bashls, {})
           add_lsp(lspconfig.clangd, {
-            cmd =  { 
-              "clangd", 
+            cmd =  {
+              "clangd",
               "--inlay-hints",
               "--offset-encoding=utf-16",
               "--compile-commands-dir=build",
@@ -61,7 +66,7 @@
           add_lsp(lspconfig.terraformls, {})
           add_lsp(lspconfig.gopls, {})
           add_lsp(lspconfig.lua_ls, {})
-          add_lsp(lspconfig.jdtls, { 
+          add_lsp(lspconfig.jdtls, {
             cmd = {
               "${lib.getExe pkgs.jdt-language-server}",
               "--jvm-arg=-javaagent:${pkgs.lombok}/share/java/lombok.jar",
