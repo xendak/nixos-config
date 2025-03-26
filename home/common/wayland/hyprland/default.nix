@@ -127,8 +127,8 @@
         shadow = {
           enabled = true;
           range = 30;
-          color = "rgba(${c.base0C}f0)";
-          color_inactive = "rgba(${c.base00}66)";
+          color = "rgba(${c.base10}f0)";
+          color_inactive = "rgba(${c.base11}66)";
         };
 
         blur = {
