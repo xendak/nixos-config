@@ -10,7 +10,7 @@
     };
 
     "constant" = "base09";
-    "constant.character.escape" = "base0C";
+    "constant.character.escape" = "base08";
     "constant.numeric" = "base09";
     "constructor" = "base0D";
     "debug" = "base03";

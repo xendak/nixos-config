@@ -112,8 +112,8 @@
         gaps_in = 5;
         gaps_out = 20;
         border_size = 3;
-        "col.active_border" = "rgba(${c.base0C}ff)";
-        "col.inactive_border" = "rgba(${c.base02}a0)";
+        "col.active_border" = "rgba(${c.base10}ff)";
+        "col.inactive_border" = "rgba(${c.base11}a0)";
         resize_on_border = true;
         hover_icon_on_border = false;
       };

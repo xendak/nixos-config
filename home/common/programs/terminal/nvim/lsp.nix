@@ -73,6 +73,7 @@
               "-configuration",
               "${config.xdg.cacheHome}/.jdt/jdtls_install/config_linux",
               "-data",
+              "${config.xdg.cacheHome}/.jdt/jdtls_data"
             }
           })
           add_lsp(lspconfig.zls, {})

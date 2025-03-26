@@ -50,8 +50,8 @@ in {
         colors = {
           foreground = "#${colors.base05}",
           background = "#${colors.base00}",
-          cursor_bg = "#${colors.base05}",
-          cursor_fg = "#${colors.base00},"
+          cursor_bg = "#F36",
+          cursor_fg = "#000",
           cursor_border = "#${colors.base05}",
           selection_fg = "#${colors.base00}",
           selection_bg = "#${colors.base05}",

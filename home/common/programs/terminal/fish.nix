@@ -59,8 +59,9 @@ in {
         end
       '';
       fcd = ''
-        nnn -ndeiH (fd -t d . | fzf) $argv
+        $TERMBROWSER (fd -t d . | fzf) $argv
       '';
+      zcd = ''z (fd -t d . | fzf) $argv '';
       wh = "readlink -f (which $argv)";
       kp = ''
           set -l __kp__pid (ps -ef | sed 1d | eval "fzf $FZF_DEFAULT_OPTS -m --header='[kill:process]'" | awk '{print $2}')
