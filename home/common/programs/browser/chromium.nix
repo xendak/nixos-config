@@ -77,6 +77,12 @@ in {
       createChromiumExtension = createChromiumExtensionFor (lib.versions.major baseChromium.version);
     in [
       (createChromiumExtension {
+        # Vencord
+        id = "cbghhgpcnddeihccjmnadmkaejncjndb";
+        sha256 = "sha256:12zm9cbrlrd7xw2mj3dg7z8pxy9yn9hmxpz2laqr43ld4i07ph9z";
+        version = "1.11.7";
+      })
+      (createChromiumExtension {
         # Vimium
         id = "dbepggeogbaibhgnhhndojpepiihcmeb";
         sha256 = "sha256:0m8xski05w2r8igj675sxrlkzxlrl59j3a7m0r6c8pwcvka0r88d";

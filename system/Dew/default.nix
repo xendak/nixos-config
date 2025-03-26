@@ -11,7 +11,7 @@
     ../global.nix
     ./btrfs-optin-persistence.nix
     ./hardware-configuration.nix
-    ../extras/powersave.nix
+    # ../extras/powersave.nix
     ../extras/kanata.nix
 
     ../extras/sync-browser.nix
