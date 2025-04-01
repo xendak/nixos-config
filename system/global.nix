@@ -19,6 +19,7 @@ in {
     #inputs.hardware.nixosModules.common-cpu-intel
     #inputs.hardware.nixosModules.common-pc-ssd
 
+    ./extras/postMountfiles.nix
     ./extras/fish.nix
     ./extras/fonts.nix
     ./openssh.nix
@@ -158,7 +159,7 @@ in {
     ];
     files = [
       # "/etc/adjtime"
-      "/etc/machine-id"
+      # "/etc/machine-id"
       "/etc/ssh/ssh_host_ed25519_key"
       "/etc/ssh/ssh_host_ed25519_key.pub"
       "/etc/ssh/ssa_host_rsa_key"
