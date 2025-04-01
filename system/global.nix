@@ -153,11 +153,12 @@ in {
       "/etc/nixos"
       "/var/lib/systemd"
       "/var/lib/bluetooth"
+      "/var/lib/nixos"
       # "/etc/bluetooth"
     ];
     files = [
       # "/etc/adjtime"
-      # "/etc/machine-id"
+      "/etc/machine-id"
       "/etc/ssh/ssh_host_ed25519_key"
       "/etc/ssh/ssh_host_ed25519_key.pub"
       "/etc/ssh/ssa_host_rsa_key"
@@ -180,7 +181,6 @@ in {
 
   services.udisks2.enable = true;
   services.fstrim.enable = true;
-  services.geoclue2.enable = true;
   services.speechd.enable = false;
 
   services.xserver.desktopManager.runXdgAutostartIfNone = true;
@@ -198,8 +198,11 @@ in {
 
   # localtime specific
   time.timeZone = lib.mkDefault "America/Sao_Paulo";
-  time.hardwareClockInLocalTime = true;
-  services.localtimed.enable = true;
+  time.hardwareClockInLocalTime = false; # Lets use proper UTC.
+  # services.localtimed.enable = true;
+  services.automatic-timezoned.enable = true;
+  services.geoclue2.enable = true;
+  services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
 
   # locale configs
   i18n.supportedLocales = ["en_US.UTF-8/UTF-8" "ja_JP.UTF-8/UTF-8" "pt_BR.UTF-8/UTF-8"];
