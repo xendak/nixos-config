@@ -19,7 +19,7 @@ in {
     #inputs.hardware.nixosModules.common-cpu-intel
     #inputs.hardware.nixosModules.common-pc-ssd
 
-    ./extras/postMountfiles.nix
+    ./extras/postMountFiles.nix
     ./extras/fish.nix
     ./extras/fonts.nix
     ./openssh.nix

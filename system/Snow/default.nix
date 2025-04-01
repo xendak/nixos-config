@@ -107,10 +107,10 @@
   networking.useDHCP = lib.mkDefault true;
   networking.nameservers = ["8.8.8.8" "8.8.4.4"];
   networking.hostName = "Snow";
-  environment.persistence."/persist" = {
-    hideMounts = true;
-    directories = ["/var/lib/nixos"];
-  };
+  # environment.persistence."/persist" = {
+  #   hideMounts = true;
+  #   directories = ["/var/lib/nixos"];
+  # };
 
   # GENSHIN PATCH ---------------------------
   networking.hosts = {
