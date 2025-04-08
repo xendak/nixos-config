@@ -110,7 +110,7 @@
           # ".local/share/anime-game-launcher"
           # ".local/share/honkers-railway-launcher"
           # ".nixops"
-          # ".local/share/direnv"
+          ".local/share/direnv"
           # ".local/share/keyrings"
           ".local/share/Terraria"
           ".local/share/fonts"
