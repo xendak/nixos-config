@@ -22,7 +22,7 @@
   '';
 
   # File list containing all Chromium paths to sync
-  chromiumFilelist = pkgs.writeText "chromium-sync-filelist" ''
+  chromiumFilelist = pkgs.writeText "hourly-browser-sync-filelist" ''
     Default/Cookies
     Default/Bookmarks
     Default/Login Data
@@ -103,28 +103,24 @@ in {
     allSyncScript
   ];
 
-  systemd.user.services."chromium-sync-live-to-persist" = {
+  systemd.user.services."hourly-browser-sync-live-to-persist" = {
     enable = true;
     description = "Moves ephemeral chromium data to persistent storage";
     serviceConfig = {
       Type = "oneshot";
-      # ExecStart = "${syncScript}/bin/sync-browser chromium live-to-persist";
-      # ExecStart = "${pkgs.writeShellScript "chromium-live-to-persist.sh" ''
-      #   ${syncScript}/bin/sync-browser chromium live-to-persist
-      # ''}";
     };
     script = ''
-      ${syncScript}/bin/sync-browser chromium live-to-persist
+      ${allSyncScript}/bin/all-sync live-to-persist
     '';
   };
 
-  systemd.user.timers."chromium-sync-live-to-persist" = {
+  systemd.user.timers."hourly-browser-sync-live-to-persist" = {
     description = "Restore Chromium data from persistent storage";
     wantedBy = ["timers.target"];
     timerConfig = {
       OnUnitActiveSec = "1h";
-      # OnBootSec = "5m";
-      Unit = "chromium-sync-live-to-persist.service";
+      OnBootSec = "5m";
+      Unit = "hourly-browser-sync-live-to-persist.service";
     };
   };
 
@@ -154,9 +150,9 @@ in {
       # Equivalent to defaultDependencies = false in NixOS
       DefaultDependencies = "no";
       Before = ["shutdown.target" "halt.target" "poweroff.target" "reboot.target"];
-      Conflicts = ["reboot.target" "halt.target" "poweroff.target"];
+      # Conflicts = ["reboot.target" "halt.target" "poweroff.target"];
     };
-    wantedBy = ["shutdown.target"];
+    wantedBy = ["shutdown.target" "halt.target" "poweroff.tagert" "reboot.target"];
 
     serviceConfig = {
       Type = "oneshot";
