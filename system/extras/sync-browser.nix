@@ -152,7 +152,7 @@ in {
       Before = ["shutdown.target" "halt.target" "poweroff.target" "reboot.target"];
       # Conflicts = ["reboot.target" "halt.target" "poweroff.target"];
     };
-    wantedBy = ["shutdown.target" "halt.target" "poweroff.tagert" "reboot.target"];
+    wantedBy = ["shutdown.target" "halt.target" "poweroff.target" "reboot.target"];
 
     serviceConfig = {
       Type = "oneshot";
