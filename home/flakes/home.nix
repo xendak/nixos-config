@@ -28,7 +28,9 @@
     # ../common/wayland/hyprland/plugins/hyprbars.nix
     # ../common/wayland/hyprland/plugins/hyprexpo.nix
 
+    ../common/programs/terminal/wezterm.nix
     ../common/programs/browser/chromium.nix
+    ../common/programs/browser/zen.nix
     # ../common/programs/pass.nix
   ];
 
@@ -127,9 +129,9 @@
       NNN_BMS = "p:$HOME/Programming;f:$HOME/Flake;c:$HOME/.config;w:/mnt/Windows";
       SPLIT = "v";
       GTK_THEME = "${config.gtk.theme.name}:dark";
-      EDITOR = "nvim";
-      TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
-      BROWSER = "firefox";
+      EDITOR = lib.mkDefault "hx";
+      # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
+      # BROWSER = "firefox";
       FILEBROWSER = "dolphin";
       TERMBROWSER = "n";
       WINEPREFIX = "$HOME/Games/Wine-Prefix";
