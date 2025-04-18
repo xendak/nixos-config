@@ -12,13 +12,17 @@ in {
   #    allowOther = true;
   #  };
   #};
+  # add tihs to services for daemon
+  # services.emacs = {
+  #   enable = true;
+  #   package = pkgs.emacs; # replace with emacs-gtk, or a version provided by the community overlay if desired.
+  # };
 
   programs.emacs = {
     enable = true;
-    #package = pkgs.emacs;
     package =
       if user == "flakes"
-      then pkgs.emacs29-pgtk
+      then pkgs.emacs-pgtk
       else pkgs.emacs;
     extraPackages = epkgs: [
       epkgs.magit
