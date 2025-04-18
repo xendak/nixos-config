@@ -13,6 +13,10 @@
     # ../extras/llm.nix
   ];
   time.timeZone = "America/Sao_Paulo";
+  time.hardwareClockInLocalTime = false;
+  services.automatic-timezoned.enable = true;
+  services.geoclue2.enable = true;
+  services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
 
   # programs.fish.enable = true;
   programs.dconf.enable = true;
