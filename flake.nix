@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     # impermanence.url = "github:nix-community/impermanence";
     impermanence.url = "github:misterio77/impermanence";
     hardware.url = "github:nixos/nixos-hardware";
@@ -69,6 +69,7 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-stable,
     home-manager,
     agenix,
     hyprland,

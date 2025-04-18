@@ -119,9 +119,9 @@ in {
   environment.systemPackages = with pkgs; [
     lm_sensors
     agenix
-    libsForQt5.qtstyleplugins
-    qt5.qtwayland
-    qt6.qtwayland
+    # libsForQt5.qtstyleplugins
+    # qt5.qtwayland
+    # qt6.qtwayland
     xdg-desktop-portal-gtk
   ];
 

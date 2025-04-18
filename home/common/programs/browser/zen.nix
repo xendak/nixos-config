@@ -13,7 +13,7 @@
   zen-with-desktop = pkgs.runCommand "zen" {} ''
     mkdir -p $out/bin $out/share/applications
     ln -s ${zen-wrapped}/bin/zen $out/bin/zen
-    cp ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen.desktop $out/share/applications/
+    cp ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen.desktop $out/share/applications/zen.desktop
     substituteInPlace $out/share/applications/zen.desktop \
       --replace "Exec=zen-beta" "Exec=${zen-wrapped}/bin/zen"
   '';

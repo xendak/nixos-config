@@ -20,10 +20,10 @@ in {
 
   programs.emacs = {
     enable = true;
-    package =
-      if user == "flakes"
-      then pkgs.emacs-pgtk
-      else pkgs.emacs;
+    package = pkgs.emacs;
+      # if user == "flakes"
+      # then pkgs.emacs-pgtk
+      # else pkgs.emacs;
     extraPackages = epkgs: [
       epkgs.magit
       epkgs.lsp-mode
