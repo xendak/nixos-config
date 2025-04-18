@@ -12,6 +12,8 @@
     ./btrfs-optin-persistence.nix
     ./hardware-configuration.nix
 
+    ../extras/sync-browser.nix
+
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
@@ -22,15 +24,16 @@
   boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
   boot.kernelModules = ["kvm-intel" "amdgpu" "i2c-dev" "i2c-i801" "coretemp" "v4l2loopback"];
   boot.loader.systemd-boot.enable = true;
-  boot.extraModulePackages = [pkgs.linuxKernel.packages.linux_zen.v4l2loopback];
+  # boot.extraModulePackages = [pkgs.linuxKernel.packages.linux_zen.v4l2loopback];
+  boot.extraModulePackages = [pkgs.linuxKernel.packages.linux_xanmod_latest.v4l2loopback];
   # sudo modprobe v4l2loopback video_nr=2 card_label="VirtualCamera" exclusive_caps=1
   # modprobe v4l2loopback exclusive_caps=1 card_label='OBS Virtual Camera'
   boot.extraModprobeConfig = ''
     options v4l2loopback video_nr=2 card_label="OBS Virtual Camera"
   '';
   boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
-    # kernelPackages = pkgs.linuxPackages_xanmod_latest;
+    # kernelPackages = pkgs.linuxKernel.pakages.linux_zen;
+    kernelPackages = pkgs.linuxPackages_xanmod_latest;
     supportedFilesystems = ["btrfs" "ntfs"];
   };
 
