@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [
+  home.packages = with pkgs.stable; [
     #cinnamon.nemo
     #gnome.nautilus
     # kdePackages.dolphin
