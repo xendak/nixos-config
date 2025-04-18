@@ -71,7 +71,9 @@
 
   # genshin
   programs.anime-game-launcher.enable = true;
+  # hsr
   programs.honkers-railway-launcher.enable = true;
+
   programs.steam = {
     remotePlay.openFirewall = true;
     gamescopeSession.enable = true;
