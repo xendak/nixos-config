@@ -112,7 +112,7 @@
       NNN_BMS = "p:$HOME/Programming;f:$HOME/Flake;c:$HOME/.config;w:/mnt/c/Users/rggro";
       SPLIT = "v";
       GTK_THEME = "${config.gtk.theme.name}:dark";
-      EDITOR = "hx";
+      EDITOR = lib.mkDefault "hx";
       TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
       BROWSER = "firefox";
       FILEBROWSER = "dolphin";
