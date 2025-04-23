@@ -22,6 +22,7 @@
     ../common/programs/terminal/nnn
     ../common/programs/terminal/nvim
     ../common/programs/terminal/helix
+    ../common/programs/terminal/yazi
   ];
 
   home.file = {
@@ -111,7 +112,7 @@
       NNN_BMS = "p:$HOME/Programming;f:$HOME/Flake;c:$HOME/.config;w:/mnt/c/Users/rggro";
       SPLIT = "v";
       GTK_THEME = "${config.gtk.theme.name}:dark";
-      EDITOR = "nvim";
+      EDITOR = "hx";
       TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
       BROWSER = "firefox";
       FILEBROWSER = "dolphin";
