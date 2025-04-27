@@ -74,7 +74,7 @@ in {
         insert = {
           "C-[" = "goto_prev_paragraph";
           "C-]" = "goto_next_paragraph";
-          C-p = "signature_help";
+          "C-p" = "signature_help";
         };
 
         normal = {
@@ -82,10 +82,11 @@ in {
           "}" = "goto_next_paragraph";
           tab = "move_parent_node_end";
           S-tab = "move_parent_node_start";
-          A-e = "expand_selection";
+          "A-e" = "expand_selection";
         };
 
         normal.space = {
+          S-c = ":buffer-close";
           n = "goto_next_buffer";
           S-n = "goto_previous_buffer";
         };
@@ -101,6 +102,7 @@ in {
         };
       };
     };
+
     themes = import ./theme.nix {inherit colorscheme;};
     languages = import ./languages.nix {inherit lib pkgs config;};
   };
