@@ -134,6 +134,12 @@
       fg = "base00";
       bg = "base0E";
     };
+
+    "ui.virtual.jump-label" = {
+      fg = "base02";
+      bg = "base05";
+    };
+
     "ui.text" = "base05";
     "ui.text.focus" = "base05";
     "ui.virtual.indent-guide" = {fg = "base03";};
