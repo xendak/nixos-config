@@ -53,7 +53,6 @@ in {
 
         inline-diagnostics = {
           cursor-line = "hint";
-          other-lines = "error";
         };
 
         indent-guides.render = true;
