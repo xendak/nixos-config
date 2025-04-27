@@ -8,38 +8,60 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, zig-overlay, zls-overlay, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ zig-overlay.overlays.default ];
-        };
-        zig = zig-overlay.packages.${system}.master;
-        zls = zls-overlay.packages.${system}.default.override {
-          inherit zig;
-        };
-      in
-      {
-        packages.default = pkgs.callPackage ./default.nix { inherit zig; };
+  outputs = {
+    self,
+    nixpkgs,
+    zig-overlay,
+    zls-overlay,
+    flake-utils,
+    ...
+  }:
+    flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [zig-overlay.overlays.default];
+      };
 
-        devShells.default = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [
-            zig
-            zls
-            # Additional development tools
-            lldb
-            llvmPackages_latest.lld
-            git
-            gdb
-            valgrind
-          ];
+      pkgsCross = import nixpkgs {
+        inherit system;
+        crossSystem = pkgs.lib.systems.examples.mingwW64;
+      };
 
-          shellHook = ''
-            echo "Zig ${zig.version} environment"
+      zig = zig-overlay.packages.${system}.master;
+      zls = zls-overlay.packages.${system}.default.override {
+        inherit zig;
+      };
+    in {
+      packages.default = pkgs.callPackage ./default.nix {inherit zig;};
+
+      packages.windows = pkgsCross.callPackage ./default.nix {
+        zig = zig.overrideAttrs (oa: {
+          preConfigure = ''
+            export NIX_CFLAGS_COMPILE="-target x86_64-windows-gnu $NIX_CFLAGS_COMPILE"
           '';
-        };
+        });
+      };
 
-        hydraJobs = self.packages.${system};
-      });
+      devShells.default = pkgs.mkShell {
+        nativeBuildInputs = with pkgs; [
+          zig
+          zls
+          # Additional development tools
+          lldb
+          llvmPackages_latest.lld
+          git
+          gdb
+          valgrind
+
+          # Windows
+          pkgsCross.windows.mingw_w64_pthreads
+        ];
+
+        shellHook = ''
+          echo "Zig ${zig.version} environment"
+        '';
+      };
+
+      hydraJobs = self.packages.${system};
+    });
 }
