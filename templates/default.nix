@@ -3,4 +3,5 @@
   rust.path = ./rust;
   haskell.path = ./haskell;
   node.path = ./node;
+  zig.path = ./zig;
 }
