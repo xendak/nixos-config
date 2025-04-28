@@ -1,4 +1,4 @@
-{ stdenv, zig }:
+{ stdenv, zig, raylib }:
 
 stdenv.mkDerivation {
   pname = "template";
@@ -6,7 +6,7 @@ stdenv.mkDerivation {
 
   src = ./.;
 
-  nativeBuildInputs = [ zig ];
+  nativeBuildInputs = [ zig raylib ];
 
   buildPhase = ''
     zig build -Drelease-safe=true
