@@ -12,25 +12,34 @@
     self,
     nixpkgs,
     zig,
+    zls,
     flake-utils,
     ...
   }:
     flake-utils.lib.eachDefaultSystem (system: let
+      zigPackage = zig.packages.${system}.master;
+      zlsPackage = zls.packages.${system}.default;
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [zig.overlays.master];
+        nativeBuildInputs = [
+          zigPackage
+          zlsPackage
+        ];
+        overlays = [
+          (final: prev: {
+            inherit zigPackage zlsPackage;
+          })
+        ];
       };
-
-      zigPackage = zig.packages.${system}.master;
     in {
-      packages.default = pkgs.callPackage ./default.nix {inherit zig;};
+      packages.default = pkgs.callPackage ./default.nix {inherit zigPackage;};
 
       devShells.default = pkgs.mkShell {
-        nativeBuildInputs = with pkgs; [
+        nativeBuildInputs = [
           zigPackage
-          inputs.zls."{system}".master
-          
-          # Additional development tools
+          zlsPackage
+        ];
+        packages = with pkgs; [
           raylib
           lldb
           llvmPackages_latest.lld
@@ -40,7 +49,7 @@
         ];
 
         shellHook = ''
-          echo "Zig ${zig.version} environment"
+          echo "Zig ${zigPackage.version} environment"
         '';
       };
 

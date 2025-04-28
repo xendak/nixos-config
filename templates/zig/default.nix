@@ -1,18 +1,24 @@
-{ stdenv, zig, raylib }:
-
+{
+  stdenv,
+  zigPackage,
+  raylib,
+}:
 stdenv.mkDerivation {
   pname = "template";
   version = "0.1.0";
 
   src = ./.;
+  XDG_CACHE_HOME = "${placeholder "out"}";
 
-  nativeBuildInputs = [ zig raylib ];
+  buildInputs = [raylib];
+  nativeBuildInputs = [zigPackage];
 
   buildPhase = ''
-    zig build -Drelease-safe=true
+    ${zigPackage}/bin/zig build
   '';
 
   installPhase = ''
-    zig build install --prefix $out
+    ${zigPackage}/bin/zig build install --prefix $out
+    rm -rf $out/zig 
   '';
 }
