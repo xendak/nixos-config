@@ -4,7 +4,7 @@
   ...
 }: {
   imports = [
-    ./themes/material.nix
+    ./themes/modular.nix
   ];
 
   home.packages = [
