@@ -12,7 +12,7 @@ const options = mkOptions(OPTIONS, {
     theme: {
         dark: {
             primary: {
-                bg: opt("#51a4e7"),
+                bg: opt("#CA5347"),
                 fg: opt("#141414"),
             },
             error: {
@@ -26,7 +26,7 @@ const options = mkOptions(OPTIONS, {
         },
         light: {
             primary: {
-                bg: opt("#426ede"),
+                bg: opt("#CA5347"),
                 fg: opt("#eeeeee"),
             },
             error: {
@@ -82,18 +82,18 @@ const options = mkOptions(OPTIONS, {
                 "colorpicker",
                 "screenrecord",
                 "system",
-                "battery",
-                "powermenu",
+                // "battery",
+                // "powermenu",
             ]),
         },
         launcher: {
             icon: {
                 colored: opt(true),
-                icon: opt(icon(distro, icons.ui.search)),
+                icon: opt(icon(icons.ui.nixos, icons.ui.search)),
             },
             label: {
                 colored: opt(false),
-                label: opt(" Applications"),
+                label: opt(""),
             },
             action: opt(() => App.toggleWindow("applauncher")),
         },
@@ -174,7 +174,7 @@ const options = mkOptions(OPTIONS, {
 
     quicksettings: {
         avatar: {
-            image: opt(`/persist/home/drops/Flake/home/drops/profile.png`),
+            image: opt(`/persist/home/flakes/Flake/home/common/wallpapers/profile.png`),
             size: opt(70),
         },
         width: opt(380),

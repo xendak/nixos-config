@@ -92,7 +92,7 @@ export default () => PanelButton({
         ModeIndicator(),
         DNDIndicator(),
         BluetoothIndicator(),
-        NetworkIndicator(),
+        // NetworkIndicator(),
         AudioIndicator(),
         MicrophoneIndicator(),
     ]),
