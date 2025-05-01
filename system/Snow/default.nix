@@ -91,6 +91,9 @@
     pkgs.linuxKernel.packages.linux_zen.v4l2loopback # uncertain if still needed here..?
     pkgs.v4l-utils
     pkgs.osdlyrics
+
+    # trying
+    pkgs.networkmanagerapplet
   ];
 
   # User & Host -----------------------------
@@ -109,13 +112,15 @@
     };
   };
 
-  networking.useDHCP = lib.mkDefault true;
+  networking.networkmanager.enable = true;
+  networking.useDHCP = false;
   networking.nameservers = ["8.8.8.8" "8.8.4.4"];
+  environment.persistence."/persist" = {
+    hideMounts = true;
+    directories = ["/etc/NetworkManager" "/var/lib/NetworkManager"];
+  };
+
   networking.hostName = "Snow";
-  # environment.persistence."/persist" = {
-  #   hideMounts = true;
-  #   directories = ["/var/lib/nixos"];
-  # };
 
   # GENSHIN PATCH ---------------------------
   networking.hosts = {

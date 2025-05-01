@@ -80,6 +80,7 @@
           then [
             "sh $HOME/Flake/bin/bt-once.sh"
             "openrgb -d \"XPG Spectrix S40G\" -m Off"
+            "${pkgs.networkmanager}/bin/nmcli radio wifi off"
           ]
           else []
         );
