@@ -45,6 +45,7 @@ in {
           bottom = 15,
         },
         window_close_confirmation = "NeverPrompt",
+        check_for_updates = false,
         automatically_reload_config = true,
         enable_wayland = true,
         colors = {
