@@ -1,1 +1,0 @@
-trace: warning: The option `hardware.video.hidpi.enable' defined in `/nix/store/wvqxad693frd8ha570xrf47n0588ahsc-source/system/hardware-configuration.nix' has been renamed to `fonts.optimizeForVeryHighDPI'.
