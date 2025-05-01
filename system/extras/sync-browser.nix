@@ -16,6 +16,7 @@
     addonStartup.json.lz4
     extension-preferences.json
     extension-store-menus
+    extension-settings.json
     extensions
     extensions.json
     zen-keyboard-shortcuts.json
