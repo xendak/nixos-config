@@ -1,8 +1,9 @@
 {pkgs, ...}: let
+  # not used.
+  # logins.json
   zenFileList = pkgs.writeText "zen-sync-filelist" ''
     places.sqlite
     cookies.sqlite
-    logins.json
     key4.db
     cert9.db
     permissions.sqlite
@@ -78,23 +79,36 @@
       OPTS="-arv --mkpath"
     fi
 
+    # Make sure the source directory exists before attempting sync
+    if [ ! -d "$SOURCE" ]; then
+      echo "Source directory $SOURCE does not exist. Skipping sync."
+      exit 0
+    fi
+
+    # Make sure the destination directory exists
+    mkdir -p "$DEST"
+
     # Perform sync with file list
     ${pkgs.rsync}/bin/rsync $OPTS --files-from="$FILELIST" "$SOURCE/" "$DEST/"
   '';
 
   allSyncScript = pkgs.writeShellScriptBin "all-sync" ''
-    # Run both sync operations in parallel
-    ${syncScript}/bin/sync-browser chromium $1 &
-    ${syncScript}/bin/sync-browser zen $1 &
+      # Run both sync operations in parallel
+      ${syncScript}/bin/sync-browser chromium $1 &
+      ${syncScript}/bin/sync-browser zen $1 &
 
-    # Wait for both to complete
-    wait
+      # Wait for both to complete
+      wait
+
 
     # Check exit status
-    if [ $? -ne 0 ]; then
-      echo "One or more sync operations failed" >&2
-      exit 1
-    fi
+      if [ $? -ne 0 ]; then
+        echo "One or more sync operations failed" >&2
+        echo "[ERROR]: $(date)" >> /tmp/browser-sync.log
+        exit 1
+      else
+        echo "[SUCCESS]: $(date)" >> /tmp/browser-sync.log
+      fi
   '';
 in {
   # Add sync script to system PATH
@@ -108,6 +122,8 @@ in {
     description = "Moves ephemeral chromium data to persistent storage";
     serviceConfig = {
       Type = "oneshot";
+      StandardOutput = "journal";
+      StandardError = "journal";
     };
     script = ''
       ${allSyncScript}/bin/all-sync live-to-persist
@@ -121,6 +137,7 @@ in {
       OnUnitActiveSec = "1h";
       OnBootSec = "5m";
       Unit = "hourly-browser-sync-live-to-persist.service";
+      Persistent = true;
     };
   };
 
@@ -161,6 +178,9 @@ in {
       #   ${allSyncScript}/bin/all-sync live-to-persist
       # ''}";
       TimeoutStopSec = "60s";
+      StandardOutput = "journal";
+      StandardError = "journal";
+
       RemainAfterExit = true;
     };
     script = ''

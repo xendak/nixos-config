@@ -12,10 +12,37 @@
 
   zen-with-desktop = pkgs.runCommand "zen" {} ''
     mkdir -p $out/bin $out/share/applications
-    ln -s ${zen-wrapped}/bin/zen $out/bin/zen
-    cp ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen.desktop $out/share/applications/zen.desktop
-    substituteInPlace $out/share/applications/zen.desktop \
-      --replace "Exec=zen-beta" "Exec=${zen-wrapped}/bin/zen"
+
+
+    # Check for zen first
+    if [ -e "${zen-wrapped}/bin/zen" ]; then
+      ln -s ${zen-wrapped}/bin/zen $out/bin/zen
+    # If zen doesn't exist, check for zen-beta
+    elif [ -e "${zen-wrapped}/bin/zen-beta" ]; then
+      ln -s ${zen-wrapped}/bin/zen-beta $out/bin/zen
+    else
+      echo "Error: Neither zen nor zen-beta binary found in ${zen-wrapped}/bin/" >&2
+      echo "Contents of ${zen-wrapped}/bin/:" >&2
+      ls -la "${zen-wrapped}/bin/" | sed 's/^/  /' >&2
+      exit 1
+    fi
+
+    # cp ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen.desktop $out/share/applications/zen.desktop
+
+    # Similar logic for desktop file
+    if [ -e "${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen.desktop" ]; then
+      cp ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen.desktop $out/share/applications/zen.desktop
+      substituteInPlace $out/share/applications/zen.desktop --replace "Exec=zen" "Exec=${zen-wrapped}/bin/zen"
+    elif [ -e "${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen-beta.desktop" ]; then
+      cp ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen-beta.desktop $out/share/applications/zen.desktop
+      substituteInPlace $out/share/applications/zen.desktop --replace "Exec=zen-beta" "Exec=${zen-wrapped}/bin/zen"
+    else
+      echo "Error: Neither zen.desktop nor zen-beta.desktop file found!" >&2
+      echo "Contents of ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/:" >&2
+      ls -la "${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/" | sed 's/^/  /' >&2
+      exit 1
+    fi
+    
   '';
 in {
   home.packages = [
