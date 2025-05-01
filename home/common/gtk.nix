@@ -1,15 +1,16 @@
 {
   config,
   pkgs,
-  inputs,
-  outputs,
+  # inputs,
   ...
-}: let
-  inherit
-    (inputs.nix-colors.lib-contrib {inherit pkgs;})
-    gtkThemeFromScheme
-    ;
-in {
+}:
+# let
+  # inherit
+    # (inputs.nix-colors.lib-contrib {inherit pkgs;})
+    # gtkThemeFromScheme
+    # ;
+# in
+{
   home.pointerCursor = {
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
