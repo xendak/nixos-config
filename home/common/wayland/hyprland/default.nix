@@ -428,7 +428,7 @@
       submap=reset
 
       # powermenu submap
-      bind=SUPER,X,exec,all-sync live-to-persist && sh "${config.xdg.configHome}/rofi/powermenu.sh"
+      bind=SUPER,X,exec,sh "${config.xdg.configHome}/rofi/powermenu.sh"
       bind=SUPER,X,submap,powermenu
       submap=powermenu
       binde=,r,exec,systemctl reboot
