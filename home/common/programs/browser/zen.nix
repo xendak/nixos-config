@@ -48,4 +48,14 @@ in {
   home.packages = [
     zen-with-desktop
   ];
+
+  # set default since ungoogled chromium is giving me lots of issues with captcha
+  xdg.mimeApps.defaultApplications = {
+    "text/html" = ["zen.desktop"];
+    "text/xml" = ["zen.desktop"];
+    "x-scheme-handler/http" = ["zen.desktop"];
+    "x-scheme-handler/https" = ["zen.desktop"];
+    "x-scheme-handler/about" = ["zen.desktop"];
+    "x-scheme-handler/unknown" = ["zen.desktop"];
+  };
 }
