@@ -24,7 +24,7 @@
   '';
 
   # File list containing all Chromium paths to sync
-  chromiumFilelist = pkgs.writeText "hourly-browser-sync-filelist" ''
+  chromiumFilelist = pkgs.writeText "chromium-sync-filelist" ''
     Default/Cookies
     Default/Bookmarks
     Default/Login Data
@@ -57,6 +57,7 @@
           PERSIST="$NEUTRAL_PERSIST/zen/$USER"
           LIVE="$NEUTRAL_LIVE/zen/$USER"
           FILELIST="${zenFileList}"
+
         ;;
         *)
           echo "unsupported browser at the moment"
@@ -73,6 +74,13 @@
       SOURCE="$LIVE"
       DEST="$PERSIST"
       OPTS="-arv --update --mkpath"
+      if [ "$1" = "zen" ]; then
+        # handle sessionstore not existing when browser is actually opened.
+        # If source directory has recovery file but no sessionstore file
+        if [ -f "$SOURCE/sessionstore-backups/recovery.jsonlz4" ] && [ ! -f "$DEST/sessionstore.jsonlz4" ]; then
+          ${pkgs.rsync}/bin/rsync -av --update "$SOURCE/sessionstore-backups/recovery.jsonlz4" "$DEST/sessionstore.jsonlz4"
+        fi
+      fi
     else
       # Default to force sync from LIVE to PERSIST
       SOURCE="$LIVE"
@@ -88,28 +96,29 @@
 
     # Make sure the destination directory exists
     mkdir -p "$DEST"
+    
 
     # Perform sync with file list
     ${pkgs.rsync}/bin/rsync $OPTS --files-from="$FILELIST" "$SOURCE/" "$DEST/"
   '';
 
   allSyncScript = pkgs.writeShellScriptBin "all-sync" ''
-      # Run both sync operations in parallel
-      ${syncScript}/bin/sync-browser chromium $1 &
-      ${syncScript}/bin/sync-browser zen $1 &
+    # Run both sync operations in parallel
+    ${syncScript}/bin/sync-browser chromium $1 &
+    ${syncScript}/bin/sync-browser zen $1 &
 
-      # Wait for both to complete
-      wait
+    # Wait for both to complete
+    wait
 
 
     # Check exit status
-      if [ $? -ne 0 ]; then
-        echo "One or more sync operations failed" >&2
-        echo "[ERROR]: $(date)" >> /tmp/browser-sync.log
-        exit 1
-      else
-        echo "[SUCCESS]: $(date)" >> /tmp/browser-sync.log
-      fi
+    if [ $? -ne 0 ]; then
+      echo "One or more sync operations failed" >&2
+      echo "[ERROR]: $(date)" >> /tmp/browser-sync.log
+      exit 1
+    else
+      echo "[SUCCESS]: $(date)" >> /tmp/browser-sync.log
+    fi
   '';
 in {
   # Add sync script to system PATH
@@ -165,19 +174,13 @@ in {
     enable = true;
     description = "Sync browser data before shutdown";
     unitConfig = {
-      # Equivalent to defaultDependencies = false in NixOS
       DefaultDependencies = "no";
       Before = ["shutdown.target" "halt.target" "poweroff.target" "reboot.target"];
-      # Conflicts = ["reboot.target" "halt.target" "poweroff.target"];
     };
     wantedBy = ["shutdown.target" "halt.target" "poweroff.target" "reboot.target"];
 
     serviceConfig = {
       Type = "oneshot";
-      # ExecStop = "${allSyncScript}/bin/all-sync live-to-persist";
-      # ExecStop = "${pkgs.writeShellScript "all-sync-shutdown.sh" ''
-      #   ${allSyncScript}/bin/all-sync live-to-persist
-      # ''}";
       TimeoutStopSec = "60s";
       StandardOutput = "journal";
       StandardError = "journal";
