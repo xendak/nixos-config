@@ -6,6 +6,15 @@
     fsType = "ntfs3";
     options = ["rw" "uid=1000"];
   };
+  
+  # trying to see if this works.
+  # dont think i need this anymore.
+  # fileSystems."/boot/efi-windows" = {
+  #   device = "/dev/nvme0n1p1";
+  #   fsType = "vfat";
+  #   options = ["ro"];  
+  # };
+  
   fileSystems."/mnt/LocalDisk" = {
     device = "/dev/disk/by-uuid/50A43AA6A43A8F0A";
     fsType = "ntfs3";

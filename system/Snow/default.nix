@@ -23,7 +23,21 @@
 
   boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
   boot.kernelModules = ["kvm-intel" "amdgpu" "i2c-dev" "i2c-i801" "coretemp" "v4l2loopback"];
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot =  {
+    enable = true;
+    configurationLimit = 6;
+    # to find windows handle.
+    # edk2-uefi-shell.enable = true;
+
+    windows = {
+      "11" = {
+        title = "Windows 11";
+        efiDeviceHandle = "HD2b";
+        sortKey = "0";
+      };
+    };
+  };
   # boot.extraModulePackages = [pkgs.linuxKernel.packages.linux_zen.v4l2loopback];
   boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
   # sudo modprobe v4l2loopback video_nr=2 card_label="VirtualCamera" exclusive_caps=1
@@ -114,7 +128,10 @@
 
   networking.networkmanager.enable = true;
   networking.useDHCP = false;
-  networking.nameservers = ["8.8.8.8" "8.8.4.4"];
+  networking.nameservers = [
+    "208.67.222.222"
+    "208.67.220.220"
+  ];
   environment.persistence."/persist" = {
     hideMounts = true;
     directories = ["/etc/NetworkManager" "/var/lib/NetworkManager"];
