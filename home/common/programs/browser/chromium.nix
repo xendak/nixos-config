@@ -34,15 +34,15 @@
     inherit commandLineArgs;
   };
 in {
-  # Rest of your configuration remains the same
-  xdg.mimeApps.defaultApplications = {
-    "text/html" = ["chromium-browser.desktop"];
-    "text/xml" = ["chromium-browser.desktop"];
-    "x-scheme-handler/http" = ["chromium-browser.desktop"];
-    "x-scheme-handler/https" = ["chromium-browser.desktop"];
-    "x-scheme-handler/about" = ["chromium-browser.desktop"];
-    "x-scheme-handler/unknown" = ["chromium-browser.desktop"];
-  };
+
+  # xdg.mimeApps.defaultApplications = {
+  #   "text/html" = ["chromium-browser.desktop"];
+  #   "text/xml" = ["chromium-browser.desktop"];
+  #   "x-scheme-handler/http" = ["chromium-browser.desktop"];
+  #   "x-scheme-handler/https" = ["chromium-browser.desktop"];
+  #   "x-scheme-handler/about" = ["chromium-browser.desktop"];
+  #   "x-scheme-handler/unknown" = ["chromium-browser.desktop"];
+  # };
 
   home.sessionVariables = {
     BROWSER = "chromium";
@@ -80,7 +80,13 @@ in {
         # Vencord
         id = "cbghhgpcnddeihccjmnadmkaejncjndb";
         sha256 = "sha256:0z5mi01n47wvrl5g6x0h0y90v7jjrs8ymdlzlx9rpwd52r6sh7wb";
-        version = "1.11.7";
+        version = "1.11.9";
+      })
+      (createChromiumExtension {
+        # ViolentMonkey
+        id = "jinjaccalgkegednnccohejagnlnfdag";
+        sha256 = "sha256:0vwgbqkim8s0ai9bj2vhhs590vv022s58d5m6q80zy6p57gxlpih";
+        version = "2.31.0";
       })
       (createChromiumExtension {
         # Vimium
@@ -92,13 +98,13 @@ in {
         # Bitwarden
         id = "nngceckbapebfimnlniiiahkandclblb";
         sha256 = "sha256:1cqxid070yiqhw99najwg3nj3csdr8cp12pd0gggnfp34c8n2dig";
-        version = "2025.2.1";
+        version = "2025.3.2";
       })
       (createChromiumExtension {
         # Ublock
         id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
         sha256 = "sha256:1lnk0k8zy0w33cxpv93q1am0d7ds2na64zshvbwdnbjq8x4sw5p6";
-        version = "1.62.0";
+        version = "1.63.2";
       })
     ];
   };
