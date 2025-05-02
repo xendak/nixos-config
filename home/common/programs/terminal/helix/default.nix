@@ -11,26 +11,27 @@ in {
   programs.helix = {
     enable = true;
     # package = inputs.helix.packages.${pkgs.system}.default.overrideAttrs (old: {
-    #   makeWrapperArgs = with pkgs;
-    #     old.makeWrapperArgs
-    #     or []
-    #     ++ [
-    #       "--suffix"
-    #       "PATH"
-    #       ":"
-    #       (lib.makeBinPath [
-    #         clang-tools
-    #         marksman
-    #         nil
-    #         efm-langserver
-    #         nodePackages.bash-language-server
-    #         nodePackages.vscode-langservers-extracted
-    #         vscode-extensions.llvm-org.lldb-vscode
-    #         nodePackages.prettier
-    #         shellcheck
-    #       ])
-    #     ];
-    # });
+    package = pkgs.helix (old: {
+      makeWrapperArgs = with pkgs;
+        old.makeWrapperArgs
+        or []
+        ++ [
+          "--suffix"
+          "PATH"
+          ":"
+          (lib.makeBinPath [
+            clang-tools
+            marksman
+            nil
+            efm-langserver
+            nodePackages.bash-language-server
+            nodePackages.vscode-langservers-extracted
+            vscode-extensions.llvm-org.lldb-vscode
+            nodePackages.prettier
+            shellcheck
+          ])
+        ];
+    });
 
     settings = {
       theme = colorscheme.slug;
