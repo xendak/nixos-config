@@ -295,11 +295,14 @@
         worktomon = binding "SUPER ALT" "movecurrentworkspacetomonitor";
         e = "exec, ags";
         arr = [1 2 3 4 5 6 7 8 9];
-        terminal = config.home.sessionVariables.TERMINAL;
+        baseterminal = config.home.sessionVariables.TERMINAL;
+        terminal = if baseterminal == "wezterm"
+          then baseterminal + " start "
+          else baseterminal;
         browser = config.home.sessionVariables.BROWSER;
         # editor = config.home.sessionVariables.EDITOR;
         filebrowser = config.home.sessionVariables.FILEBROWSER;
-        termbrowser = config.home.sessionVariables.TERMBROWSER;
+        termbrowser = config.home.sessionVariables.TERMBROWSER + "start ";
         print = "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d-%M)";
         tmpprint = "$HOME/tmp/Screenshots/$(date +%Y-%m-%d-%M-%S)";
       in
