@@ -117,6 +117,7 @@ in {
 
   # XDG - PORTAL
   environment.systemPackages = with pkgs; [
+    busybox
     lm_sensors
     agenix
     # libsForQt5.qtstyleplugins
