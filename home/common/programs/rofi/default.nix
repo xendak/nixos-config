@@ -363,6 +363,7 @@ in {
     run_cmd() {
       selected="$(confirm_exit)"
       if [[ "$selected" == "$yes" ]]; then
+        all-sync live-to-persist
         if [[ $1 == '--shutdown' ]]; then
           systemctl poweroff
         elif [[ $1 == '--reboot' ]]; then
@@ -372,7 +373,7 @@ in {
           wpctl set-mute @DEFAULT_SINK@ toggle
           systemctl suspend
         elif [[ $1 == '--logout' ]]; then
-                pkill Hyprland
+          pkill Hyprland
         fi
       else
         exit 0
