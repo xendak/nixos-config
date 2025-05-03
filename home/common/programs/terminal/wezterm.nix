@@ -10,14 +10,16 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   inherit (config.colorscheme) palette;
   xterm = {
     wezterm = pkgs.writeShellScriptBin "xterm" ''
       ${pkgs.wezterm}/bin/wezterm "$@"
     '';
   };
-in {
+in
+{
   home = {
     packages = [
       xterm.wezterm
@@ -25,7 +27,7 @@ in {
     sessionVariables = {
       TERMINAL = lib.mkForce "wezterm";
     };
-    sessionPath = ["$HOME/Flake/bin"];
+    sessionPath = [ "$HOME/Flake/bin" ];
   };
 
   # Wezterm configuration
@@ -92,8 +94,8 @@ in {
           { key = 's', mods = 'CTRL|ALT', action = wezterm.action.SpawnTab("CurrentPaneDomain") },
           -- movement
           { key="o", mods="ALT", action=wezterm.action{PaneSelect={}} },
-          { key = "q",  mods = "ALT", action = wezterm.action({ ActivateTabRelative = -1 }) },
-          { key = "e",  mods = "ALT", action = wezterm.action({ ActivateTabRelative =  1 }) },
+          { key = "q",  mods = "CTRL|SHIFT", action = wezterm.action({ ActivateTabRelative = -1 }) },
+          { key = "e",  mods = "CTRL|SHIFT", action = wezterm.action({ ActivateTabRelative =  1 }) },
           { key = "a",  mods = "ALT", action = wezterm.action.ActivatePaneDirection 'Left' },
           { key = "d",  mods = "ALT", action = wezterm.action.ActivatePaneDirection 'Right' },
           { key = "w",  mods = "ALT", action = wezterm.action.ActivatePaneDirection 'Up' },
@@ -304,4 +306,3 @@ in {
 #     '';
 #   };
 # }
-
