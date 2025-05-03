@@ -31,7 +31,13 @@
 
     bat
 
+    # DEFAULT LANGUAGES i use mostly?
     clang-tools
+    llvmPackages_latest.libstdcxxClang
+    llvmPackages_latest.libcxx
+    llvmPackages_latest.lldb
+    cppcheck
+    gdb
 
     nixd # Nix LSP
     alejandra
