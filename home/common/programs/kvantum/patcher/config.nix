@@ -3,21 +3,21 @@
   pkgs,
   ...
 }: let
-  inherit (config.colorscheme) colors;
+  inherit (config.colorscheme) palette;
 in {
   home.file = {
     "/tmp/config.kv".source = pkgs.writeText "config.kv" ''
       #colors
-      background=#${colors.base00}
-      bg1=#${colors.base01}
+      background=#${palette.base00}
+      bg1=#${palette.base01}
       bgalt=4
-      foreground=#${colors.base05}
-      accent=#${colors.base0C}
-      negative=#${colors.base08}
-      button=#${colors.base01}
-      inactive=#${colors.base03}
-      link=#${colors.base0B}
-      visitedlink=#${colors.base0E}
+      foreground=#${palette.base05}
+      accent=#${palette.base0C}
+      negative=#${palette.base08}
+      button=#${palette.base01}
+      inactive=#${palette.base03}
+      link=#${palette.base0B}
+      visitedlink=#${palette.base0E}
 
       save_folder="/home/${config.home.username}/.config/Kvantum"
 

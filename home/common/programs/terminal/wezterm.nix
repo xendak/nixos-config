@@ -11,7 +11,7 @@
   lib,
   ...
 }: let
-  inherit (config.colorscheme) colors;
+  inherit (config.colorscheme) palette;
   xterm = {
     wezterm = pkgs.writeShellScriptBin "xterm" ''
       ${pkgs.wezterm}/bin/wezterm "$@"
@@ -49,42 +49,42 @@ in {
         automatically_reload_config = true,
         enable_wayland = true,
         colors = {
-          foreground = "#${colors.base05}",
-          background = "#${colors.base00}",
+          foreground = "#${palette.base05}",
+          background = "#${palette.base00}",
           cursor_bg = "#F36",
           cursor_fg = "#000",
-          cursor_border = "#${colors.base05}",
-          selection_fg = "#${colors.base00}",
-          selection_bg = "#${colors.base05}",
+          cursor_border = "#${palette.base05}",
+          selection_fg = "#${palette.base00}",
+          selection_bg = "#${palette.base05}",
           ansi = {
-            "#${colors.base00}",
-            "#${colors.base08}",
-            "#${colors.base0B}",
-            "#${colors.base0A}",
-            "#${colors.base0D}",
-            "#${colors.base0E}",
-            "#${colors.base0C}",
-            "#${colors.base05}",
+            "#${palette.base00}",
+            "#${palette.base08}",
+            "#${palette.base0B}",
+            "#${palette.base0A}",
+            "#${palette.base0D}",
+            "#${palette.base0E}",
+            "#${palette.base0C}",
+            "#${palette.base05}",
           },
           brights = {
-            "#${colors.base03}",
-            "#${colors.base08}",
-            "#${colors.base0B}",
-            "#${colors.base0A}",
-            "#${colors.base0D}",
-            "#${colors.base0E}",
-            "#${colors.base0C}",
-            "#${colors.base07}",
+            "#${palette.base03}",
+            "#${palette.base08}",
+            "#${palette.base0B}",
+            "#${palette.base0A}",
+            "#${palette.base0D}",
+            "#${palette.base0E}",
+            "#${palette.base0C}",
+            "#${palette.base07}",
           },
           tab_bar = {
-            background = "#${colors.base01}",
+            background = "#${palette.base01}",
             active_tab = {
-              bg_color = "#${colors.base00}",
-              fg_color = "#${colors.base05}",
+              bg_color = "#${palette.base00}",
+              fg_color = "#${palette.base05}",
             },
             inactive_tab = {
-              bg_color = "#${colors.base01}",
-              fg_color = "#${colors.base04}",
+              bg_color = "#${palette.base01}",
+              fg_color = "#${palette.base04}",
             },
           },
         },

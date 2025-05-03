@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: let
-  inherit (config.colorscheme) colors;
+  inherit (config.colorscheme) palette;
 in {
   xdg.configFile."vesktop/settings/quickCss.css".source =
     pkgs.writeText "quickCss.css"
@@ -17,25 +17,25 @@ in {
         --online-indicator: var(--text-2);
         --moon-icon: block;
         --discord-icon: none;
-        --accent-1: #${colors.base0D};
-        --accent-2: #${colors.base08};
-        --accent-3: #${colors.base0B}60;
-        --accent-4: #${colors.base02};
-        --accent-5: #${colors.base00};
-        --mention: #${colors.base01}80;
-        --mention-hover: #${colors.base01}c0;
-        --text-1: #${colors.base07};
-        --text-2: #${colors.base0B};
-        --text-3: #${colors.base05};
-        --text-4: #${colors.base05}c0;
-        --text-5: #${colors.base03};
-        --bg-1: #${colors.base02};
-        --bg-2: #${colors.base0C}90;
-        --bg-3:  #${colors.base01};
-        --bg-4: #${colors.base00};
-        --hover: #${colors.base0C}20;
-        --active: #${colors.base0C}60;
-        --message-hover: #${colors.base05}20;
+        --accent-1: #${palette.base0D};
+        --accent-2: #${palette.base08};
+        --accent-3: #${palette.base0B}60;
+        --accent-4: #${palette.base02};
+        --accent-5: #${palette.base00};
+        --mention: #${palette.base01}80;
+        --mention-hover: #${palette.base01}c0;
+        --text-1: #${palette.base07};
+        --text-2: #${palette.base0B};
+        --text-3: #${palette.base05};
+        --text-4: #${palette.base05}c0;
+        --text-5: #${palette.base03};
+        --bg-1: #${palette.base02};
+        --bg-2: #${palette.base0C}90;
+        --bg-3:  #${palette.base01};
+        --bg-4: #${palette.base00};
+        --hover: #${palette.base0C}20;
+        --active: #${palette.base0C}60;
+        --message-hover: #${palette.base05}20;
         --text-0: var(--text-3)
         --list-item-transition: 0.2s ease;
         --unread-bar-transition: 0.2s ease;
