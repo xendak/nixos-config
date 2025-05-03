@@ -46,8 +46,8 @@
     };
 
     wezterm.url = "github:wez/wezterm?dir=nix";
-    helix.url = "github:pascalkuthe/helix?rev=e86b77843b8756d53cc756837f91aa8d368495bc";
-    matugen.url = "github:InioX/matugen?rev=e795cda353235e503bb292f56bdd6573974f4add";
+    helix.url = "github:helix-editor/helix";
+    matugen.url = "github:InioX/matugen";
 
     ags = {
       url = "github:Aylur/ags/v1";
