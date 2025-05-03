@@ -33,7 +33,8 @@
     windows = {
       "11" = {
         title = "Windows 11";
-        efiDeviceHandle = "HD2b";
+        # it seems this can change? for some reason.
+        efiDeviceHandle = "HD1b";
         sortKey = "0";
       };
     };
