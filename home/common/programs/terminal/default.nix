@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     # ./kitty.nix
     ./fish.nix
@@ -28,8 +32,8 @@
     unrar
     p7zip
     xdg-utils
-
     bat
+    lazygit
 
     # DEFAULT LANGUAGES i use mostly?
     clang-tools
