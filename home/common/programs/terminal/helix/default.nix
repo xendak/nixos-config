@@ -10,28 +10,28 @@ in {
   home.sessionVariables.COLORTERM = "truecolor";
   programs.helix = {
     enable = true;
+    # package = inputs.helix.packages.${pkgs.system}.default;
     # package = inputs.helix.packages.${pkgs.system}.default.overrideAttrs (old: {
-    package = pkgs.helix (old: {
-      makeWrapperArgs = with pkgs;
-        old.makeWrapperArgs
-        or []
-        ++ [
-          "--suffix"
-          "PATH"
-          ":"
-          (lib.makeBinPath [
-            clang-tools
-            marksman
-            nil
-            efm-langserver
-            nodePackages.bash-language-server
-            nodePackages.vscode-langservers-extracted
-            vscode-extensions.llvm-org.lldb-vscode
-            nodePackages.prettier
-            shellcheck
-          ])
-        ];
-    });
+    #   makeWrapperArgs = with pkgs;
+    #     old.makeWrapperArgs
+    #     or []
+    #     ++ [
+    #       "--suffix"
+    #       "PATH"
+    #       ":"
+    #       (lib.makeBinPath [
+    #         clang-tools
+    #         marksman
+    #         nil
+    #         efm-langserver
+    #         nodePackages.bash-language-server
+    #         nodePackages.vscode-langservers-extracted
+    #         vscode-extensions.llvm-org.lldb-vscode
+    #         nodePackages.prettier
+    #         shellcheck
+    #       ])
+    #     ];
+    # });
 
     settings = {
       theme = colorscheme.slug;
@@ -75,7 +75,8 @@ in {
         insert = {
           "C-[" = "goto_prev_paragraph";
           "C-]" = "goto_next_paragraph";
-          "C-p" = "signature_help";
+          "C-a" = "signature_help";
+          "C-p" = ":toggle lsp.display-inlay-hints";
         };
 
         normal = {
@@ -87,6 +88,7 @@ in {
         };
 
         normal.space = {
+          i = ":toggle lsp.display-inlay-hints";
           S-c = ":buffer-close";
           n = "goto_next_buffer";
           S-n = "goto_previous_buffer";

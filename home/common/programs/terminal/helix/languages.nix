@@ -120,7 +120,8 @@ in {
     {
       name = "nix";
       language-servers = ["nixd-lsp"];
-      formatter = ["${lib.getExe pkgs.alejandra}"];
+      auto-format = true;
+      formatter.command = lib.getExe pkgs.nixfmt-rfc-style;
     }
 
     {
