@@ -66,86 +66,88 @@
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    nixpkgs-stable,
-    home-manager,
-    agenix,
-    hyprland,
-    helix,
-    nixos-wsl,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    forEachSystem = nixpkgs.lib.genAttrs ["x86_64-linux"];
-    forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
-  in {
-    templates = import ./templates;
-    overlays = import ./overlays {inherit inputs;};
-    homeManagerModules = import ./modules/home-manager;
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-stable,
+      home-manager,
+      agenix,
+      hyprland,
+      nixos-wsl,
+      ...
+    }@inputs:
+    let
+      inherit (self) outputs;
+      forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" ];
+      forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
+    in
+    {
+      templates = import ./templates;
+      overlays = import ./overlays { inherit inputs; };
+      homeManagerModules = import ./modules/home-manager;
 
-    packages = forEachPkgs (pkgs: import ./pkgs {inherit pkgs;});
-    devShells = forEachPkgs (pkgs: import ./shell.nix {inherit pkgs;});
-    formatter = forEachPkgs (pkgs: pkgs.nixpkgs-fmt);
+      packages = forEachPkgs (pkgs: import ./pkgs { inherit pkgs; });
+      devShells = forEachPkgs (pkgs: import ./shell.nix { inherit pkgs; });
+      formatter = forEachPkgs (pkgs: pkgs.nixpkgs-fmt);
 
-    nixosConfigurations = {
-      flakes = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs;
+      nixosConfigurations = {
+        flakes = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs outputs;
+          };
+          modules = [ ./system/Snow ];
         };
-        modules = [./system/Snow];
+      };
+      nixosConfigurations = {
+        drops = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs outputs;
+          };
+          modules = [ ./system/Dew ];
+        };
+      };
+
+      nixosConfigurations = {
+        nixos = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs outputs;
+          };
+          modules = [
+            nixos-wsl.nixosModules.default
+            ./system/wsl
+          ];
+        };
+      };
+
+      homeConfigurations = {
+        "Snow@flakes" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = {
+            inherit inputs outputs;
+          };
+          modules = [ ./home/flakes/home.nix ];
+        };
+      };
+
+      homeConfigurations = {
+        "Dew@drops" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = {
+            inherit inputs outputs;
+          };
+          modules = [ ./home/drops/home.nix ];
+        };
+      };
+
+      homeConfigurations = {
+        "wsl@nixos" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = {
+            inherit inputs outputs;
+          };
+          modules = [ ./home/nixos/home.nix ];
+        };
       };
     };
-    nixosConfigurations = {
-      drops = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs;
-        };
-        modules = [./system/Dew];
-      };
-    };
-
-    nixosConfigurations = {
-      nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs;
-        };
-        modules = [
-          nixos-wsl.nixosModules.default
-          ./system/wsl
-        ];
-      };
-    };
-
-    homeConfigurations = {
-      "Snow@flakes" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages."x86_64-linux";
-        extraSpecialArgs = {
-          inherit inputs outputs;
-        };
-        modules = [./home/flakes/home.nix];
-      };
-    };
-
-    homeConfigurations = {
-      "Dew@drops" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages."x86_64-linux";
-        extraSpecialArgs = {
-          inherit inputs outputs;
-        };
-        modules = [./home/drops/home.nix];
-      };
-    };
-
-    homeConfigurations = {
-      "wsl@nixos" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages."x86_64-linux";
-        extraSpecialArgs = {
-          inherit inputs outputs;
-        };
-        modules = [./home/nixos/home.nix];
-      };
-    };
-  };
 }

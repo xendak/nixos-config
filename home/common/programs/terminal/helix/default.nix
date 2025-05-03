@@ -4,12 +4,19 @@
   config,
   # inputs,
   ...
-}: let
+}:
+let
   inherit (config) colorscheme;
-in {
+in
+{
   home.sessionVariables.COLORTERM = "truecolor";
   programs.helix = {
     enable = true;
+    package = pkgs.helix;
+    extraPackages = [
+      pkgs.maskman
+      pkgs.nil
+    ];
     # package = inputs.helix.packages.${pkgs.system}.default;
     # package = inputs.helix.packages.${pkgs.system}.default.overrideAttrs (old: {
     #   makeWrapperArgs = with pkgs;
@@ -119,7 +126,7 @@ in {
       };
     };
 
-    themes = import ./theme.nix {inherit colorscheme;};
-    languages = import ./languages.nix {inherit lib pkgs config;};
+    themes = import ./theme.nix { inherit colorscheme; };
+    languages = import ./languages.nix { inherit lib pkgs config; };
   };
 }
