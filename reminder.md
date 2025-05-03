@@ -61,3 +61,32 @@ git push origin flake_update
    git branch -d flake_update  # delete local branch
    git push origin --delete flake_update  # delete remote branch
    ```
+
+```bash
+   #!/usr/bin/env bash
+
+      set -eo pipefail
+
+      FILE="$(realpath "$1")"
+      TMPDIR="$(mktemp -d)"
+      PDF="$TMPDIR/rendered.pdf"
+      trap "pkill -P $$ && rm -rf \"$TMPDIR\"" exit
+
+      regen() {
+      	inotifywait -q -e modify "$FILE" "$TMPDIR/closing.signal" > "$TMPDIR/inotify.log"
+      	grep -q "$TMPDIR/closing.signal" "$TMPDIR/inotify.log" || {
+      		pandoc "$FILE" -o "$PDF"
+      		pkill -P "$$" # Kills children of these script, which can only be termpdf.py at this point
+      	}
+      }
+
+      pushd "$TMPDIR" >/dev/null # termpdf.py's log file will go here and will be deleted on exit
+      pandoc "$FILE" -o "$PDF"
+      touch closing.signal
+
+      while :
+      do
+      	regen &
+      	termpdf.py "$PDF" && popd>/dev/null && echo 1 >"$TMPDIR/closing.signal" && exit 0 # If the user quits the viewer, we can exit nicely
+      done
+```
