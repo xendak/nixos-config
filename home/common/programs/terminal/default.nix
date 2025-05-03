@@ -2,7 +2,8 @@
   pkgs,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     # ./kitty.nix
     ./fish.nix
@@ -42,6 +43,7 @@
     llvmPackages_latest.lldb
     cppcheck
     gdb
+    inputs.uwu-colors.packages.${pkgs.system}.default
 
     nixd # Nix LSP
     alejandra
@@ -55,7 +57,7 @@
 
   programs.fzf = {
     enable = true;
-    defaultOptions = ["--color 16"];
+    defaultOptions = [ "--color 16" ];
   };
 
   # enable dir-env integration

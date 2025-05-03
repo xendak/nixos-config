@@ -2,13 +2,16 @@
   lib,
   pkgs,
   config,
+  inputs,
   ...
-}: let
+}:
+let
   indent = {
     tab-width = 4;
     unit = "    ";
   };
-in {
+in
+{
   language-server = {
     rust-analyzer.config = {
       # Use in local configs:
@@ -89,27 +92,109 @@ in {
     };
 
     yaml-language-server.config.yaml.keyOrdering = false;
-    clangd.args = [
-      "--inlay-hints"
-      "--background-index"
-      "--offset-encoding=utf-16"
-      "--compile-commands-dir=build"
-      "--completion-style=detailed"
-      "--all-scopes-completion=true"
-      "--recovery-ast"
-      "--suggest-missing-includes"
-      "--clang-tidy"
-      "--all-scopes-completion"
-      "--cross-file-rename"
-      "--function-arg-placeholders=false"
-      "--header-insertion=never"
-      "--pch-storage=memory"
-    ];
-
     # nil.config = {
     #   nil_ls.settings.nil.nix.flake.autoEvalInputs = true;
     #   nil.formatting.command = [ "nixpkgs-fmt" ];
     # };
+
+    bash-language-server = {
+      command = lib.getExe pkgs.bash-language-server;
+      args = [ "start" ];
+    };
+
+    clangd = {
+      command = "${pkgs.clang-tools}/bin/clangd";
+      clangd.fallbackFlags = [ "-std=c++2b" ];
+      args = [
+        "--inlay-hints"
+        "--background-index"
+        "--offset-encoding=utf-16"
+        "--compile-commands-dir=build"
+        "--completion-style=detailed"
+        "--all-scopes-completion=true"
+        "--recovery-ast"
+        "--suggest-missing-includes"
+        "--clang-tidy"
+        "--all-scopes-completion"
+        "--cross-file-rename"
+        "--function-arg-placeholders=false"
+        "--header-insertion=never"
+        "--pch-storage=memory"
+      ];
+    };
+
+    cmake-language-server = {
+      command = lib.getExe pkgs.cmake-language-server;
+    };
+
+    tinymist = {
+      command = lib.getExe pkgs.tinymist;
+      config = {
+        exportPdf = "onType";
+        outputPath = "$root/target/$dir/$name";
+        formatterMode = "typstyle";
+        formatterPrintWidth = 80;
+      };
+    };
+
+    typescript-language-server = {
+      command = lib.getExe pkgs.nodePackages.typescript-language-server;
+      args = [ "--stdio" ];
+      config = {
+        typescript-language-server.source = {
+          addMissingImports.ts = true;
+          fixAll.ts = true;
+          organizeImports.ts = true;
+          removeUnusedImports.ts = true;
+          sortImports.ts = true;
+        };
+      };
+    };
+
+    uwu-colors = {
+      command = "${inputs.uwu-colors.packages.${pkgs.system}.default}/bin/uwu_colors";
+      # command = "uwu_colors"; # useful for testing
+    };
+
+    vscode-css-language-server = {
+      command = "${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-css-language-server";
+      args = [ "--stdio" ];
+      config = {
+        provideFormatter = true;
+        css.validate.enable = true;
+        scss.validate.enable = true;
+      };
+    };
+
+    deno-lsp = {
+      command = lib.getExe pkgs.deno;
+      args = [ "lsp" ];
+      environment.NO_COLOR = "1";
+      config.deno = {
+        enable = true;
+        lint = true;
+        unstable = true;
+        suggest = {
+          completeFunctionCalls = false;
+          imports = {
+            hosts."https://deno.land" = true;
+          };
+        };
+        inlayHints = {
+          enumMemberValues.enabled = true;
+          functionLikeReturnTypes.enabled = true;
+          parameterNames.enabled = "all";
+          parameterTypes.enabled = true;
+          propertyDeclarationTypes.enabled = true;
+          variableTypes.enabled = true;
+        };
+      };
+    };
+
+    dprint = {
+      command = lib.getExe pkgs.dprint;
+      args = [ "lsp" ];
+    };
 
     nixd-lsp = {
       command = lib.getExe pkgs.nixd;
@@ -120,7 +205,10 @@ in {
     {
       name = "nix";
       auto-format = true;
-      language-servers = ["nixd-lsp"];
+      language-servers = [
+        "nixd-lsp"
+        "uwu-colors"
+      ];
       formatter = {
         command = lib.getExe pkgs.nixfmt-rfc-style;
         args = [ ];
@@ -130,21 +218,62 @@ in {
     {
       name = "bash";
       inherit indent;
+      formatter = {
+        command = lib.getExe pkgs.shfmt;
+        args = [
+          "-i"
+          "2"
+        ];
+      };
     }
 
     {
       name = "java";
-      language-servers = ["scls" "jdtls"];
-      roots = ["pom.xml"];
+      language-servers = [
+        "scls"
+        "jdtls"
+      ];
+      roots = [ "pom.xml" ];
+    }
+    {
+      name = "javascript";
+      auto-format = true;
+      language-servers = [
+        "dprint"
+        "typescript-language-server"
+        "uwu-colors"
+      ];
+    }
+    {
+      name = "json";
+      formatter = {
+        command = lib.getExe pkgs.deno;
+        args = [
+          "fmt"
+          "-"
+          "--ext json"
+        ];
+      };
+    }
+    {
+      name = "markdown";
+      text-width = 150;
+      soft-wrap.enable = true;
+      soft-wrap.wrap-at-text-width = true;
+
+      language-servers = [
+        "dprint"
+        "markdown-oxide"
+      ];
     }
 
     {
       name = "gherkin";
       scope = "source.gherkin";
       injection-regex = "^(gherkin|feature)?$";
-      file-types = ["feature"];
+      file-types = [ "feature" ];
       comment-token = "#";
-      roots = [];
+      roots = [ ];
       inherit indent;
 
       auto-pairs = {
@@ -162,18 +291,13 @@ in {
       auto-format = false;
       inherit indent;
     }
-    {
-      name = "json";
-      language-servers = ["efm-prettier" "vscode-json-language-server"];
-    }
-
-    {
-      name = "markdown";
-      text-width = 150;
-
-      soft-wrap.enable = true;
-      soft-wrap.wrap-at-text-width = true;
-    }
+    # {
+    #   name = "json";
+    #   language-servers = [
+    #     "efm-prettier"
+    #     "vscode-json-language-server"
+    #   ];
+    # }
 
     {
       name = "nu";
@@ -189,7 +313,7 @@ in {
       name = "cpp";
       formatter = {
         command = "${pkgs.clang-tools}/bin/clang-format";
-        args = ["--style=Google"];
+        args = [ "--style=Google" ];
       };
     }
 
@@ -199,4 +323,28 @@ in {
       inherit indent;
     }
   ];
+
+  home.file.".dprint.json".source = builtins.toFile "dprint.json" (
+    builtins.toJSON {
+      lineWidth = 80;
+
+      # This applies to both JavaScript & TypeScript
+      typescript = {
+        quoteStyle = "preferSingle";
+        binaryExpression.operatorPosition = "sameLine";
+      };
+
+      json.indentWidth = 2;
+
+      excludes = [
+        "**/*-lock.json"
+      ];
+
+      plugins = [
+        "https://plugins.dprint.dev/typescript-0.93.0.wasm"
+        "https://plugins.dprint.dev/json-0.19.3.wasm"
+        "https://plugins.dprint.dev/markdown-0.17.8.wasm"
+      ];
+    }
+  );
 }

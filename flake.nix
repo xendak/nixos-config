@@ -49,6 +49,13 @@
     helix-flake.url = "github:helix-editor/helix";
     matugen.url = "github:InioX/matugen";
 
+    uwu-colors = {
+      url = "github:q60/uwu_colors";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
     ags = {
       url = "github:Aylur/ags/v1";
       inputs.nixpkgs.follows = "nixpkgs";

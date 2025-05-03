@@ -16,6 +16,7 @@ in
     package = inputs.helix-flake.packages.${pkgs.system}.default;
     extraPackages = [
       pkgs.marksman
+      pkgs.markdown-oxide
       pkgs.nil
       pkgs.shellcheck
       pkgs.clang-tools
@@ -30,6 +31,7 @@ in
         color-modes = true;
         line-number = "relative";
         cursorline = true;
+        mouse = true;
 
         end-of-line-diagnostics = "hint";
         lsp = {
@@ -96,6 +98,20 @@ in
           S-c = ":buffer-close";
           n = "goto_next_buffer";
           S-n = "goto_previous_buffer";
+          S-e = [
+            ":sh rm -f /tmp/unique-file"
+            ":insert-output ${pkgs.yazi}/bin/yazi %sh{git rev-parse --show-toplevel} --chooser-file=/tmp/unique-file"
+            ":insert-output echo \"\x1b[?1049h\x1b[?2004h\" > /dev/tty"
+            ":open %sh{cat /tmp/unique-file}"
+            ":redraw"
+          ];
+          e = [
+            ":sh rm -f /tmp/unique-file"
+            ":insert-output ${pkgs.yazi}/bin/yazi %{buffer_name} --chooser-file=/tmp/unique-file"
+            ":insert-output echo \"\x1b[?1049h\x1b[?2004h\" > /dev/tty"
+            ":open %sh{cat /tmp/unique-file}"
+            ":redraw"
+          ];
           g = [
             ":new"
             ":insert-output ${pkgs.lazygit}/bin/lazygit"
@@ -117,6 +133,13 @@ in
     };
 
     themes = import ./theme.nix { inherit colorscheme; };
-    languages = import ./languages.nix { inherit lib pkgs config; };
+    languages = import ./languages.nix {
+      inherit
+        lib
+        pkgs
+        config
+        inputs
+        ;
+    };
   };
 }
