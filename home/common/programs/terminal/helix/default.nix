@@ -2,7 +2,7 @@
   lib,
   pkgs,
   config,
-  # inputs,
+  inputs,
   ...
 }:
 let
@@ -12,33 +12,17 @@ in
   home.sessionVariables.COLORTERM = "truecolor";
   programs.helix = {
     enable = true;
-    package = pkgs.helix;
+    # package = pkgs.helix;
+    package = inputs.helix-flake.packages.${pkgs.system}.default;
     extraPackages = [
-      pkgs.maskman
+      pkgs.marksman
       pkgs.nil
+      pkgs.shellcheck
+      pkgs.clang-tools
+      pkgs.nodePackages.vscode-langservers-extracted
+      pkgs.vscode-extensions.llvm-org.lldb-vscode
+      pkgs.nodePackages.prettier
     ];
-    # package = inputs.helix.packages.${pkgs.system}.default;
-    # package = inputs.helix.packages.${pkgs.system}.default.overrideAttrs (old: {
-    #   makeWrapperArgs = with pkgs;
-    #     old.makeWrapperArgs
-    #     or []
-    #     ++ [
-    #       "--suffix"
-    #       "PATH"
-    #       ":"
-    #       (lib.makeBinPath [
-    #         clang-tools
-    #         marksman
-    #         nil
-    #         efm-langserver
-    #         nodePackages.bash-language-server
-    #         nodePackages.vscode-langservers-extracted
-    #         vscode-extensions.llvm-org.lldb-vscode
-    #         nodePackages.prettier
-    #         shellcheck
-    #       ])
-    #     ];
-    # });
 
     settings = {
       theme = colorscheme.slug;
@@ -112,6 +96,12 @@ in
           S-c = ":buffer-close";
           n = "goto_next_buffer";
           S-n = "goto_previous_buffer";
+          g = [
+            ":new"
+            ":insert-output ${pkgs.lazygit}/bin/lazygit"
+            ":buffer-close!"
+            ":redraw"
+          ];
         };
 
         normal.space.space = {
