@@ -382,6 +382,7 @@
       },
       "original": {
         "owner": "helix-editor",
+        "ref": "master",
         "repo": "helix",
         "type": "github"
       }

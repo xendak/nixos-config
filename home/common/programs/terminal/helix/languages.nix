@@ -90,7 +90,7 @@ in {
 
     yaml-language-server.config.yaml.keyOrdering = false;
     clangd.args = [
-      "--inlay-hints" 
+      "--inlay-hints"
       "--background-index"
       "--offset-encoding=utf-16"
       "--compile-commands-dir=build"
@@ -119,9 +119,12 @@ in {
   language = [
     {
       name = "nix";
-      language-servers = ["nixd-lsp"];
       auto-format = true;
-      formatter.command = lib.getExe pkgs.nixfmt-rfc-style;
+      language-servers = ["nixd-lsp"];
+      formatter = {
+        command = lib.getExe pkgs.nixfmt-rfc-style;
+        args = [ ];
+      };
     }
 
     {
@@ -132,7 +135,7 @@ in {
     {
       name = "java";
       language-servers = ["scls" "jdtls"];
-      roots = [ "pom.xml" ];
+      roots = ["pom.xml"];
     }
 
     {

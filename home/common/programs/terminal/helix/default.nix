@@ -2,7 +2,7 @@
   lib,
   pkgs,
   config,
-  inputs,
+  # inputs,
   ...
 }: let
   inherit (config) colorscheme;
@@ -80,11 +80,24 @@ in {
         };
 
         normal = {
+          X = "extend_line_above";
           "{" = "goto_prev_paragraph";
           "}" = "goto_next_paragraph";
           tab = "move_parent_node_end";
           S-tab = "move_parent_node_start";
-          "A-e" = "expand_selection";
+          "A-e" = [
+            ":sh rm -f /tmp/unique-file"
+            ":insert-output ${pkgs.yazi}/bin/yazi %{buffer_name} --chooser-file=/tmp/unique-file"
+            ":insert-output echo \"\x1b[?1049h\x1b[?2004h\" > /dev/tty"
+            ":open %sh{cat /tmp/unique-file}"
+            ":redraw"
+          ];
+          "A-g" = [
+            ":new"
+            ":insert-output ${pkgs.lazygit}/bin/lazygit"
+            ":buffer-close!"
+            ":redraw"
+          ];
         };
 
         normal.space = {

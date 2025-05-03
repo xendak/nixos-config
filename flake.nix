@@ -46,7 +46,7 @@
     };
 
     wezterm.url = "github:wez/wezterm?dir=nix";
-    helix.url = "github:helix-editor/helix";
+    helix.url = "github:helix-editor/helix/master";
     matugen.url = "github:InioX/matugen";
 
     ags = {
@@ -73,7 +73,6 @@
     home-manager,
     agenix,
     hyprland,
-    aagl,
     helix,
     nixos-wsl,
     ...
