@@ -31,7 +31,8 @@ in
         color-modes = true;
         line-number = "relative";
         cursorline = true;
-        mouse = true;
+        # i dont understand this, sometimes is needed and sometimes is not.
+        # mouse = true;
 
         end-of-line-diagnostics = "hint";
         lsp = {
