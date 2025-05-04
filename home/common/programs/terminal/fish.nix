@@ -2,9 +2,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   wally = lib.getExe pkgs.wally-cli;
-in {
+in
+{
   programs.fish = {
     enable = true;
     shellAbbrs = {
@@ -19,6 +21,7 @@ in {
       hm = "home";
       ninit = "nix flake init -t $HOME/Flake#";
 
+      lg = "lazygit";
       nv = "nvim";
       nvi = "nvim";
       v = "nvim";
@@ -53,11 +56,22 @@ in {
       fish_greeting = "";
       rgv = "nvim -q (rg --vimgrep $argv | psub)";
       fdv = ''
-        set -l files (fzf --query="$argv" --multi --select-1 --exit-0 --prompt 'files:' --preview 'exa --tree --level=1 (dirname {})')
-        if test -n "$files"
-          $EDITOR $files
+        set tmp (fd . | fzf)
+        if test -d "$tmp"
+          yazi "$tmp"
+        else if test -f "$tmp"
+          hx "$tmp"
+        else
+          echo not
         end
+
       '';
+      # old method
+      # set -l files (fzf --query="$argv" --multi --select-1 --exit-0 --prompt 'files:' --preview 'exa --tree --level=1 (dirname {})')
+      # if test -n "$files"
+      #   $EDITOR $files
+      # end
+
       fcd = ''
         $TERMBROWSER (fd -t d . | fzf) $argv
       '';
@@ -229,64 +243,64 @@ in {
         bind \ee edit_command_buffer
       ''
       +
-      # ctrl backspace hopefully?
-      ''
-        bind \cH backward-kill-word
-      ''
+        # ctrl backspace hopefully?
+        ''
+          bind \cH backward-kill-word
+        ''
       +
-      # nnn integration
-      ''
-        set -gx NNN_FCOLORS "030201050006060009060402"
-      ''
+        # nnn integration
+        ''
+          set -gx NNN_FCOLORS "030201050006060009060402"
+        ''
       + ''
         fish_add_path --append /mnt/c/Users/rggro/scoop/apps/win32yank/0.1.1
       ''
       +
-      # kitty integration
-      ''
-        set --global KITTY_INSTALLATION_DIR "${pkgs.kitty}/lib/kitty"
-        set --global KITTY_SHELL_INTEGRATION enabled
-        source "$KITTY_INSTALLATION_DIR/shell-integration/fish/vendor_conf.d/kitty-shell-integration.fish"
-        set --prepend fish_complete_path "$KITTY_INSTALLATION_DIR/shell-integration/fish/vendor_completions.d"
-      ''
+        # kitty integration
+        ''
+          set --global KITTY_INSTALLATION_DIR "${pkgs.kitty}/lib/kitty"
+          set --global KITTY_SHELL_INTEGRATION enabled
+          source "$KITTY_INSTALLATION_DIR/shell-integration/fish/vendor_conf.d/kitty-shell-integration.fish"
+          set --prepend fish_complete_path "$KITTY_INSTALLATION_DIR/shell-integration/fish/vendor_completions.d"
+        ''
       +
-      # Use vim bindings and cursors
-      ''
-        fish_vi_key_bindings
-        set fish_cursor_default     block      blink
-        set fish_cursor_insert      line       blink
-        set fish_cursor_replace_one underscore blink
-        set fish_cursor_visual      block
-      ''
+        # Use vim bindings and cursors
+        ''
+          fish_vi_key_bindings
+          set fish_cursor_default     block      blink
+          set fish_cursor_insert      line       blink
+          set fish_cursor_replace_one underscore blink
+          set fish_cursor_visual      block
+        ''
       +
-      # Use terminal colors
-      ''
-        set -U fish_color_autosuggestion      brblack
-        set -U fish_color_cancel              -r
-        set -U fish_color_command             brgreen
-        set -U fish_color_comment             brmagenta
-        set -U fish_color_cwd                 green
-        set -U fish_color_cwd_root            red
-        set -U fish_color_end                 brmagenta
-        set -U fish_color_error               brred
-        set -U fish_color_escape              brcyan
-        set -U fish_color_history_current     --bold
-        set -U fish_color_host                normal
-        set -U fish_color_match               --background=brblue
-        set -U fish_color_normal              normal
-        set -U fish_color_operator            cyan
-        set -U fish_color_param               brblue
-        set -U fish_color_quote               yellow
-        set -U fish_color_redirection         bryellow
-        set -U fish_color_search_match        'bryellow' '--background=brblack'
-        set -U fish_color_selection           'white' '--bold' '--background=brblack'
-        set -U fish_color_status              red
-        set -U fish_color_user                brgreen
-        set -U fish_color_valid_path          --underline
-        set -U fish_pager_color_completion    normal
-        set -U fish_pager_color_description   yellow
-        set -U fish_pager_color_prefix        'white' '--bold' '--underline'
-        set -U fish_pager_color_progress      'brwhite' '--background=cyan'
-      '';
+        # Use terminal colors
+        ''
+          set -U fish_color_autosuggestion      brblack
+          set -U fish_color_cancel              -r
+          set -U fish_color_command             brgreen
+          set -U fish_color_comment             brmagenta
+          set -U fish_color_cwd                 green
+          set -U fish_color_cwd_root            red
+          set -U fish_color_end                 brmagenta
+          set -U fish_color_error               brred
+          set -U fish_color_escape              brcyan
+          set -U fish_color_history_current     --bold
+          set -U fish_color_host                normal
+          set -U fish_color_match               --background=brblue
+          set -U fish_color_normal              normal
+          set -U fish_color_operator            cyan
+          set -U fish_color_param               brblue
+          set -U fish_color_quote               yellow
+          set -U fish_color_redirection         bryellow
+          set -U fish_color_search_match        'bryellow' '--background=brblack'
+          set -U fish_color_selection           'white' '--bold' '--background=brblack'
+          set -U fish_color_status              red
+          set -U fish_color_user                brgreen
+          set -U fish_color_valid_path          --underline
+          set -U fish_pager_color_completion    normal
+          set -U fish_pager_color_description   yellow
+          set -U fish_pager_color_prefix        'white' '--bold' '--underline'
+          set -U fish_pager_color_progress      'brwhite' '--background=cyan'
+        '';
   };
 }

@@ -35,6 +35,7 @@
     xdg-utils
     bat
     lazygit
+    tree
 
     # DEFAULT LANGUAGES i use mostly?
     clang-tools
