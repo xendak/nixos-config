@@ -4,7 +4,8 @@
   pkgs,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     inputs.nix-index-db.hmModules.nix-index
 
@@ -72,10 +73,17 @@
     unrar
     p7zip
     xdg-utils
-
+    lazygit
+    tree
     bat
 
     clang-tools
+    llvmPackages_latest.libstdcxxClang
+    llvmPackages_latest.libcxx
+    llvmPackages_latest.lldb
+    cppcheck
+    gdb
+    inputs.uwu-colors.packages.${pkgs.system}.default
 
     nixd # Nix LSP
     alejandra
@@ -101,7 +109,7 @@
     username = lib.mkDefault "nixos";
     homeDirectory = lib.mkDefault "/home/nixos/";
     stateVersion = lib.mkDefault "25.05";
-    sessionPath = ["$HOME/Flakes/bin"];
+    sessionPath = [ "$HOME/Flakes/bin" ];
     sessionVariables = {
       UserKnownHostsFile = "$HOME/.local/share/ssh";
       SCREENSHOT_DIR = "$HOME/Pictures/Screenshots";
@@ -130,7 +138,13 @@
       x = 0;
       y = 0;
       workspace = "1";
-      bind = [1 2 3 4 5];
+      bind = [
+        1
+        2
+        3
+        4
+        5
+      ];
     }
   ];
 }
