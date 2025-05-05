@@ -83,12 +83,16 @@ in
             ":sh rm -f /tmp/unique-file"
             ":insert-output ${pkgs.yazi}/bin/yazi %{buffer_name} --chooser-file=/tmp/unique-file"
             ":insert-output echo \"\x1b[?1049h\x1b[?2004h\" > /dev/tty"
+            ":set mouse false"
+            ":set mouse true"
             ":open %sh{cat /tmp/unique-file}"
             ":redraw"
           ];
           "A-g" = [
             ":new"
             ":insert-output ${pkgs.lazygit}/bin/lazygit"
+            ":set mouse false"
+            ":set mouse true"
             ":buffer-close!"
             ":redraw"
           ];
