@@ -108,6 +108,8 @@ in
             ":insert-output ${pkgs.yazi}/bin/yazi %sh{git rev-parse --show-toplevel} --chooser-file=/tmp/unique-file"
             ":insert-output echo \"\x1b[?1049h\x1b[?2004h\" > /dev/tty"
             ":open %sh{cat /tmp/unique-file}"
+            ":set mouse false"
+            ":set mouse true"
             ":redraw"
           ];
           e = [
@@ -115,12 +117,16 @@ in
             ":insert-output ${pkgs.yazi}/bin/yazi %{buffer_name} --chooser-file=/tmp/unique-file"
             ":insert-output echo \"\x1b[?1049h\x1b[?2004h\" > /dev/tty"
             ":open %sh{cat /tmp/unique-file}"
+            ":set mouse false"
+            ":set mouse true"
             ":redraw"
           ];
           g = [
             ":new"
             ":insert-output ${pkgs.lazygit}/bin/lazygit"
             ":buffer-close!"
+            ":set mouse false"
+            ":set mouse true"
             ":redraw"
           ];
         };
