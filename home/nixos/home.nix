@@ -19,6 +19,7 @@
     ../common/programs/terminal/git.nix
     ../common/programs/terminal/fish.nix
     ../common/programs/terminal/starship.nix
+    ../common/programs/terminal/utils.nix
     ../common/programs/zathura.nix
     ../common/programs/terminal/nnn
     ../common/programs/terminal/nvim
@@ -58,50 +59,12 @@
   home.packages = with pkgs; [
     qmk
     wally-cli
-
     fzf
-    bc # Calculator
-    bottom # System viewer
-    ncdu # TUI disk usage
-    eza # Better ls
-    ripgrep # Better grep
-    fd # Better find
-    httpie # Better curl
-    diffsitter # Better diff
-    jq # JSON pretty printer and manipulator
-    unzip
-    unrar
-    p7zip
-    xdg-utils
-    lazygit
-    tree
-    bat
-
-    clang-tools
-    llvmPackages_latest.libstdcxxClang
-    llvmPackages_latest.libcxx
-    llvmPackages_latest.lldb
-    cppcheck
-    gdb
-    inputs.uwu-colors.packages.${pkgs.system}.default
-
-    nixd # Nix LSP
-    alejandra
-    nixfmt-rfc-style # Nix formatter
-    nvd # Differ
-    nix-output-monitor
-    nh # Nice wrapper for NixOS and HM
-
-    ltex-ls # Spell checking LSP
   ];
 
   programs = {
     home-manager.enable = true;
     zoxide.enable = true;
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
   };
 
   # Home --------------------
