@@ -27,7 +27,7 @@ in
   # Wezterm configuration
   programs.wezterm = {
     enable = true;
-    package = inputs.wezterm.packages.${pkgs.system}.default;
+    # package = inputs.wezterm.packages.${pkgs.system}.default;
     extraConfig = ''
       return {
         font = wezterm.font("${config.fontProfiles.monospace.family}",
