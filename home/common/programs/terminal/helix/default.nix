@@ -133,7 +133,7 @@ in
 
         normal.space.space = {
           s = ":write";
-          q = ":quit";
+          q = ":quit!";
         };
         normal.space.u = {
           f = ":format"; # format using LSP formatter
