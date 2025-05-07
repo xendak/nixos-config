@@ -201,128 +201,163 @@ in
     };
   };
 
-  language = [
-    {
-      name = "nix";
-      auto-format = true;
-      language-servers = [
-        "nixd-lsp"
-        "uwu-colors"
-      ];
-      formatter = {
-        command = lib.getExe pkgs.nixfmt-rfc-style;
-        args = [ ];
-      };
-    }
-
-    {
-      name = "bash";
-      inherit indent;
-      formatter = {
-        command = lib.getExe pkgs.shfmt;
-        args = [
-          "-i"
-          "2"
-        ];
-      };
-    }
-
-    {
-      name = "java";
-      language-servers = [
-        "scls"
-        "jdtls"
-      ];
-      roots = [ "pom.xml" ];
-    }
-    {
-      name = "javascript";
-      auto-format = true;
-      language-servers = [
-        "dprint"
-        "typescript-language-server"
-        "uwu-colors"
-      ];
-    }
-    {
-      name = "json";
-      formatter = {
+  language =
+    let
+      deno = lang: {
         command = lib.getExe pkgs.deno;
         args = [
           "fmt"
           "-"
-          "--ext json"
+          "--ext"
+          lang
         ];
       };
-    }
-    {
-      name = "markdown";
-      text-width = 150;
-      soft-wrap.enable = true;
-      soft-wrap.wrap-at-text-width = true;
 
-      language-servers = [
-        "dprint"
-        "markdown-oxide"
+      prettier = lang: {
+        command = lib.getExe pkgs.nodePackages.prettier;
+        args = [
+          "--parser"
+          lang
+        ];
+      };
+      prettierLangs = map (e: {
+        name = e;
+        formatter = prettier e;
+      });
+      langs = [
+        "css"
+        "scss"
+        "html"
       ];
-    }
+    in
+    [
+      {
+        name = "nix";
+        auto-format = true;
+        language-servers = [
+          "nixd-lsp"
+          "uwu-colors"
+        ];
+        formatter = {
+          command = lib.getExe pkgs.nixfmt-rfc-style;
+          args = [ ];
+        };
+      }
 
-    {
-      name = "gherkin";
-      scope = "source.gherkin";
-      injection-regex = "^(gherkin|feature)?$";
-      file-types = [ "feature" ];
-      comment-token = "#";
-      roots = [ ];
-      inherit indent;
+      {
+        name = "bash";
+        inherit indent;
+        formatter = {
+          command = lib.getExe pkgs.shfmt;
+          args = [
+            "-i"
+            "2"
+          ];
+        };
+      }
 
-      auto-pairs = {
-        "(" = ")";
-        "[" = "]";
-        "{" = "}";
-        "$" = "$";
-        "`" = "`";
-        "\"" = ''"'';
-      };
-    }
+      {
+        name = "java";
+        language-servers = [
+          "scls"
+          "jdtls"
+        ];
+        roots = [ "pom.xml" ];
+      }
 
-    {
-      name = "just";
-      auto-format = false;
-      inherit indent;
-    }
-    # {
-    #   name = "json";
-    #   language-servers = [
-    #     "efm-prettier"
-    #     "vscode-json-language-server"
-    #   ];
-    # }
+      {
+        name = "javascript";
+        auto-format = true;
+        language-servers = [
+          "dprint"
+          "typescript-language-server"
+          "uwu-colors"
+        ];
+      }
 
-    {
-      name = "nu";
-      inherit indent;
-    }
+      {
+        name = "typescript";
+        auto-format = true;
+        language-servers = [
+          "dprint"
+          "typescript-language-server"
+        ];
+      }
 
-    {
-      name = "protobuf";
-      inherit indent;
-    }
+      {
+        name = "json";
+        formatter = deno "json";
+      }
 
-    {
-      name = "cpp";
-      formatter = {
-        command = "${pkgs.clang-tools}/bin/clang-format";
-        args = [ "--style=Google" ];
-      };
-    }
+      {
+        name = "markdown";
+        text-width = 150;
+        soft-wrap.enable = true;
+        soft-wrap.wrap-at-text-width = true;
 
-    {
-      name = "toml";
-      auto-format = false;
-      inherit indent;
-    }
-  ];
+        language-servers = [
+          "dprint"
+          "markdown-oxide"
+        ];
+      }
+
+      {
+        name = "gherkin";
+        scope = "source.gherkin";
+        injection-regex = "^(gherkin|feature)?$";
+        file-types = [ "feature" ];
+        comment-token = "#";
+        roots = [ ];
+        inherit indent;
+
+        auto-pairs = {
+          "(" = ")";
+          "[" = "]";
+          "{" = "}";
+          "$" = "$";
+          "`" = "`";
+          "\"" = ''"'';
+        };
+      }
+
+      {
+        name = "just";
+        auto-format = false;
+        inherit indent;
+      }
+      # {
+      #   name = "json";
+      #   language-servers = [
+      #     "efm-prettier"
+      #     "vscode-json-language-server"
+      #   ];
+      # }
+
+      {
+        name = "nu";
+        inherit indent;
+      }
+
+      {
+        name = "protobuf";
+        inherit indent;
+      }
+
+      {
+        name = "cpp";
+        formatter = {
+          command = "${pkgs.clang-tools}/bin/clang-format";
+          args = [ "--style=Google" ];
+        };
+      }
+
+      {
+        name = "toml";
+        auto-format = false;
+        inherit indent;
+      }
+    ]
+    ++ prettierLangs langs;
 
   home.file.".dprint.json".source = builtins.toFile "dprint.json" (
     builtins.toJSON {
