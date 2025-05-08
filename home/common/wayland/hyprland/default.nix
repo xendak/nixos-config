@@ -57,8 +57,6 @@
 
     settings =
       let
-        rofi = "${pkgs.rofi}/bin/rofi";
-        # grimblast = "${pkgs.inputs.hyprwm-contrib.grimblast}/bin/grimblast";
         grimblast = "grimblast";
         wpctl = "${pkgs.wireplumber}/bin/wpctl";
         brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
@@ -74,6 +72,7 @@
       {
         exec-once =
           [
+            "all-sync persist-to-live"
             "swww-daemon"
             "swww img ${wallpaper}"
             "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
