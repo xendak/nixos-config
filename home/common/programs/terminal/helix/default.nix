@@ -15,14 +15,16 @@ in
     # package = pkgs.helix;
     package = inputs.helix-flake.packages.${pkgs.system}.default;
     extraPackages = [
-      pkgs.marksman
+      # pkgs.marksman
       pkgs.markdown-oxide
-      pkgs.nil
+      # pkgs.dprint
+      # pkgs.deno
+      # pkgs.nil
       pkgs.shellcheck
       pkgs.clang-tools
       pkgs.nodePackages.vscode-langservers-extracted
       pkgs.vscode-extensions.llvm-org.lldb-vscode
-      pkgs.nodePackages.prettier
+      # pkgs.nodePackages.prettier
     ];
 
     settings = {

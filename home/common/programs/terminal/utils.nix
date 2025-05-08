@@ -32,6 +32,11 @@
     gdb
     inputs.uwu-colors.packages.${pkgs.system}.default
 
+    # language formatters
+    # nodePackages.prettier
+    # dprint
+    # deno
+
     nixd # Nix LSP
     alejandra
     nixfmt-rfc-style # Nix formatter

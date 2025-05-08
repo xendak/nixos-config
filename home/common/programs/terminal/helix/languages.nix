@@ -102,6 +102,11 @@ in
       args = [ "start" ];
     };
 
+    fish-lsp = {
+      command = lib.getExe pkgs.fish-lsp;
+      args = [ "start" ];
+    };
+
     clangd = {
       command = "${pkgs.clang-tools}/bin/clangd";
       clangd.fallbackFlags = [ "-std=c++2b" ];
@@ -245,8 +250,18 @@ in
       }
 
       {
-        name = "bash";
+        name = "fish";
         inherit indent;
+        formatter.command = "fish_indent";
+        language-servers = [ "fish-lsp" ];
+      }
+
+      {
+        name = "bash";
+        indent = {
+          tab-width = 2;
+          unit = " ";
+        };
         formatter = {
           command = lib.getExe pkgs.shfmt;
           args = [
@@ -281,6 +296,7 @@ in
         language-servers = [
           "dprint"
           "typescript-language-server"
+          "uwu-colors"
         ];
       }
 
@@ -294,6 +310,7 @@ in
         text-width = 150;
         soft-wrap.enable = true;
         soft-wrap.wrap-at-text-width = true;
+        formatter = deno "md";
 
         language-servers = [
           "dprint"
@@ -325,13 +342,6 @@ in
         auto-format = false;
         inherit indent;
       }
-      # {
-      #   name = "json";
-      #   language-servers = [
-      #     "efm-prettier"
-      #     "vscode-json-language-server"
-      #   ];
-      # }
 
       {
         name = "nu";
