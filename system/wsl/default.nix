@@ -1,15 +1,16 @@
 {
   pkgs,
-  config,
   inputs,
   outputs,
   lib,
   ...
-}: {
+}:
+{
   imports = [
     inputs.home-manager.nixosModules.home-manager
     # inputs.agenix.nixosModules.default
     ../extras/fish.nix
+    # ../openssh.nix
     # ../extras/llm.nix
   ];
 
@@ -19,11 +20,10 @@
   services.geoclue2.enable = true;
   services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
 
-
   # programs.fish.enable = true;
   programs.dconf.enable = true;
-  environment.pathsToLink = ["/share/fish"];
-  environment.shells = [pkgs.fish];
+  environment.pathsToLink = [ "/share/fish" ];
+  environment.shells = [ pkgs.fish ];
 
   environment.enableAllTerminfo = true;
 
@@ -37,18 +37,24 @@
 
   # FIXME: uncomment the next line to enable SSH
   # services.openssh.enable = true;
+  programs.ssh = {
+    startAgent = true;
+  };
 
   users.users.nixos = {
     isNormalUser = true;
-    # FIXME: change your shell here if you don't want fish
     shell = pkgs.fish;
-    extraGroups = ["wheel" "docker" "input" "audio" "video"];
+    extraGroups = [
+      "wheel"
+      "docker"
+      "input"
+      "audio"
+      "video"
+    ];
     hashedPassword = "$6$/XlEv26WR0fDTVnf$43kBq/CR1oQ4x5R70xmWUuPlaf1aoHr7G5c6FajQv6ibJ5aFKafokHrSMcDp3itve5JSroM92O29KICplH4vz.";
-    #hashedPasswordFile = "/mnt/g/persist/home/secrets/passwd-flakes";
-    packages = [pkgs.home-manager];
+    packages = [ pkgs.home-manager ];
   };
   users.users.root = {
-    #hashedPasswordFile = "/mnt/g/persist/home/secrets/passwd-root"
     hashedPassword = "$6$4HwRzWTtgI6oR.Fp$BJM7NNDt.kFKBjjiZxOEhO2rVU9v7iRiYVXejjXuq14RIQ4INP6m3JGp7G7TlesAWUkcEiXO0UEDGnjPXwxGQ1";
   };
 
@@ -56,7 +62,7 @@
     backupFileExtension = "hm-backup";
     users.nixos = import ../../home/nixos/home.nix;
     useUserPackages = true;
-    extraSpecialArgs = {inherit inputs outputs;};
+    extraSpecialArgs = { inherit inputs outputs; };
   };
 
   system.stateVersion = "25.05";
@@ -94,7 +100,7 @@
 
   nix = {
     settings = {
-      trusted-users = ["nixos"];
+      trusted-users = [ "nixos" ];
       accept-flake-config = true;
       auto-optimise-store = true;
     };
@@ -127,10 +133,10 @@
         commands = [
           {
             command = "${lib.getExe pkgs.wally-cli}";
-            options = ["NOPASSWD"];
+            options = [ "NOPASSWD" ];
           }
         ];
-        groups = ["wheel"];
+        groups = [ "wheel" ];
       }
     ];
   };
