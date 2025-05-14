@@ -5,10 +5,10 @@
   ...
 }:
 # let
-  # inherit
-    # (inputs.nix-colors.lib-contrib {inherit pkgs;})
-    # gtkThemeFromScheme
-    # ;
+# inherit
+# (inputs.nix-colors.lib-contrib {inherit pkgs;})
+# gtkThemeFromScheme
+# ;
 # in
 {
   home.pointerCursor = {
@@ -20,7 +20,9 @@
   };
 
   # home.sessionVariables = { GTK_USE_PORTAL = "1"; };
-  home.sessionVariables = {GTK2_RC_FILES = "${config.xdg.configHome}/gtk-2.0/gtkrc";};
+  home.sessionVariables = {
+    GTK2_RC_FILES = "${config.xdg.configHome}/gtk-2.0/gtkrc";
+  };
   home.packages = [
     pkgs.gtk_engines
     pkgs.gtk4
@@ -41,11 +43,16 @@
     #   package = gtkThemeFromScheme {scheme = config.colorScheme;};
     # };
     #
+    # iconTheme = {
+    #   name = "Gruvbox-Plus-Dark";
+    #   package = pkgs.gruvbox-plus-icons;
+    # };
+
     iconTheme = {
-      name = "Gruvbox-Plus-Dark";
-      package = pkgs.gruvbox-plus-icons;
+      name = "Colloid";
+      package = pkgs.colloid-icon-theme;
     };
-    
+
     #      theme = {
     #        name = "Graphite-Dark-nord";
     #        package = (pkgs.graphite-gtk-theme.override { tweaks = ["nord"]; });
