@@ -8,51 +8,57 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    zig,
-    zls,
-    flake-utils,
-    ...
-  }:
-    flake-utils.lib.eachDefaultSystem (system: let
-      zigPackage = zig.packages.${system}.master;
-      zlsPackage = zls.packages.${system}.default;
-      pkgs = import nixpkgs {
-        inherit system;
-        nativeBuildInputs = [
-          zigPackage
-          zlsPackage
-        ];
-        overlays = [
-          (final: prev: {
-            inherit zigPackage zlsPackage;
-          })
-        ];
-      };
-    in {
-      packages.default = pkgs.callPackage ./default.nix {inherit zigPackage;};
+  outputs =
+    {
+      self,
+      nixpkgs,
+      zig,
+      zls,
+      flake-utils,
+      ...
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        zigPackage = zig.packages.${system}.master;
+        zlsPackage = zls.packages.${system}.default;
+        pkgs = import nixpkgs {
+          inherit system;
+          nativeBuildInputs = [
+            zigPackage
+            zlsPackage
+          ];
+          overlays = [
+            (final: prev: {
+              inherit zigPackage zlsPackage;
+            })
+          ];
+        };
+      in
+      {
+        packages.default = pkgs.callPackage ./default.nix { inherit zigPackage; };
 
-      devShells.default = pkgs.mkShell {
-        nativeBuildInputs = [
-          zigPackage
-          zlsPackage
-        ];
-        packages = with pkgs; [
-          raylib
-          lldb
-          llvmPackages_latest.lld
-          git
-          gdb
-          valgrind
-        ];
+        devShells.default = pkgs.mkShell {
+          nativeBuildInputs = [
+            zigPackage
+            zlsPackage
+          ];
+          packages = with pkgs; [
+            raylib
+            # Assumes we already have that at system, uncomment if needed.
+            # lldb
+            # llvmPackages_latest.lld
+            # git
+            # gdb
+            # valgrind
+          ];
 
-        shellHook = ''
-          echo "Zig ${zigPackage.version} environment"
-        '';
-      };
+          shellHook = ''
+            echo "Zig ${zigPackage.version} environment"
+          '';
+        };
 
-      hydraJobs = self.packages.${system};
-    });
+        hydraJobs = self.packages.${system};
+      }
+    );
 }
