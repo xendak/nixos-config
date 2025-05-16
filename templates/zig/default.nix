@@ -1,5 +1,6 @@
 {
   stdenv,
+  lib,
   zigPackage,
   raylib,
 }:
@@ -10,8 +11,8 @@ stdenv.mkDerivation {
   src = ./.;
   XDG_CACHE_HOME = "${placeholder "out"}";
 
-  buildInputs = [raylib];
-  nativeBuildInputs = [zigPackage];
+  buildInputs = [ raylib ];
+  nativeBuildInputs = [ zigPackage ];
 
   buildPhase = ''
     ${zigPackage}/bin/zig build
@@ -19,6 +20,13 @@ stdenv.mkDerivation {
 
   installPhase = ''
     ${zigPackage}/bin/zig build install --prefix $out
-    rm -rf $out/zig 
+    rm -rf $out/zig
   '';
+  meta = with lib; {
+    description = "A Zig application template";
+    homepage = "https://github.com/xendak/nixos-config";
+    license = licenses.mit;
+    maintainers = [ maintainers.xendak ];
+    platforms = platforms.all;
+  };
 }
