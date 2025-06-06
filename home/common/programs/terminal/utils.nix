@@ -22,6 +22,11 @@
     lazygit
     tree
 
+    imhex
+    hexyl
+    difftastic
+    bitwise
+
     # DEFAULT LANGUAGES i use mostly?
     valgrind
     clang-tools

@@ -5,11 +5,13 @@
   inputs,
   outputs,
   ...
-}: let
+}:
+let
   ENGLISH = "en_US.UTF-8";
   JAPANESE = "ja_JP.UTF-8";
   PORTUGUESE = "pt_BR.UTF-8";
-in {
+in
+{
   imports = [
     inputs.impermanence.nixosModules.impermanence
     inputs.home-manager.nixosModules.home-manager
@@ -65,7 +67,7 @@ in {
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
-    registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
+    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
 
     # This will additionally add your inputs to the system's legacy channels
     # Making legacy nix commands consistent as well, awesome!
@@ -97,14 +99,14 @@ in {
         commands = [
           {
             command = "${lib.getExe pkgs.evtest}";
-            options = ["NOPASSWD"];
+            options = [ "NOPASSWD" ];
           }
           {
             command = "${lib.getExe pkgs.wally-cli}";
-            options = ["NOPASSWD"];
+            options = [ "NOPASSWD" ];
           }
         ];
-        groups = ["wheel"];
+        groups = [ "wheel" ];
       }
     ];
   };
@@ -123,7 +125,7 @@ in {
     fd
     eza
     bat
-    
+
     busybox
     lm_sensors
     agenix
@@ -131,6 +133,8 @@ in {
     # qt5.qtwayland
     # qt6.qtwayland
     xdg-desktop-portal-gtk
+    xdg-desktop-portal-wlr
+    xdg-desktop-portal-hyprland
   ];
 
   # xdg.portal = {
@@ -145,10 +149,18 @@ in {
     enable = true;
     #xdgOpenUsePortal = true;
     config = {
-      common.default = ["gtk"];
-      hyprland.default = ["gtk" "hyprland"];
+      common.default = [ "gtk" ];
+      hyprland.default = [
+        "gtk"
+        "hyprland"
+      ];
     };
-    extraPortals = [pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk];
+    wlr.enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-wlr
+    ];
     #configPackages = [ pkgs.inputs.hyprland.hyprland ];
   };
 
@@ -183,10 +195,18 @@ in {
   services.dbus.packages = [
     pkgs.gcr
 
-    (pkgs.osdlyrics.overrideAttrs
-      (oldAttrs: {buildInputs = oldAttrs.buildInputs ++ [pkgs.python311Packages.dbus-python pkgs.glib pkgs.gobject-introspection pkgs.dbus-glib pkgs.mpdris2 pkgs.playerctl];}))
+    (pkgs.osdlyrics.overrideAttrs (oldAttrs: {
+      buildInputs = oldAttrs.buildInputs ++ [
+        pkgs.python311Packages.dbus-python
+        pkgs.glib
+        pkgs.gobject-introspection
+        pkgs.dbus-glib
+        pkgs.mpdris2
+        pkgs.playerctl
+      ];
+    }))
   ];
-  services.udev.packages = with pkgs; [gnome-settings-daemon];
+  services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 
   services.udisks2.enable = true;
   services.fstrim.enable = true;
@@ -214,7 +234,11 @@ in {
   services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
 
   # locale configs
-  i18n.supportedLocales = ["en_US.UTF-8/UTF-8" "ja_JP.UTF-8/UTF-8" "pt_BR.UTF-8/UTF-8"];
+  i18n.supportedLocales = [
+    "en_US.UTF-8/UTF-8"
+    "ja_JP.UTF-8/UTF-8"
+    "pt_BR.UTF-8/UTF-8"
+  ];
   i18n.defaultLocale = lib.mkDefault ENGLISH;
   i18n.extraLocaleSettings = {
     LANG = JAPANESE;
@@ -238,9 +262,9 @@ in {
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
-      wantedBy = ["graphical-session.target"];
-      wants = ["graphical-session.target"];
-      after = ["graphical-session.target"];
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
       serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
