@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     polkit_gnome
     pavucontrol
@@ -16,13 +17,13 @@
   ];
   xdg.mimeApps.enable = true;
   xdg.mimeApps.defaultApplications = {
-    "application/x-ms-dos-executable" = ["wine.desktop"];
+    "application/x-ms-dos-executable" = [ "wine.desktop" ];
   };
 
   i18n = {
     inputMethod = {
-    enable = true;
-    type = "fcitx5";
+      enable = true;
+      type = "fcitx5";
       fcitx5.addons = with pkgs.stable; [
         fcitx5-mozc
         fcitx5-gtk
@@ -37,7 +38,6 @@
     ANKI_WAYLAND = "1";
     NIXOS_OZONE_WL = "1";
     LIBSEAT_BACKEND = "logind";
-    XCURSOR_SIZE = 32;
     QT_QPA_PLATFORM = "wayland;xcb";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "0";
     WLR_NO_HARDWARE_CURSORS = 1;
@@ -48,6 +48,5 @@
     GTK_IM_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";
     # XDG_CURRENT_DESKTOP = "GNOME"; # fixing QT no icon bullshit
-    XDG_CURRENT_DESKTOP = "Hyprland"; # fixing QT no icon bullshit
   };
 }

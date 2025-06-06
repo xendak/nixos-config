@@ -3,7 +3,8 @@
   lib,
   config,
   ...
-}: let
+}:
+let
   commandLineArgs = [
     "--disable-sync"
     "--no-default-browser-check"
@@ -33,7 +34,8 @@
     enableWideVine = true;
     inherit commandLineArgs;
   };
-in {
+in
+{
 
   # xdg.mimeApps.defaultApplications = {
   #   "text/html" = ["chromium-browser.desktop"];
@@ -43,10 +45,6 @@ in {
   #   "x-scheme-handler/about" = ["chromium-browser.desktop"];
   #   "x-scheme-handler/unknown" = ["chromium-browser.desktop"];
   # };
-
-  home.sessionVariables = {
-    BROWSER = "chromium";
-  };
 
   programs.chromium = {
     enable = true;
@@ -60,52 +58,57 @@ in {
     #   "ui.zoom.force_enable_zoom_scrollbars" = true;
     # };
 
-    extensions = let
-      createChromiumExtensionFor = browserVersion: {
-        id,
-        sha256,
-        version,
-      }: {
-        inherit id;
-        crxPath = builtins.fetchurl {
-          url = "https://clients2.google.com/service/update2/crx?response=redirect&acceptformat=crx2,crx3&prodversion=${browserVersion}&x=id%3D${id}%26installsource%3Dondemand%26uc";
-          name = "${id}.crx";
-          inherit sha256;
-        };
-        inherit version;
-      };
-      createChromiumExtension = createChromiumExtensionFor (lib.versions.major baseChromium.version);
-    in [
-      (createChromiumExtension {
-        # Vencord
-        id = "cbghhgpcnddeihccjmnadmkaejncjndb";
-        sha256 = "sha256:0z5mi01n47wvrl5g6x0h0y90v7jjrs8ymdlzlx9rpwd52r6sh7wb";
-        version = "1.11.9";
-      })
-      (createChromiumExtension {
-        # ViolentMonkey
-        id = "jinjaccalgkegednnccohejagnlnfdag";
-        sha256 = "sha256:0vwgbqkim8s0ai9bj2vhhs590vv022s58d5m6q80zy6p57gxlpih";
-        version = "2.31.0";
-      })
-      (createChromiumExtension {
-        # Vimium
-        id = "dbepggeogbaibhgnhhndojpepiihcmeb";
-        sha256 = "sha256:0m8xski05w2r8igj675sxrlkzxlrl59j3a7m0r6c8pwcvka0r88d";
-        version = "2.1.2";
-      })
-      (createChromiumExtension {
-        # Bitwarden
-        id = "nngceckbapebfimnlniiiahkandclblb";
-        sha256 = "sha256:1cqxid070yiqhw99najwg3nj3csdr8cp12pd0gggnfp34c8n2dig";
-        version = "2025.3.2";
-      })
-      (createChromiumExtension {
-        # Ublock
-        id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
-        sha256 = "sha256:1lnk0k8zy0w33cxpv93q1am0d7ds2na64zshvbwdnbjq8x4sw5p6";
-        version = "1.63.2";
-      })
-    ];
+    extensions =
+      let
+        createChromiumExtensionFor =
+          browserVersion:
+          {
+            id,
+            sha256,
+            version,
+          }:
+          {
+            inherit id;
+            crxPath = builtins.fetchurl {
+              url = "https://clients2.google.com/service/update2/crx?response=redirect&acceptformat=crx2,crx3&prodversion=${browserVersion}&x=id%3D${id}%26installsource%3Dondemand%26uc";
+              name = "${id}.crx";
+              inherit sha256;
+            };
+            inherit version;
+          };
+        createChromiumExtension = createChromiumExtensionFor (lib.versions.major baseChromium.version);
+      in
+      [
+        (createChromiumExtension {
+          # Vencord
+          id = "cbghhgpcnddeihccjmnadmkaejncjndb";
+          sha256 = "sha256:0z5mi01n47wvrl5g6x0h0y90v7jjrs8ymdlzlx9rpwd52r6sh7wb";
+          version = "1.11.9";
+        })
+        (createChromiumExtension {
+          # ViolentMonkey
+          id = "jinjaccalgkegednnccohejagnlnfdag";
+          sha256 = "sha256:0vwgbqkim8s0ai9bj2vhhs590vv022s58d5m6q80zy6p57gxlpih";
+          version = "2.31.0";
+        })
+        (createChromiumExtension {
+          # Vimium
+          id = "dbepggeogbaibhgnhhndojpepiihcmeb";
+          sha256 = "sha256:0m8xski05w2r8igj675sxrlkzxlrl59j3a7m0r6c8pwcvka0r88d";
+          version = "2.1.2";
+        })
+        (createChromiumExtension {
+          # Bitwarden
+          id = "nngceckbapebfimnlniiiahkandclblb";
+          sha256 = "sha256:1cqxid070yiqhw99najwg3nj3csdr8cp12pd0gggnfp34c8n2dig";
+          version = "2025.3.2";
+        })
+        (createChromiumExtension {
+          # Ublock
+          id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
+          sha256 = "sha256:1lnk0k8zy0w33cxpv93q1am0d7ds2na64zshvbwdnbjq8x4sw5p6";
+          version = "1.63.2";
+        })
+      ];
   };
 }

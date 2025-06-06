@@ -4,7 +4,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     inputs.nix-index-db.hmModules.nix-index
 
@@ -26,7 +27,7 @@
 
     ../common/games/wine.nix
     ../common/games/launchers/steam.nix
-    # ../common/games/emulators/retroarch.nix
+    ../common/games/emulators/retroarch.nix
     # ../common/programs/pass.nix
     ../common/programs/browser/chromium.nix
 
@@ -47,7 +48,7 @@
     ".config/xdg-desktop-portal/portals.conf".source = pkgs.writeText "portals.conf" ''
       [preferred]
       default=hyprland;kde;gtk
-      org.freedesktop.impl.portal.FileChooser=kde
+      org.freedesktop.impl.portal.FileChooser=kde;gtk
     '';
     ".config/fish/completions/ns.fish".source = pkgs.writeText "ns.fish" ''
       function __nixpkgs_completions
@@ -94,7 +95,7 @@
     username = lib.mkDefault "drops";
     homeDirectory = lib.mkDefault "/home/drops/";
     stateVersion = lib.mkDefault "25.05";
-    sessionPath = ["$HOME/Flake/bin"];
+    sessionPath = [ "$HOME/Flake/bin" ];
     persistence = {
       "/persist/home/drops" = {
         directories = [
@@ -130,9 +131,9 @@
       NNN_BMS = "p:$HOME/Programming;f:$HOME/Flake;c:$HOME/.config;w:/mnt/Windows";
       SPLIT = "v";
       GTK_THEME = "${config.gtk.theme.name}:dark";
-      EDITOR = "nvim";
+      EDITOR = "hx";
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
-      # BROWSER = "chromium";
+      BROWSER = "zen";
       FILEBROWSER = "dolphin";
       TERMBROWSER = "n";
       WINEPREFIX = "$HOME/Games/Wine-Prefix";
@@ -148,7 +149,13 @@
       x = 0;
       y = 0;
       workspace = "1";
-      bind = [1 2 3 4 5];
+      bind = [
+        1
+        2
+        3
+        4
+        5
+      ];
     }
   ];
 }

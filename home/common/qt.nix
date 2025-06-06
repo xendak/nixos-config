@@ -2,7 +2,8 @@
   pkgs,
   config,
   ...
-}: {
+}:
+{
   xdg.configFile."qt5ct/qt5ct.conf".text = ''
     [Appearance]
     custom_palette=false
@@ -46,7 +47,7 @@
     enable = true;
     platformTheme.name = "qtct";
     style.name = "kvantum";
-    style.package = with pkgs.stable; [
+    style.package = with pkgs; [
       libsForQt5.qtstyleplugin-kvantum
       qt6Packages.qtstyleplugin-kvantum
     ];

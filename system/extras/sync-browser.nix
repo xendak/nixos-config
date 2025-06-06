@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   # not used.
   # logins.json
   zenFileList = pkgs.writeText "zen-sync-filelist" ''
@@ -96,7 +97,7 @@
 
     # Make sure the destination directory exists
     mkdir -p "$DEST"
-    
+
 
     # Perform sync with file list
     ${pkgs.rsync}/bin/rsync $OPTS --files-from="$FILELIST" "$SOURCE/" "$DEST/"
@@ -104,6 +105,12 @@
 
   allSyncScript = pkgs.writeShellScriptBin "all-sync" ''
     # Run both sync operations in parallel
+    if [ $(pgrep "zen") ]; then
+      pkill -9 zen
+      pkill -9 chromiumo
+      sleep 2
+    fi
+
     ${syncScript}/bin/sync-browser chromium $1 &
     ${syncScript}/bin/sync-browser zen $1 &
 
@@ -120,75 +127,72 @@
       echo "[SUCCESS]: $(date)" >> /tmp/browser-sync.log
     fi
   '';
-in {
+in
+{
   # Add sync script to system PATH
   environment.systemPackages = [
     syncScript
     allSyncScript
   ];
 
-  systemd.user.services."hourly-browser-sync-live-to-persist" = {
-    enable = true;
-    description = "Moves ephemeral chromium data to persistent storage";
-    serviceConfig = {
-      Type = "oneshot";
-      StandardOutput = "journal";
-      StandardError = "journal";
-    };
-    script = ''
-      ${allSyncScript}/bin/all-sync live-to-persist
-    '';
-  };
+  # systemd.user.services."hourly-browser-sync-live-to-persist" = {
+  #   enable = true;
+  #   description = "Moves ephemeral chromium data to persistent storage";
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     StandardOutput = "journal";
+  #     StandardError = "journal";
+  #   };
+  #   script = ''
+  #     ${allSyncScript}/bin/all-sync live-to-persist
+  #   '';
+  # };
 
-  systemd.user.timers."hourly-browser-sync-live-to-persist" = {
-    description = "Restore Chromium data from persistent storage";
-    wantedBy = ["timers.target"];
-    timerConfig = {
-      OnUnitActiveSec = "1h";
-      OnBootSec = "5m";
-      Unit = "hourly-browser-sync-live-to-persist.service";
-      Persistent = true;
-    };
-  };
+  # systemd.user.timers."hourly-browser-sync-live-to-persist" = {
+  #   description = "Restore Chromium data from persistent storage";
+  #   wantedBy = ["timers.target"];
+  #   timerConfig = {
+  #     OnUnitActiveSec = "1h";
+  #     OnBootSec = "5m";
+  #     Unit = "hourly-browser-sync-live-to-persist.service";
+  #     Persistent = true;
+  #   };
+  # };
 
   # Systemd service to restore data on login
-  systemd.user.services."browser-sync-login" = {
-    enable = true;
-    description = "Restore browser data from persistent storage";
-    after = ["hyprland-session.target"];
-    wantedBy = ["default.target"];
-    serviceConfig = {
-      Type = "oneshot";
-      # ExecStart = "${allSyncScript}/bin/all-sync persist-to-live";
-      # ExecStart = "${pkgs.writeShellScript "all-sync-login.sh" ''
-      #   ${allSyncScript}/bin/all-sync persist-to-live
-      # ''}";
-    };
-    script = ''
-      ${allSyncScript}/bin/all-sync persist-to-live
-    '';
-  };
+  # systemd.user.services."browser-sync-login" = {
+  #   enable = true;
+  #   description = "Restore browser data from persistent storage";
+  #   after = [ "hyprland-session.target" ];
+  #   wantedBy = [ "default.target" ];
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #   };
+  #   script = ''
+  #     ${allSyncScript}/bin/all-sync persist-to-live
+  #   '';
+  # };
 
-  # Systemd service to restore data on shutdown
-  systemd.user.services."browser-sync-shutdown" = {
-    enable = true;
-    description = "Sync browser data before shutdown";
-    unitConfig = {
-      DefaultDependencies = "no";
-      Before = ["shutdown.target" "halt.target" "poweroff.target" "reboot.target"];
-    };
-    wantedBy = ["shutdown.target" "halt.target" "poweroff.target" "reboot.target"];
+  # Systemd service to restore data on session end
+  # systemd.user.services."browser-sync-shutdown" = {
+  #   enable = true;
+  #   description = "Sync browser data before user session ends";
+  #   unitConfig = {
+  #     DefaultDependencies = "no";
+  #     Before = [ "exit.target" ];
+  #   };
+  #   wantedBy = [ "exit.target" ];
 
-    serviceConfig = {
-      Type = "oneshot";
-      TimeoutStopSec = "60s";
-      StandardOutput = "journal";
-      StandardError = "journal";
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     TimeoutStopSec = "60s";
+  #     StandardOutput = "journal";
+  #     StandardError = "journal";
 
-      RemainAfterExit = true;
-    };
-    script = ''
-      ${allSyncScript}/bin/all-sync live-to-persist
-    '';
-  };
+  #     # RemainAfterExit = true;
+  #   };
+  #   script = ''
+  #     ${allSyncScript}/bin/all-sync live-to-persist
+  #   '';
+  # };
 }

@@ -3,9 +3,11 @@
   pkgs,
   lib,
   ...
-}: let
+}:
+let
   color = pkgs.writeText "color.vim" (import ./theme.nix config.colorscheme);
-in {
+in
+{
   imports = [
     ./lsp.nix
     ./syntaxes.nix
@@ -13,7 +15,7 @@ in {
     ./copilot.nix
     ./plugins.nix
   ];
-  home.sessionVariables.EDITOR = "nvim";
+  home.sessionVariables.EDITOR = lib.mkDefault "nvim";
 
   programs.neovim = {
     enable = true;
@@ -25,9 +27,7 @@ in {
     # };
 
     extraConfig =
-      /*
-      vim
-      */
+      # vim
       ''
         "Use system clipboard
         set clipboard=unnamedplus
@@ -139,9 +139,7 @@ in {
         cmap w!! w !sudo tee > /dev/null %
       '';
     extraLuaConfig =
-      /*
-      lua
-      */
+      # lua
       ''
         -- telescope
         vim.keymap.set("n", "<space><space>", require("telescope.builtin").find_files, {desc = "Telescope find files"})
@@ -183,9 +181,7 @@ in {
         plugin = nvim-autopairs;
         type = "lua";
         config =
-          /*
-          lua
-          */
+          # lua
           ''
             require('nvim-autopairs').setup{}
           '';
@@ -226,7 +222,10 @@ in {
       ];
       terminal = true;
       type = "Application";
-      categories = ["Utility" "TextEditor"];
+      categories = [
+        "Utility"
+        "TextEditor"
+      ];
     };
   };
 }

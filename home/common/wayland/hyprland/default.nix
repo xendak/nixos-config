@@ -29,6 +29,10 @@
       configPackages = [ hyprland ];
     };
 
+  home.sessionVariables = {
+    XDG_CURRENT_DESKTOP = "Hyprland";
+  };
+
   home.packages = [
     pkgs.swayidle
     pkgs.brightnessctl
@@ -70,15 +74,16 @@
             "$HOME/Flake/home/common/wallpapers/13.jpg";
       in
       {
+        exec-shutdown = [ "all-sync live-to-persist" ];
         exec-once =
           [
-            "all-sync persist-to-live"
             "swww-daemon"
             "swww img ${wallpaper}"
             "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
             "mkdir -p $HOME/tmp/Screenshots"
             "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"
             "swayidle -w"
+            "all-sync persist-to-live"
           ]
           ++ (
             if config.home.username == "flakes" then
@@ -263,23 +268,25 @@
             "workspace special silent, title:^((.*)@toast(.*))$"
             "workspace 5 silent, class:^(rustdesk)$"
             "workspace special silent, title:^((.*)@toast(.*))$"
-            "workspace 2 silent, class:^(firefox|zen-browser|zen-beta|chromium)$"
+            "workspace 2 silent, class:^(firefox|zen-browser|zen-beta|chromium|chromium-browser)$"
             "workspace 3 silent, class:^(discord)(.*)$"
             "workspace 3 silent, class:^(vesktop)(.*)$"
+            "float, workspace:4"
+
             # All Steam Rules
             "float, initialClass:steam"
             "float, initialClass:((.*)steam(.*))$"
-            "workspace 4 silent, initialTitle:^(Steam)$,initialClass:^(steam)$"
+            "workspace 5 silent, initialTitle:^(Steam)$,initialClass:^(steam)$"
             "move 10 10%, initialTitle:^(Steam)$,initialClass:^(steam)$"
             "size 80% 90%, initialTitle:^(Steam)$,initialClass:^(steam)$"
-            "workspace 4 silent, initialTitle:^(Friends(.*))$,initialClass:^(steam)$"
+            "workspace 5 silent, initialTitle:^(Friends(.*))$,initialClass:^(steam)$"
             "move 84% 10%, initialTitle:^(Friends(.*))$,initialClass:^(steam)$"
             "size 14% 90%, initialTitle:^(Friends(.*))$,initialClass:^(steam)$"
-            "workspace 4 silent, initialTitle:^((.*)Browser(.*))$,initialClass:^(steam)$"
+            "workspace 5 silent, initialTitle:^((.*)Browser(.*))$,initialClass:^(steam)$"
             "move 20% 30%, initialTitle:^((.*)Browser(.*))$,initialClass:^(steam)$"
             "size 70% 70%, initialTitle:^((.*)Browser(.*))$,initialClass:^(steam)$"
 
-            "workspace 4 silent, class:^(lutris)$"
+            "workspace 5 silent, class:^(lutris)$"
             (outoftheway "(.*)(Sharing)(.*)")
           ];
 
@@ -445,6 +452,7 @@
       binde=,l,exec, waylyrics
       binde=,q,exec, pkill waylyrics
       binde=,f,exec, wl-waylyrics
+      binde=,x,exec, hyprctl notify -1 3000 0 "sync" && all-sync live-to-persist
       bind=,escape, submap,reset
       submap=reset
 

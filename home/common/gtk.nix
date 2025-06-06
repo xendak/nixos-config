@@ -1,7 +1,7 @@
 {
   config,
   pkgs,
-  # inputs,
+  lib,
   ...
 }:
 # let
@@ -10,20 +10,64 @@
 # gtkThemeFromScheme
 # ;
 # in
-{
-  home.pointerCursor = {
+let
+  # 1. Define your cursor theme details in one place
+  cursorTheme = {
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
     size = 32;
+  };
+
+  # 2. Create the .reg file declaratively
+  wineCursorReg = pkgs.writeText "wine-cursor-theme.reg" ''
+    Windows Registry Editor Version 5.00
+
+    [HKEY_CURRENT_USER\Control Panel\Cursors]
+    "Arrow"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/left_ptr"
+    "AppStarting"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/watch"
+    "Hand"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/hand2"
+    "Help"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/question_arrow"
+    "No"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/crossed_circle"
+    "NWPen"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/pencil"
+    "SizeAll"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/sizing"
+    "SizeNESW"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/nesw-resize"
+    "SizeNS"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/ns-resize"
+    "SizeNWSE"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/nwse-resize"
+    "SizeWE"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/we-resize"
+    "UpArrow"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/up_arrow"
+    "Wait"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/watch"
+    "Crosshair"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/cross"
+    "IBeam"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/xterm"
+    "Link"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/hand2"
+  '';
+
+in
+{
+  home.pointerCursor = {
+    # package = pkgs.bibata-cursors;
+    # name = "Bibata-Modern-Classic";
+    # size = 32;
+    inherit (cursorTheme) package name size;
     gtk.enable = true;
     x11.enable = true;
   };
 
   # home.sessionVariables = { GTK_USE_PORTAL = "1"; };
   home.sessionVariables = {
-    GTK2_RC_FILES = "${config.xdg.configHome}/gtk-2.0/gtkrc";
+    GTK2_RC_FILES = lib.mkDefault "${config.xdg.configHome}/gtk-2.0/gtkrc";
+    XCURSOR_SIZE = lib.mkForce (builtins.toString cursorTheme.size);
+    XCURSOR_THEME = lib.mkDefault cursorTheme.name;
+    XCURSOR_PATH = lib.mkDefault "${config.gtk.cursorTheme.package}/share/icons/:$XCURSOR_PATH";
   };
+
   home.packages = [
+    (pkgs.writeShellScriptBin "writeWriteCursorConfig" ''
+      if [ "$(${pkgs.wine}/bin/wine reg query 'HKEY_CURRENT_USER\Control Panel\Cursors' /v Arrow 2> /dev/null | grep -c '${cursorTheme.name}')" -eq 0 ]; then
+        echo "Applying Wine cursor theme..."
+        ${pkgs.wine}/bin/regedit ${wineCursorReg}
+      fi
+    '')
+
     pkgs.gtk_engines
     pkgs.gtk4
     pkgs.adw-gtk3
