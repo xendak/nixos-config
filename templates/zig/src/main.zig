@@ -1,6 +1,6 @@
 const std = @import("std");
+const print = std.debug.print;
 
 pub fn main() !void {
-    const stdout = std.io.getStdOut().writer();
-    try stdout.print("Hello from Zig + Nix!\n", .{});
+    print("Hello from Zig + Nix!\n", .{});
 }

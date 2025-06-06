@@ -1,5 +1,5 @@
 {
-  description = "Zig Project";
+  description = "{{projectName}} - Zig Project";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -45,20 +45,22 @@
           ];
           packages = with pkgs; [
             raylib
-            # Assumes we already have that at system, uncomment if needed.
-            # lldb
-            # llvmPackages_latest.lld
-            # git
-            # gdb
-            # valgrind
           ];
 
           shellHook = ''
-            echo "Zig ${zigPackage.version} environment"
+            if [ -f ./init.sh ]; then
+              echo "Initializing project..."
+              chmod +x ./init.sh
+              ./init.sh
+              rm ./init.sh
+              echo "Project initialized successfully!
+              using Zig ${zigPackage.version} environment"
+            else
+              echo "{{projectName}}
+              using Zig ${zigPackage.version} environment"
+            fi
           '';
         };
-
-        hydraJobs = self.packages.${system};
       }
     );
 }

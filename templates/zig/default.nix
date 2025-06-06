@@ -5,7 +5,7 @@
   raylib,
 }:
 stdenv.mkDerivation {
-  pname = "template";
+  pname = "{{projectName}}";
   version = "0.1.0";
 
   src = ./.;
@@ -22,9 +22,10 @@ stdenv.mkDerivation {
     ${zigPackage}/bin/zig build install --prefix $out
     rm -rf $out/zig
   '';
+
   meta = with lib; {
-    description = "A Zig application template";
-    homepage = "https://github.com/xendak/nixos-config";
+    description = "{{projectName}} - A Zig application";
+    homepage = "https://github.com/xendak/{{projectName}}";
     license = licenses.mit;
     maintainers = [ maintainers.xendak ];
     platforms = platforms.all;
