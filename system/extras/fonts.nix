@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   fonts = {
     packages = with pkgs; [
       scientifica
@@ -32,15 +33,24 @@
     # optimizeForVeryHighDPI = lib.mkDefault true;
 
     fontconfig.defaultFonts = {
-      serif = ["Sofia Pro" "EB Garamond" "Source Han Sans JP" "Noto Color Emoji"];
-      sansSerif = ["Sofia Pro" "Source Han Sans JP" "Noto Color Emoji"];
+      serif = [
+        "Sofia Pro"
+        "EB Garamond"
+        "Source Han Sans JP"
+        "Noto Color Emoji"
+      ];
+      sansSerif = [
+        "Sofia Pro"
+        "Source Han Sans JP"
+        "Noto Color Emoji"
+      ];
       monospace = [
         "JetBrainsMono Nerd Font"
         "Scientifica"
         "Source Han Code JP"
         "Noto Color Emoji"
       ];
-      emoji = ["Noto Color Emoji"];
+      emoji = [ "Noto Color Emoji" ];
     };
   };
 }

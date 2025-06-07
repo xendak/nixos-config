@@ -8,8 +8,8 @@
     [Appearance]
     custom_palette=false
     icon_theme=${config.gtk.iconTheme.name}
-    standard_dialogs=default
-    style=Fusion
+    standard_dialogs=gtk3
+    style=kvantum-dark
 
     [Fonts]
     fixed="Sofia Pro,12,-1,5,50,0,0,0,0,0"
@@ -38,9 +38,11 @@
     ignored_applications=@Invalid()
   '';
 
-  home.sessionVariables = {
-    QT_STYLE_OVERRIDE = "kvantum";
-  };
+  xdg.configFile."qt6ct/qt6ct.conf".text = config.xdg.configFile."qt5ct/qt5ct.conf".text;
+
+  # home.sessionVariables = {
+  #   QT_STYLE_OVERRIDE = "kvantum";
+  # };
 
   # try this to run when icons boom. nv QT_QPA_PLATFORMTHEME=qt5ct QT_STYLE_OVERRIDE=kvantum dolphin
   qt = {

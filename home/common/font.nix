@@ -1,16 +1,59 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
+  fonts.fontconfig = {
+    enable = true;
+    defaultFonts = {
+      monospace = [
+        "JetBrainsMono Nerd Font"
+        "Source Han Sans JP"
+        "Noto Color Emoji"
+      ];
+      emoji = [
+        "Noto Color Emoji"
+      ];
+      sansSerif = [
+        "Sofia Pro"
+        "Source Han Sans JP"
+        "Noto Color Emoji"
+      ];
+
+      serif = [
+        "EB Garamond"
+        "Source Han Serif JP"
+      ];
+    };
+  };
+
+  home.packages = [
+    pkgs.source-han-serif-japanese
+    pkgs.source-han-sans-japanese
+    pkgs.source-han-code-jp
+    pkgs.eb-garamond
+  ];
+
   fontProfiles = {
     enable = true;
     monospace = {
-      # family = "Cozette";
-      # package = pkgs.cozette;
       family = "JetBrainsMono Nerd Font";
       package = pkgs.nerd-fonts.jetbrains-mono;
-      # package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono" "FantasqueSansMono" "Mononoki"];};
     };
     regular = {
       family = "Sofia Pro";
       package = pkgs.useful-fonts;
     };
+
+    # noto-fonts-emoji
+    # source-han-sans
+    # source-han-code-jp
+    # "Source Han Sans JP"
+    # "Noto Color Emoji"
+    # fallback = {
+    #   family = "Source Han Sans JP";
+    #   package = pkgs.source-han-code-jp;
+    # };
+    # emoji = {
+    #   family = "Noto Color Emoji";
+    #   package = pkgs.noto-fonts-emoji;
+    # };
   };
 }
