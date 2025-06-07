@@ -4,7 +4,6 @@
   ...
 }:
 let
-
   theme-switcher = (
     pkgs.writeShellScriptBin "theme-switcher" ''
       HELIX_THEME_DIR="$HOME/.config/helix/themes"
@@ -78,6 +77,7 @@ in
     nixfmt-rfc-style # Nix formatter
     nvd # Differ
     nix-output-monitor
+    nix-tree
     nh # Nice wrapper for NixOS and HM
 
     ltex-ls # Spell checking LSP
