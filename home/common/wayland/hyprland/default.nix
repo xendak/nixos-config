@@ -77,6 +77,7 @@
         exec-shutdown = [ "all-sync live-to-persist" ];
         exec-once =
           [
+            "theme-switcher"
             "swww-daemon"
             "swww img ${wallpaper}"
             "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
@@ -234,6 +235,7 @@
             ly = regex: "${regex}, class:^(io.github.waylyrics.Waylyrics)$";
           in
           [
+            (t_float "(.*)Bitwarden(.*)")
             (float "(.*)(league)(.*)")
             (float "(org.gnome)(.*)")
             (float "(org.kde)(.*)")

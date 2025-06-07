@@ -6,9 +6,21 @@
   ...
 }:
 let
-  inherit (config) colorscheme;
+  # inherit (config) colorscheme;
+  # lightColor = config.light.colorscheme;
+  # darkColor = config.dark.colorscheme;
+  lightColor = import ../../../colors/grayscale-nier.nix;
+  darkColor = import ../../../colors/luna.nix;
+
+  mkHelixTheme = import ./theme.nix;
+
+  defaultTheme = mkHelixTheme { colorscheme = config.colorscheme; };
+  lightTheme = mkHelixTheme { colorscheme = lightColor.colorScheme; };
+  darkTheme = mkHelixTheme { colorscheme = darkColor.colorScheme; };
+
 in
 {
+
   home.sessionVariables.COLORTERM = "truecolor";
   programs.helix = {
     enable = true;
@@ -27,8 +39,21 @@ in
       # pkgs.nodePackages.prettier
     ];
 
+    themes =
+      # Individual themes
+      defaultTheme
+      // darkTheme
+      // lightTheme
+      // {
+        # Create named themes for direct access
+        "default" = defaultTheme.${config.colorscheme.slug};
+        "dark" = darkTheme.${darkColor.colorScheme.slug};
+        "light" = lightTheme.${lightColor.colorScheme.slug};
+      };
     settings = {
-      theme = colorscheme.slug;
+      # theme = darkTheme.colorscheme.slug;
+      theme = "current";
+
       editor = {
         color-modes = true;
         line-number = "relative";
@@ -145,7 +170,7 @@ in
       };
     };
 
-    themes = import ./theme.nix { inherit colorscheme; };
+    # themes = import ./theme.nix { inherit colorscheme; };
     languages = import ./languages.nix {
       inherit
         lib

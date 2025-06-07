@@ -3,8 +3,39 @@
   inputs,
   ...
 }:
+let
+
+  theme-switcher = (
+    pkgs.writeShellScriptBin "theme-switcher" ''
+      HELIX_THEME_DIR="$HOME/.config/helix/themes"
+      WEZTERM_THEME_DIR="$HOME/.config/wezterm/colors"
+
+      case $1 in
+        "dark")
+          NEW_FILE="dark"
+        ;;
+        "light")
+          NEW_FILE="light"
+        ;;
+        *)
+          NEW_FILE="default"
+        ;;
+      esac
+
+      cat "$HELIX_THEME_DIR/$NEW_FILE.toml" >"$HELIX_THEME_DIR/current.toml"
+      sed -i "s/##/#/g" "$HELIX_THEME_DIR/current.toml"
+
+      cat "$WEZTERM_THEME_DIR/$NEW_FILE.lua" >"$WEZTERM_THEME_DIR/current.lua"
+      sed -i "s/##/#/g" "$WEZTERM_THEME_DIR/current.lua"
+
+      echo "Theme switched to $NEW_FILE."
+    ''
+  );
+in
 {
   home.packages = with pkgs; [
+    theme-switcher
+
     bc # Calculator
     bottom # System viewer
     ncdu # TUI disk usage

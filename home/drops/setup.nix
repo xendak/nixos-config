@@ -15,8 +15,8 @@ in
     inputs.nix-colors.homeManagerModule
 
     # ../common/colors
-    # ../common/colors/gorgoroth.nix
-    ../common/colors/grayscale-nier.nix
+    ../common/colors/gorgoroth.nix
+    # ../common/colors/grayscale-nier.nix
 
   ] ++ (builtins.attrValues outputs.homeManagerModules);
 
