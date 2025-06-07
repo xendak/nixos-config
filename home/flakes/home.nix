@@ -4,7 +4,8 @@
   pkgs,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     inputs.nix-index-db.hmModules.nix-index
 
@@ -92,7 +93,7 @@
     username = lib.mkDefault "flakes";
     homeDirectory = lib.mkDefault "/home/flakes/";
     stateVersion = lib.mkDefault "24.05";
-    sessionPath = ["$HOME/Flakes/bin"];
+    sessionPath = [ "$HOME/Flakes/bin" ];
     persistence = {
       "/persist/home/flakes" = {
         directories = [
@@ -129,11 +130,11 @@
       NNN_BMS = "p:$HOME/Programming;f:$HOME/Flake;c:$HOME/.config;w:/mnt/Windows";
       SPLIT = "v";
       GTK_THEME = "${config.gtk.theme.name}:dark";
-      EDITOR = lib.mkForce "hx";
+      EDITOR = "hx";
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
-      # BROWSER = "firefox";
+      BROWSER = "zen";
       FILEBROWSER = "dolphin";
-      TERMBROWSER = "n";
+      TERMBROWSER = "yas";
       WINEPREFIX = "$HOME/Games/Wine-Prefix";
     };
   };
@@ -147,7 +148,13 @@
       x = 0;
       y = 0;
       workspace = "1";
-      bind = [1 2 3 4 5];
+      bind = [
+        1
+        2
+        3
+        4
+        5
+      ];
     }
   ];
 }
