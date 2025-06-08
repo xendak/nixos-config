@@ -52,6 +52,8 @@
     style.package = with pkgs; [
       libsForQt5.qtstyleplugin-kvantum
       qt6Packages.qtstyleplugin-kvantum
+      kdePackages.qt5compat
+      qt6.qt5compat
     ];
   };
 }

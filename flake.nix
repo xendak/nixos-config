@@ -51,15 +51,19 @@
 
     uwu-colors = {
       url = "github:q60/uwu_colors";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     ags = {
       url = "github:Aylur/ags/v1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # trying quickshell
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";

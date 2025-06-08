@@ -1,8 +1,9 @@
-{...}: {
+{ ... }:
+{
   imports = [
     ./rofi # might put pw-rofi sometime there
-    ./ags.nix
-    # ./discord.nix
+    # ./ags.nix
+    ./discord.nix
     ./filemanager.nix
     ./anki.nix
     ./browser

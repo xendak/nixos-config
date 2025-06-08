@@ -1396,6 +1396,26 @@
         "type": "github"
       }
     },
+    "quickshell": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1749292015,
+        "narHash": "sha256-y2rhYVVmetiNCg3UdN6qy/MpOTY8Mu2uOiJhfgdatsI=",
+        "ref": "refs/heads/master",
+        "rev": "ee570ec623a59561c96de2eea5a4af51385db38e",
+        "revCount": 567,
+        "type": "git",
+        "url": "https://git.outfoxxed.me/outfoxxed/quickshell"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.outfoxxed.me/outfoxxed/quickshell"
+      }
+    },
     "root": {
       "inputs": {
         "aagl": "aagl",
@@ -1418,6 +1438,7 @@
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_9",
         "nixpkgs-stable": "nixpkgs-stable",
+        "quickshell": "quickshell",
         "rust-overlay": "rust-overlay_2",
         "suyu": "suyu",
         "swayfx": "swayfx",
