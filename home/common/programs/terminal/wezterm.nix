@@ -91,7 +91,7 @@ in
       -- config.font = wezterm.font("${config.fontProfiles.monospace.family}", {weight = 'Regular'})
       config.font = wezterm.font_with_fallback {
        { family = '${config.fontProfiles.monospace.family}', weight = 'Regular' },
-       'Source Han Code JP'
+       'Source Han Code JP',
        'Noto Color Emoji', 
       }
 

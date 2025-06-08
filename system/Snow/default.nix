@@ -6,7 +6,8 @@
   inputs,
   outputs,
   ...
-}: {
+}:
+{
   imports = [
     ../global.nix
     ./btrfs-optin-persistence.nix
@@ -21,10 +22,24 @@
     inputs.aagl.nixosModules.default
   ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
-  boot.kernelModules = ["kvm-intel" "amdgpu" "i2c-dev" "i2c-i801" "coretemp" "v4l2loopback"];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ahci"
+    "nvme"
+    "usbhid"
+    "usb_storage"
+    "sd_mod"
+  ];
+  boot.kernelModules = [
+    "kvm-intel"
+    "amdgpu"
+    "i2c-dev"
+    "i2c-i801"
+    "coretemp"
+    "v4l2loopback"
+  ];
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot =  {
+  boot.loader.systemd-boot = {
     enable = true;
     configurationLimit = 6;
     # to find windows handle.
@@ -40,7 +55,7 @@
     };
   };
   # boot.extraModulePackages = [pkgs.linuxKernel.packages.linux_zen.v4l2loopback];
-  boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
   # sudo modprobe v4l2loopback video_nr=2 card_label="VirtualCamera" exclusive_caps=1
   # modprobe v4l2loopback exclusive_caps=1 card_label='OBS Virtual Camera'
   boot.extraModprobeConfig = ''
@@ -49,7 +64,10 @@
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
     # kernelPackages = pkgs.linuxPackages_latest;
-    supportedFilesystems = ["btrfs" "ntfs"];
+    supportedFilesystems = [
+      "btrfs"
+      "ntfs"
+    ];
   };
 
   age.secrets.pw = {
@@ -60,26 +78,31 @@
     group = "users";
     mode = "600";
   };
-  age.identityPaths = ["/persist/etc/ssh/ssh_host_ed25519_key"];
+  age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
   # environment.etc."something".source = "${config.age.secrets.pw.path}";
 
   systemd.services = {
     "agenix-secrets" = {
-      wantedBy = ["default.target"];
-      wants = ["agenix.service"];
-      after = ["agenix.service" "home-manager-flakes.service"];
+      wantedBy = [ "default.target" ];
+      wants = [ "agenix.service" ];
+      after = [
+        "agenix.service"
+        "home-manager-flakes.service"
+      ];
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = let
-          script = pkgs.writeScript "myuser-start" ''
-            #!${pkgs.runtimeShell}
-            mkdir -p /home/flakes/.ssh
-            cat ${config.age.secrets.pw.path} > "/home/flakes/.ssh/id_ed25519"
-            chown flakes:users /home/flakes/.ssh/id_ed25519
-            chmod 600 /home/flakes/.ssh/id_ed25519
-            rm /run/agenix/id_ed25519
-          '';
-        in "${script}";
+        ExecStart =
+          let
+            script = pkgs.writeScript "myuser-start" ''
+              #!${pkgs.runtimeShell}
+              mkdir -p /home/flakes/.ssh
+              cat ${config.age.secrets.pw.path} > "/home/flakes/.ssh/id_ed25519"
+              chown flakes:users /home/flakes/.ssh/id_ed25519
+              chmod 600 /home/flakes/.ssh/id_ed25519
+              rm /run/agenix/id_ed25519
+            '';
+          in
+          "${script}";
       };
     };
   };
@@ -108,6 +131,7 @@
     pkgs.osdlyrics
 
     # trying
+    pkgs.networkmanager_dmenu
     pkgs.networkmanagerapplet
   ];
 
@@ -120,22 +144,42 @@
     users.flakes = {
       isNormalUser = true;
       shell = pkgs.fish;
-      extraGroups = ["audio" "video" "input" "wheel"];
-      #password = "1";
+      extraGroups = [
+        "audio"
+        "video"
+        "input"
+        "wheel"
+        "networkmanager"
+      ];
       hashedPasswordFile = "/persist/home/secrets/passwd-flakes";
-      packages = [pkgs.home-manager];
+      packages = [ pkgs.home-manager ];
     };
   };
 
+  boot.initrd.systemd.network.wait-online.enable = false;
+  systemd.services.NetworkManager-wait-online.enable = false;
+  systemd.network.wait-online.timeout = 0;
+  systemd.network.wait-online.enable = false;
+
   networking.networkmanager.enable = true;
+  networking.networkmanager.dns = "none";
+  networking.dhcpcd.enable = false;
   networking.useDHCP = false;
   networking.nameservers = [
+    "8.8.8.8"
+    "8.8.8.4"
+    "1.1.1.1"
+    "1.0.0.1"
     "208.67.222.222"
     "208.67.220.220"
   ];
+
   environment.persistence."/persist" = {
     hideMounts = true;
-    directories = ["/etc/NetworkManager" "/var/lib/NetworkManager"];
+    directories = [
+      "/etc/NetworkManager"
+      "/var/lib/NetworkManager"
+    ];
   };
 
   networking.hostName = "Snow";
@@ -166,7 +210,8 @@
   home-manager = {
     users.flakes = import ../../home/flakes/home.nix;
     useUserPackages = true;
-    extraSpecialArgs = {inherit inputs outputs;};
+    useGlobalPkgs = true;
+    extraSpecialArgs = { inherit inputs outputs; };
   };
 
   # system.activationScripts.hyprlandDesktop = let

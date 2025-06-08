@@ -90,3 +90,30 @@ git push origin flake_update
       	termpdf.py "$PDF" && popd>/dev/null && echo 1 >"$TMPDIR/closing.signal" && exit 0 # If the user quits the viewer, we can exit nicely
       done
 ```
+
+
+To access files within a Windows Subsystem for Linux (WSL) from a natively installed Linux system, you can mount the WSL drive using the guestmount tool. This allows you to treat the WSL file system as if it were a regular drive on your Linux system. 
+Here's how to do it:
+
+    Install libguestfs-tools: 
+
+Code
+
+   sudo apt-get install libguestfs-tools
+
+    Create a mount point:
+
+Code
+
+   sudo mkdir -p /mnt/wsl
+
+    Mount the WSL drive:
+
+Code
+
+   sudo guestmount -o allow_other --add /mnt/c/Users/username/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/ext4.vhdx -i /mnt/wsl
+
+    Replace /mnt/c/Users/username/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/ext4.vhdx with the actual path to your WSL's virtual disk image (vhdx file). You can find this path by navigating to the AppData/Local/Packages folder within your Windows user directory and finding the relevant WSL distribution package. 
+
+Replace /mnt/wsl with your desired mount point. 
+

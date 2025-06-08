@@ -6,7 +6,8 @@
   inputs,
   outputs,
   ...
-}: {
+}:
+{
   imports = [
     ../global.nix
     ./btrfs-optin-persistence.nix
@@ -21,8 +22,20 @@
     inputs.auto-cpufreq.nixosModules.default
   ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod"];
-  boot.kernelModules = ["kvm-intel" "i2c-dev" "i2c-i801" "coretemp"];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ahci"
+    "nvme"
+    "usbhid"
+    "usb_storage"
+    "sd_mod"
+  ];
+  boot.kernelModules = [
+    "kvm-intel"
+    "i2c-dev"
+    "i2c-i801"
+    "coretemp"
+  ];
   boot.loader.systemd-boot.enable = true;
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
@@ -32,7 +45,10 @@
       "ideapad_laptop.allow_v4_dytc=Y"
       ''acpi_osi="Windows 2020"''
     ];
-    supportedFilesystems = ["btrfs" "ntfs"];
+    supportedFilesystems = [
+      "btrfs"
+      "ntfs"
+    ];
   };
 
   age.secrets.pw = {
@@ -43,25 +59,31 @@
     group = "users";
     mode = "600";
   };
-  age.identityPaths = ["/persist/etc/ssh/ssh_host_ed25519_key"];
+  age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
   # environment.etc."something".source = "${config.age.secrets.pw.path}";
 
   systemd.services = {
     "agenix-secrets" = {
-      wantedBy = ["default.target"];
-      wants = ["agenix.service"];
-      after = ["agenix.service" "home-manager-drops.service" "kanata-laptop.service"];
+      wantedBy = [ "default.target" ];
+      wants = [ "agenix.service" ];
+      after = [
+        "agenix.service"
+        "home-manager-drops.service"
+        "kanata-laptop.service"
+      ];
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = let
-          script = pkgs.writeScript "myuser-start" ''
-            #!${pkgs.runtimeShell}
-            mkdir -p /home/drops/.ssh
-            cat ${config.age.secrets.pw.path} > "/home/drops/.ssh/id_ed25519"
-            chown drops:users /home/drops/.ssh/id_ed25519
-            chmod 600 /home/drops/.ssh/id_ed25519
-          '';
-        in "${script}";
+        ExecStart =
+          let
+            script = pkgs.writeScript "myuser-start" ''
+              #!${pkgs.runtimeShell}
+              mkdir -p /home/drops/.ssh
+              cat ${config.age.secrets.pw.path} > "/home/drops/.ssh/id_ed25519"
+              chown drops:users /home/drops/.ssh/id_ed25519
+              chmod 600 /home/drops/.ssh/id_ed25519
+            '';
+          in
+          "${script}";
       };
     };
   };
@@ -98,24 +120,37 @@
   # User & Host -----------------------------
   users = {
     mutableUsers = false;
-    users.root = {hashedPasswordFile = "/persist/home/secrets/passwd-root";};
+    users.root = {
+      hashedPasswordFile = "/persist/home/secrets/passwd-root";
+    };
     users.drops = {
       isNormalUser = true;
       shell = pkgs.fish;
-      extraGroups = ["audio" "video" "input" "wheel"];
-      #password = "1";
+      extraGroups = [
+        "audio"
+        "video"
+        "input"
+        "wheel"
+        "networkmanager"
+      ];
       hashedPasswordFile = "/persist/home/secrets/passwd-drops";
-      packages = [pkgs.home-manager];
+      packages = [ pkgs.home-manager ];
     };
   };
 
   networking.networkmanager.enable = true;
   networking.useDHCP = lib.mkDefault true;
-  networking.nameservers = ["8.8.8.8" "8.8.4.4"];
+  networking.nameservers = [
+    "8.8.8.8"
+    "8.8.4.4"
+  ];
   networking.hostName = "Dew";
   environment.persistence."/persist" = {
     hideMounts = true;
-    directories = ["/etc/NetworkManager" "/var/lib/NetworkManager"];
+    directories = [
+      "/etc/NetworkManager"
+      "/var/lib/NetworkManager"
+    ];
   };
 
   # GENSHIN PATCH ---------------------------
@@ -144,7 +179,7 @@
   home-manager = {
     users.drops = import ../../home/drops/home.nix;
     useUserPackages = true;
-    extraSpecialArgs = {inherit inputs outputs;};
+    extraSpecialArgs = { inherit inputs outputs; };
   };
 
   # laptop power management
@@ -188,7 +223,9 @@
   hardware = {
     bluetooth.enable = true;
     bluetooth.settings = {
-      General = {Enable = "Source,Sink,Media,Socket";};
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+      };
     };
     i2c.enable = true;
 

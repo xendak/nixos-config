@@ -2,8 +2,9 @@
   config,
   pkgs,
   ...
-}: {
-  home.packages = with pkgs.stable; [
+}:
+{
+  home.packages = with pkgs; [
     #cinnamon.nemo
     #gnome.nautilus
     # kdePackages.dolphin
@@ -19,8 +20,8 @@
   home.persistence = {
     "/persist/home/${config.home.username}" = {
       allowOther = true;
-      directories = [".local/share/dolphin"];
-      files = [".config/dolphinrc"];
+      directories = [ ".local/share/dolphin" ];
+      files = [ ".config/dolphinrc" ];
     };
   };
 }
