@@ -78,9 +78,6 @@
         exec-once =
           [
             "theme-switcher"
-            "swww-daemon"
-            "swww img ${wallpaper}"
-            "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
             "mkdir -p $HOME/tmp/Screenshots"
             "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"
             "swayidle -w"
@@ -89,12 +86,18 @@
           ++ (
             if config.home.username == "flakes" then
               [
+                "fish $HOME/Flake/home/common/programs/quickshell/caelestia/wallpaper.fish -f ${wallpaper}"
+                "qs -c $HOME/Flake/home/common/programs/quickshell/caelestia"
                 "sh $HOME/Flake/bin/bt-once.sh"
                 "openrgb -d \"XPG Spectrix S40G\" -m Off"
                 "${pkgs.networkmanager}/bin/nmcli radio wifi off"
               ]
             else
-              [ ]
+              [
+                "swww-daemon"
+                "swww img ${wallpaper}"
+                "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
+              ]
           );
 
         debug = {
@@ -193,6 +196,8 @@
 
         cursor = {
           no_warps = true;
+          # TODO: see this
+          # no_hardware_cursors = true;
         };
 
         input = {
@@ -215,6 +220,8 @@
 
         binds = {
           allow_workspace_cycles = true;
+          movefocus_cycles_fullscreen = true;
+          workspace_back_and_forth = true;
         };
 
         layerrule = [
