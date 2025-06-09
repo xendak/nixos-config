@@ -160,18 +160,18 @@ in
   # };
 
   # Systemd service to restore data on login
-  # systemd.user.services."browser-sync-login" = {
-  #   enable = true;
-  #   description = "Restore browser data from persistent storage";
-  #   after = [ "hyprland-session.target" ];
-  #   wantedBy = [ "default.target" ];
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #   };
-  #   script = ''
-  #     ${allSyncScript}/bin/all-sync persist-to-live
-  #   '';
-  # };
+  systemd.user.services."browser-sync-login" = {
+    enable = true;
+    description = "Restore browser data from persistent storage";
+    after = [ "hyprland-session.target" ];
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+    };
+    script = ''
+      ${allSyncScript}/bin/all-sync persist-to-live
+    '';
+  };
 
   # Systemd service to restore data on session end
   # systemd.user.services."browser-sync-shutdown" = {

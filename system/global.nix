@@ -133,6 +133,7 @@ in
     # qt5.qtwayland
     # qt6.qtwayland
     xdg-desktop-portal-gtk
+    xdg-desktop-portal-kde
     xdg-desktop-portal-wlr
     xdg-desktop-portal-hyprland
   ];
@@ -159,6 +160,7 @@ in
     extraPortals = [
       # pkgs.xdg-desktop-portal-hyprland
       pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-kde
       # pkgs.xdg-desktop-portal-wlr
     ];
     #configPackages = [ pkgs.inputs.hyprland.hyprland ];
