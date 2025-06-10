@@ -81,6 +81,8 @@
             "mkdir -p $HOME/tmp/Screenshots"
             "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"
             "swayidle -w"
+            "fish $HOME/Flake/home/common/programs/quickshell/caelestia/wallpaper.fish -f ${wallpaper}"
+            "qs -c $HOME/Flake/home/common/programs/quickshell/caelestia"
             "all-sync persist-to-live"
           ]
           ++ (
@@ -96,7 +98,7 @@
               [
                 "swww-daemon"
                 "swww img ${wallpaper}"
-                "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
+                # "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
               ]
           );
 
@@ -450,8 +452,39 @@
       };
 
     # OPEN RGB FOR DESKTOP and Custom commands
+    # TODO: maybe check if i can do this somewhere else.
     extraConfig = ''
       env = bitdepth,10
+
+      exec = hyprctl dispatch submap global
+      submap = global
+      # Shell keybinds
+      bindl = Super, R, global, caelestia:launcher
+      bindin = Super, catchall, global, caelestia:launcherInterrupt
+      bindin = Super, mouse:272, global, caelestia:launcherInterrupt
+      bindin = Super, mouse:273, global, caelestia:launcherInterrupt
+      bindin = Super, mouse:274, global, caelestia:launcherInterrupt
+      bindin = Super, mouse:275, global, caelestia:launcherInterrupt
+      bindin = Super, mouse:276, global, caelestia:launcherInterrupt
+      bindin = Super, mouse:277, global, caelestia:launcherInterrupt
+      bindin = Super, mouse_up, global, caelestia:launcherInterrupt
+      bindin = Super, mouse_down, global, caelestia:launcherInterrupt
+
+      bind = Ctrl+Alt, Delete, global, caelestia:session
+      bind = Ctrl+Alt, C, global, caelestia:clearNotifs
+
+      bindl = , XF86MonBrightnessUp, global, caelestia:brightnessUp
+      bindl = , XF86MonBrightnessDown, global, caelestia:brightnessDown
+
+      bindl = Ctrl+Super, Space, global, caelestia:mediaToggle
+      bindl = , XF86AudioPlay, global, caelestia:mediaToggle
+      bindl = , XF86AudioPause, global, caelestia:mediaToggle
+      bindl = Ctrl+Super, Equal, global, caelestia:mediaNext
+      bindl = , XF86AudioNext, global, caelestia:mediaNext
+      bindl = Ctrl+Super, Minus, global, caelestia:mediaPrevious
+      bindl = , XF86AudioPrev, global, caelestia:mediaPrevious
+      bindl = , XF86AudioStop, global, caelestia:mediaStop
+
       # lyrics & ocr submap since most keys arent being recognized
       # TODO: make a script to visualize this mode
       # bind=SUPER,X,exec,sh "${config.xdg.configHome}/rofi/powermenu.sh"

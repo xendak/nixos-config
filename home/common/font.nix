@@ -41,19 +41,5 @@
       family = "Sofia Pro";
       package = pkgs.useful-fonts;
     };
-
-    # noto-fonts-emoji
-    # source-han-sans
-    # source-han-code-jp
-    # "Source Han Sans JP"
-    # "Noto Color Emoji"
-    # fallback = {
-    #   family = "Source Han Sans JP";
-    #   package = pkgs.source-han-code-jp;
-    # };
-    # emoji = {
-    #   family = "Noto Color Emoji";
-    #   package = pkgs.noto-fonts-emoji;
-    # };
   };
 }

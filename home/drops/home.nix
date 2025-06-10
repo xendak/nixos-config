@@ -25,6 +25,8 @@
     # trying out
     ../common/programs/terminal/foot.nix
 
+    ../common/programs/quickshell
+
     ../common/games/wine.nix
     ../common/games/launchers/steam.nix
     ../common/games/emulators/retroarch.nix

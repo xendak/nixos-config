@@ -179,6 +179,7 @@
   home-manager = {
     users.drops = import ../../home/drops/home.nix;
     useUserPackages = true;
+    useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs outputs; };
   };
 
@@ -187,27 +188,26 @@
     acpid.enable = true;
     upower.enable = true;
 
-    # tlp = {
-    #   enable = true;
-    #   settings = {
-    #     CPU_SCALING_GOVERNOR_ON_AC = "performance";
-    #     CPU_SCALING_GOVERNOR_ON_BAT = "performance";
+    tlp = {
+      enable = true;
+      settings = {
+        CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+        USB_AUTOSUSPEND_ON_BAT = 1;
 
-    #     CPU_ENERGY_PERF_POLICY_ON_BAT = "performance";
-    #     CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+        CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+        CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
 
-    #     CPU_MIN_PERF_ON_AC = 0;
-    #     CPU_MAX_PERF_ON_AC = 100;
-    #     CPU_MIN_PERF_ON_BAT = 0;
-    #     CPU_MAX_PERF_ON_BAT = 70;
+        CPU_MIN_PERF_ON_AC = 0;
+        CPU_MAX_PERF_ON_AC = 80;
+        CPU_MIN_PERF_ON_BAT = 0;
+        CPU_MAX_PERF_ON_BAT = 60;
 
-    #     #Optional helps save long term battery health
-    #     START_CHARGE_THRESH_BAT1 = 45; # 40 and bellow it starts to charge
-    #     STOP_CHARGE_THRESH_BAT1 = 80; # 80 and above it stops charging
-    #     STOP_CHARGE_THRESH_BAT0 = 1; # 80 and above it stops charging
-    #     START_CHARGE_THRESH_BAT0 = 45;
-    #   };
-    # };
+        STOP_CHARGE_THRESH_BAT0 = 1;
+        START_CHARGE_THRESH_BAT1 = 45;
+        STOP_CHARGE_THRESH_BAT1 = 80;
+      };
+    };
 
     blueman.enable = true;
   };

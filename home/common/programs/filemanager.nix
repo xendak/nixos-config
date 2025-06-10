@@ -10,11 +10,11 @@
     # kdePackages.dolphin
     # or
     # libsForQt5.dolphin
-    libsForQt5.dolphin
-    libsForQt5.ark
-    libsForQt5.kio-extras
-    libsForQt5.ffmpegthumbs
-    libsForQt5.kdegraphics-thumbnailers
+    kdePackages.dolphin
+    kdePackages.ark
+    kdePackages.kio-extras
+    kdePackages.ffmpegthumbs
+    kdePackages.kdegraphics-thumbnailers
   ];
 
   home.persistence = {

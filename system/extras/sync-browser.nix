@@ -135,30 +135,6 @@ in
     allSyncScript
   ];
 
-  # systemd.user.services."hourly-browser-sync-live-to-persist" = {
-  #   enable = true;
-  #   description = "Moves ephemeral chromium data to persistent storage";
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #     StandardOutput = "journal";
-  #     StandardError = "journal";
-  #   };
-  #   script = ''
-  #     ${allSyncScript}/bin/all-sync live-to-persist
-  #   '';
-  # };
-
-  # systemd.user.timers."hourly-browser-sync-live-to-persist" = {
-  #   description = "Restore Chromium data from persistent storage";
-  #   wantedBy = ["timers.target"];
-  #   timerConfig = {
-  #     OnUnitActiveSec = "1h";
-  #     OnBootSec = "5m";
-  #     Unit = "hourly-browser-sync-live-to-persist.service";
-  #     Persistent = true;
-  #   };
-  # };
-
   # Systemd service to restore data on login
   systemd.user.services."browser-sync-login" = {
     enable = true;
@@ -172,27 +148,4 @@ in
       ${allSyncScript}/bin/all-sync persist-to-live
     '';
   };
-
-  # Systemd service to restore data on session end
-  # systemd.user.services."browser-sync-shutdown" = {
-  #   enable = true;
-  #   description = "Sync browser data before user session ends";
-  #   unitConfig = {
-  #     DefaultDependencies = "no";
-  #     Before = [ "exit.target" ];
-  #   };
-  #   wantedBy = [ "exit.target" ];
-
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #     TimeoutStopSec = "60s";
-  #     StandardOutput = "journal";
-  #     StandardError = "journal";
-
-  #     # RemainAfterExit = true;
-  #   };
-  #   script = ''
-  #     ${allSyncScript}/bin/all-sync live-to-persist
-  #   '';
-  # };
 }
