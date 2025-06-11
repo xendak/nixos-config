@@ -12,8 +12,8 @@
     style=kvantum-dark
 
     [Fonts]
-    fixed="Sofia Pro,12,-1,5,50,0,0,0,0,0"
-    general="Sofia Pro,12,-1,5,50,0,0,0,0,0"
+    fixed="${config.fontProfiles.monospace.family},12,-1,5,50,0,0,0,0,0"
+    general="${config.fontProfiles.regular.family},12,-1,5,50,0,0,0,0,0"
 
     [Interface]
     activate_item_on_single_click=1

@@ -38,13 +38,7 @@
     pkgs.brightnessctl
     inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast
     inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
-    # inputs.hyprland-portal.packages.${pkgs.system}.xdg-desktop-portal-hyprland
-    # inputs.hyprland-portal.packages.${pkgs.system}.hyprland-share-picker
   ];
-
-  # programs.waybar.package = pkgs.waybar.overrideAttrs (oa: {
-  #   mesonFlags = (oa.mesonFlags or [ ]) ++ [ "-Dexperimental=true" ];
-  # });
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -88,16 +82,14 @@
           ++ (
             if config.home.username == "flakes" then
               [
-                "fish $HOME/Flake/home/common/programs/quickshell/caelestia/wallpaper.fish -f ${wallpaper}"
-                "qs -c $HOME/Flake/home/common/programs/quickshell/caelestia"
                 "sh $HOME/Flake/bin/bt-once.sh"
                 "openrgb -d \"XPG Spectrix S40G\" -m Off"
                 "${pkgs.networkmanager}/bin/nmcli radio wifi off"
               ]
             else
               [
-                "swww-daemon"
-                "swww img ${wallpaper}"
+                # "swww-daemon"
+                # "swww img ${wallpaper}"
                 # "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
               ]
           );
@@ -456,11 +448,7 @@
     extraConfig = ''
       env = bitdepth,10
 
-      exec = hyprctl dispatch submap global
-      submap = global
-      # Shell keybinds
       bindl = Super, R, global, caelestia:launcher
-      bindin = Super, catchall, global, caelestia:launcherInterrupt
       bindin = Super, mouse:272, global, caelestia:launcherInterrupt
       bindin = Super, mouse:273, global, caelestia:launcherInterrupt
       bindin = Super, mouse:274, global, caelestia:launcherInterrupt

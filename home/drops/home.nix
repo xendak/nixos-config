@@ -77,6 +77,9 @@
 
     pkgs.deluge
 
+    # try
+    pkgs.fuzzel
+
     # inputs.zen-browser.packages.${pkgs.system}.default
 
     # keyboard
