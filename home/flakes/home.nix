@@ -46,10 +46,18 @@
     ".ssh/config".source = pkgs.writeText "config" ''
       AddKeysToAgent yes
     '';
+    #https://github.com/hunkyburrito/xdg-desktop-portal-termfilechooser?tab=readme-ov-file#installation
+    ".config/xdg-desktop-portal-termfilechooser/config".source = pkgs.writeText "config" ''
+      [filechooser]
+      cmd=${pkgs.custom-xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
+      default_dir=$HOME
+      env=TERMCMD=${pkgs.wezterm}/bin/wezterm start --class f_terminal
+    '';
+
     ".config/xdg-desktop-portal/portals.conf".source = pkgs.writeText "portals.conf" ''
       [preferred]
-      default=hyprland;kde;gtk
-      org.freedesktop.impl.portal.FileChooser=kde
+      default=hyprland;gtk;kde
+      org.freedesktop.impl.portal.FileChooser=termfilechooser
     '';
     ".config/fish/completions/ns.fish".source = pkgs.writeText "ns.fish" ''
       function __nixpkgs_completions
@@ -70,11 +78,15 @@
     mangohud
 
     # mkxp-z
+    custom-xdg-desktop-portal-termfilechooser
 
     eb-garamond
     blender
 
     deluge
+
+    # testing fuzzel
+    fuzzel
 
     # keyboard
     qmk
