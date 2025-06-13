@@ -329,7 +329,7 @@
             browser = config.home.sessionVariables.BROWSER;
             # editor = config.home.sessionVariables.EDITOR;
             filebrowser = config.home.sessionVariables.FILEBROWSER;
-            termbrowser = config.home.sessionVariables.TERMBROWSER + "start ";
+            termbrowser = config.home.sessionVariables.TERMBROWSER;
             print = "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d-%M)";
             tmpprint = "$HOME/tmp/Screenshots/$(date +%Y-%m-%d-%M-%S)";
           in
@@ -338,8 +338,8 @@
             "SUPERSHIFT, Return,  exec,     ${terminal} --class f_terminal"
             "SUPER, W,            exec,     ${browser}"
             "SUPER, E,            exec,     ${filebrowser}"
-            "SUPERSHIFT, E,       exec,     ${terminal} --class f_terminal -e $SHELL -ic '${termbrowser} -ndeiH'"
-            "ALTSHIFT,   E,       exec,     ${terminal} -e $SHELL -ic '${termbrowser} -ndeiH'"
+            "SUPERSHIFT, E,       exec,     ${terminal} --class f_terminal -e $SHELL -ic '${termbrowser}'"
+            "ALTSHIFT,   E,       exec,     ${terminal} -e $SHELL -ic '${termbrowser}'"
             "SUPER, D,            exec,     rofi -show drun -matching fuzzy -sorting-method fzf -sort -drun-match-fields name,generic,categories -theme \"${config.xdg.configHome}/rofi/config.rasi\""
             "SUPER, R,            ${e} -t applauncher"
             "SUPER, O,            ${e} -t overview"
