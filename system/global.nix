@@ -132,36 +132,42 @@ in
     # libsForQt5.qtstyleplugins
     # qt5.qtwayland
     # qt6.qtwayland
-    xdg-desktop-portal-gtk
-    kdePackages.xdg-desktop-portal-kde
+    # xdg-desktop-portal-gtk
+    # kdePackages.xdg-desktop-portal-kde
     xdg-desktop-portal-wlr
     xdg-desktop-portal-hyprland
+    pkgs.custom-xdg-desktop-portal-termfilechooser
+    pkgs.papirus-papirus-icon-theme
+    pkgs.papirus-folders
+    pkgs.adwaita-icon-theme
   ];
-
-  # xdg.portal = {
-  #   enable = true;
-  #   #wlr.enable = true;
-  #   #gtkUsePortal = true;
-  #   extraPortals = [ inputs.hyprland-portal.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
-  #   configPackages = [ inputs.hyprland.hyprland ];
-  # };
 
   xdg.portal = {
     enable = true;
-    xdgOpenUsePortal = true;
+    # xdgOpenUsePortal = true;
     config = {
-      common.default = [ "gtk" ];
-      hyprland.default = [
-        "gtk"
-        "hyprland"
-      ];
+      common = {
+        default = [ "hyprland" ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "termfilechooser" ];
+      };
+      hyprland = {
+        default = [
+          "hyprland"
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "termfilechooser" ];
+        "org.freedesktop.impl.portal.Access" = "gtk";
+        "org.freedesktop.impl.portal.Notification" = "gtk";
+      };
+
     };
     wlr.enable = true;
     extraPortals = [
-      # pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.custom-xdg-desktop-portal-termfilechooser
       pkgs.xdg-desktop-portal-gtk
-      pkgs.kdePackages.xdg-desktop-portal-kde
-      # pkgs.xdg-desktop-portal-wlr
+      # pkgs.kdePackages.xdg-desktop-portal-kde
+      pkgs.xdg-desktop-portal-wlr
     ];
     #configPackages = [ pkgs.inputs.hyprland.hyprland ];
   };

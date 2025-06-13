@@ -4,7 +4,9 @@
     packages = with pkgs; [
       scientifica
       material-symbols
-      font-awesome
+      material-icons
+      ibm-plex
+      # font-awesome
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-emoji
