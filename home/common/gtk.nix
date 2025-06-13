@@ -72,6 +72,8 @@ in
     pkgs.gtk4
     pkgs.adw-gtk3
     pkgs.gradience
+    pkgs.papirus-icon-theme
+    pkgs.papirus-folders
   ];
 
   gtk = {
@@ -92,10 +94,10 @@ in
     #   package = pkgs.gruvbox-plus-icons;
     # };
 
-    iconTheme = {
-      name = "Colloid";
-      package = pkgs.colloid-icon-theme;
-    };
+    # iconTheme = {
+    #   name = "Colloid-Dark";
+    #   package = pkgs.colloid-icon-theme;
+    # };
 
     #      theme = {
     #        name = "Graphite-Dark-nord";
@@ -119,6 +121,20 @@ in
     #     colorVariants = ["nord"];
     #     circularFolder = true;
     #   };
+    # };
+    iconTheme = {
+      name = "WhiteSur";
+      package = (
+        pkgs.whitesur-icon-theme.override {
+          boldPanelIcons = true;
+          themeVariants = [ "green" ];
+          alternativeIcons = true;
+        }
+      );
+    };
+    # iconTheme = {
+    #   name = "Papirus-Dark";
+    #   package = pkgs.papirus-icon-theme;
     # };
 
     # iconTheme = {
