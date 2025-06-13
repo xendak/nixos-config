@@ -29,7 +29,7 @@ Row {
 
         CachingImage {
             anchors.fill: parent
-            path: `${Paths.home}/.face`
+            path: `$HOME/Flake/home/common/wallpapers/profile.png`
         }
     }
 
