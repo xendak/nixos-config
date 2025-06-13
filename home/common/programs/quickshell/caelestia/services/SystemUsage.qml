@@ -97,22 +97,29 @@ Singleton {
         id: storage
 
         running: true
-        command: ["sh", "-c", "df | grep '^/dev/' | awk '{print $3, $4}'"]
+        command: ["fish", "-c", "df | grep '^/dev/' | awk '{print $3, $4}'"]
         stdout: SplitParser {
             splitMarker: ""
             onRead: data => {
                 let used = 0;
                 let avail = 0;
+                let last_used = 0;
+                let last_avail = 0;
                 for (const line of data.trim().split("\n")) {
                     const [u, a] = line.split(" ");
-                    used += parseInt(u, 10);
-                    avail += parseInt(a, 10);
+                    if(last_used !== u && last_avail !== a) {
+                        used += parseInt(u, 10);
+                        avail += parseInt(a, 10);
+                        last_used = u;
+                        last_avail = a;
+                    }
                 }
                 root.storageUsed = used;
                 root.storageTotal = used + avail;
             }
         }
     }
+
 
     Process {
         id: cpuTemp

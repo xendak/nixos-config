@@ -195,7 +195,7 @@ StyledRect {
                             if (summary.includes("update"))
                                 return "update";
                             if (summary.startsWith("file"))
-                                return "folder_copy";
+                                return "folder";
                             if (root.modelData.urgency === NotificationUrgency.Critical)
                                 return "release_alert";
                             return "chat";
