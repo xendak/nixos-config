@@ -63,7 +63,7 @@
         c = config.colorscheme.palette;
         wallpaper =
           if config.home.username == "drops" then
-            "$HOME/Flake/home/common/wallpapers/10.jpg"
+            "$HOME/Flake/home/common/wallpapers/1.png"
           else
             "$HOME/Flake/home/common/wallpapers/13.jpg";
       in

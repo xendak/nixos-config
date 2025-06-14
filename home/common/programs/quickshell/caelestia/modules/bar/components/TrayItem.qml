@@ -9,7 +9,6 @@ import QtQuick
 
 MouseArea {
     id: root
-
     required property SystemTrayItem modelData
 
     acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -33,7 +32,6 @@ MouseArea {
 
     IconImage {
         id: icon
-
         source: {
             let icon = root.modelData.icon;
             if (icon.includes("?path=")) {

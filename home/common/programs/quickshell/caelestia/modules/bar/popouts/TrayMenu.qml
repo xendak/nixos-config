@@ -34,17 +34,17 @@ StackView {
 
     component SubMenu: Column {
         id: menu
-
+        
         required property QsMenuHandle handle
         property bool isSubMenu
         property bool shown
-
         padding: Appearance.padding.smaller
         spacing: Appearance.spacing.small
 
         opacity: shown ? 1 : 0
         scale: shown ? 1 : 0.8
 
+        
         Component.onCompleted: shown = true
         StackView.onActivating: shown = true
         StackView.onDeactivating: shown = false
@@ -74,12 +74,11 @@ StackView {
 
         Repeater {
             model: menuOpener.children
-
             StyledRect {
                 id: item
-
+                
                 required property QsMenuEntry modelData
-
+                
                 implicitWidth: BarConfig.sizes.trayMenuWidth
                 implicitHeight: modelData.isSeparator ? 1 : children.implicitHeight
 
@@ -88,7 +87,6 @@ StackView {
 
                 Loader {
                     id: children
-
                     anchors.left: parent.left
                     anchors.right: parent.right
 

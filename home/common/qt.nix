@@ -48,12 +48,12 @@
   # try this to run when icons boom. nv QT_QPA_PLATFORMTHEME=qt5ct QT_STYLE_OVERRIDE=kvantum dolphin
   qt = {
     enable = true;
-    platformTheme.name = "qtct";
-    style.name = "kvantum";
-    style.package = with pkgs; [
-      kdePackages.qtstyleplugin-kvantum
-      # libsForQt5.qtstyleplugin-kvantum
-      qt6Packages.qtstyleplugin-kvantum
-    ];
+    platformTheme.name = "gtk3";
+    # style.name = "kvantum";
+    # style.package = with pkgs; [
+    #   kdePackages.qtstyleplugin-kvantum
+    #   # libsForQt5.qtstyleplugin-kvantum
+    #   qt6Packages.qtstyleplugin-kvantum
+    # ];
   };
 }

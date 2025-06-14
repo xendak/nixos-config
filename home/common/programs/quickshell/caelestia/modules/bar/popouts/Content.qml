@@ -11,6 +11,16 @@ Item {
 
     required property ShellScreen screen
 
+    readonly property var activeTrayModel: {
+        if (!currentName.startsWith("traymenu")) {
+            return null; // Not a tray menu, so no model to check
+        }
+        // Find the popout in the content whose name matches the current one
+        const activePopout = content.children.find(c => c.name === currentName);
+        // Return its modelData if found
+        return activePopout ? activePopout.modelData : null;
+    }
+
     property string currentName
     property real currentCenter
     property bool hasCurrent
@@ -19,10 +29,18 @@ Item {
 
     implicitWidth: hasCurrent ? (content.children.find(c => c.shouldBeActive)?.implicitWidth ?? 0) + Appearance.padding.large * 2 : 0
     implicitHeight: (content.children.find(c => c.shouldBeActive)?.implicitHeight ?? 0) + Appearance.padding.large * 2
+    // implicitHeight: {
+    //     // Same logic for height.
+    //     const t = activeTrayModel
+    //     console.log(t.id)
+    //     if(t.id === "udiskie") return 0
+    //     const activeChild = content.children.find(c => c.shouldBeActive);
+    //     return hasCurrent && activeChild ? activeChild.implicitHeight + Appearance.padding.large * 2 : 0;
+    // }
+
 
     Item {
         id: content
-
         anchors.fill: parent
         anchors.margins: Appearance.padding.large
 
@@ -50,7 +68,9 @@ Item {
 
         Repeater {
             model: ScriptModel {
+
                 values: [...SystemTray.items.values]
+                // values: [...SystemTray.items.values].filter(item => item.title !== "udiskie")
             }
 
             Popout {
@@ -59,12 +79,12 @@ Item {
                 required property SystemTrayItem modelData
                 required property int index
 
+                // QUICK DIRTY FIX TO REMOVE UDISKIE
                 name: `traymenu${index}`
                 sourceComponent: trayMenuComp
-
+                
                 Connections {
                     target: root
-
                     function onHasCurrentChanged(): void {
                         if (root.hasCurrent && trayMenu.shouldBeActive) {
                             trayMenu.sourceComponent = null;
@@ -72,11 +92,10 @@ Item {
                         }
                     }
                 }
-
                 Component {
                     id: trayMenuComp
-
                     TrayMenu {
+                        y: 0
                         popouts: root
                         trayItem: trayMenu.modelData.menu
                     }

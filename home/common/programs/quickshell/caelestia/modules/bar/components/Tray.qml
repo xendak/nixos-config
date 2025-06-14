@@ -29,13 +29,24 @@ Item {
             }
         }
 
+        // QUICK DIRTY FIX TO REMOVE UDISKIE
         Repeater {
             id: items
-
             model: SystemTray.items
 
-            TrayItem {}
+            TrayItem {
+                // visible: modelData.id.includes("udiskie") ? false : true
+                // implicitHeight: modelData.id.includes("udiskie") ? 0 : Appearance.padding.large * 2
+                // implicitWidth: modelData.id.includes("udiskie") ? 0 : Appearance.padding.large * 2
+            }
         }
+        // Repeater {
+        //     id: items
+
+        //     model: SystemTray.items
+
+        //     TrayItem {}
+        // }
     }
 
     Behavior on implicitWidth {

@@ -71,6 +71,8 @@ in
     pkgs.gtk_engines
     pkgs.gtk4
     pkgs.adw-gtk3
+    pkgs.adwaita-qt6
+    pkgs.adwaita-qt
     pkgs.gradience
     pkgs.papirus-icon-theme
     pkgs.papirus-folders
@@ -81,7 +83,7 @@ in
     font.name = "Sofia Pro 12";
 
     theme = {
-      name = "adw-gtk3-dark";
+      name = "adw-gtk3";
       package = pkgs.adw-gtk3;
     };
     # theme = {
@@ -122,20 +124,20 @@ in
     #     circularFolder = true;
     #   };
     # };
-    iconTheme = {
-      name = "WhiteSur";
-      package = (
-        pkgs.whitesur-icon-theme.override {
-          boldPanelIcons = true;
-          themeVariants = [ "green" ];
-          alternativeIcons = true;
-        }
-      );
-    };
     # iconTheme = {
-    #   name = "Papirus-Dark";
-    #   package = pkgs.papirus-icon-theme;
+    #   name = "WhiteSur";
+    #   package = (
+    #     pkgs.whitesur-icon-theme.override {
+    #       boldPanelIcons = true;
+    #       themeVariants = [ "green" ];
+    #       alternativeIcons = true;
+    #     }
+    #   );
     # };
+    iconTheme = {
+      name = "Papirus";
+      package = pkgs.papirus-icon-theme;
+    };
 
     # iconTheme = {
     #   name = "Win10SurDark";
@@ -146,33 +148,33 @@ in
     # };
 
     gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
-    gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = 1;
-    };
-    gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = 1;
-    };
+    # gtk3.extraConfig = {
+    #   gtk-application-prefer-dark-theme = 1;
+    # };
+    # gtk4.extraConfig = {
+    #   gtk-application-prefer-dark-theme = 1;
+    # };
   };
 
   # Set GTK4 properly
-  home.file = {
-    "${config.xdg.configHome}/gtk-4.0/gtk-dark.css" = {
-      enable = true;
-      source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
-    };
-    # "${config.xdg.configHome}/gtk-4.0/gtk.css" = {
-    #   enable = true;
-    #   source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
-    # };
-    "${config.xdg.configHome}/gtk-4.0/assets" = {
-      enable = true;
-      source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
-    };
-    #     ".local/share/icons/default/index.theme".text = ''
-    #        [Icon Theme]
-    #        Inherits=${config.gtk.cursorTheme.name}
-    #      '';
-  };
+  # home.file = {
+  #   "${config.xdg.configHome}/gtk-4.0/gtk-dark.css" = {
+  #     enable = true;
+  #     source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk-dark.css";
+  #   };
+  #   "${config.xdg.configHome}/gtk-4.0/gtk.css" = {
+  #     enable = true;
+  #     source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/gtk.css";
+  #   };
+  #   "${config.xdg.configHome}/gtk-4.0/assets" = {
+  #     enable = true;
+  #     source = "${config.gtk.theme.package}/share/themes/${config.gtk.theme.name}/gtk-4.0/assets";
+  #   };
+  #   ".local/share/icons/default/index.theme".text = ''
+  #     [Icon Theme]
+  #     Inherits=${config.gtk.cursorTheme.name}
+  #   '';
+  # };
 
   # prefer dark
   dconf.settings = {

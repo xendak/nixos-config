@@ -14,6 +14,11 @@ in
     pkgs.kdePackages.qt5compat
     pkgs.qt6.qt5compat
     pkgs.imagemagick
+    pkgs.ddcutil
+    pkgs.python3
+    pkgs.python3Packages.numpy
+    pkgs.python3Packages.pyaudio
+    pkgs.gnused
   ];
 
   home.sessionVariables.QML2_IMPORT_PATH = lib.concatStringsSep ":" [

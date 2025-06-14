@@ -3,14 +3,15 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   zen-wrapped = pkgs.writeShellScriptBin "zen" ''
     exec ${inputs.zen-browser.packages.${pkgs.system}.default}/bin/zen \
       --profile "/home/${config.home.username}/.config/zen/${config.home.username}" \
       "$@"
   '';
 
-  zen-with-desktop = pkgs.runCommand "zen" {} ''
+  zen-with-desktop = pkgs.runCommand "zen" { } ''
     mkdir -p $out/bin $out/share/applications
 
 
@@ -27,35 +28,55 @@
       exit 1
     fi
 
-    # cp ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen.desktop $out/share/applications/zen.desktop
+    # cp ${
+      inputs.zen-browser.packages.${pkgs.system}.default
+    }/share/applications/zen.desktop $out/share/applications/zen.desktop
 
     # Similar logic for desktop file
-    if [ -e "${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen.desktop" ]; then
-      cp ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen.desktop $out/share/applications/zen.desktop
+    if [ -e "${
+      inputs.zen-browser.packages.${pkgs.system}.default
+    }/share/applications/zen.desktop" ]; then
+      cp ${
+        inputs.zen-browser.packages.${pkgs.system}.default
+      }/share/applications/zen.desktop $out/share/applications/zen.desktop
       substituteInPlace $out/share/applications/zen.desktop --replace "Exec=zen" "Exec=${zen-wrapped}/bin/zen"
-    elif [ -e "${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen-beta.desktop" ]; then
-      cp ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/zen-beta.desktop $out/share/applications/zen.desktop
+    elif [ -e "${
+      inputs.zen-browser.packages.${pkgs.system}.default
+    }/share/applications/zen-beta.desktop" ]; then
+      cp ${
+        inputs.zen-browser.packages.${pkgs.system}.default
+      }/share/applications/zen-beta.desktop $out/share/applications/zen.desktop
       substituteInPlace $out/share/applications/zen.desktop --replace "Exec=zen-beta" "Exec=${zen-wrapped}/bin/zen"
     else
       echo "Error: Neither zen.desktop nor zen-beta.desktop file found!" >&2
       echo "Contents of ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/:" >&2
-      ls -la "${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/" | sed 's/^/  /' >&2
+      ls -la "${
+        inputs.zen-browser.packages.${pkgs.system}.default
+      }/share/applications/" | sed 's/^/  /' >&2
       exit 1
     fi
-    
+
   '';
-in {
+in
+{
   home.packages = [
     zen-with-desktop
   ];
 
+  home.persistence = {
+    "/persist/home/${config.home.username}" = {
+      directories = [ ".config/zen/${config.home.username}" ];
+      allowOther = true;
+    };
+  };
+
   # set default since ungoogled chromium is giving me lots of issues with captcha
   xdg.mimeApps.defaultApplications = {
-    "text/html" = ["zen.desktop"];
-    "text/xml" = ["zen.desktop"];
-    "x-scheme-handler/http" = ["zen.desktop"];
-    "x-scheme-handler/https" = ["zen.desktop"];
-    "x-scheme-handler/about" = ["zen.desktop"];
-    "x-scheme-handler/unknown" = ["zen.desktop"];
+    "text/html" = [ "zen.desktop" ];
+    "text/xml" = [ "zen.desktop" ];
+    "x-scheme-handler/http" = [ "zen.desktop" ];
+    "x-scheme-handler/https" = [ "zen.desktop" ];
+    "x-scheme-handler/about" = [ "zen.desktop" ];
+    "x-scheme-handler/unknown" = [ "zen.desktop" ];
   };
 }

@@ -3,9 +3,11 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   addons = inputs.firefox-addons.packages.${pkgs.system};
-in {
+in
+{
   # programs.browserpass.enable = true;
   programs.firefox = {
     enable = true;
@@ -34,7 +36,7 @@ in {
     };
 
     profiles.Snow = {
-      bookmarks = {};
+      bookmarks = { };
       # visit here for addons : https://github.com/nix-community/nur-combined/tree/master/repos/rycee/pkgs/firefox-addons
       extensions = with addons; [
         ublock-origin
@@ -134,7 +136,8 @@ in {
         "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
         "browser.shell.checkDefaultBrowser" = false;
         "browser.shell.defaultBrowserCheckCount" = 1;
-        "browser.uiCustomization.state" = ''{"placements":{"widget-overflow-fixed-list":[],"nav-bar":["back-button","forward-button","stop-reload-button","home-button","zoom-controls", "urlbar-container","downloads-button","library-button","_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action","ublock0_raymondhill_net-browser-action","_testpilot-containers-browser-action"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"PersonalToolbar":["import-button","personal-bookmarks"]},"seen":["save-to-pocket-button","developer-button","_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action","ublock0_raymondhill_net-browser-action","_testpilot-containers-browser-action"],"dirtyAreaCache":["nav-bar","PersonalToolbar","toolbar-menubar","TabsToolbar","widget-overflow-fixed-list"],"currentVersion":18,"newElementCount":4}'';
+        "browser.uiCustomization.state" =
+          ''{"placements":{"widget-overflow-fixed-list":[],"nav-bar":["back-button","forward-button","stop-reload-button","home-button","zoom-controls", "urlbar-container","downloads-button","library-button","_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action","ublock0_raymondhill_net-browser-action","_testpilot-containers-browser-action"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"PersonalToolbar":["import-button","personal-bookmarks"]},"seen":["save-to-pocket-button","developer-button","_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action","ublock0_raymondhill_net-browser-action","_testpilot-containers-browser-action"],"dirtyAreaCache":["nav-bar","PersonalToolbar","toolbar-menubar","TabsToolbar","widget-overflow-fixed-list"],"currentVersion":18,"newElementCount":4}'';
         "dom.security.https_only_mode" = true;
         "identity.fxaccounts.enabled" = false;
         "privacy.trackingprotection.enabled" = true;
@@ -149,7 +152,18 @@ in {
       search = {
         force = true;
         default = "DuckDuckGo";
-        order = ["DuckDuckGo" "Google" "Jisho" "Translate" "Home Manager" "Youtube" "NixOS Options" "Nix Packages" "GitHub" "HackerNews"];
+        order = [
+          "DuckDuckGo"
+          "Google"
+          "Jisho"
+          "Translate"
+          "Home Manager"
+          "Youtube"
+          "NixOS Options"
+          "Nix Packages"
+          "GitHub"
+          "HackerNews"
+        ];
         engines = {
           "Bing".metaData.hidden = true;
           "Amazon.com".metaData.hidden = true;
@@ -176,12 +190,12 @@ in {
             ];
 
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-            definedAliases = ["@np"];
+            definedAliases = [ "@np" ];
           };
           "HackerNews" = {
             iconUpdateURL = "https://hn.algolia.com/favicon.ico";
             updateInterval = 24 * 60 * 60 * 1000;
-            definedAliases = ["@hn"];
+            definedAliases = [ "@hn" ];
 
             urls = [
               {
@@ -217,12 +231,12 @@ in {
             ];
 
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-            definedAliases = ["@no"];
+            definedAliases = [ "@no" ];
           };
           "YouTube" = {
             iconUpdateURL = "https://youtube.com/favicon.ico";
             updateInterval = 24 * 60 * 60 * 1000;
-            definedAliases = ["@yt"];
+            definedAliases = [ "@yt" ];
             urls = [
               {
                 template = "https://www.youtube.com/results";
@@ -238,7 +252,7 @@ in {
           "GitHub" = {
             iconUpdateURL = "https://github.com/favicon.ico";
             updateInterval = 24 * 60 * 60 * 1000;
-            definedAliases = ["@gh"];
+            definedAliases = [ "@gh" ];
 
             urls = [
               {
@@ -259,11 +273,11 @@ in {
               }
             ];
             iconUpdateURL = "https://google.com/favicon.ico";
-            definedAliases = ["@t"];
+            definedAliases = [ "@t" ];
           };
           "Jisho" = {
             icon = "${pkgs.gruvbox-plus-icons}/share/icons/Gruvbox-Plus-Dark/apps/scalable/dictionary.svg";
-            definedAliases = ["@j"];
+            definedAliases = [ "@j" ];
             urls = [
               {
                 template = "https://jisho.org/search/{searchTerms}";
@@ -272,7 +286,7 @@ in {
           };
           "Home Manager" = {
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-            definedAliases = ["@hm"];
+            definedAliases = [ "@hm" ];
 
             urls = [
               {
@@ -298,18 +312,18 @@ in {
     };
     persistence = {
       "/persist/home/${config.home.username}" = {
-        directories = [".mozilla/firefox"];
+        directories = [ ".mozilla/firefox" ];
         allowOther = true;
       };
     };
   };
 
   xdg.mimeApps.defaultApplications = {
-    "text/html" = ["firefox.desktop"];
-    "text/xml" = ["firefox.desktop"];
-    "x-scheme-handler/http" = ["firefox.desktop"];
-    "x-scheme-handler/https" = ["firefox.desktop"];
-    "x-scheme-handler/about" = ["firefox.desktop"];
-    "x-scheme-handler/unknown" = ["firefox.desktop"];
+    "text/html" = [ "firefox.desktop" ];
+    "text/xml" = [ "firefox.desktop" ];
+    "x-scheme-handler/http" = [ "firefox.desktop" ];
+    "x-scheme-handler/https" = [ "firefox.desktop" ];
+    "x-scheme-handler/about" = [ "firefox.desktop" ];
+    "x-scheme-handler/unknown" = [ "firefox.desktop" ];
   };
 }

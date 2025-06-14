@@ -119,6 +119,11 @@ in
     Xcursor.theme: Bibata-Modern-Classic
   '';
 
+  qt = {
+    enable = true;
+    platformTheme = "qt5ct";
+  };
+
   # XDG - PORTAL
   environment.systemPackages = with pkgs; [
     ripgrep
@@ -137,7 +142,7 @@ in
     xdg-desktop-portal-wlr
     xdg-desktop-portal-hyprland
     pkgs.custom-xdg-desktop-portal-termfilechooser
-    pkgs.papirus-papirus-icon-theme
+    pkgs.papirus-icon-theme
     pkgs.papirus-folders
     pkgs.adwaita-icon-theme
   ];

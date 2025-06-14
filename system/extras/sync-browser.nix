@@ -105,14 +105,13 @@ let
 
   allSyncScript = pkgs.writeShellScriptBin "all-sync" ''
     # Run both sync operations in parallel
-    if [ $(pgrep "zen") ]; then
-      pkill -9 zen
-      pkill -9 chromiumo
+    if [ $(pgrep "chromium") ]; then
+      pkill -9 chromium
       sleep 2
     fi
 
     ${syncScript}/bin/sync-browser chromium $1 &
-    ${syncScript}/bin/sync-browser zen $1 &
+    # ${syncScript}/bin/sync-browser zen $1 &
 
     # Wait for both to complete
     wait
