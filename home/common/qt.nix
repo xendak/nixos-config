@@ -91,12 +91,13 @@ let
       };
     };
 
+  hexPairToInt = pair: (builtins.fromTOML "v = 0x${pair}").v;
   hexToRgb =
     hex:
     let
-      r = lib.fromHex (lib.substring 1 2 hex);
-      g = lib.fromHex (lib.substring 3 2 hex);
-      b = lib.fromHex (lib.substring 5 2 hex);
+      r = hexPairToInt (lib.substring 1 2 hex);
+      g = hexPairToInt (lib.substring 3 2 hex);
+      b = hexPairToInt (lib.substring 5 2 hex);
     in
     "${toString r},${toString g},${toString b}";
 
@@ -198,14 +199,14 @@ let
 
       [General]
       ColorScheme=${palette.name or "NixGenerated"}
-      desktopFont=${regular.family},${toString regular.size},-1,5,50,0,0,0,0,0
-      fixed=${monospace.family},${toString monospace.size},-1,5,50,0,0,0,0,0
-      font=${regular.family},${toString regular.size},-1,5,50,0,0,0,0,0
-      menuFont=${regular.family},${toString regular.size},-1,5,50,0,0,0,0,0
+      desktopFont=${regular.family},12,-1,5,50,0,0,0,0,0
+      fixed=${monospace.family},12,-1,5,50,0,0,0,0,0
+      font=${regular.family},12,-1,5,50,0,0,0,0,0
+      menuFont=${regular.family},12,-1,5,50,0,0,0,0,0
       shadeSortColumn=true
       smallestReadableFont=${regular.family},8,-1,5,50,0,0,0,0,0
-      taskbarFont=${regular.family},${toString regular.size},-1,5,50,0,0,0,0,0
-      toolBarFont=${regular.family},${toString regular.size},-1,5,50,0,0,0,0,0
+      taskbarFont=${regular.family},12,-1,5,50,0,0,0,0,0
+      toolBarFont=${regular.family},12,-1,5,50,0,0,0,0,0
 
       [Icons]
       Theme=${config.gtk.iconTheme.name}
@@ -216,7 +217,7 @@ let
       [WM]
       activeBackground=${hexToRgb base0D}
       activeBlend=${hexToRgb base0C}
-      activeFont=${regular.family},${toString regular.size},-1,5,75,0,0,0,0,0
+      activeFont=${regular.family},12,-1,5,75,0,0,0,0,0
       activeForeground=${hexToRgb base07}
       inactiveBackground=${hexToRgb base02}
       inactiveBlend=${hexToRgb base03}

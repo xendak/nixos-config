@@ -9,28 +9,28 @@ let
     pkgs.writeShellScriptBin "theme-switcher" ''
       HELIX_THEME_DIR="$HOME/.config/helix/themes"
       WEZTERM_THEME_DIR="$HOME/.config/wezterm/colors"
-      QUICKSHELL_THEME_DIR="$HOME/Flake/home/common/programs/quickshell/themes"
+      # QUICKSHELL_THEME_DIR="$HOME/Flake/home/common/programs/quickshell/themes"
       QUICKSHELL_CURRENT_THEME_DIR="$HOME/.local/state/caelestia/scheme"
-      GTK_QT_THEME_DIR="$HOME/.config/themes"
+      THEME_DIR="$HOME/.config/themes"
 
       case $1 in
         "dark")
           NEW_FILE="dark"
-          GTK_QT_FILE="dark"
+          GTK_INI="dark"
           export GTK_THEME="${config.gtk.theme.name}:dark"
           gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
           dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
         ;;
         "light")
           NEW_FILE="light"
-          GTK_QT_FILE="light"
+          GTK_INI="light"
           export GTK_THEME="${config.gtk.theme.name}"
           gsettings set org.gnome.desktop.interface color-scheme "prefer-light"
           dconf write /org/gnome/desktop/interface/color-scheme "'prefer-light'"
         ;;
         *)
           NEW_FILE="default"
-          GTK_QT_FILE="dark"
+          GTK_INI="dark"
           export GTK_THEME="${config.gtk.theme.name}:dark"
           dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
           gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
@@ -49,17 +49,17 @@ let
       rm "$HOME/.config/gtk-4.0/settings.ini"
       mkdir -p "$HOME/.config/qt5ct"
       mkdir -p "$HOME/.config/qt6ct"
-      cat "$GTK_QT_THEME_DIR/gtk-$GTK_QT_FILE.ini" >"$HOME/.config/gtk-2.0/gtkrc"
-      cat "$GTK_QT_THEME_DIR/gtk-$GTK_QT_FILE.ini" >"$HOME/.config/gtk-3.0/settings.ini"
-      cat "$GTK_QT_THEME_DIR/gtk-$GTK_QT_FILE.ini" >"$HOME/.config/gtk-4.0/settings.ini"
-      cat "$GTK_QT_THEME_DIR/qt-$NEW_FILE.conf" >"$HOME/.config/qt5ct/qt5ct.conf"
-      cat "$GTK_QT_THEME_DIR/qt-$NEW_FILE.conf" >"$HOME/.config/qt6ct/qt6ct.conf"
-      cat "$GTK_QT_THEME_DIR/kdeglobals-$NEW_FILE" >"$HOME/.config/kdeglobals"
+      cat "$THEME_DIR/gtk-$GTK_INI.ini" >"$HOME/.config/gtk-2.0/gtkrc"
+      cat "$THEME_DIR/gtk-$GTK_INI.ini" >"$HOME/.config/gtk-3.0/settings.ini"
+      cat "$THEME_DIR/gtk-$GTK_INI.ini" >"$HOME/.config/gtk-4.0/settings.ini"
+      cat "$THEME_DIR/qt-$NEW_FILE.conf" >"$HOME/.config/qt5ct/qt5ct.conf"
+      cat "$THEME_DIR/qt-$NEW_FILE.conf" >"$HOME/.config/qt6ct/qt6ct.conf"
+      cat "$THEME_DIR/kdeglobals-$NEW_FILE" >"$HOME/.config/kdeglobals"
 
-      cat "$GTK_QT_THEME_DIR/gtk-$NEW_FILE.css" > "$HOME/.config/gtk-4.0/gtk.css" 
-      cat "$GTK_QT_THEME_DIR/gtk-$NEW_FILE.css" > "$HOME/.config/gtk-4.0/gtk-dark.css" 
-      cat "$GTK_QT_THEME_DIR/gtk-$NEW_FILE.css" > "$HOME/.config/gtk-3.0/gtk.css" 
-      cat "$GTK_QT_THEME_DIR/gtk-$NEW_FILE.css" > "$HOME/.config/gtk-3.0/gtk-dark.css" 
+      cat "$THEME_DIR/gtk-$NEW_FILE.css" > "$HOME/.config/gtk-4.0/gtk.css" 
+      cat "$THEME_DIR/gtk-$NEW_FILE.css" > "$HOME/.config/gtk-4.0/gtk-dark.css" 
+      cat "$THEME_DIR/gtk-$NEW_FILE.css" > "$HOME/.config/gtk-3.0/gtk.css" 
+      cat "$THEME_DIR/gtk-$NEW_FILE.css" > "$HOME/.config/gtk-3.0/gtk-dark.css" 
 
 
       cat "$HELIX_THEME_DIR/$NEW_FILE.toml" >"$HELIX_THEME_DIR/current.toml"
@@ -69,8 +69,7 @@ let
       sed -i "s/##/#/g" "$WEZTERM_THEME_DIR/current.lua"
 
       mkdir -p $QUICKSHELL_CURRENT_THEME_DIR
-      rm "$QUICKSHELL_CURRENT_THEME_DIR/current.txt"
-      cat "$QUICKSHELL_THEME_DIR/$NEW_FILE.txt" >"$QUICKSHELL_CURRENT_THEME_DIR/current.txt"
+      cat "$THEME_DIR/quickshell-$NEW_FILE.txt" >"$QUICKSHELL_CURRENT_THEME_DIR/current.txt"
 
       echo $(date +"%d/%m/%y | %H:%M >") "Theme switched to $NEW_FILE." >> /tmp/theme-switcher
       pkill -USR1 hx

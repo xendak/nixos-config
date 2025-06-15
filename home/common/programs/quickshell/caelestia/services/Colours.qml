@@ -54,6 +54,8 @@ Singleton {
         setModeProc.command = ["theme-switcher", mode];
         // setModeProc.command = ["caelestia", "scheme", "dynamic", "default", mode];
         setModeProc.startDetached();
+        reload()
+
     }
 
     Process {
