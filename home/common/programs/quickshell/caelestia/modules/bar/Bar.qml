@@ -135,13 +135,34 @@ Item {
             anchors.bottomMargin: Appearance.spacing.larger
         }
 
-        Clock {
+        StyledRect {
             id: clock
 
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.left: parent.left
+            anchors.right: parent.right
             anchors.bottom: statusIcons.top
             anchors.bottomMargin: Appearance.spacing.normal
+
+            radius: Appearance.rounding.full
+            color: Colours.palette.m3surfaceContainer
+
+            implicitHeight: clockInner.implicitHeight + Appearance.padding.normal * 2
+
+            Clock {
+                id: clockInner
+
+                anchors.centerIn: parent
+            }
+            
         }
+
+        // Clock {
+        //     id: clock
+
+        //     anchors.horizontalCenter: parent.horizontalCenter
+        //     anchors.bottom: statusIcons.top
+        //     anchors.bottomMargin: Appearance.spacing.normal
+        // }
 
         StyledRect {
             id: statusIcons

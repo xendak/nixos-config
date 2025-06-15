@@ -544,8 +544,11 @@ Item {
             height: visualiser.height * 0.75
 
             playing: root.shouldUpdate && (Players.active?.isPlaying ?? false)
-            speed: BeatDetector.bpm / 300
-            source: "root:/assets/bongocat.gif"
+            // removed beat detector, fixed bpm
+            // speed: BeatDetector.bpm / 1000
+            speed: 1
+            // source: "root:/assets/bongocat.gif"
+            source: "root:/assets/kurukuru.gif"
             asynchronous: true
             fillMode: AnimatedImage.PreserveAspectFit
         }

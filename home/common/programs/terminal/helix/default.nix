@@ -6,21 +6,14 @@
   ...
 }:
 let
-  # inherit (config) colorscheme;
-  # lightColor = config.light.colorscheme;
-  # darkColor = config.dark.colorscheme;
-  lightColor = import ../../../colors/grayscale-nier.nix;
-  darkColor = import ../../../colors/luna.nix;
-
   mkHelixTheme = import ./theme.nix;
 
-  defaultTheme = mkHelixTheme { colorscheme = config.colorscheme; };
-  lightTheme = mkHelixTheme { colorscheme = lightColor.colorScheme; };
-  darkTheme = mkHelixTheme { colorscheme = darkColor.colorScheme; };
+  defaultTheme = mkHelixTheme { colorscheme = config.themes.default.colorScheme; };
+  lightTheme = mkHelixTheme { colorscheme = config.themes.light.colorScheme; };
+  darkTheme = mkHelixTheme { colorscheme = config.themes.dark.colorScheme; };
 
 in
 {
-
   home.sessionVariables.COLORTERM = "truecolor";
   programs.helix = {
     enable = true;
@@ -46,9 +39,9 @@ in
       // lightTheme
       // {
         # Create named themes for direct access
-        "default" = defaultTheme.${config.colorscheme.slug};
-        "dark" = darkTheme.${darkColor.colorScheme.slug};
-        "light" = lightTheme.${lightColor.colorScheme.slug};
+        "default" = defaultTheme.${config.themes.default.colorScheme.slug};
+        "dark" = darkTheme.${config.themes.dark.colorScheme.slug};
+        "light" = lightTheme.${config.themes.light.colorScheme.slug};
       };
     settings = {
       # theme = darkTheme.colorscheme.slug;

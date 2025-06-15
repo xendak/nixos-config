@@ -47,11 +47,19 @@
     ".ssh/config".source = pkgs.writeText "config" ''
       AddKeysToAgent yes
     '';
+    ".config/xdg-desktop-portal-termfilechooser/config".source = pkgs.writeText "config" ''
+      [filechooser]
+      cmd=${pkgs.custom-xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
+      default_dir=$HOME
+      env=TERMCMD=${pkgs.wezterm}/bin/wezterm start --class f_terminal
+    '';
+
     ".config/xdg-desktop-portal/portals.conf".source = pkgs.writeText "portals.conf" ''
       [preferred]
-      default=hyprland;kde;gtk
-      org.freedesktop.impl.portal.FileChooser=kde;gtk
+      default=hyprland;gtk;kde
+      org.freedesktop.impl.portal.FileChooser=termfilechooser
     '';
+
     ".config/fish/completions/ns.fish".source = pkgs.writeText "ns.fish" ''
       function __nixpkgs_completions
           bat ~/Flake/bin/nixpkgs_list
@@ -79,6 +87,8 @@
 
     # try
     pkgs.fuzzel
+    pkgs.custom-xdg-desktop-portal-termfilechooser
+    pkgs.matugen
 
     # inputs.zen-browser.packages.${pkgs.system}.default
 
@@ -123,8 +133,10 @@
           ".local/state/wireplumber"
           ".local/share/ssh"
         ];
+        files = [ ".local/share/fish/fish_history" ];
         allowOther = true;
       };
+
     };
     sessionVariables = {
       UserKnownHostsFile = "$HOME/.local/share/ssh";
@@ -135,7 +147,7 @@
       AREA_CONFIG_DIR = "Snips";
       NNN_BMS = "p:$HOME/Programming;f:$HOME/Flake;c:$HOME/.config;w:/mnt/Windows";
       SPLIT = "v";
-      GTK_THEME = "${config.gtk.theme.name}:dark";
+      # GTK_THEME = "${config.gtk.theme.name}:dark";
       EDITOR = "hx";
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
       BROWSER = "zen";

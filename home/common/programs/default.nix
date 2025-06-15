@@ -8,7 +8,7 @@
     ./anki.nix
     ./browser
     ./terminal # ./kitty.nix ./fish.nix ./git.nix ./nvim
-    ./kvantum
+    # ./kvantum
     ./zathura.nix
     ./yt.nix
   ];

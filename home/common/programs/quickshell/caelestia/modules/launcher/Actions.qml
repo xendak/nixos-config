@@ -18,6 +18,7 @@ Singleton {
 
             function onClicked(list: AppList): void {
                 root.autocomplete(list, "scheme");
+                // Colours.setMode("default")
             }
         },
         Action {
@@ -65,6 +66,16 @@ Singleton {
             function onClicked(list: AppList): void {
                 list.visibilities.launcher = false;
                 Colours.setMode("dark");
+            }
+        },
+        Action {
+            name: qsTr("Default")
+            desc: qsTr("Change the scheme to default mode")
+                icon: "dark_mode"
+
+            function onClicked(list: AppList): void {
+                list.visibilities.launcher = false;
+                Colours.setMode("default");
             }
         },
         Action {

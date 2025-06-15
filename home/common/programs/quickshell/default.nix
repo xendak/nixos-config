@@ -11,6 +11,8 @@ in
 
   home.packages = [
     quickshell
+    pkgs.cava
+    pkgs.gtk3
     pkgs.kdePackages.qt5compat
     pkgs.qt6.qt5compat
     pkgs.imagemagick

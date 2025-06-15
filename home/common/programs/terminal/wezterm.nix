@@ -12,55 +12,50 @@ let
       ${pkgs.wezterm}/bin/wezterm "$@"
     '';
   };
-  defaultColorScheme = config.colorscheme;
-  # TODO: find a way to do this.
-  # darkColorScheme = config.dark.colorscheme;
-  # lightColorScheme = config.light.colorscheme;
-  darkColorScheme = import ../../colors/luna.nix;
-  lightColorScheme = import ../../colors/grayscale-nier.nix;
 
-  mkWeztermTheme = colorscheme: ''
-    return {
-      foreground = "#${colorscheme.palette.base05}",
-      background = "#${colorscheme.palette.base00}",
-      cursor_bg = "#F36",
-      cursor_fg = "#000",
-      cursor_border = "#${colorscheme.palette.base05}",
-      selection_fg = "#${colorscheme.palette.base00}",
-      selection_bg = "#${colorscheme.palette.base05}",
-      ansi = {
-        "#${colorscheme.palette.base00}",
-        "#${colorscheme.palette.base08}",
-        "#${colorscheme.palette.base0B}",
-        "#${colorscheme.palette.base0A}",
-        "#${colorscheme.palette.base0D}",
-        "#${colorscheme.palette.base0E}",
-        "#${colorscheme.palette.base0C}",
-        "#${colorscheme.palette.base05}",
-      },
-      brights = {
-        "#${colorscheme.palette.base03}",
-        "#${colorscheme.palette.base08}",
-        "#${colorscheme.palette.base0B}",
-        "#${colorscheme.palette.base0A}",
-        "#${colorscheme.palette.base0D}",
-        "#${colorscheme.palette.base0E}",
-        "#${colorscheme.palette.base0C}",
-        "#${colorscheme.palette.base07}",
-      },
-      tab_bar = {
-        background = "#${colorscheme.palette.base01}",
-        active_tab = {
-          bg_color = "#${colorscheme.palette.base00}",
-          fg_color = "#${colorscheme.palette.base05}",
+  mkWeztermTheme =
+    palette: with palette; ''
+      return {
+        foreground = "${base05}",
+        background = "${base00}",
+        cursor_bg = "#F36",
+        cursor_fg = "#000",
+        cursor_border = "${base05}",
+        selection_fg = "${base00}",
+        selection_bg = "${base05}",
+        ansi = {
+          "${base00}",
+          "${base08}",
+          "${base0B}",
+          "${base0A}",
+          "${base0D}",
+          "${base0E}",
+          "${base0C}",
+          "${base05}",
         },
-        inactive_tab = {
-          bg_color = "#${colorscheme.palette.base01}",
-          fg_color = "#${colorscheme.palette.base04}",
+        brights = {
+          "${base03}",
+          "${base08}",
+          "${base0B}",
+          "${base0A}",
+          "${base0D}",
+          "${base0E}",
+          "${base0C}",
+          "${base07}",
         },
-      },
-    }
-  '';
+        tab_bar = {
+          background = "${base01}",
+          active_tab = {
+            bg_color = "${base00}",
+            fg_color = "${base05}",
+          },
+          inactive_tab = {
+            bg_color = "${base01}",
+            fg_color = "${base04}",
+          },
+        },
+      }
+    '';
 in
 {
   home = {
@@ -72,9 +67,10 @@ in
     };
     sessionPath = [ "$HOME/Flake/bin" ];
     file = {
-      ".config/wezterm/colors/default.lua".text = mkWeztermTheme defaultColorScheme;
-      ".config/wezterm/colors/dark.lua".text = mkWeztermTheme darkColorScheme.colorScheme;
-      ".config/wezterm/colors/light.lua".text = mkWeztermTheme lightColorScheme.colorScheme;
+      ".config/wezterm/colors/default.lua".text =
+        mkWeztermTheme config.themes.default.colorScheme.palette;
+      ".config/wezterm/colors/dark.lua".text = mkWeztermTheme config.themes.dark.colorScheme.palette;
+      ".config/wezterm/colors/light.lua".text = mkWeztermTheme config.themes.light.colorScheme.palette;
     };
   };
 

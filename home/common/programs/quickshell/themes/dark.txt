@@ -1,6 +1,6 @@
 primary_paletteKeyColor 7cafc2
 secondary_paletteKeyColor ba8baf
-tertiary_paletteKeyColor dc9656
+tertiary_paletteKeyColor a1b56c
 neutral_paletteKeyColor 5e5e5e
 neutral_variant_paletteKeyColor 4e4e4e
 background 262626
@@ -32,7 +32,7 @@ secondary ba8baf
 onSecondary 262626
 secondaryContainer 5e5e5e
 onSecondaryContainer c3bea9
-tertiary dc9656
+tertiary a1b56c
 onTertiary 262626
 tertiaryContainer a16946
 onTertiaryContainer c3bea9
@@ -48,7 +48,7 @@ secondaryFixed ba8baf
 secondaryFixedDim a16946
 onSecondaryFixed 262626
 onSecondaryFixedVariant 5e5e5e
-tertiaryFixed dc9656
+tertiaryFixed a1b56c
 tertiaryFixedDim f7ca88
 onTertiaryFixed 262626
 onTertiaryFixedVariant a16946
@@ -58,7 +58,7 @@ pink ba8baf
 mauve ba8baf
 red ab4642
 maroon a16946
-peach dc9656
+peach a1b56c
 yellow f7ca88
 green a1b56c
 teal 6c9bbd

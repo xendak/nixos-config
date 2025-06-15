@@ -9,8 +9,8 @@ Singleton {
     property real bpm
 
     Process {
-        running: true
-        command: [`${Quickshell.shellRoot}/assets/realtime-beat-detector.py`]
+        running: false
+        command: [`${Quickshell.shellRoot}/assets/beat_detector`,  `--no-log`]
         stdout: SplitParser {
             onRead: data => root.bpm = parseFloat(data)
         }

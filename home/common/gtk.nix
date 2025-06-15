@@ -41,6 +41,83 @@ let
     "Link"="${cursorTheme.package}/share/icons/${cursorTheme.name}/cursors/hand2"
   '';
 
+  # THEME_SWITCHER
+  defaultPalette = config.themes.default.colorScheme.palette;
+  darkPalette = config.themes.dark.colorScheme.palette;
+  lightPalette = config.themes.light.colorScheme.palette;
+
+  mkGtkColorScheme =
+    palette: with palette; ''
+      @define-color accent_color ${base0D};
+      @define-color accent_bg_color ${base0D};
+      @define-color accent_fg_color ${base00};
+
+      @define-color destructive_color ${base08};
+      @define-color destructive_bg_color ${base08};
+      @define-color destructive_fg_color ${base07};
+
+      @define-color success_color ${base0B};
+      @define-color success_bg_color ${base0B};
+      @define-color success_fg_color ${base00};
+
+      @define-color warning_color ${base0A};
+      @define-color warning_bg_color ${base0A};
+      @define-color warning_fg_color ${base00};
+
+      @define-color error_color ${base08};
+      @define-color error_bg_color ${base08};
+      @define-color error_fg_color ${base07};
+
+      @define-color window_bg_color ${base00};
+      @define-color window_fg_color ${base05};
+
+      @define-color view_bg_color ${base00};
+      @define-color view_fg_color ${base05};
+
+      @define-color headerbar_bg_color @window_bg_color;
+      @define-color headerbar_fg_color @window_fg_color;
+      @define-color headerbar_border_color @window_bg_color;
+      @define-color headerbar_backdrop_color @window_bg_color;
+      @define-color headerbar_shade_color @window_bg_color;
+
+      @define-color card_bg_color ${base02};
+      @define-color card_fg_color @window_fg_color;
+      @define-color card_shade_color rgba(0, 0, 0, 0.2);
+
+      @define-color dialog_bg_color @card_bg_color;
+      @define-color dialog_fg_color @card_fg_color;
+
+      @define-color popover_bg_color ${base01};
+      @define-color popover_fg_color @window_fg_color;
+
+      @define-color shade_color rgba(0, 0, 0, 0.36);
+      @define-color scrollbar_outline_color rgba(0, 0, 0, 0.5);
+
+      @define-color sidebar_bg_color ${base01};
+      @define-color secondary_sidebar_bg_color @sidebar_bg_color;
+      @define-color sidebar_backdrop_color @sidebar_bg_color;
+      @define-color secondary_sidebar_backdrop_color @sidebar_bg_color;
+
+      .navigation-sidebar {
+          background-color: @sidebar_bg_color;
+          color: @window_fg_color;
+      }
+
+      headerbar.default-decoration {
+          margin-bottom: 50px;
+          margin-top: -100px;
+      }
+
+      /* rm -rf window shadows */
+      window.csd,              /* gtk4? */
+      window.csd decoration { /* gtk3 */
+          box-shadow: none;
+      }
+    '';
+  defaultScheme = mkGtkColorScheme defaultPalette;
+  darkScheme = mkGtkColorScheme darkPalette;
+  lightScheme = mkGtkColorScheme lightPalette;
+
 in
 {
   home.pointerCursor = {
@@ -71,8 +148,15 @@ in
     pkgs.gtk_engines
     pkgs.gtk4
     pkgs.adw-gtk3
+    pkgs.catppuccin-gtk
     pkgs.adwaita-qt6
     pkgs.adwaita-qt
+    pkgs.kdePackages.breeze
+    pkgs.kdePackages.breeze-gtk
+    # pkgs.kdePackages.breeze-icons
+    # pkgs.libsForQt5.breeze-icons
+    # pkgs.libsForQt5.breeze-qt5
+    # pkgs.libsForQt5.breeze-gtk
     pkgs.gradience
     pkgs.papirus-icon-theme
     pkgs.papirus-folders
@@ -176,10 +260,113 @@ in
   #   '';
   # };
 
-  # prefer dark
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
+  # theme-switcher configs
+  home.file = {
+    ".config/themes/.keep".text = "";
+
+    # Matugen
+    ".config/matugen/templates/matugen-gtk".text = ''
+      @define-color accent_color {{colors.primary.default.hex}};
+      @define-color accent_bg_color {{colors.primary_container.default.hex}};
+      @define-color accent_fg_color {{colors.on_primary_container.default.hex}};
+      @define-color destructive_color {{colors.error.default.hex}};
+      @define-color destructive_bg_color {{colors.error_container.default.hex}};
+      @define-color destructive_fg_color {{colors.on_error_container.default.hex}};
+      @define-color success_color {{colors.secondary.default.hex}};
+      @define-color success_bg_color {{colors.secondary_container.default.hex}};
+      @define-color success_fg_color {{colors.on_secondary_container.default.hex}};
+      @define-color warning_color {{colors.tertiary.default.hex}};
+      @define-color warning_bg_color {{colors.tertiary_container.default.hex}};
+      @define-color warning_fg_color {{colors.on_tertiary_container.default.hex}};
+      @define-color error_color {{colors.error.default.hex}};
+      @define-color error_bg_color {{colors.error_container.default.hex}};
+      @define-color error_fg_color {{colors.on_error_container.default.hex}};
+      @define-color window_bg_color {{colors.surface.default.hex}};
+      @define-color window_fg_color {{colors.on_surface.default.hex}};
+      @define-color view_bg_color {{colors.surface.default.hex}};
+      @define-color view_fg_color {{colors.on_surface.default.hex}};
+      @define-color headerbar_bg_color @window_bg_color;
+      @define-color headerbar_fg_color @window_fg_color;
+      @define-color headerbar_border_color @window_bg_color;
+      @define-color headerbar_backdrop_color @window_bg_color;
+      @define-color headerbar_shade_color @window_bg_color;
+      @define-color card_bg_color {{colors.surface_container_high.default.hex}};
+      @define-color card_fg_color {{colors.on_surface.default.hex}};
+      @define-color card_shade_color rgba(0, 0, 0, 0.07);
+      @define-color dialog_bg_color @card_bg_color;
+      @define-color dialog_fg_color @card_fg_color;
+      @define-color popover_bg_color @card_bg_color;
+      @define-color popover_fg_color @card_fg_color;
+      @define-color shade_color rgba(0, 0, 0, 0.36);
+      @define-color scrollbar_outline_color rgba(139, 145, 152, 0.5);
+      @define-color sidebar_bg_color {{colors.surface_container_low.default.hex}};
+      @define-color secondary_sidebar_bg_color @sidebar_bg_color;
+      @define-color sidebar_backdrop_color @sidebar_bg_color;
+      @define-color secondary_sidebar_backdrop_color @sidebar_bg_color;
+
+      .navigation-sidebar {
+      	background-color: @sidebar_bg_color;
+      	color: @window_fg_color;
+      }
+
+
+      headerbar.default-decoration {
+        /* You may need to tweak these values depending on your GTK theme */
+        margin-bottom: 50px;
+        margin-top: -100px;
+      }
+
+      /* rm -rf window shadows */
+      window.csd,             /* gtk4? */
+      window.csd decoration { /* gtk3 */
+        box-shadow: none;
+      }
+    '';
+    ".config/matugen/config.toml".text = ''
+      [config]
+      [templates.gtk3]
+      input_path = '~/.config/matugen/templates/matugen-gtk.css'
+      output_path = '~/.config/gtk-3.0/gtk.css'
+
+      [templates.gtk4]
+      input_path = '~/.config/matugen/templates/matugen-gtk.css'
+      output_path = '~/.config/gtk-4.0/gtk.css'
+    '';
+
+    ".config/themes/gtk-default.css".text = defaultScheme;
+    ".config/themes/gtk-dark.css".text = darkScheme;
+    ".config/themes/gtk-light.css".text = lightScheme;
+
+    ".config/themes/gtk-dark.ini" = {
+      text = ''
+        [Settings]
+        gtk-application-prefer-dark-theme=1
+        gtk-theme-name="${config.gtk.theme.name}-dark"
+        gtk-icon-theme-name="${config.gtk.iconTheme.name}-Dark"
+        gtk-font-name="${config.fontProfiles.regular.family} 12 10"
+        gtk-cursor-theme-name="${config.gtk.cursorTheme.name}"
+        gtk-cursor-theme-size=${toString config.gtk.cursorTheme.size}
+      '';
     };
+
+    ".config/themes/gtk-light.ini" = {
+      text = ''
+        [Settings]
+        gtk-application-prefer-dark-theme=0
+        gtk-theme-name="${config.gtk.theme.name}"
+        gtk-icon-theme-name="${config.gtk.iconTheme.name}"
+        gtk-font-name="${config.fontProfiles.regular.family} 12 10"
+        gtk-cursor-theme-name="${config.gtk.cursorTheme.name}"
+        gtk-cursor-theme-size=${toString config.gtk.cursorTheme.size}
+      '';
+    };
+
   };
+
+  # prefer dark
+  # dconf.settings = {
+  #   "org/gnome/desktop/interface" = {
+  #     color-scheme = "prefer-dark";
+  #   };
+  # };
 }

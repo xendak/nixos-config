@@ -12,6 +12,33 @@ Row {
     padding: Appearance.padding.large
     spacing: Appearance.spacing.large
 
+    
+     function formatUptime(totalSeconds) {
+        if (isNaN(totalSeconds) || totalSeconds <= 0) {
+            return "just now";
+        }
+
+        totalSeconds = Math.floor(totalSeconds);
+
+        const days = Math.floor(totalSeconds / 86400);
+        totalSeconds %= 86400;
+        const hours = Math.floor(totalSeconds / 3600);
+        totalSeconds %= 3600;
+        const minutes = Math.floor(totalSeconds / 60);
+
+        let parts = [];
+        if (days > 0) parts.push(days + (days === 1 ? " day" : " days"));
+        if (hours > 0) parts.push(hours + (hours === 1 ? " hour" : " hours"));
+        if (minutes > 0) parts.push(minutes + (minutes === 1 ? " minute" : " minutes"));
+        
+        // If less than a minute, show this.
+        if (parts.length === 0) {
+            return "less than a minute";
+        }
+
+        return parts.join(", ");
+    }
+
     StyledClippingRect {
         implicitWidth: info.implicitHeight
         implicitHeight: info.implicitHeight
@@ -68,9 +95,13 @@ Row {
                 property string uptime
 
                 running: true
-                command: ["uptime", "-p"]
+                // command: ["uptime", "-p"]
+                command: ["awk", "{print $1}", "/proc/uptime"]
                 stdout: SplitParser {
-                    onRead: data => uptimeProc.uptime = data
+                    // onRead: data => uptimeProc.uptime = data
+                    onRead: function(data) {
+                        uptimeProc.uptime = root.formatUptime(Number(data))
+                    }
                 }
             }
         }

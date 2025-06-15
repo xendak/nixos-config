@@ -10,7 +10,7 @@ Singleton {
     id: root
 
     readonly property string currentNamePath: `${Paths.state}/wallpaper/last.txt`.slice(7)
-    readonly property string path: `$HOME/Flake/home/common/wallpapers/`.slice(7)
+    readonly property string path: Quickshell.env("HOME") + "/Flake/home/common/wallpapers/"
 
     readonly property list<Wallpaper> list: wallpapers.instances
     property bool showPreview: false
@@ -76,7 +76,8 @@ Singleton {
 
         property string path
 
-        command: ["caelestia", "wallpaper", "-f", path]
+        // command: ["caelestia", "wallpaper", "-f", path]
+        command: ["fish $HOME/Flake/home/common/programs/quickshell/caelestia/wallpaper.fish", "-f", path]
     }
 
     Process {

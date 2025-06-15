@@ -51,7 +51,8 @@ Singleton {
     }
 
     function setMode(mode: string): void {
-        setModeProc.command = ["caelestia", "scheme", "dynamic", "default", mode];
+        setModeProc.command = ["theme-switcher", mode];
+        // setModeProc.command = ["caelestia", "scheme", "dynamic", "default", mode];
         setModeProc.startDetached();
     }
 

@@ -41,6 +41,8 @@ class BeatDetector:
         # if beat detected, calculate BPM and send to OSC
         if beat[0]:
             print(self.tempo.get_bpm(), flush=True)
+        else:
+            print(100, flush=True)
 
         return None, pyaudio.paContinue  # Tell pyAudio to continue
 
