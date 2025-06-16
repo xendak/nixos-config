@@ -14,7 +14,7 @@ let
     in
     with palette;
     ''
-      primary_paletteKeyColor ${hex base0D}
+      primary_paletteKeyColor ${hex accent}
       secondary_paletteKeyColor ${hex base0E}
       tertiary_paletteKeyColor ${hex base0B}
       neutral_paletteKeyColor ${hex base04}
@@ -39,7 +39,7 @@ let
       shadow 000000
       scrim 000000
       surfaceTint ${hex base0D}
-      primary ${hex base0D}
+      primary ${hex accent}
       onPrimary ${hex base00}
       primaryContainer ${hex base02}
       onPrimaryContainer ${hex base06}
@@ -56,7 +56,7 @@ let
       onError ${hex base00}
       errorContainer ${hex base02}
       onErrorContainer ${hex base08}
-      primaryFixed ${hex base0D}
+      primaryFixed ${hex accent}
       primaryFixedDim ${hex base0C}
       onPrimaryFixed ${hex base00}
       onPrimaryFixedVariant ${hex base02}
@@ -96,6 +96,7 @@ in
     pkgs.python3
     pkgs.python3Packages.numpy
     pkgs.python3Packages.pyaudio
+    pkgs.app2unit
     pkgs.gnused
   ];
 

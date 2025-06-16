@@ -30,8 +30,8 @@ let
           base02 # Normal background
           base00 # Window
           base00 # Shadow
-          base0B # Highlight
-          base05 # Highlighted text
+          accent # Highlight
+          base00 # Highlighted text
           base0D # Link
           base0E # Visited link
           base01 # Alternate background
@@ -54,8 +54,8 @@ let
           base00 # Normal background
           base00 # Window
           base00 # Shadow
-          base0B # Highlight
-          base05 # Highlighted text
+          accent # Highlight
+          base00 # Highlighted text
           base0D # Link
           base0E # Visited link
           base00 # Alternate background
@@ -78,8 +78,8 @@ let
           base00 # Normal background
           base00 # Window
           base00 # Shadow
-          base0B # Highlight
-          base05 # Highlighted text
+          accent # Highlight
+          base00 # Highlighted text
           base0D # Link
           base0E # Visited link
           base00 # Alternate background

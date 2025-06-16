@@ -38,6 +38,9 @@ in
 
   # Something? -------------
   colorscheme = lib.mkDefault colorSchemes.nord; # material-palenight;
+  themes.light = import ../common/colors/grayscale-nier.nix;
+  themes.dark = import ../common/colors/luna.nix;
+  themes.default = import ../common/colors/gorgoroth.nix;
 
   home.file.".colorscheme".text = config.colorscheme.slug;
 }
