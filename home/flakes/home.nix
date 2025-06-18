@@ -129,6 +129,7 @@
           ".local/share/fonts"
           ".local/state/wireplumber"
           ".local/share/ssh"
+          ".local/share/fish"
         ];
         allowOther = true;
       };

@@ -91,6 +91,7 @@ let
       };
     };
 
+  # TODO: fix this, kdeglobals accepts hex colors.
   hexPairToInt = pair: (builtins.fromTOML "v = 0x${pair}").v;
   hexToRgb =
     hex:
@@ -102,7 +103,11 @@ let
     "${toString r},${toString g},${toString b}";
 
   mkKdeGlobals =
-    { palette, fonts }:
+    {
+      palette,
+      fonts,
+      iconTheme,
+    }:
     with palette;
     with fonts;
     ''
@@ -209,7 +214,7 @@ let
       toolBarFont=${regular.family},12,-1,5,50,0,0,0,0,0
 
       [Icons]
-      Theme=${config.gtk.iconTheme.name}
+      Theme=${iconTheme}
 
       [KDE]
       contrast=7
@@ -260,14 +265,17 @@ in
     ".config/themes/kdeglobals-default".text = mkKdeGlobals {
       palette = config.themes.default.colorScheme.palette;
       fonts = config.fontProfiles;
+      iconTheme = "${config.gtk.iconTheme.name}-Dark";
     };
     ".config/themes/kdeglobals-light".text = mkKdeGlobals {
       palette = config.themes.light.colorScheme.palette;
       fonts = config.fontProfiles;
+      iconTheme = config.gtk.iconTheme.name;
     };
     ".config/themes/kdeglobals-dark".text = mkKdeGlobals {
       palette = config.themes.dark.colorScheme.palette;
       fonts = config.fontProfiles;
+      iconTheme = "${config.gtk.iconTheme.name}-Dark";
     };
 
     ".config/qt5ct/colors/default.conf".text = defaultScheme;

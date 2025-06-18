@@ -25,6 +25,7 @@ let
           NEW_FILE="light"
           GTK_INI="light"
           export GTK_THEME="${config.gtk.theme.name}"
+          # TODO: check if its "default" instead of prefer-light
           gsettings set org.gnome.desktop.interface color-scheme "prefer-light"
           dconf write /org/gnome/desktop/interface/color-scheme "'prefer-light'"
         ;;
@@ -55,6 +56,7 @@ let
       cat "$THEME_DIR/qt-$NEW_FILE.conf" >"$HOME/.config/qt5ct/qt5ct.conf"
       cat "$THEME_DIR/qt-$NEW_FILE.conf" >"$HOME/.config/qt6ct/qt6ct.conf"
       cat "$THEME_DIR/kdeglobals-$NEW_FILE" >"$HOME/.config/kdeglobals"
+      cat "$THEME_DIR/zathura-$NEW_FILE" >"$HOME/.config/zathura/zathurarc"
 
       cat "$THEME_DIR/gtk-$NEW_FILE.css" > "$HOME/.config/gtk-4.0/gtk.css" 
       cat "$THEME_DIR/gtk-$NEW_FILE.css" > "$HOME/.config/gtk-4.0/gtk-dark.css" 

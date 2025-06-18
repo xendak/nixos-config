@@ -1,32 +1,55 @@
-{config, ...}: let
-  inherit (config.colorscheme) palette;
-in {
-  programs.zathura = {
-    enable = true;
-    options = {
-      selection-clipboard = "clipboard";
-      font = "${config.fontProfiles.regular.family} 12";
-      recolor = true;
-      default-bg = "#${palette.base00}";
-      default-fg = "#${palette.base05}";
-      statusbar-bg = "#${palette.base02}";
-      statusbar-fg = "#${palette.base04}";
-      inputbar-bg = "#${palette.base00}";
-      inputbar-fg = "#${palette.base07}";
-      notification-bg = "#${palette.base00}";
-      notification-fg = "#${palette.base07}";
-      notification-error-bg = "#${palette.base00}";
-      notification-error-fg = "#${palette.base08}";
-      notification-warning-bg = "#${palette.base00}";
-      notification-warning-fg = "#${palette.base08}";
-      highlight-color = "#${palette.base0A}";
-      highlight-active-color = "#${palette.base0D}";
-      completion-bg = "#${palette.base01}";
-      completion-fg = "#${palette.base05}";
-      completions-highlight-bg = "#${palette.base0D}";
-      completions-highlight-fg = "#${palette.base07}";
-      recolor-lightcolor = "#${palette.base00}";
-      recolor-darkcolor = "#${palette.base06}";
+{ config, ... }:
+let
+  mkZathuraTheme =
+    { palette, fonts }:
+    with palette;
+    ''
+      set selection-clipboard     "clipboard"
+      set font                    "${fonts.regular.family} 12"
+      set recolor                 "true"
+
+      # Theming
+      set default-bg              "#${base00}"
+      set default-fg              "#${base05}"
+      set statusbar-bg            "#${base02}"
+      set statusbar-fg            "#${base04}"
+      set inputbar-bg             "#${base00}"
+      set inputbar-fg             "#${base07}"
+      set notification-bg         "#${base00}"
+      set notification-fg         "#${base07}"
+      set notification-error-bg   "#${base00}"
+      set notification-error-fg   "#${base08}"
+      set notification-warning-bg "#${base00}"
+      set notification-warning-fg "#${base08}"
+      set highlight-color         "#${base0A}"
+      set highlight-active-color  "#${base0D}"
+      set completion-bg           "#${base01}"
+      set completion-fg           "#${base05}"
+      set completion-highlight-bg "#${base0D}"
+      set completion-highlight-fg "#${base07}"
+      set recolor-lightcolor      "#${base00}"
+      set recolor-darkcolor       "#${base06}"
+    '';
+in
+{
+  xdg.mimeApps.defaultApplications = {
+    "application/pdf" = [ "org.pwmt.zathura.desktop" ];
+  };
+
+  programs.zathura.enable = true;
+
+  home.file = {
+    ".config/themes/zathura-default".text = mkZathuraTheme {
+      palette = config.themes.default.colorScheme.palette;
+      fonts = config.fontProfiles;
+    };
+    ".config/themes/zathura-dark".text = mkZathuraTheme {
+      palette = config.themes.dark.colorScheme.palette;
+      fonts = config.fontProfiles;
+    };
+    ".config/themes/zathura-light".text = mkZathuraTheme {
+      palette = config.themes.light.colorScheme.palette;
+      fonts = config.fontProfiles;
     };
   };
 }

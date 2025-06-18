@@ -18,11 +18,18 @@
     kdePackages.kdegraphics-thumbnailers
   ];
 
+  # to enable qtct colors
+  # [UiSettings]
+  # ColorScheme=*
+
   home.persistence = {
     "/persist/home/${config.home.username}" = {
       allowOther = true;
       directories = [ ".local/share/dolphin" ];
-      files = [ ".config/dolphinrc" ];
+      files = [
+        ".config/dolphinrc"
+        ".local/state/dolphinstaterc"
+      ];
     };
   };
 }
