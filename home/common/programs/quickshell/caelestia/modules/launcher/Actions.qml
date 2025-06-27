@@ -30,24 +30,24 @@ Singleton {
                 root.autocomplete(list, "wallpaper");
             }
         },
-        Action {
-            name: qsTr("Variant")
-            desc: qsTr("Change the current scheme variant")
-            icon: "colors"
+        // Action {
+        //     name: qsTr("Variant")
+        //     desc: qsTr("Change the current scheme variant")
+        //     icon: "colors"
 
-            function onClicked(list: AppList): void {
-                root.autocomplete(list, "variant");
-            }
-        },
-        Action {
-            name: qsTr("Transparency")
-            desc: qsTr("Change shell transparency")
-            icon: "opacity"
+        //     function onClicked(list: AppList): void {
+        //         root.autocomplete(list, "variant");
+        //     }
+        // },
+        // Action {
+        //     name: qsTr("Transparency")
+        //     desc: qsTr("Change shell transparency")
+        //     icon: "opacity"
 
-            function onClicked(list: AppList): void {
-                root.autocomplete(list, "transparency");
-            }
-        },
+        //     function onClicked(list: AppList): void {
+        //         root.autocomplete(list, "transparency");
+        //     }
+        // },
         Action {
             name: qsTr("Light")
             desc: qsTr("Change the scheme to light mode")
