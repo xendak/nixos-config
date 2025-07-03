@@ -28,7 +28,8 @@ Variants {
             screen: scope.modelData
             name: "drawers"
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
-            WlrLayershell.keyboardFocus: visibilities.launcher || visibilities.session ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+            
+            WlrLayershell.keyboardFocus: visibilities.launcher || visibilities.session || visibilities.llmchat ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
 
             mask: Region {
                 x: bar.implicitWidth
@@ -36,7 +37,6 @@ Variants {
                 width: win.width - bar.implicitWidth - BorderConfig.thickness
                 height: win.height - BorderConfig.thickness * 2
                 intersection: Intersection.Xor
-
                 regions: regions.instances
             }
 
@@ -47,12 +47,9 @@ Variants {
 
             Variants {
                 id: regions
-
                 model: panels.children
-
                 Region {
                     required property Item modelData
-
                     x: modelData.x + bar.implicitWidth
                     y: modelData.y + BorderConfig.thickness
                     width: modelData.width
@@ -62,11 +59,13 @@ Variants {
             }
 
             HyprlandFocusGrab {
-                active: visibilities.launcher || visibilities.session
+                active: visibilities.launcher || visibilities.session || visibilities.llmchat
+                
                 windows: [win]
                 onCleared: {
                     visibilities.launcher = false;
                     visibilities.session = false;
+                    visibilities.llmchat = false;
                 }
             }
 
@@ -86,14 +85,11 @@ Variants {
 
             Item {
                 id: background
-
                 anchors.fill: parent
                 visible: false
-
                 Border {
                     bar: bar
                 }
-
                 Backgrounds {
                     panels: panels
                     bar: bar
@@ -106,12 +102,11 @@ Variants {
 
             PersistentProperties {
                 id: visibilities
-
                 property bool osd
                 property bool session
                 property bool launcher
                 property bool dashboard
-
+                property bool llmchat
                 Component.onCompleted: Visibilities.screens[scope.modelData] = this
             }
 
@@ -124,7 +119,6 @@ Variants {
 
                 Panels {
                     id: panels
-
                     screen: scope.modelData
                     visibilities: visibilities
                     bar: bar
@@ -133,7 +127,6 @@ Variants {
 
             Bar {
                 id: bar
-
                 screen: scope.modelData
                 popouts: panels.popouts
             }

@@ -145,7 +145,8 @@ Item {
 
                 onEntered: hovered = true
                 onExited: hovered = false
-                onClicked: search.text = ""
+                // onClicked: search.text = ""
+                onClicked: inputField.forceActiveFocus()
             }
 
             Behavior on width {

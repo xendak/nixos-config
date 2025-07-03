@@ -17,6 +17,19 @@ Scope {
     }
 
     CustomShortcut {
+        name: "llmchat"
+        description: "Toggle AI chat"
+        onPressed: root.launcherInterrupted = false  // Reuse the same variable
+        onReleased: {
+            if (!root.launcherInterrupted) {
+                const visibilities = Visibilities.getForActive();
+                visibilities.llmchat = !visibilities.llmchat;
+            }
+            root.launcherInterrupted = false;
+        }
+    }
+
+    CustomShortcut {
         name: "launcher"
         description: "Toggle launcher"
         onPressed: root.launcherInterrupted = false

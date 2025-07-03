@@ -6,6 +6,7 @@ import "root:/modules/session" as Session
 import "root:/modules/launcher" as Launcher
 import "root:/modules/dashboard" as Dashboard
 import "root:/modules/bar/popouts" as BarPopouts
+import "root:/modules/llm" as LLM
 import Quickshell
 import QtQuick
 
@@ -22,12 +23,20 @@ Item {
     readonly property Launcher.Wrapper launcher: launcher
     readonly property Dashboard.Wrapper dashboard: dashboard
     readonly property BarPopouts.Wrapper popouts: popouts
+    readonly property LLM.ChatWrapper llmchat: llmchat
+        
+    onEnabledChanged: console.log("Main panels container ENABLED state changed to:", enabled)
 
     anchors.fill: parent
     anchors.margins: BorderConfig.thickness
     anchors.leftMargin: bar.implicitWidth
 
     Component.onCompleted: Visibilities.panels[screen] = this
+
+    LLM.ChatWrapper {
+        id: llmchat
+        visibilities: root.visibilities
+    }
 
     Osd.Wrapper {
         id: osd
@@ -90,4 +99,33 @@ Item {
             return off;
         }
     }
+    // Rectangle {
+    //     width: 10
+    //     height: 10
+    //     color: "red"
+    //     opacity: 0.5
+    
+    //     anchors.top: parent.top
+    //     anchors.right: parent.right
+    
+    //     MouseArea {
+    //         anchors.fill: parent
+    //         hoverEnabled: true
+        
+    //         onEntered: {
+    //             console.log("RED RECTANGLE HOVERED - SHOWING CHAT")
+    //             root.visibilities.llmchat = !root.visibilities.llmchat
+    //         }
+        
+    //         onExited: {
+    //             console.log("RED RECTANGLE EXIT")
+    //         }
+    //     }
+    
+    //     Text {
+    //         anchors.centerIn: parent
+    //         text: "HOVER\nTEST"
+    //         color: "white"
+    //     }
+    // }
 }

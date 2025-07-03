@@ -6,6 +6,6 @@ import Quickshell
 ShellRoot {
     Background {}
     Drawers {}
-
     Shortcuts {}
 }
+
