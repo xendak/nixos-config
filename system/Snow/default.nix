@@ -78,6 +78,15 @@
     group = "users";
     mode = "600";
   };
+  age.secrets.gemini-api-key = {
+    file = ../../secrets/gemini-api-key.age;
+    symlink = false;
+    name = "gemini";
+    owner = "flakes";
+    group = "users";
+    mode = "600";
+  };
+
   age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
   # environment.etc."something".source = "${config.age.secrets.pw.path}";
 
@@ -99,7 +108,13 @@
               cat ${config.age.secrets.pw.path} > "/home/flakes/.ssh/id_ed25519"
               chown flakes:users /home/flakes/.ssh/id_ed25519
               chmod 600 /home/flakes/.ssh/id_ed25519
-              rm /run/agenix/id_ed25519
+              cat ${config.age.secrets.gemini-api-key.path} > "/home/flakes/.ssh/gemini"
+              chown flakes:users /home/flakes/.ssh/gemini
+              chmod 600 /home/flakes/.ssh/gemini
+              rm -f /run/agenix/gemini
+              rm -f /run/agenix/id_ed25519
+              rm -f /run/agenix.d/1/gemini
+              rm -f /run/agenix.d/1/id_ed25519
             '';
           in
           "${script}";
@@ -212,6 +227,7 @@
     useUserPackages = true;
     useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs outputs; };
+    backupFileExtension = "hm-backup";
   };
 
   # system.activationScripts.hyprlandDesktop = let

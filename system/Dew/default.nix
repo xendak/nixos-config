@@ -51,6 +51,15 @@
     ];
   };
 
+  age.secrets.gemini-api-key = {
+    file = ../../secrets/gemini-api-key.age;
+    symlink = false;
+    name = "gemini";
+    owner = "drops";
+    group = "users";
+    mode = "600";
+  };
+
   age.secrets.pw = {
     file = ../../secrets/pw.age;
     symlink = false;
@@ -81,6 +90,13 @@
               cat ${config.age.secrets.pw.path} > "/home/drops/.ssh/id_ed25519"
               chown drops:users /home/drops/.ssh/id_ed25519
               chmod 600 /home/drops/.ssh/id_ed25519
+              cat ${config.age.secrets.gemini-api-key.path} > "/home/drops/.ssh/gemini"
+              chown drops:users /home/drops/.ssh/gemini
+              chmod 600 /home/drops/.ssh/gemini
+              rm -f /run/agenix/gemini
+              rm -f /run/agenix/id_ed25519
+              rm -f /run/agenix.d/1/gemini
+              rm -f /run/agenix.d/1/id_ed25519
             '';
           in
           "${script}";

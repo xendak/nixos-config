@@ -11,5 +11,6 @@
     # ./kvantum
     ./zathura.nix
     ./yt.nix
+    ./llm
   ];
 }

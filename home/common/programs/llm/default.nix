@@ -1,4 +1,5 @@
 {
+  pkgs,
   inputs,
   config,
   ...
@@ -8,11 +9,11 @@
     inputs.agenix.homeManagerModules.default
   ];
 
-  age.secrets."gemini-api-key".file = ../../../../secrets/gemini-api-key.age;
-  # This must match the name of your encrypted file: gemini-api-key.age
-  # It will be decrypted to /run/user/1000/secrets/gemini-api-key on activation
-
-  home.sessionVariables = {
-    GEMINI_API_KEY = "$(<${config.age.secrets."gemini-api-key".path})";
-  };
+  # set -gx GEMINI_API_KEY (cat /run/agenix.d/1/gemini-api-key)
+  programs.fish.loginShellInit = ''
+    if test -f  "$HOME/.ssh/gemini"
+      eval set -gx GEMINI_API_KEY (cat "$HOME/.ssh/gemini")
+      rm "$HOME/.ssh/gemini"
+    end
+  '';
 }

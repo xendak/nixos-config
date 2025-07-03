@@ -449,6 +449,7 @@
       env = bitdepth,10
 
       bindl = Super, R, global, caelestia:launcher
+      bindl = Super, O, global, caelestia:llmchat
       bindin = Super, mouse:272, global, caelestia:launcherInterrupt
       bindin = Super, mouse:273, global, caelestia:launcherInterrupt
       bindin = Super, mouse:274, global, caelestia:launcherInterrupt
