@@ -61,23 +61,24 @@
         # swaylock = "${config.programs.swaylock.package}/bin/swaylock";
         playerctl = "${config.services.playerctld.package}/bin/playerctl";
         c = config.colorscheme.palette;
-        wallpaper =
-          if config.home.username == "drops" then
-            "$HOME/Flake/home/common/wallpapers/1.png"
-          else
-            "$HOME/Flake/home/common/wallpapers/13.jpg";
+        wallpaper = "$HOME/Flake/home/common/wallpapers/13.jpg";
+        # wallpaper =
+        # if config.home.username == "drops" then
+        # "$HOME/Flake/home/common/wallpapers/1.png"
+        # else
+        # "$HOME/Flake/home/common/wallpapers/13.jpg";
       in
       {
         exec-shutdown = [ "all-sync live-to-persist" ];
         exec-once =
           [
+            "fish $HOME/Flake/home/common/programs/quickshell/caelestia/wallpaper.fish -f ${wallpaper}"
             "theme-switcher"
             "mkdir -p $HOME/tmp/Screenshots"
             "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"
             "swayidle -w"
-            "fish $HOME/Flake/home/common/programs/quickshell/caelestia/wallpaper.fish -f ${wallpaper}"
-            "qs -c $HOME/Flake/home/common/programs/quickshell/caelestia"
             "all-sync persist-to-live"
+            "qs -c $HOME/Flake/home/common/programs/quickshell/caelestia"
           ]
           ++ (
             if config.home.username == "flakes" then
