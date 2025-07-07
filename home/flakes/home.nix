@@ -17,7 +17,8 @@
 
     ../common
     ../common/wayland
-    ../common/wayland/hyprland
+    # ../common/wayland/hyprland
+    ../common/wayland/niri
     # ../common/wayland/swayfx
 
     ../common/games
