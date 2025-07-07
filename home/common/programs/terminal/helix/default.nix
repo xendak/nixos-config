@@ -45,7 +45,8 @@ in
     settings = {
       # theme = darkTheme.colorscheme.slug;
       # set default as it was for WSL
-      theme = if config.home.username == "nixos" then "default" else "current";
+      theme =
+        if config.home.username == "nixos" then "${config.themes.default.colorScheme.slug}" else "current";
 
       editor = {
         color-modes = true;

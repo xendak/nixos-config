@@ -5,19 +5,19 @@
   config,
   outputs,
   ...
-}: let
+}:
+let
   inherit (inputs.nix-colors) colorSchemes;
-in {
-  imports =
-    [
-      #inputs.impermanence.nixosModules.home-manager.impermanence
-      inputs.nix-colors.homeManagerModule
-      # ../common/colors
-      # ../common/colors/kanagawa.nix
-      # ../common/colors/grayscale-nier.nix
-      ../common/colors/gorgoroth.nix
-    ]
-    ++ (builtins.attrValues outputs.homeManagerModules);
+in
+{
+  imports = [
+    #inputs.impermanence.nixosModules.home-manager.impermanence
+    inputs.nix-colors.homeManagerModule
+    # ../common/colors
+    # ../common/colors/kanagawa.nix
+    # ../common/colors/grayscale-nier.nix
+    ../common/colors/gorgoroth.nix
+  ] ++ (builtins.attrValues outputs.homeManagerModules);
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
@@ -30,13 +30,19 @@ in {
   nix = {
     package = lib.mkDefault pkgs.nix;
     settings = {
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       warn-dirty = false;
     };
   };
 
   # Something? -------------
-  colorscheme = lib.mkDefault colorSchemes.nord; #material-palenight;
+  colorscheme = lib.mkDefault colorSchemes.nord; # material-palenight;
+  themes.light = import ../common/colors/grayscale-nier.nix;
+  themes.dark = import ../common/colors/luna.nix;
+  themes.default = import ../common/colors/gorgoroth.nix;
 
   home.file.".colorscheme".text = config.colorscheme.slug;
 }
