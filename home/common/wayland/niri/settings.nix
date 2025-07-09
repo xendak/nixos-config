@@ -11,10 +11,13 @@ in
     enable = true;
     package = pkgs.niri;
     settings = {
+      # since this outputs in a sorted order we cant make proper names
       workspaces = {
-        "workspace" = { };
-        "browser" = { };
-        "vesktop" = { };
+        "1" = { };
+        "2" = { };
+        "3" = { };
+        "4" = { };
+        "5" = { };
       };
 
       prefer-no-csd = true;
@@ -24,10 +27,9 @@ in
       };
 
       layout = {
-
         focus-ring = {
           enable = true;
-          width = 3;
+          width = 2;
           active = {
             color = c.base10;
           };
@@ -36,17 +38,31 @@ in
           };
         };
 
-        gaps = 6;
+        shadow = {
+          enable = true;
+          softness = 15;
+          spread = 1;
+          offset = {
+            x = 0;
+            y = 0;
+          };
+          draw-behind-window = false;
+          color = c.base10;
+          inactive-color = c.base11;
+        };
+
+        gaps = 20;
 
         struts = {
-          left = 20;
-          right = 20;
-          top = 20;
-          bottom = 20;
+          left = -5;
+          right = -5;
+          top = -5;
+          bottom = -5;
         };
       };
 
       input = {
+        workspace-auto-back-and-forth = true;
         keyboard.xkb = {
           layout = "us";
           variant = "altgr-intl";
@@ -65,7 +81,10 @@ in
           middle-emulation = true;
           accel-profile = "adaptive";
         };
-        focus-follows-mouse.enable = true;
+        focus-follows-mouse = {
+          enable = true;
+          max-scroll-amount = "0%";
+        };
         warp-mouse-to-focus.enable = false;
       };
 
@@ -74,8 +93,9 @@ in
           mode = {
             width = 2560;
             height = 1440;
-            refresh = 144;
+            refresh = 144.0;
           };
+          variable-refresh-rate = true;
           scale = 1.0;
           position = {
             x = 0;

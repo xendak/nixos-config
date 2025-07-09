@@ -159,7 +159,7 @@
     };
     users.flakes = {
       isNormalUser = true;
-      shell = pkgs.fish;
+      shell = pkgs.nushell;
       extraGroups = [
         "audio"
         "video"

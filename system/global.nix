@@ -152,7 +152,7 @@ in
     # xdgOpenUsePortal = true;
     config = {
       common = {
-        default = [ "hyprland" ];
+        default = [ "gnome" ];
         "org.freedesktop.impl.portal.FileChooser" = [ "termfilechooser" ];
       };
       hyprland = {
@@ -164,6 +164,16 @@ in
         "org.freedesktop.impl.portal.Access" = "gtk";
         "org.freedesktop.impl.portal.Notification" = "gtk";
       };
+      niri = {
+        default = [
+          "gnome"
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "termfilechooser" ];
+        "org.freedesktop.impl.portal.Access" = "gnome";
+        "org.freedesktop.impl.portal.Notification" = "gnome";
+
+      };
 
     };
     wlr.enable = true;
@@ -171,6 +181,7 @@ in
       pkgs.xdg-desktop-portal-hyprland
       pkgs.custom-xdg-desktop-portal-termfilechooser
       pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-gnome
       # pkgs.kdePackages.xdg-desktop-portal-kde
       pkgs.xdg-desktop-portal-wlr
     ];
@@ -192,7 +203,7 @@ in
     ];
     files = [
       # "/etc/adjtime"
-      # "/etc/machine-id"
+      "/etc/machine-id"
       "/etc/ssh/ssh_host_ed25519_key"
       "/etc/ssh/ssh_host_ed25519_key.pub"
       "/etc/ssh/ssa_host_rsa_key"

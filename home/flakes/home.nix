@@ -19,6 +19,7 @@
     ../common/wayland
     # ../common/wayland/hyprland
     ../common/wayland/niri
+    ../common/programs/terminal/nushell.nix
     # ../common/wayland/swayfx
 
     ../common/games
@@ -57,7 +58,7 @@
 
     ".config/xdg-desktop-portal/portals.conf".source = pkgs.writeText "portals.conf" ''
       [preferred]
-      default=hyprland;gtk;kde
+      default=gnome;hyprland;gtk;kde
       org.freedesktop.impl.portal.FileChooser=termfilechooser
     '';
     ".config/fish/completions/ns.fish".source = pkgs.writeText "ns.fish" ''

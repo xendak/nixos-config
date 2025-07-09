@@ -1,3 +1,9 @@
+### generating nixpkgs
+nix search nixpkgs ^ --json | jq -r 'keys[]' | sed 's/legacyPackages\.x86_64-linux\.//' | sort > $HOME/Flake/bin/nixpkgs_list
+
+
+### nushell learning
+
 ### 1. Switch to your `flake_update` branch
 ```bash
 git checkout flake_update
@@ -117,3 +123,9 @@ Code
 
 Replace /mnt/wsl with your desired mount point. 
 
+
+
+
+https://vlaci.github.io/nix.org/posts/niri
+https://github.com/blindFS/modern-dot-files/blob/main/nix/hmModules/nushell.nix
+https://github.com/Misterio77/nix-config/blob/main/home/gabriel/features/cli/nushell.nix

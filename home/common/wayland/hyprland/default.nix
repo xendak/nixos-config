@@ -72,13 +72,14 @@
         exec-shutdown = [ "all-sync live-to-persist" ];
         exec-once =
           [
-            "fish $HOME/Flake/home/common/programs/quickshell/caelestia/wallpaper.fish -f ${wallpaper}"
+            "swww-daemon"
+            "fish $HOME/Flake/home/common/programs/quickshell/hyprland/wallpaper.fish -f ${wallpaper}"
             "theme-switcher"
             "mkdir -p $HOME/tmp/Screenshots"
             "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"
             "swayidle -w"
             "all-sync persist-to-live"
-            "qs -c $HOME/Flake/home/common/programs/quickshell/caelestia"
+            "qs -c $HOME/Flake/home/common/programs/quickshell/hyprland"
           ]
           ++ (
             if config.home.username == "flakes" then
