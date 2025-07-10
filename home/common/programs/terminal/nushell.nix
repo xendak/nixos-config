@@ -12,6 +12,8 @@
     zoxide.enableNushellIntegration = true;
     direnv.enableNushellIntegration = true;
 
+    home.persistence."/persist/home/${config.home.username}".files = [ ".config/nushell/history.txt" ];
+
     nushell = {
       enable = true;
       shellAliases = {
@@ -121,6 +123,14 @@
 
           def "nr" [package: string@nix-pkgs] {
               ^nix run $"nixpkgs#($package)"
+          }
+
+
+          # ai key
+          let secret_path = ($env.HOME | path join '.ssh/gemini')
+          if ($secret_path | path exists) {
+              $env.GEMINI_API_KEY = (open $secret_path | str trim)
+              rm $secret_path
           }
 
 
