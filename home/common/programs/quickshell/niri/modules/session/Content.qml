@@ -22,17 +22,18 @@ Column {
     Keys.onPressed: (event) => {
         switch (event.key) {
             case Qt.Key_L:
-                logout.proc.startDetached();
+                logout.trigger();
                 break;
             case Qt.Key_S:
             case Qt.Key_U:
-                shutdown.proc.startDetached();
+                console.log("shutdown");
+                shutdown.trigger();
                 break;
             case Qt.Key_R:
-                reboot.proc.startDetached();
+                reboot.trigger();
                 break;
             case Qt.Key_H:
-                hibernate.proc.startDetached();
+                hibernate.trigger();
                 break;
         }
     }
@@ -107,6 +108,10 @@ Column {
 
         radius: Appearance.rounding.large
         color: button.activeFocus ? Colours.palette.m3secondaryContainer : Colours.palette.m3surfaceContainer
+
+        function trigger(): void {
+            proc.startDetached()
+        }
 
         Keys.onEnterPressed: proc.startDetached()
         Keys.onReturnPressed: proc.startDetached()
