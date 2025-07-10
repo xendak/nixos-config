@@ -19,6 +19,23 @@ Column {
 
     spacing: Appearance.spacing.large
 
+    Keys.onPressed: (event) => {
+        switch (event.key) {
+            case Qt.Key_L:
+                logout.proc.startDetached();
+                break;
+            case Qt.Key_S:
+            case Qt.Key_U:
+                shutdown.proc.startDetached();
+                break;
+            case Qt.Key_R:
+                reboot.proc.startDetached();
+                break;
+            case Qt.Key_H:
+                hibernate.proc.startDetached();
+                break;
+        }
+    }
     SessionButton {
         id: logout
 

@@ -28,7 +28,7 @@ let
       exit 1
     fi
 
-    # cp ${
+    cp ${
       inputs.zen-browser.packages.${pkgs.system}.default
     }/share/applications/zen.desktop $out/share/applications/zen.desktop
 
@@ -40,6 +40,7 @@ let
         inputs.zen-browser.packages.${pkgs.system}.default
       }/share/applications/zen.desktop $out/share/applications/zen.desktop
       substituteInPlace $out/share/applications/zen.desktop --replace "Exec=zen" "Exec=${zen-wrapped}/bin/zen"
+      substituteInPlace $out/share/applications/zen.desktop --replace "Icon=zen-beta" "Icon=zen"
     elif [ -e "${
       inputs.zen-browser.packages.${pkgs.system}.default
     }/share/applications/zen-beta.desktop" ]; then
@@ -47,6 +48,7 @@ let
         inputs.zen-browser.packages.${pkgs.system}.default
       }/share/applications/zen-beta.desktop $out/share/applications/zen.desktop
       substituteInPlace $out/share/applications/zen.desktop --replace "Exec=zen-beta" "Exec=${zen-wrapped}/bin/zen"
+      substituteInPlace $out/share/applications/zen.desktop --replace "Icon=zen-beta" "Icon=zen"
     else
       echo "Error: Neither zen.desktop nor zen-beta.desktop file found!" >&2
       echo "Contents of ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/:" >&2

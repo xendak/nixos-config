@@ -30,6 +30,9 @@ let
     "qs"
     "-c"
     "/home/${config.home.username}/Flake/home/common/programs/quickshell/niri"
+    "ipc"
+    "call"
+    "shortcuts"
   ];
 in
 {
@@ -73,26 +76,11 @@ in
       "super+f".action = fullscreen-window;
       "super+t".action = toggle-window-floating;
 
-      "super+r".action = spawn qs-command [
-        "ipc"
-        "call"
-        "shortcuts"
-        "toggleLauncher"
-      ];
-
-      "super+o".action = spawn qs-command [
-        "ipc"
-        "call"
-        "shortcuts"
-        "toggleLlmChat"
-      ];
-
-      "Ctrl+Alt+Delete".action = spawn qs-command [
-        "ipc"
-        "call"
-        "shortcuts"
-        "toggleSession"
-      ];
+      "super+r".action = spawn qs-command [ "toggleLauncher" ];
+      "super+o".action = spawn qs-command [ "toggleLlmChat" ];
+      "Ctrl+Alt+c".action = spawn qs-command [ "clearNotifs" ];
+      "Ctrl+Alt+Delete".action = spawn qs-command [ "toggleSession" ];
+      "super+x".action = spawn qs-command [ "toggleSession" ];
 
       "super+d".action = spawn [
         "rofi"
@@ -107,10 +95,6 @@ in
         "name,generic,categories"
         "-theme"
         "${config.xdg.configHome}/rofi/config.rasi"
-      ];
-      "super+x".action = spawn [
-        "rofi"
-        "${config.xdg.configHome}/rofi/powermenu.sh"
       ];
 
       "Print".action = spawn [

@@ -1,7 +1,13 @@
 { config, pkgs, ... }:
 {
-  programs = {
+  home.persistence."/persist/home/${config.home.username}".files = [
+    ".config/nushell/history.txt"
+    ".config/nushell/history.sqlite3"
+    ".config/nushell/history.sqlite3-shm"
+    ".config/nushell/history.sqlite3-wal"
+  ];
 
+  programs = {
     carapace = {
       enable = true;
       enableNushellIntegration = true;
@@ -11,8 +17,6 @@
     yazi.enableNushellIntegration = true;
     zoxide.enableNushellIntegration = true;
     direnv.enableNushellIntegration = true;
-
-    home.persistence."/persist/home/${config.home.username}".files = [ ".config/nushell/history.txt" ];
 
     nushell = {
       enable = true;
@@ -67,7 +71,7 @@
               asdf => $fish_completer
               # use zoxide completions for zoxide commands
               __zoxide_z | __zoxide_zi => $zoxide_completer
-              _ => $carapace_completer
+              _ => $fish_completer
             } | do $in $spans
           } 
 
@@ -130,7 +134,7 @@
           let secret_path = ($env.HOME | path join '.ssh/gemini')
           if ($secret_path | path exists) {
               $env.GEMINI_API_KEY = (open $secret_path | str trim)
-              rm $secret_path
+              # rm $secret_path
           }
 
 
@@ -158,8 +162,9 @@
             completions: {
               quick: true,
               partial: true,
+              sort: smart,
               case_sensitive: false,
-              algorithm: "fuzzy",
+              algorithm: "prefix",
               external: {
                 enable: true,
                 max_results: 100,
@@ -167,7 +172,10 @@
               }
             },
             history: {
+              file_format: sqlite,
+              max_size: 1_000_000,
               sync_on_enter: true,
+              isolation: false,
             },
           }
         '';

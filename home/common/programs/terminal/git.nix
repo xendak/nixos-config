@@ -34,7 +34,7 @@
           command = "git cz";
           context = "files";
           loadingText = "opening commitizen commit tool";
-          subprocess = true;
+          output = "terminal";
         }
         {
           key = "E";
@@ -113,7 +113,7 @@
                   rm -f "$COMMIT_MSG_FILE"'
           '';
           context = "files";
-          subprocess = true;
+          output = "terminal";
         }
       ];
     };
