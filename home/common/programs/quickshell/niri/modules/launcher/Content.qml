@@ -92,8 +92,41 @@ Item {
                 }
             }
 
-            Keys.onUpPressed: list.currentList?.decrementCurrentIndex()
-            Keys.onDownPressed: list.currentList?.incrementCurrentIndex()
+            Keys.onUpPressed: {
+                if (list.showWallpapers) {
+                    list.currentList?.incrementCurrentIndex();
+                } else {
+                    list.currentList?.decrementCurrentIndex();
+                }
+            }
+            Keys.onDownPressed: {
+                if (list.showWallpapers) {
+                    list.currentList?.decrementCurrentIndex();
+                } else {
+                    list.currentList?.incrementCurrentIndex();
+                }
+            }
+            Keys.onLeftPressed: {
+                if (list.showWallpapers) {
+                    list.currentList?.decrementCurrentIndex();
+                }
+            }
+            Keys.onRightPressed: {
+                if (list.showWallpapers) {
+                    list.currentList?.incrementCurrentIndex();
+                }
+            }
+
+            Keys.onPressed: function(event) {
+                switch(event.key) {
+                    case Qt.Key_W:    
+                        if (event.modifiers & Qt.ControlModifier) {
+                            search.text = "";
+                            event.accepted = true;
+                        }
+                    break;
+                }
+            }
 
             Keys.onEscapePressed: root.visibilities.launcher = false
 
@@ -145,8 +178,10 @@ Item {
 
                 onEntered: hovered = true
                 onExited: hovered = false
-                // onClicked: search.text = ""
-                onClicked: inputField.forceActiveFocus()
+                onClicked: {
+                    search.text = "";
+                    search.forceActiveFocus();
+                }
             }
 
             Behavior on width {

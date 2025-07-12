@@ -160,7 +160,7 @@
       name = "DP-1";
       width = 2560;
       height = 1440;
-      refreshRate = 144;
+      refreshRate = 144.006;
       x = 0;
       y = 0;
       workspace = "1";

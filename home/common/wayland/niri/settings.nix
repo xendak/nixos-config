@@ -1,6 +1,28 @@
-{ config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   c = config.colorscheme.palette;
+  generateNiriOutput = monitor: {
+    name = monitor.name;
+    value = {
+      mode = {
+        width = monitor.width;
+        height = monitor.height;
+        refresh = monitor.refreshRate;
+      };
+      position = {
+        x = monitor.x;
+        y = monitor.y;
+      };
+      # You can add other options here
+      scale = 1.0;
+      variable-refresh-rate = true;
+    };
+  };
 in
 {
   home.packages = [
@@ -88,22 +110,7 @@ in
         warp-mouse-to-focus.enable = false;
       };
 
-      outputs = {
-        "DP-1" = {
-          mode = {
-            width = 2560;
-            height = 1440;
-            refresh = 144.006;
-          };
-          variable-refresh-rate = true;
-          scale = 1.0;
-          position = {
-            x = 0;
-            y = 0;
-          };
-        };
-      };
-
+      outputs = lib.listToAttrs (map generateNiriOutput config.monitors);
       cursor = {
         size = config.gtk.cursorTheme.size;
         theme = config.gtk.cursorTheme.name;

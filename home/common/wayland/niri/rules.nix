@@ -19,10 +19,28 @@ in
     window-rules = [
       {
         matches = [
+          { app-id = "pavucontrol"; }
+          { app-id = "f_terminal"; }
+          { app-id = "mpv"; }
+          { app-id = "Winetricks"; }
+          { app-id = "deluge"; }
+          { app-id = "rustdesk"; }
+          { app-id = "steam"; }
+          { app-id = "io.github.waylyrics.Waylyrics"; }
+          { app-id = "org.kde.dolphin"; }
+          { title = ".*Bitwarden.*"; }
+          { title = "Picture-in-Picture"; }
+        ];
+        open-floating = true;
+      }
+      {
+        matches = [
+          { app-id = "firefox"; }
+          { app-id = "zen-browser"; }
           { app-id = "zen-beta"; }
+          { app-id = "chromium"; }
         ];
         open-on-workspace = "2";
-        open-maximized = true;
       }
       {
         matches = [
@@ -31,6 +49,13 @@ in
         ];
         open-on-workspace = "3";
         open-maximized = true;
+      }
+      {
+        matches = [
+          { app-id = "steam"; }
+          { app-id = "lutris"; }
+        ];
+        open-on-workspace = "5";
       }
 
       {

@@ -11,14 +11,7 @@ Item {
     property color colour: Colours.palette.m3primary
     readonly property Item child: child
     
-    property var activeClient: {
-        const activeWs = Niri.activeWsId;
-        const activeWsObj = Niri.workspaces[activeWs];
-        if (activeWsObj && activeWsObj.activeWindowId) {
-            return Niri.clients.find(c => c.address === activeWsObj.activeWindowId.toString());
-        }
-        return Niri.clients.find(c => c.workspaceId === activeWs);
-    }
+    property var activeClient: Niri.clients.find(c => c.is_focused === true);
     
     implicitWidth: child.implicitWidth
     implicitHeight: child.implicitHeight
@@ -76,7 +69,7 @@ Item {
         
         TextMetrics {
             id: metrics
-            text: root.activeClient?.title ?? qsTr("Desktop")
+            text: root.activeClient?.fakeTitle ?? ""
             font.pointSize: Appearance.font.size.smaller
             font.family: Appearance.font.family.mono
             elide: Qt.ElideRight

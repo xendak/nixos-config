@@ -112,20 +112,43 @@ done
 
 set -- "${pos[@]:-}"
 
+# --- MODIFIED SECTION START ---
+
 ACTION=${1:-usage}
 SUBJECT=${2:-screen}
-FILE=${3:-$(getTargetDirectory)/$(date -Ins).png}
-FILE_EDITOR=${3:-$(tmp_editor_directory)/$(date -Ins).png}
+DIR_ARG=${3} # The third argument is now the directory
+
+# Determine the target directory
+if [ -n "$DIR_ARG" ]; then
+  TARGET_DIR="$DIR_ARG"
+else
+  TARGET_DIR=$(getTargetDirectory)
+fi
+
+# Ensure the target directory exists
+mkdir -p "$TARGET_DIR" || die "Could not create directory $TARGET_DIR"
+
+# Generate the timestamp and final file path
+TIMESTAMP=$(date +'%Y-%m-%d-%H-%M-%S')
+FILENAME="${TIMESTAMP}_${SUBJECT}.png"
+FILE="${TARGET_DIR}/${FILENAME}"
+
+# Handle the temporary file for the 'edit' action
+TMP_DIR=$(tmp_editor_directory)
+FILE_EDITOR="${TMP_DIR}/${FILENAME}"
+
+# --- MODIFIED SECTION END ---
 
 if [ "$ACTION" != "save" ] && [ "$ACTION" != "copy" ] && [ "$ACTION" != "edit" ] && [ "$ACTION" != "copysave" ] && [ "$ACTION" != "check" ]; then
+  # --- MODIFIED USAGE MESSAGE ---
   echo "Usage:"
-  echo "  grimblast [--notify] [--openfile] [--cursor] [--freeze] [--wait N] [--scale <scale>] (copy|save|copysave|edit) [active|screen|output|area] [FILE|-]"
+  echo "  grimblast [--notify] [--openfile] [--cursor] [--freeze] [--wait N] [--scale <scale>] (copy|save|copysave|edit) [active|screen|output|area] [DIRECTORY]"
   echo "  grimblast check"
   echo "  grimblast usage"
   echo ""
   echo "Commands:"
   echo "  copy: Copy the screenshot data into the clipboard."
-  echo "  save: Save the screenshot to a regular file or '-' to pipe to STDOUT."
+  echo "  save: Save the screenshot to the specified DIRECTORY (or default)."
   echo "  copysave: Combine the previous 2 options."
   echo "  edit: Open screenshot in the image editor of your choice (default is gimp). See man page for info."
   echo "  check: Verify if required tools are installed and exit."
@@ -237,7 +260,7 @@ if [ "$ACTION" = "check" ]; then
   exit
 elif [ "$SUBJECT" = "active" ]; then
   wait
-  FOCUSED=$(niri msg -j get-windows | jq '.[] | select(.focused)')
+  FOCUSED=$(niri msg --json windows | jq '.[] | select(.is_focused)')
   GEOM=$(echo "$FOCUSED" | jq -r '.box | "\(.x),\(.y) \(.w)x\(.h)"')
   APP_TITLE=$(echo "$FOCUSED" | jq -r '.title')
   WHAT="$APP_TITLE window"
@@ -248,7 +271,7 @@ elif [ "$SUBJECT" = "screen" ]; then
 elif [ "$SUBJECT" = "output" ]; then
   wait
   GEOM=""
-  OUTPUT=$(niri msg -j get-outputs | jq -r '.[] | select(.focused) | .name')
+  OUTPUT=$(niri msg -j outputs | jq -r '.[] | select(.focused) | .name')
   WHAT="$OUTPUT"
 elif [ "$SUBJECT" = "area" ]; then
   if [ "$CURSOR" = "yes" ]; then
@@ -278,7 +301,7 @@ fi
 
 if [ "$ACTION" = "copy" ]; then
   takeScreenshot - "$GEOM" "$OUTPUT" | wl-copy --type image/png || die "Clipboard error"
-  notifyOk "$WHAT copied to buffer"
+  notifyOk "Grimniri" "$WHAT copied to buffer"
 elif [ "$ACTION" = "save" ]; then
   if takeScreenshot "$FILE" "$GEOM" "$OUTPUT"; then
     TITLE="Screenshot of $SUBJECT"
@@ -303,7 +326,7 @@ elif [ "$ACTION" = "edit" ]; then
 else
   if [ "$ACTION" = "copysave" ]; then
     takeScreenshot - "$GEOM" "$OUTPUT" | tee "$FILE" | wl-copy --type image/png || die "Clipboard error"
-    notifyOk "$WHAT copied to buffer and saved to $FILE" -i "$FILE"
+    notifyOk "Grimniri" "$WHAT copied to buffer and saved to $FILE" -i "$FILE"
     echo "$FILE"
   else
     notifyError "Error taking screenshot with grim"

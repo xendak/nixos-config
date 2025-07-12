@@ -1,5 +1,5 @@
 import "root:/widgets"
-import "root:/services" // Ensure Niri.qml is here
+import "root:/services"
 import "root:/utils"
 import "root:/config"
 import Quickshell.Widgets
@@ -9,20 +9,41 @@ import QtQuick
 Item {
     id: root
 
-    // Use Niri instead of Hyprland
-    property var activeClient: {
-        const activeWs = Niri.activeWsId;
-        const activeWsObj = Niri.workspaces[activeWs];
-        if (activeWsObj && activeWsObj.activeWindowId) {
-            const client = Niri.clients.find(c => c.address === activeWsObj.activeWindowId.toString());
-            console.log(JSON.stringify(client));
-            return Niri.clients.find(c => c.address === activeWsObj.activeWindowId.toString());
-        }
-        return Niri.clients.find(c => c.workspaceId === activeWs);
-    }
+    property var activeClient: Niri.clients.find(c => c.is_focused === true);
 
     implicitWidth: activeClient ? child.implicitWidth : -Appearance.padding.large * 2
     implicitHeight: child.implicitHeight
+
+    function helper() {
+        console.log(JSON.stringify(ToplevelManager.toplevels.values));
+    }
+
+    property var activeToplevel: activeClient ? ToplevelManager.toplevels.values.find(function(t) {
+        return t.appId === activeClient.wmClass && t.title === activeClient.title;
+    }) : null
+
+    Component.onCompleted: {
+        console.log("--- Dumping ToplevelManager Data ---");
+        if (ToplevelManager && ToplevelManager.toplevels && ToplevelManager.toplevels.values) {
+            console.log(`Found ${ToplevelManager.toplevels.values.length} toplevels.`);
+            ToplevelManager.toplevels.values.forEach(function(toplevel, index) {
+                try {
+                    // Using JSON.stringify to see all available properties for each toplevel.
+                    if (toplevel.activated) {
+                        console.log(`[${index}]: ${JSON.stringify(toplevel)}`);
+                        console.log("activeClient?: " + JSON.stringify(activeClient));
+                        console.log("active?: " + JSON.stringify(activeToplevel));
+                    }
+                } catch (e) {
+                    // Fallback if stringify fails (e.g., due to circular references).
+                    console.log(`[${index}]: Could not stringify. Available keys: ${Object.keys(toplevel)}`);
+                }
+            });
+        } else {
+            console.log("ToplevelManager or its properties are not available at onCompleted.");
+        }
+        console.log("------------------------------------");
+    }
 
     Column {
         id: child
@@ -39,7 +60,6 @@ Item {
                 id: icon
 
                 implicitSize: details.implicitHeight
-                // Use Niri instead of Hyprland
                 source: Icons.getAppIcon(activeClient?.wmClass ?? "", "image-missing")
             }
 
@@ -47,7 +67,6 @@ Item {
                 id: details
 
                 StyledText {
-                    // Use Niri instead of Hyprland
                     text: activeClient?.title ?? ""
                     font.pointSize: Appearance.font.size.normal
 
@@ -56,7 +75,6 @@ Item {
                 }
 
                 StyledText {
-                    // Use Niri instead of Hyprland
                     text: activeClient?.wmClass ?? ""
                     color: Colours.palette.m3onSurfaceVariant
 
@@ -73,8 +91,7 @@ Item {
             ScreencopyView {
                 id: preview
 
-                captureSource: ToplevelManager.toplevels.values.find(t => t.title === activeClient?.title) ?? null
-                
+                captureSource: activeToplevel ?? null;
                 live: visible
 
                 constraintSize.width: BarConfig.sizes.windowPreviewSize
@@ -83,5 +100,9 @@ Item {
         }
     }
 
-    // Animation component remains the same
+    component Anim: NumberAnimation {
+        duration: Appearance.anim.durations.normal
+        easing.type: Easing.BezierSpline
+        easing.bezierCurve: Appearance.anim.curves.emphasized
+    }
 }

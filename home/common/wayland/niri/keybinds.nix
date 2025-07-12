@@ -23,8 +23,8 @@ let
   # editor = config.home.sessionVariables.EDITOR;
   filebrowser = config.home.sessionVariables.FILEBROWSER;
   termbrowser = config.home.sessionVariables.TERMBROWSER;
-  print = "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d-%M)";
-  tmpprint = "$HOME/tmp/Screenshots/$(date +%Y-%m-%d-%M-%S)";
+  print = "/home/${config.home.username}/Pictures/Screenshots";
+  tmpprint = "/home/${config.home.username}/tmp/Screenshots";
 
   qs-command = [
     "qs"
@@ -81,6 +81,7 @@ in
       "Ctrl+Alt+c".action = spawn qs-command [ "clearNotifs" ];
       "Ctrl+Alt+Delete".action = spawn qs-command [ "toggleSession" ];
       "super+x".action = spawn qs-command [ "toggleSession" ];
+      "super+p".action = spawn qs-command [ "toggleRbw" ];
 
       "super+d".action = spawn [
         "rofi"
@@ -97,33 +98,34 @@ in
         "${config.xdg.configHome}/rofi/config.rasi"
       ];
 
+      "Alt+Shift+bracketleft".action = screenshot-window;
       "Print".action = spawn [
         "${grimblast}"
         "--notify"
         "copysave"
         "output"
-        "${print}_full.png"
+        "${print}"
       ];
       "Shift+Print".action = spawn [
         "${grimblast}"
         "--notify"
         "copysave"
-        "active"
-        "${print}_active.png"
+        "output"
+        "${tmpprint}"
       ];
       "Alt+Shift+s".action = spawn [
         "${grimblast}"
         "--notify"
         "copysave"
         "area"
-        "${print}_snip.png"
+        "${print}"
       ];
       "Alt+Shift+c".action = spawn [
         "${grimblast}"
         "--notify"
         "copysave"
         "area"
-        "${tmpprint}_snip.png"
+        "${tmpprint}"
       ];
 
       "XF86AudioMicMute".action = spawn [

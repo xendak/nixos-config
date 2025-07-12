@@ -4,7 +4,7 @@ set -euo pipefail
 if [ $# -eq 0 ]; then
   echo "Usage: $0 <ai-command> [additional-args...]"
   echo "Example: $0 'gemini -p'"
-  echo "Example: $0 'gemini -m gemini-2.5-pro -p'"
+  echo "Example: $0 'gemini -m gemini-2.5-flash -p'"
   echo "Example: $0 'aichat'"
   echo "Example: $0 'ollama run llama3.2'"
   exit 1
@@ -68,7 +68,7 @@ selected_commit_message=$(
           sub(/[[:space:]]+$/, "");
           printf "%s%c", $0, 0
         }' |
-    /nix/store/59515k9fy7cigbjxkjc5biiipayfsmdy-fzf-0.63.0/bin/fzf --height 20 --border --ansi --read0 --no-sort \
+    fzf --height 20 --border --ansi --read0 --no-sort \
       --with-nth=1 --delimiter='\n' \
       --preview 'echo {}' \
       --preview-window=up:wrap
@@ -83,7 +83,7 @@ COMMIT_MSG_FILE=$(mktemp)
 printf "%s" "$selected_commit_message" >"$COMMIT_MSG_FILE"
 
 CHECKSUM_BEFORE=$(shasum "$COMMIT_MSG_FILE" | awk '{ print $1 }')
-${EDITOR:-/nix/store/yfm6hyghb8pr2vgskz2cls913465n1gs-helix-25.01.1/bin/hx} "$COMMIT_MSG_FILE"
+${EDITOR:-hx} "$COMMIT_MSG_FILE"
 
 CHECKSUM_AFTER=$(shasum "$COMMIT_MSG_FILE" | awk '{ print $1 }')
 
