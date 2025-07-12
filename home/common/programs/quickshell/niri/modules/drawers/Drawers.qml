@@ -31,7 +31,7 @@ Variants {
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
             
             // OnDemand for Hyprland, doesnt seem to work for niri.
-            WlrLayershell.keyboardFocus: visibilities.launcher || visibilities.session || visibilities.llmchat ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+            WlrLayershell.keyboardFocus: visibilities.launcher || visibilities.rbw || visibilities.session || visibilities.llmchat ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
             mask: Region {
                 x: bar.implicitWidth
@@ -61,7 +61,7 @@ Variants {
             }
 
             HyprlandFocusGrab {
-                active: visibilities.launcher || visibilities.session || visibilities.llmchat
+                active: visibilities.launcher || visibilities.rbw || visibilities.session || visibilities.llmchat
                 
                 windows: [win]
                 onCleared: {
@@ -113,6 +113,7 @@ Variants {
                 property bool launcher
                 property bool dashboard
                 property bool llmchat
+                property bool rbw
                 Component.onCompleted: Visibilities.screens[scope.modelData] = this
             }
 

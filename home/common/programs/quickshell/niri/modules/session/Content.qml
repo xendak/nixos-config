@@ -20,6 +20,7 @@ Column {
     spacing: Appearance.spacing.large
 
     Keys.onPressed: (event) => {
+        event.accepted = true;
         switch (event.key) {
             case Qt.Key_L:
                 logout.trigger();

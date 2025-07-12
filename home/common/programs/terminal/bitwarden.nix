@@ -1,16 +1,20 @@
-{config, ...}: {
+{ config, pkgs, ... }:
+{
+  home.packages = [
+    pkgs.pinentry-qt
+  ];
   programs.rbw = {
     enable = true;
-    settings = {
-      email = "rg.grossi@outlook.com";
-    };
   };
-  home = {
-    persistence = {
-      "/persist/home/${config.home.username}" = {
-        directories = [".config/Bitwarden CLI"];
-        allowOther = true;
-      };
+
+  home.persistence = {
+    "/persist/home/${config.home.username}" = {
+      directories = [
+        ".config/rbw"
+        ".local/cache/rbw"
+        ".local/share/rbw"
+      ];
+      allowOther = true;
     };
   };
 }

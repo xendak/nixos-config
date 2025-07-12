@@ -62,12 +62,12 @@ Singleton {
         id: setModeProc
     }
 
-    FileView {
-        path: `${Paths.state}/scheme/current-mode.txt`
-        watchChanges: true
-        onFileChanged: reload()
-        onLoaded: root.light = text() === "light"
-    }
+    // FileView {
+    //     path: `${Paths.state}/scheme/current-mode.txt`
+    //     watchChanges: true
+    //     onFileChanged: reload()
+    //     onLoaded: root.light = text() === "light"
+    // }
 
     FileView {
         path: `${Paths.state}/scheme/current.txt`

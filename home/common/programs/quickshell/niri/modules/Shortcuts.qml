@@ -19,6 +19,15 @@ Scope {
             }
             root.launcherInterrupted = false;
         }
+
+        function toggleRbw(): void {
+            root.launcherInterrupted = false;
+            if (!root.launcherInterrupted) {
+                const visibilities = Visibilities.getForActive();
+                visibilities.rbw = !visibilities.rbw;
+            }
+            root.launcherInterrupted = false;
+        }
         
         function toggleSession(): void {
             const visibilities = Visibilities.getForActive();

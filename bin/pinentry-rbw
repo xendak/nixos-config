@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+ 
+# https://github.com/doy/rbw/issues/65
+# pschmitt 
+
+cd "$(cd "$(dirname "$0")" >/dev/null 2>&1; pwd -P)" || exit 9
+
+# Predefined PIN value
+PIN_FILE="/tmp/rbw.pin"
+
+# DEBUG
+# notify-send "ARGS: $* - PINFILE: $PIN_FILE"
+
+[[ ! -r $PIN_FILE ]] && exec pinentry "$@"
+
+# shellcheck disable=SC2064
+trap "rm -f '$PIN_FILE'" EXIT
+PIN="$(cat "$PIN_FILE")"
+
+# Initial greeting to signal readiness.
+echo "OK pinentry-rbw ready"
+
+# Read commands from standard input.
+while IFS= read -r LINE
+do
+  case "$LINE" in
+    GETPIN*|GETPASSPHRASE*)
+      echo "D $PIN"
+      echo "OK"
+      ;;
+    SETTITLE*|SETPROMPT*|SETDESC*|OPTION*)
+      echo "OK"
+      ;;
+    BYE)
+      echo "OK Bye."
+      break
+      ;;
+    *)
+      echo "OK"
+      ;;
+  esac
+done

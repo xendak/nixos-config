@@ -14,6 +14,7 @@ Singleton {
     property var workspaces: ({})
     property var firstRun: true
     property var testing: workspaces
+    property var lastClients: []
     property var clients: []
     
     // Internal state
@@ -200,7 +201,6 @@ Singleton {
         
         try {
             const parsedData = JSON.parse(data);
-            
             if (Array.isArray(parsedData)) {
                 processClients(parsedData);
                 root._clientsFetched = true;
@@ -269,35 +269,41 @@ Singleton {
         }
         
         const newClients = [];
+
+        console.log("Niri.qml data[0]: ", JSON.stringify(data[0]));
         
         for (const client of data) {
             if (!client) continue;
             
             const workspaceObj = root.workspaces[client.workspace_id] || null;
+            // console.log("Niri.qml: client:", JSON.stringify(client));
             
             // if (client.workspace_id && !workspaceObj) {
             //     console.warn("Client", client.id, "references workspace", client.workspace_id, "but workspace not found");
             // }
-            
             const clientObj = {
                 address: (client.id || "").toString(),
+                title: client.title,
+                fakeTitle: client.title || qsTr("Desktop"),
                 wmClass: client.class || client.app_id || "",
-                title: client.title || "",
-                workspace: workspaceObj,
-                workspaceId: client.workspace_id || 0,
                 pid: client.pid || 0,
-                mapped: client.mapped !== false,
-                monitor: 0,
+                workspaceId: client.workspace_id || 0,
+                is_focused: client.is_focused,
                 floating: client.is_floating || false,
-                fullscreen: client.is_fullscreen || false,
-                fakeFullscreen: false,
-                grouped: [],
-                swallowing: null,
-                focusHistoryId: 0,
-                x: client.x || 0,
-                y: client.y || 0,
-                width: client.width || 0,
-                height: client.height || 0
+                urgent: client.urgent || false,
+                workspace: workspaceObj,
+
+                // mapped: client.mapped !== false,
+                // monitor: 0,
+                // fullscreen: client.is_fullscreen || false,
+                // fakeFullscreen: false,
+                // grouped: [],
+                // swallowing: null,
+                // focusHistoryId: 0,
+                // x: client.x || 0,
+                // y: client.y || 0,
+                // width: client.width || 0,
+                // height: client.height || 0
             };
             
             newClients.push(clientObj);
@@ -358,23 +364,18 @@ Singleton {
                 if (wsId !== root.activeWsId) {
                     // console.log("Niri.qml: Workspace activated:", wsId);
                     root.activeWsId = wsId;
-                }
-            } 
-            else if (event.WorkspacesChanged || event.OverviewOpenedOrClosed) {
-                // console.log("Niri.qml: Workspaces changed, refreshing data...");
-                fetchWorkspaces();
-            } 
-            else if (event.WindowFocusChanged || event.WorkspaceActiveWindowChanged || 
-                     event.WindowOpenedOrChanged || event.WindowClosed) {
-                // console.log("Niri.qml: Window event, refreshing clients...");
-                // Only fetch clients if workspaces are already loaded
-                if (root._workspacesFetched) {
                     fetchClients();
-                    // fetchWorkspaces();
                 }
-                // } else {
-                //     console.log("Niri.qml: Workspaces not yet loaded, skipping client fetch");
-                // }
+            } 
+
+            // || event.OverviewOpenedOrClosed
+            else if (event.WindowOpenedOrChanged || event.WindowClosed) {            
+                // TODO: REFETCH CLIENTS.
+                fetchClients();
+            }
+            else if (event.WindowFocusChanged || event.WorkspaceActiveWindowChanged) {
+                // TODO: SET FOCUSED CLIENT.
+                fetchClients();
             }
 
         } catch (e) {
@@ -429,7 +430,7 @@ Singleton {
                 
             default:
                 niriCommand.push(command);
-                console.log("executing command as is: ", command);
+                // console.log("executing command as is: ", command);
                 break;
         }
         

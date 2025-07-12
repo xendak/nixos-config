@@ -6,6 +6,7 @@ import "root:/modules/session" as Session
 import "root:/modules/launcher" as Launcher
 import "root:/modules/dashboard" as Dashboard
 import "root:/modules/llm" as LLM
+import "root:/modules/rbw" as RBW
 import "root:/modules/bar/popouts" as BarPopouts
 import QtQuick
 import QtQuick.Shapes
@@ -38,8 +39,9 @@ Shape {
 
     LLM.Background {
         wrapper: panels.llmchat
-        startX: root.width - panels.session.width
-        startY: -25
+        invertBottomRounding: wrapper.y + wrapper.height + 1 >= root.height
+        startX: root.width
+        startY: 0
     }
 
     Session.Background {
@@ -51,6 +53,13 @@ Shape {
 
     Launcher.Background {
         wrapper: panels.launcher
+
+        startX: (root.width - wrapper.width) / 2 - rounding
+        startY: root.height
+    }
+
+    RBW.Background {
+        wrapper: panels.rbw
 
         startX: (root.width - wrapper.width) / 2 - rounding
         startY: root.height

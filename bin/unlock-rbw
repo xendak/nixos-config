@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# https://github.com/doy/rbw/issues/65
+# pschmitt 
+# rbw unlocked 2>/dev/null && return 0
+
+# rbw stop-agent
+
+# BW_PASSWORD="$1"
+
+# pinentry_data_file=/tmp/rbw.pin
+# rm -f $pinentry_data_file
+
+# # Regular unlock
+# if [[ -z "$BW_PASSWORD" ]]
+# then
+#   # rbw config unset pinentry # reset
+#   rbw unlock
+#   return "$?"
+# fi
+
+# # https://github.com/doy/rbw/issues/65
+# printf '%s' "$BW_PASSWORD" > "$pinentry_data_file"
+
+# rbw config set pinentry "${HOME}/Flake/bin/pinentry-rbw"
+# rbw unlock
+
+
+if rbw unlocked >/dev/null 2>&1; then
+  return 0
+fi
+
+rbw stop-agent
+
+BW_PASSWORD="$1"
+
+pinentry_data_file=/tmp/rbw.pin
+rm -f "$pinentry_data_file"
+
+if [[ -z "$BW_PASSWORD" ]]
+then
+  rbw unlock
+  return "$?"
+fi
+
+# https://github.com/doy/rbw/issues/65
+printf '%s' "$BW_PASSWORD" > "$pinentry_data_file"
+
+rbw config set pinentry "${HOME}/Flake/bin/pinentry-rbw"
+
+if rbw unlock; then
+  notify-send -i "bitwarden-tray.svg" "Bitwarden" "Vault unlocked"
+else
+  notify-send -i "bitwarden-tray.svg" -u critical "Bitwarden" "Failed to unlock vault"
+fi

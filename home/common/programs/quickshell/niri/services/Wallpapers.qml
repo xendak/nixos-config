@@ -11,6 +11,7 @@ Singleton {
 
     readonly property string currentNamePath: `${Paths.state}/wallpaper/last.txt`.slice(7)
     readonly property string path: Quickshell.env("HOME") + "/Flake/home/common/wallpapers/"
+    readonly property string bin: Quickshell.env("HOME") + "/Flake/home/common/programs/quickshell/niri/wallpaper.fish"
 
     readonly property list<Wallpaper> list: wallpapers.instances
     property bool showPreview: false
@@ -35,12 +36,14 @@ Singleton {
     function setWallpaper(path: string): void {
         actualCurrent = path;
         setWall.path = path;
+        setWall.command = ["fish", bin, "-f", path]
+
         setWall.startDetached();
     }
 
     function preview(path: string): void {
         previewPath = path;
-        showPreview = true;
+        showPreview = false;
         getPreviewColoursProc.running = true;
     }
 
@@ -61,7 +64,7 @@ Singleton {
     Process {
         id: getPreviewColoursProc
 
-        command: ["caelestia", "scheme", "print", root.previewPath]
+        // command: ["caelestia", "scheme", "print", root.previewPath]
         stdout: SplitParser {
             splitMarker: ""
             onRead: data => {
@@ -75,9 +78,6 @@ Singleton {
         id: setWall
 
         property string path
-
-        // command: ["caelestia", "wallpaper", "-f", path]
-        command: ["fish $HOME/Flake/home/common/programs/quickshell/caelestia/wallpaper.fish", "-f", path]
     }
 
     Process {

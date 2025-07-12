@@ -12,6 +12,7 @@ Slider {
     property real oldValue
 
     orientation: Qt.Vertical
+    wheelEnabled: true
 
     background: StyledRect {
         color: Colours.alpha(Colours.palette.m3surfaceContainer, true)
