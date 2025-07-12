@@ -79,6 +79,9 @@ let
       notify-send "Theme Manager" --expire-time=2000 --app-name="Theme Manager" --icon=preferences-desktop-theme "Theme switched to $NEW_FILE"
     ''
   );
+
+  zigPkg = inputs.zig.packages.${pkgs.system}.master;
+  zlsPkg = inputs.zls.packages.${pkgs.system}.default;
 in
 {
   home.packages = with pkgs; [
@@ -111,6 +114,8 @@ in
     bitwise
 
     # DEFAULT LANGUAGES i use mostly?
+    zigPkg
+    zlsPkg
     valgrind
     clang-tools
     llvmPackages_latest.libstdcxxClang
@@ -118,6 +123,7 @@ in
     llvmPackages_latest.lldb
     cppcheck
     gdb
+
     inputs.uwu-colors.packages.${pkgs.system}.default
 
     # language formatters
@@ -134,6 +140,10 @@ in
     nh # Nice wrapper for NixOS and HM
 
     ltex-ls # Spell checking LSP
+  ];
+
+  home.persistence."/persist/home/${config.home.username}".directories = [
+    ".local/cache/nix"
   ];
 
   programs.fzf = {

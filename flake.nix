@@ -1,5 +1,5 @@
 {
-  description = "fk this shit?";
+  description = "eep";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -13,7 +13,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland = {
-      # url = "github:hyprwm/hyprland";
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -50,6 +49,10 @@
     matugen.url = "github:InioX/matugen";
 
     niri.url = "github:sodiboo/niri-flake";
+
+    # kinda liked it a lot :^)
+    zig.url = "github:mitchellh/zig-overlay";
+    zls.url = "github:zigtools/zls";
 
     uwu-colors = {
       url = "github:q60/uwu_colors";

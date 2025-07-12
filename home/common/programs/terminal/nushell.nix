@@ -63,13 +63,9 @@
             }
 
             match $spans.0 {
-              # carapace completions are incorrect for nu
               nu => $fish_completer
-              # fish completes commits and branch names in a nicer way
               git => $fish_completer
-              # carapace doesn't have completions for asdf
               asdf => $fish_completer
-              # use zoxide completions for zoxide commands
               __zoxide_z | __zoxide_zi => $zoxide_completer
               _ => $fish_completer
             } | do $in $spans
@@ -80,6 +76,13 @@
             prepend /home/${config.home.username}/Flake/bin |
             append /usr/bin/env
           )
+
+          def history_search [term: string] {
+              open $nu.history-path | query db $"SELECT * FROM history WHERE command_line LIKE '%($term)%'"
+          }
+          def history_delete [term: string] {
+              open $nu.history-path | query db $"DELETE FROM history WHERE command_line LIKE '%($term)%'"
+          }
 
           def "nsp" [search_terms: string] {
             ^nix search nixpkgs $search_terms --json | from json | items {|key, value|
@@ -109,6 +112,7 @@
           def "nspl" [...search_terms: string] {
           ^nix search nixpkgs ...$search_terms --json | from json | items {|key, value|
                 [
+                  $"($key)"
                   $"($value.pname)",
                   $"($value.description)",
                   "────────────────────────────────────────"
@@ -121,20 +125,18 @@
               open /home/${config.home.username}/Flake/bin/nixpkgs_list | lines
           }
 
-          def "ns" [package: string@nix-pkgs] {
-              ^nix-shell -p $package --run nu
+          def "ns" [...packages: string@nix-pkgs] {
+              ^nix-shell -p ...$packages --run nu
           }
 
           def "nr" [package: string@nix-pkgs] {
               ^nix run $"nixpkgs#($package)"
           }
 
-
           # ai key
           let secret_path = ($env.HOME | path join '.ssh/gemini')
           if ($secret_path | path exists) {
               $env.GEMINI_API_KEY = (open $secret_path | str trim)
-              # rm $secret_path
           }
 
 

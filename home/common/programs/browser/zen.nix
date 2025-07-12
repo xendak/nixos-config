@@ -28,7 +28,7 @@ let
       exit 1
     fi
 
-    cp ${
+    # cp ${
       inputs.zen-browser.packages.${pkgs.system}.default
     }/share/applications/zen.desktop $out/share/applications/zen.desktop
 
