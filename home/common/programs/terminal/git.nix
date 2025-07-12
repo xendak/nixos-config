@@ -52,6 +52,13 @@
         {
           key = "<c-a>";
           description = "Pick AI commit";
+          command = ''sh lazygit-ai-commit "gemini -m gemini-2.5-pro -p"'';
+          context = "files";
+          output = "terminal";
+        }
+        {
+          key = "<c-A>";
+          description = "Pick AI commit";
           command = ''sh lazygit-ai-commit "gemini -m gemini-2.5-flash -p"'';
           context = "files";
           output = "terminal";
