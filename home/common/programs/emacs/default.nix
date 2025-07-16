@@ -4,30 +4,28 @@
   ...
 }:
 let
-  c = config.colorscheme.palette;
-  user = config.home.username;
   mkEmacsTheme =
     { name, colorscheme }:
     pkgs.writeText "${name}-theme.el" ''
       (require 'base16-theme)
 
       (defvar base16-${name}-theme-colors
-        '(:base00 "#${colorscheme.palette.base00}"
-          :base01 "#${colorscheme.palette.base01}"
-          :base02 "#${colorscheme.palette.base02}"
-          :base03 "#${colorscheme.palette.base03}"
-          :base04 "#${colorscheme.palette.base04}"
-          :base05 "#${colorscheme.palette.base05}"
-          :base06 "#${colorscheme.palette.base06}"
-          :base07 "#${colorscheme.palette.base07}"
-          :base08 "#${colorscheme.palette.base08}"
-          :base09 "#${colorscheme.palette.base09}"
-          :base0A "#${colorscheme.palette.base0A}"
-          :base0B "#${colorscheme.palette.base0B}"
-          :base0C "#${colorscheme.palette.base0C}"
-          :base0D "#${colorscheme.palette.base0D}"
-          :base0E "#${colorscheme.palette.base0E}"
-          :base0F "#${colorscheme.palette.base0F}")
+        '(:base00 "${colorscheme.palette.base00}"
+          :base01 "${colorscheme.palette.base01}"
+          :base02 "${colorscheme.palette.base02}"
+          :base03 "${colorscheme.palette.base03}"
+          :base04 "${colorscheme.palette.base04}"
+          :base05 "${colorscheme.palette.base05}"
+          :base06 "${colorscheme.palette.base06}"
+          :base07 "${colorscheme.palette.base07}"
+          :base08 "${colorscheme.palette.base08}"
+          :base09 "${colorscheme.palette.base09}"
+          :base0A "${colorscheme.palette.base0A}"
+          :base0B "${colorscheme.palette.base0B}"
+          :base0C "${colorscheme.palette.base0C}"
+          :base0D "${colorscheme.palette.base0D}"
+          :base0E "${colorscheme.palette.base0E}"
+          :base0F "${colorscheme.palette.base0F}")
         "Colors for base16-${name} theme.")
 
       (deftheme base16-${name})
@@ -59,21 +57,17 @@ in
   #  };
   #};
   # add tihs to services for daemon
-  # services.emacs = {
-  #   enable = true;
-  #   package = pkgs.emacs; # replace with emacs-gtk, or a version provided by the community overlay if desired.
-  # };
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs; # replace with emacs-gtk, or a version provided by the community overlay if desired.
+  };
 
   home.file = {
-    ".config/emacs/themes/default.el".source = defaultTheme;
-    ".config/emacs/themes/light.el".source = lightTheme;
-    ".config/emacs/themes/dark.el".source = darkTheme;
-
-    # Create an initial theme loader file
-    ".config/emacs/themes/current-theme.el".text = ''
-      ;; This file is managed by theme-switcher.
-      (load-theme 'base16-default t)
-    '';
+    ".config/emacs/themes/base16-default-theme.el".source = defaultTheme;
+    ".config/emacs/themes/base16-light-theme.el".source = lightTheme;
+    ".config/emacs/themes/base16-dark-theme.el".source = darkTheme;
+    # easier to make quick/tryout changes
+    ".config/emacs/binds.el".source = ./binds.el;
   };
 
   programs.emacs = {
@@ -108,7 +102,9 @@ in
       (when (file-exists-p theme-file)
         (load-file theme-file)))
 
-      ${builtins.readFile ./binds.el}
+      (let ((bindings-file (expand-file-name "binds.el" user-emacs-directory)))
+      (when (file-exists-p bindings-file)
+        (load-file bindings-file)))
 
       (tab-bar-mode -1)
       (menu-bar-mode -1)

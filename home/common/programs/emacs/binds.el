@@ -31,7 +31,7 @@
       (<AD12> "]" "}")
       (<BKSL> "\\" "|")
       ;; Home row
-      (<AC01> "b" "B")   ; s -> b (This is your Caps Lock position)
+      (<AC01> "b" "B")   ; s -> b
       (<AC02> "s" "S")   ; r -> s
       (<AC03> "h" "H")   ; n -> h
       (<AC04> "t" "T")   ; t -> t
@@ -56,13 +56,11 @@
       (<LSGT> "-" "_")))
 
   (defun meow-setup ()
-    ;; --- Use the new RAIN cheatsheet ---
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-rain)
     (meow-motion-overwrite-define-key
      '("<escape>" . ignore))
     (meow-leader-define-key
      '("?" . meow-cheatsheet)
-     ;; The leader key for "H-e" (original e) is now "a"
      '("a" . "H-e")
      '("1" . meow-digit-argument)
      '("2" . meow-digit-argument)
@@ -74,7 +72,6 @@
      '("8" . meow-digit-argument)
      '("9" . meow-digit-argument)
      '("0" . meow-digit-argument))
-    ;; --- All keys remapped from Semimak-JQ to RAIN physical positions ---
     (meow-normal-define-key
      '("0" . meow-expand-0)
      '("1" . meow-expand-1)
