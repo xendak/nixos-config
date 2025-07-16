@@ -23,7 +23,7 @@
   # programs.fish.enable = true;
   programs.dconf.enable = true;
   environment.pathsToLink = [ "/share/fish" ];
-  environment.shells = [ pkgs.fish ];
+  environment.shells = [ pkgs.nushell ];
 
   environment.enableAllTerminfo = true;
 
@@ -69,6 +69,7 @@
 
   wsl = {
     enable = true;
+    nativeSystemd = true;
     wslConf.automount.root = "/mnt";
     wslConf.interop.appendWindowsPath = false;
     wslConf.network.generateHosts = false;
