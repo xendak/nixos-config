@@ -12,6 +12,8 @@ let
       # QUICKSHELL_THEME_DIR="$HOME/Flake/home/common/programs/quickshell/themes"
       QUICKSHELL_CURRENT_THEME_DIR="$HOME/.local/state/caelestia/scheme"
       THEME_DIR="$HOME/.config/themes"
+      EMACS_THEME_DIR="$HOME/.config/emacs/themes"
+      EMACS_CURRENT_THEME_FILE="$EMACS_THEME_DIR/current-theme.el"
 
       case $1 in
         "dark")
@@ -64,6 +66,7 @@ let
       cat "$THEME_DIR/gtk-$NEW_FILE.css" > "$HOME/.config/gtk-3.0/gtk.css" 
       cat "$THEME_DIR/gtk-$NEW_FILE.css" > "$HOME/.config/gtk-3.0/gtk-dark.css" 
 
+      echo "(load-theme 'base16-$NEW_FILE t)" > "$EMACS_CURRENT_THEME_FILE"
 
       cat "$HELIX_THEME_DIR/$NEW_FILE.toml" >"$HELIX_THEME_DIR/current.toml"
       sed -i "s/##/#/g" "$HELIX_THEME_DIR/current.toml"
@@ -76,6 +79,7 @@ let
 
       echo $(date +"%d/%m/%y | %H:%M >") "Theme switched to $NEW_FILE." >> /tmp/theme-switcher
       pkill -USR1 hx
+      emacsclient -e "(load-file \"$EMACS_CURRENT_THEME_FILE\")" &> /dev/null || true
       notify-send "Theme Manager" --expire-time=2000 --app-name="Theme Manager" --icon=preferences-desktop-theme "Theme switched to $NEW_FILE"
     ''
   );

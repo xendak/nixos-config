@@ -2,10 +2,56 @@
   config,
   pkgs,
   ...
-}: let
+}:
+let
   c = config.colorscheme.palette;
   user = config.home.username;
-in {
+  mkEmacsTheme =
+    { name, colorscheme }:
+    pkgs.writeText "${name}-theme.el" ''
+      (require 'base16-theme)
+
+      (defvar base16-${name}-theme-colors
+        '(:base00 "#${colorscheme.palette.base00}"
+          :base01 "#${colorscheme.palette.base01}"
+          :base02 "#${colorscheme.palette.base02}"
+          :base03 "#${colorscheme.palette.base03}"
+          :base04 "#${colorscheme.palette.base04}"
+          :base05 "#${colorscheme.palette.base05}"
+          :base06 "#${colorscheme.palette.base06}"
+          :base07 "#${colorscheme.palette.base07}"
+          :base08 "#${colorscheme.palette.base08}"
+          :base09 "#${colorscheme.palette.base09}"
+          :base0A "#${colorscheme.palette.base0A}"
+          :base0B "#${colorscheme.palette.base0B}"
+          :base0C "#${colorscheme.palette.base0C}"
+          :base0D "#${colorscheme.palette.base0D}"
+          :base0E "#${colorscheme.palette.base0E}"
+          :base0F "#${colorscheme.palette.base0F}")
+        "Colors for base16-${name} theme.")
+
+      (deftheme base16-${name})
+      (base16-theme-define 'base16-${name} base16-${name}-theme-colors)
+      (provide-theme 'base16-${name})
+    '';
+
+  # Assume your themes are defined like this in your config
+  # config.themes.default.colorScheme, config.themes.light.colorScheme, etc.
+  defaultTheme = mkEmacsTheme {
+    name = "default";
+    colorscheme = config.themes.default.colorScheme;
+  };
+  lightTheme = mkEmacsTheme {
+    name = "light";
+    colorscheme = config.themes.light.colorScheme;
+  };
+  darkTheme = mkEmacsTheme {
+    name = "dark";
+    colorscheme = config.themes.dark.colorScheme;
+  };
+
+in
+{
   #home.persistence = {
   #  "/persist/home/${config.home.username}" = {
   #    directories = [".local/cache/emacs"];
@@ -18,12 +64,24 @@ in {
   #   package = pkgs.emacs; # replace with emacs-gtk, or a version provided by the community overlay if desired.
   # };
 
+  home.file = {
+    ".config/emacs/themes/default.el".source = defaultTheme;
+    ".config/emacs/themes/light.el".source = lightTheme;
+    ".config/emacs/themes/dark.el".source = darkTheme;
+
+    # Create an initial theme loader file
+    ".config/emacs/themes/current-theme.el".text = ''
+      ;; This file is managed by theme-switcher.
+      (load-theme 'base16-default t)
+    '';
+  };
+
   programs.emacs = {
     enable = true;
     package = pkgs.emacs;
-      # if user == "flakes"
-      # then pkgs.emacs-pgtk
-      # else pkgs.emacs;
+    # if user == "flakes"
+    # then pkgs.emacs-pgtk
+    # else pkgs.emacs;
     extraPackages = epkgs: [
       epkgs.magit
       epkgs.lsp-mode
@@ -32,60 +90,25 @@ in {
       epkgs.python-mode
       epkgs.editorconfig
       epkgs.eglot
+      epkgs.meow
       epkgs.devdocs
       epkgs.use-package
       epkgs.fzf
       epkgs.rg
       epkgs.rainbow-delimiters
-      (epkgs.trivialBuild {
-        pname = "base16-stylix-theme";
-        version = "0.1.0";
-        src = pkgs.writeText "base16-stylix-theme.el" ''
-          (require 'base16-theme)
-
-          (defvar base16-stylix-theme-colors
-            '(:base00 "#${c.base00}"
-              :base01 "#${c.base01}"
-              :base02 "#${c.base02}"
-              :base03 "#${c.base03}"
-              :base04 "#${c.base04}"
-              :base05 "#${c.base05}"
-              :base06 "#${c.base06}"
-              :base07 "#${c.base07}"
-              :base08 "#${c.base08}"
-              :base09 "#${c.base09}"
-              :base0A "#${c.base0A}"
-              :base0B "#${c.base0B}"
-              :base0C "#${c.base0C}"
-              :base0D "#${c.base0D}"
-              :base0E "#${c.base0E}"
-              :base0F "#${c.base0F}")
-            "All colors for Base16 stylix are defined here.")
-
-          ;; Define the theme
-          (deftheme base16-stylix)
-
-          ;; Add all the faces to the theme
-          (base16-theme-define 'base16-stylix base16-stylix-theme-colors)
-
-          ;; Mark the theme as provided
-          (provide-theme 'base16-stylix)
-
-          ;; Add path to theme to theme-path
-          (add-to-list 'custom-theme-load-path
-              (file-name-directory
-                  (file-truename load-file-name)))
-
-          (provide 'base16-stylix-theme)
-        '';
-        packageRequires = [epkgs.base16-theme];
-      })
+      epkgs.base16-theme
     ];
     extraConfig = ''
       (require 'package)
       (require 'fzf)
-      (require 'base16-stylix-theme)
-      (load-theme 'base16-stylix t)
+      (add-to-list 'custom-theme-load-path (expand-file-name "themes/" user-emacs-directory))
+
+      ;; Load the current theme specified by the theme-switcher script
+      (let ((theme-file (expand-file-name "themes/current-theme.el" user-emacs-directory)))
+      (when (file-exists-p theme-file)
+        (load-file theme-file)))
+
+      ${builtins.readFile ./binds.el}
 
       (tab-bar-mode -1)
       (menu-bar-mode -1)
