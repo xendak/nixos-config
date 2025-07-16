@@ -3,6 +3,15 @@ nix search nixpkgs ^ --json | jq -r 'keys[]' | sed 's/legacyPackages\.x86_64-lin
 
 
 ### nushell learning
+ reference:
+[nushell](https://www.nushell.sh/book/coming_from_bash.html)
+
+# finding files
+ls **/*.nix | where name =~ "browser"
+
+# operation on each file
+ls **/*.nix | each { $in.name }
+
 
 ### 1. Switch to your `flake_update` branch
 ```bash

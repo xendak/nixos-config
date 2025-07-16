@@ -11,3 +11,12 @@ in
   "pw.age".publicKeys = systems;
   "gemini-api-key.age".publicKeys = systems;
 }
+
+# ssh-keyscan localhost
+# add the new system key
+# agenix --rekey
+# commit
+
+# add a line for the new secret file
+# agenix -e new-secret.age
+# save the file

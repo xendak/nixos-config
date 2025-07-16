@@ -27,7 +27,7 @@ Column {
                 break;
             case Qt.Key_S:
             case Qt.Key_U:
-                console.log("shutdown");
+            case Qt.Key_D:
                 shutdown.trigger();
                 break;
             case Qt.Key_R:
