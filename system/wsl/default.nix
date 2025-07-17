@@ -43,7 +43,7 @@
 
   users.users.nixos = {
     isNormalUser = true;
-    shell = pkgs.fish;
+    shell = pkgs.nushell;
     extraGroups = [
       "wheel"
       "docker"
@@ -69,7 +69,6 @@
 
   wsl = {
     enable = true;
-    nativeSystemd = true;
     wslConf.automount.root = "/mnt";
     wslConf.interop.appendWindowsPath = false;
     wslConf.network.generateHosts = false;
