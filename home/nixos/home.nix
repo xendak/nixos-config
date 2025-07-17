@@ -18,7 +18,9 @@
     ../common/gtk.nix
     ../common/programs/terminal/git.nix
     ../common/programs/terminal/fish.nix
+
     ../common/programs/terminal/nushell.nix
+
     ../common/programs/terminal/starship.nix
     ../common/programs/terminal/utils.nix
     ../common/programs/zathura.nix
@@ -92,22 +94,4 @@
     };
   };
 
-  monitors = [
-    {
-      name = "DP-1";
-      width = 2560;
-      height = 1440;
-      refreshRate = 144;
-      x = 0;
-      y = 0;
-      workspace = "1";
-      bind = [
-        1
-        2
-        3
-        4
-        5
-      ];
-    }
-  ];
 }
