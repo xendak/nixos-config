@@ -77,6 +77,16 @@
             append /usr/bin/env
           )
 
+          def et [...args: string] {
+            emacsclient -t ...$args 
+          }
+          def ecr [...args: string] {
+            emacsclient -c -r ...$args
+          }
+          def ecs [...args: string] {
+            emacsclient -c -a emacs ...$args
+          }
+
           def history_search [term: string] {
               open $nu.history-path | query db $"SELECT * FROM history WHERE command_line LIKE '%($term)%'"
           }
@@ -84,13 +94,13 @@
               open $nu.history-path | query db $"DELETE FROM history WHERE command_line LIKE '%($term)%'"
           }
 
-          def "nsp" [search_terms: string] {
-            ^nix search nixpkgs $search_terms --json | from json | items {|key, value|
+          def "nsp" [search_term: string] {
+            ^nix search nixpkgs $search_term --json | from json | items {|key, value|
                 {
                   name: $value.pname,
                   description: $value.description
                 }
-            } | where ($it.name | str downcase) =~ ($search_terms | str downcase)
+            } | where ($it.name | str downcase) =~ ($search_term | str downcase)
             | enumerate
             | each {|item|
               if ($item.index mod 2) == 0 {
