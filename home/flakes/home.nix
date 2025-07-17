@@ -7,7 +7,7 @@
 }:
 {
   imports = [
-    inputs.nix-index-db.hmModules.nix-index
+    inputs.nix-index-db.homeModules.nix-index
 
     ./setup.nix
     ../common/programs/vesktop

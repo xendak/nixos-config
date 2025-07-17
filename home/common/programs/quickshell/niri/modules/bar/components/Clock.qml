@@ -17,7 +17,9 @@ Column {
     StyledText {
         anchors.horizontalCenter: parent.horizontalCenter
         horizontalAlignment: StyledText.AlignHCenter
-        text: Time.format("dd\nMM")
+        property var japaneseWeekdays: ["日", "月", "火", "水", "木", "金", "土"]
+        // text: Time.format("dd")
+        text: japaneseWeekdays[(new Date()).getDay()] + "\n" + Time.format("dd")
         font.pointSize: Appearance.font.size.smaller
         font.family: Appearance.font.family.mono
         color: root.colour

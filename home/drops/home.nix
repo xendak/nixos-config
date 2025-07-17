@@ -7,13 +7,15 @@
 }:
 {
   imports = [
-    inputs.nix-index-db.hmModules.nix-index
+    inputs.nix-index-db.homeModules.nix-index
 
     ./setup.nix
 
     ../common
     ../common/wayland
-    ../common/wayland/hyprland
+    # ../common/wayland/hyprland
+    ../common/wayland/niri
+    ../common/programs/terminal/nushell.nix
 
     ../common/programs/vesktop
 
@@ -22,8 +24,6 @@
     # ../common/wayland/hyprland/plugins/hyprexpo.nix
 
     ../common/programs/terminal/wezterm.nix
-    # trying out
-    ../common/programs/terminal/foot.nix
 
     ../common/programs/quickshell
 
