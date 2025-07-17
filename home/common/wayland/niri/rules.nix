@@ -19,6 +19,33 @@ in
     window-rules = [
       {
         matches = [
+          { app-id = "io.github.waylyrics.Waylyrics"; }
+        ];
+        open-floating = true;
+        open-focused = false;
+        default-column-width = {
+          proportion = 1.0;
+        };
+        min-height = 30;
+        max-height = 100;
+        default-float-position = {
+          x = 0;
+          y = 0;
+          relative-to = "top";
+        };
+        block-out-from = "screen-capture";
+        shadow = {
+          off = true;
+        };
+        focus-ring = {
+          off = true;
+        };
+        border = {
+          off = true;
+        };
+      }
+      {
+        matches = [
           { app-id = "pavucontrol"; }
           { app-id = "f_terminal"; }
           { app-id = "mpv"; }
@@ -26,7 +53,6 @@ in
           { app-id = "deluge"; }
           { app-id = "rustdesk"; }
           { app-id = "steam"; }
-          { app-id = "io.github.waylyrics.Waylyrics"; }
           { app-id = "org.kde.dolphin"; }
           { title = ".*Bitwarden.*"; }
           { title = "Picture-in-Picture"; }

@@ -13,6 +13,17 @@ ls **/*.nix | where name =~ "browser"
 ls **/*.nix | each { $in.name }
 
 
+## flake update
+- do changes on branch flake_update
+- git push
+- select flake_update (lazygit)
+- rebase onto main
+- select main
+- hover flake_update
+- Merge.
+
+
+
 ### 1. Switch to your `flake_update` branch
 ```bash
 git checkout flake_update
