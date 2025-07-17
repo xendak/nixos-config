@@ -11,26 +11,15 @@
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
-    # yuzu-ea = prev.yuzu-early-access.overrideAttrs (oldAttrs: {
-    #   patches = (oldAttrs.patches or [ ]) ++ [ ./yuzu-no-error.patch ];
-    # });
-    #   patches = (oldAttrs.patches or [ ]) ++ [ ./nautilus-typeahead.patch ];
-    # });
+
     xdg-utils-spawn-terminal = prev.xdg-utils.overrideAttrs (oldAttrs: {
       patches = (oldAttrs.patches or [ ]) ++ [ ./xdg-open-spawn-terminal.diff ];
     });
 
-    material-symbols = prev.material-symbols.overrideAttrs (oldAttrs: {
-      version = "4.0.0-unstable-2025-04-11";
+    avrdude = prev.avrdude.override {
+      docSupport = false;
+    };
 
-      src = final.fetchFromGitHub {
-        owner = "google";
-        repo = "material-design-icons";
-        rev = "941fa95d7f6084a599a54ca71bc565f48e7c6d9e";
-        hash = "sha256-5bcEh7Oetd2JmFEPCcoweDrLGQTpcuaCU8hCjz8ls3M=";
-        sparseCheckout = [ "variablefont" ];
-      };
-    });
   };
 
   stable = final: _: {
