@@ -28,20 +28,21 @@ in
         };
         min-height = 30;
         max-height = 100;
-        default-float-position = {
+
+        default-floating-position = {
           x = 0;
           y = 0;
           relative-to = "top";
         };
         block-out-from = "screen-capture";
         shadow = {
-          off = true;
+          enable = false;
         };
         focus-ring = {
-          off = true;
+          enable = false;
         };
         border = {
-          off = true;
+          enable = false;
         };
       }
       {

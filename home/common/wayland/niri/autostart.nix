@@ -3,9 +3,8 @@ let
   home = config.home.username;
   qs_path = "/home/${home}/Flake/home/common/programs/quickshell/niri";
   wallpaper = "/home/${home}/Flake/home/common/wallpapers/13.jpg";
-in
-{
-  programs.niri.settings.spawn-at-startup = [
+
+  baseCommands = [
     {
       command = [
         "systemctl"
@@ -39,8 +38,9 @@ in
         "${wallpaper}"
       ];
     }
+  ];
 
-    # DESKTOP-ONLY
+  desktopCommands = [
     {
       command = [
         "sh"
@@ -65,4 +65,8 @@ in
       ];
     }
   ];
+in
+{
+  programs.niri.settings.spawn-at-startup =
+    baseCommands ++ (if home == "flakes" then desktopCommands else [ ]);
 }

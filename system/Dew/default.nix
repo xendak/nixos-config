@@ -16,6 +16,7 @@
     ../extras/kanata.nix
 
     ../extras/sync-browser.nix
+    ../extras/greetd.nix
 
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
