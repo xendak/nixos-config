@@ -1,4 +1,12 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  wally = lib.getExe pkgs.wally-cli;
+in
 {
   home.persistence."/persist/home/${config.home.username}".files = [
     ".config/nushell/history.txt"
@@ -21,7 +29,7 @@
     nushell = {
       enable = true;
       shellAliases = {
-        ll = "ls";
+        ll = "ls -a";
         lg = "lazygit";
         y = "${pkgs.yazi}/bin/yazi";
         fz = "fzf --bind 'enter:become(hx {})'";
@@ -76,6 +84,105 @@
             prepend /home/${config.home.username}/Flake/bin |
             append /usr/bin/env
           )
+
+          def qb [...args] {
+            if ($args | length) < 1 or $args.0 == "help" {
+              print "Valid Options:
+                m or moonlander -> cd to kb/moonlander/km/xendak 
+                ap or annepro   -> cd to kb/annepro2/km/xendak
+                c or compile    -> specify keyboard to compile
+                f or flash      -> specify keyboard to flash
+                cf or fc        -> specify keyboard to compile and flash"
+            } else {
+              match $args.0 {
+                "m" | "moonlander" => {
+                  $env.PWD = ($env.HOME | path join "Programming" "qmk_userspace" "keyboards" "zsa" "moonlander" "keymaps" "xendak")
+                }
+                "ap" | "annepro" => {
+                  $env.PWD = ($env.HOME | path join "Programming" "qmk_userspace" "keyboards" "annepro2" "keymaps" "xendak")
+                }
+                "compile" | "c" => {
+                  if ($args | length) < 2 {
+                    print "Valid Options:
+                      m or moonlander -> compiles kb/moonlander/km/xendak 
+                      ap or annepro   -> compiles kb/annepro2/km/xendak"
+                  } else {
+                    match $args.1 {
+                      "m" | "moonlander" => {
+                        qmk compile -kb moonlander -km xendak
+                      }
+                      "ap" | "annepro" => {
+                        qmk compile -kb annepro2 -km xendak
+                      }
+                      _ => {
+                        print "Valid Options:
+                          m or moonlander -> compiles kb/moonlander/km/xendak 
+                          ap or annepro   -> compiles kb/annepro2/km/xendak"
+                      }
+                    }
+                  }
+                }
+                "flash" | "f" => {
+                  if ($args | length) < 2 {
+                    print "Valid Options:
+                      m or moonlander -> flashes kb/moonlander/km/xendak 
+                      ap or annepro   -> flashes kb/annepro2/km/xendak"
+                  } else {
+                    match $args.1 {
+                      "m" | "moonlander" => {
+                        sudo ${wally} ($env.HOME | path join "Programming" "qmk_userspace" "zsa_moonlander_xendak.bin")
+                      }
+                      "ap" | "annepro" => {
+                        print "gotta remember to specify this later"
+                      }
+                      _ => {
+                        print "Valid Options:
+                          m or moonlander -> flashes kb/moonlander/km/xendak 
+                          ap or annepro   -> flashes kb/annepro2/km/xendak"
+                      }
+                    }
+                  }
+                }
+                "cf" | "fc" => {
+                  if ($args | length) < 2 {
+                    print "Valid Options:
+                      m or moonlander -> compiles and flashes kb/moonlander/km/xendak 
+                      ap or annepro   -> compiles and flashes kb/annepro2/km/xendak"
+                  } else {
+                    match $args.1 {
+                      "m" | "moonlander" => {
+                        qmk compile -kb moonlander -km xendak
+                        if $env.LAST_EXIT_CODE == 0 {
+                          sudo ${wally} ($env.HOME | path join "Programming" "qmk_userspace" "zsa_moonlander_xendak.bin")
+                        }
+                      }
+                      "ap" | "annepro" => {
+                        print "gotta remember to specify this later"
+                      }
+                      _ => {
+                        print "Valid Options:
+                          m or moonlander -> compiles and flashes kb/moonlander/km/xendak 
+                          ap or annepro   -> compiles and flashes kb/annepro2/km/xendak"
+                      }
+                    }
+                  }
+                }
+                _ => {
+                  print "Unknown option. Use 'qb help' for usage information."
+                }
+              }
+            }
+          }
+
+          def upb [...args: string] {
+            cd ($env.HOME | path join "Flake")
+            sudo nixos-rebuild boot --flake .''\#${config.home.username} --show-trace ...$args
+          }
+
+          def upd [...args: string] {
+            cd ($env.HOME | path join "Flake")
+            sudo nixos-rebuild switch --flake .''\#($env.USER) --show-trace ...$args
+          }
 
           def et [...args: string] {
             emacsclient -t ...$args 

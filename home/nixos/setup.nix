@@ -11,7 +11,7 @@ let
 in
 {
   imports = [
-    #inputs.impermanence.nixosModules.home-manager.impermanence
+    inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.nix-colors.homeManagerModule
     # ../common/colors
     # ../common/colors/kanagawa.nix

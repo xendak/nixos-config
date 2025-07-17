@@ -146,7 +146,7 @@ in
     ltex-ls # Spell checking LSP
   ];
 
-  home.persistence."/persist/home/${config.home.username}".directories = [
+  home.persistence."/persist/home/${config.home.username}/".directories = [
     ".local/cache/nix"
   ];
 
