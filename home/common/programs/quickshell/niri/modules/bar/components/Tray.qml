@@ -11,10 +11,10 @@ Item {
     implicitWidth: layout.implicitWidth
     implicitHeight: layout.implicitHeight
 
-    // This list contains the IDs of the tray items you want to display.
-    property var allowedIds: [
-        "Fcitx",
-        "vesktop"
+    property var blockedIds: [
+        "udiskie",
+        "nm-applet",
+        "blueman"
     ]
 
     property var getVisibleItems: function() {
@@ -32,7 +32,6 @@ Item {
         id: layout
         spacing: Appearance.spacing.small
 
-        // Your transition for new items.
         add: Transition {
             NumberAnimation {
                 properties: "scale"
@@ -49,27 +48,12 @@ Item {
             model: SystemTray.items
 
             delegate: TrayItem {
-                // This correctly hides items that aren't in the list
-                visible: allowedIds.includes(modelData.id)
+                // visible: allowedIds.includes(modelData.id)
+                visible: !blockedIds.includes(modelData.id)
             }
         }
-
-
-        // Repeater {
-        //     id: items
-        //     // Set the model directly to the system tray items.
-        //     model: SystemTray.items
-
-        //     // The delegate is the template for each item in the model.
-        //     delegate: TrayItem {
-        //         // Control the visibility of each item within the delegate.
-        //         // 'modelData' is the item from the model for this specific instance.
-        //         visible: allowedIds.includes(modelData.id)
-        //     }
-        // }
     }
 
-    // Your animation behaviors remain the same.
     Behavior on implicitWidth {
         NumberAnimation {
             duration: Appearance.anim.durations.normal

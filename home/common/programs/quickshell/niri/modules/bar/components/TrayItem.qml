@@ -23,8 +23,10 @@ Item {
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             
             onClicked: event => {
-                if (event.button === Qt.LeftButton)
+                if (event.button === Qt.LeftButton) {
+                    console.log("TrayItem: " + root.modelData.id);
                     root.modelData.activate();
+                }
                 else if (root.modelData.hasMenu)
                     menu.open();
             }
