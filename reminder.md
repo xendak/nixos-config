@@ -1,17 +1,29 @@
-### generating nixpkgs
-nix search nixpkgs ^ --json | jq -r 'keys[]' | sed 's/legacyPackages\.x86_64-linux\.//' | sort > $HOME/Flake/bin/nixpkgs_list
-
-
-### nushell learning
+## nushell learning
  reference:
 [nushell](https://www.nushell.sh/book/coming_from_bash.html)
 
-# finding files
+### generating nixpkgs
+nix search nixpkgs ^ --json | jq -r 'keys[]' | sed 's/legacyPackages\.x86_64-linux\.//' | sort > $HOME/Flake/bin/nixpkgs_list
+
+### search offline
+nix search --offline nixpkgs
+
+### finding files
+```nushell
 ls **/*.nix | where name =~ "browser"
-
-# operation on each file
+```
+### operation on each file
+```nushell
 ls **/*.nix | each { $in.name }
-
+```
+### more than one option on where
+```nushell
+where { |p| ($p =~ "scoop|cmd" ) }
+```
+### captures stdout/stderr completely
+```nushell
+^/mnt/c/Windows/System32/cmd.exe /c "echo %PATH%" o+e>| lines | split row ";"
+```
 
 ## flake update
 - do changes on branch flake_update

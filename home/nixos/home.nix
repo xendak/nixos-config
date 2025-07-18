@@ -19,7 +19,7 @@
     ../common/programs/terminal/git.nix
     ../common/programs/terminal/fish.nix
 
-    ../common/programs/terminal/nushell.nix
+    ../common/programs/terminal/nushell
 
     ../common/programs/terminal/starship.nix
     ../common/programs/terminal/utils.nix

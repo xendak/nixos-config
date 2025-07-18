@@ -15,7 +15,7 @@
     ../common/wayland
     # ../common/wayland/hyprland
     ../common/wayland/niri
-    ../common/programs/terminal/nushell.nix
+    ../common/programs/terminal/nushell
 
     ../common/programs/vesktop
 
