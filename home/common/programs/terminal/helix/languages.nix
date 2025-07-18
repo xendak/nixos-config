@@ -7,8 +7,8 @@
 }:
 let
   indent = {
-    tab-width = 4;
-    unit = "    ";
+    tab-width = 2;
+    unit = "  ";
   };
 in
 {
