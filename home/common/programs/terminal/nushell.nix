@@ -85,7 +85,7 @@ in
             append /usr/bin/env
           )
 
-          def qb [...args] {
+          def --env qb [...args: string] {
             if ($args | length) < 1 or $args.0 == "help" {
               print "Valid Options:
                 m or moonlander -> cd to kb/moonlander/km/xendak 
@@ -96,10 +96,10 @@ in
             } else {
               match $args.0 {
                 "m" | "moonlander" => {
-                  $env.PWD = ($env.HOME | path join "Programming" "qmk_userspace" "keyboards" "zsa" "moonlander" "keymaps" "xendak")
+                  cd ($env.HOME | path join "Programming" "qmk_userspace" "keyboards" "zsa" "moonlander" "keymaps" "xendak")
                 }
                 "ap" | "annepro" => {
-                  $env.PWD = ($env.HOME | path join "Programming" "qmk_userspace" "keyboards" "annepro2" "keymaps" "xendak")
+                  cd ($env.HOME | path join "Programming" "qmk_userspace" "keyboards" "annepro2" "keymaps" "xendak")
                 }
                 "compile" | "c" => {
                   if ($args | length) < 2 {
