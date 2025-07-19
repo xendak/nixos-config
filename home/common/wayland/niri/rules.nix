@@ -13,7 +13,7 @@ in
             namespace = "^swww-daemon$";
           }
         ];
-        # place-within-backdrop = true;
+        place-within-backdrop = true;
       }
     ];
     window-rules = [
@@ -55,6 +55,7 @@ in
           { app-id = "rustdesk"; }
           { app-id = "steam"; }
           { app-id = "org.kde.dolphin"; }
+          { app-id = "org.gnome.Nautilus"; }
           { title = ".*Bitwarden.*"; }
           { title = "Picture-in-Picture"; }
         ];
@@ -68,6 +69,11 @@ in
           { app-id = "chromium"; }
         ];
         open-on-workspace = "2";
+        open-maximized = true;
+      }
+      {
+        matches = [ { app-id = "emacs"; } ];
+        open-maximized = true;
       }
       {
         matches = [
@@ -76,6 +82,47 @@ in
         ];
         open-on-workspace = "3";
         open-maximized = true;
+      }
+      {
+        matches = [
+          {
+            app-id = "zen";
+            title = "Picture-in-Picture";
+          }
+        ];
+        open-floating = true;
+        open-on-workspace = "2";
+        default-floating-position = {
+          x = 32;
+          y = 32;
+          relative-to = "bottom-right";
+        };
+        default-column-width = {
+          fixed = 480;
+        };
+        default-window-height = {
+          fixed = 270;
+        };
+      }
+      {
+        matches = [ { title = "Picture in picture"; } ];
+        open-on-workspace = "2";
+        open-floating = true;
+        default-floating-position = {
+          x = 32;
+          y = 32;
+          relative-to = "bottom-right";
+        };
+      }
+      {
+        matches = [ { title = "Discord Popout"; } ];
+        open-on-workspace = "3";
+        open-floating = true;
+        default-floating-position = {
+          x = 32;
+          y = 32;
+          relative-to = "bottom-right";
+        };
       }
       {
         matches = [

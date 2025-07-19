@@ -65,38 +65,54 @@ in
         "5%-"
       ];
 
+      "super+h".action = switch-preset-column-width;
+      "super+Shift+h".action = switch-preset-window-height;
+
       "super+q".action = close-window;
       "super+w".action = spawn browser;
       "super+Return".action = spawn terminal;
-      # "super+Shift+Return" = spawn terminal "--class" "f_terminal";
+      "super+Shift+Return".action = spawn terminal [
+        "--class"
+        "f_terminal"
+      ];
 
       "super+Shift+e".action = spawn termbrowser;
       "super+e".action = spawn filebrowser;
 
-      "super+f".action = fullscreen-window;
-      "super+t".action = toggle-window-floating;
+      "super+f".action = expand-column-to-available-width;
+      "super+Shift+f".action = fullscreen-window;
+      "super+Shift+Space".action = toggle-window-floating;
+
+      "super+c".action = center-visible-columns;
+
+      "super+z".action = toggle-column-tabbed-display;
+      "super+j".action = focus-window-or-workspace-down;
+      "super+k".action = focus-window-or-workspace-up;
+      "super+Comma".action = consume-window-into-column;
+      "super+Period".action = expel-window-from-column;
 
       "super+r".action = spawn qs-command [ "toggleLauncher" ];
+      "super+d".action = spawn qs-command [ "toggleLauncher" ];
       "super+o".action = spawn qs-command [ "toggleLlmChat" ];
       "Ctrl+Alt+c".action = spawn qs-command [ "clearNotifs" ];
       "Ctrl+Alt+Delete".action = spawn qs-command [ "toggleSession" ];
       "super+x".action = spawn qs-command [ "toggleSession" ];
       "super+p".action = spawn qs-command [ "toggleRbw" ];
 
-      "super+d".action = spawn [
-        "rofi"
-        "-show"
-        "drun"
-        "-matching"
-        "fuzzy"
-        "-sorting-method"
-        "fzf"
-        "-sort"
-        "-drun-match-fields"
-        "name,generic,categories"
-        "-theme"
-        "${config.xdg.configHome}/rofi/config.rasi"
-      ];
+      # "super+d".action = spawn [
+      #   "rofi"
+      #   "-show"
+      #   "drun"
+      #   "-matching"
+      #   "fuzzy"
+      #   "-sorting-method"
+      #   "fzf"
+      #   "-sort"
+      #   "-drun-match-fields"
+      #   "name,generic,categories"
+      #   "-theme"
+      #   "${config.xdg.configHome}/rofi/config.rasi"
+      # ];
 
       "Alt+Shift+bracketleft".action = screenshot-window;
       "Print".action = spawn [
