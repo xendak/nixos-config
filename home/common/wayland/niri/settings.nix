@@ -125,6 +125,8 @@ in
         ];
         always-center-single-column = true;
         center-focused-column = "never";
+        default-column-display = "tabbed";
+
         default-column-width = {
           proportion = 0.5;
         };

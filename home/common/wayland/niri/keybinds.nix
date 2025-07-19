@@ -88,8 +88,8 @@ in
       "super+z".action = toggle-column-tabbed-display;
       "super+j".action = focus-window-or-workspace-down;
       "super+k".action = focus-window-or-workspace-up;
-      "super+Comma".action = consume-window-into-column;
-      "super+Period".action = expel-window-from-column;
+      "super+Comma".action = consume-or-expel-window-left;
+      "super+Period".action = consume-or-expel-window-right;
 
       "super+r".action = spawn qs-command [ "toggleLauncher" ];
       "super+d".action = spawn qs-command [ "toggleLauncher" ];

@@ -65,7 +65,7 @@ def nspl [...search_terms: string] {
 }
 
 def nix-pkgs [] {
-  open ($env.HOME | path join "/Flake/bin/nixpkgs_list") | lines
+  open ($env.HOME | path join "Flake/bin/nixpkgs_list") | lines
 }
 
 def ns [...packages: string@nix-pkgs] {

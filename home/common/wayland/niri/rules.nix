@@ -140,6 +140,7 @@ in
           bottom-left = border-radius;
           bottom-right = border-radius;
         };
+        default-column-display = "tabbed";
         clip-to-geometry = true;
       }
     ];
