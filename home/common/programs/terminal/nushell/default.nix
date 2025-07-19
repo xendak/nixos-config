@@ -3,6 +3,26 @@
   pkgs,
   ...
 }:
+let
+  # prepend windows PATH if we're inside wsl
+  # done outside because we might have a ntfs parition mounted at /mnt/c/
+  win_block =
+    if config.home.username == "nixos" then
+      ''
+        try {
+          let windows_paths = ^/mnt/c/Windows/System32/cmd.exe /c "echo %PATH%" o+e>| split row ";" | each { |t| wslpath -u $t } | reject 0
+          [
+            ($windows_paths | where ($it | str downcase) =~ 'windows' | first),
+            ($windows_paths | where ($it | str downcase) =~ 'cmd' | first),
+            ($windows_paths | where ($it | str downcase) =~ 'scoop' | first)
+          ] | where not ($it | is-empty)
+        } catch {
+          []
+        }
+      ''
+    else
+      "[]";
+in
 {
   home.persistence."/persist/home/${config.home.username}".files = [
     ".config/nushell/history.txt"
@@ -55,23 +75,12 @@
               $env.GEMINI_API_KEY = (open $secret_path | str trim)
           }
 
-          # $env.NU_LIB_DIRS = ($env.NU_LIB_DIRS |
-          #   split row (char esep) |
-          #   append ($env.HOME | path join "Flake" "home" "common" "programs" "terminal" "nushell")
-          # )
+          $env.NU_LIB_DIRS = ($env.NU_LIB_DIRS |
+            split row (char esep) |
+            append ($env.HOME | path join "Flake" "home" "common" "programs" "terminal" "nushell")
+          )
 
-          let windows_paths = ^/mnt/c/Windows/System32/cmd.exe /c "echo %PATH%" o+e>| split row ";" | each { |t| wslpath -u $t } | reject 0
-
-          let wanted_paths = try {
-            [
-              ($windows_paths | where ($it | str downcase) =~ 'windows' | first),
-              ($windows_paths | where ($it | str downcase) =~ 'cmd' | first),
-              ($windows_paths | where ($it | str downcase) =~ 'scoop' | first)
-            ] | where not ($it | is-empty)
-          } catch {
-            ['/mnt/c/Users/rggro/scoop/shims']
-          }
-
+          let wanted_paths = ${win_block}
           $env.PATH = ($env.PATH | 
             split row (char esep) |
             prepend /home/${config.home.username}/Flake/bin |
@@ -90,8 +99,6 @@
 
           source qmk.nu
           source functions.nu
-          # source /home/${config.home.username}/Flake/home/common/programs/terminal/nushell/qmk.nu
-          # source /home/${config.home.username}/Flake/home/common/programs/terminal/nushell/functions.nu
 
           let fish_completer = {|spans|
             fish --command $'complete "--do-complete=($spans | str join " ")"'
