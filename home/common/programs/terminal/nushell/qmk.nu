@@ -17,8 +17,9 @@ def __get-keyboards [] {
   {
     moonlander: {
       qmk_name: "moonlander"
-      path: "keyboards/zsa"
-      keymap: "keymaps/xendak"
+      qmk_suffix: ""
+      path: "zsa"
+      keymap: "xendak"
       flash_tool: "wally-cli"
       flash_args: []
       description: "moves to moonlander directory"
@@ -27,8 +28,9 @@ def __get-keyboards [] {
     }
     annepro2: {
       qmk_name: "annepro2"
-      path: "keyboards"
-      keymap: "keymaps/xendak"
+      qmk_suffix: "c18"
+      path: ""
+      keymap: "xendak"
       flash_tool: "annepro2-tools"
       flash_args: []
       description: "moves to annepro directory"
@@ -39,23 +41,31 @@ def __get-keyboards [] {
 }
 
 # Available Commands.
-# TODO: add a proper way to execute with cmd | args
 def __get-commands [] {
   {
     compile: {
-      cmd: []
+      cmd: {|kb| __compile-keyboard $kb }
       args: []
       description: "Compile firmware for specified keyboard"
+      help_message: "Available keyboards for compilation:"
     }
     flash: {
-      cmd: []
+      cmd: {|kb| __flash-keyboard $kb }
       args: []
       description: "Flash firmware for specified keyboard"
+      help_message: "Available keyboards for flashing:"
     }
     cf: {
-      cmd: []
+      cmd: {|kb| __compile-flash-keyboard $kb }
       args: []
       description: "Compile and flash firmware for specified keyboard"
+      help_message: "Available keyboards for compile+flash:"
+    }
+    clean: {
+      cmd: { __clean-files }
+      args: []
+      description: "Cleans all keyboards firmware files"
+      help_message: "Cleans all keyboards firmware files"
     }
   } | merge (__get-keyboards)
 }
@@ -87,7 +97,11 @@ def __print-keyboard-help [] {
 # Utils
 def __get-keyboard-path [path: string, name: string] {
   # somehow i need this here so it avoids the \n
-  ($env.QMK_USERSPACE | lines | path join $path $name)
+  if ($path | is-empty) {
+    ($env.QMK_USERSPACE | lines | path join "keyboards" $name)
+  } else {
+    ($env.QMK_USERSPACE | lines | path join "keyboards" $path $name)
+  }
 }
 def __validate-keyboard [keyboard: string] {
   let keyboards = __get-keyboards
@@ -114,6 +128,66 @@ def __detect-current-keyboard [] {
   return null
 }
 
+def __execute-command [command_name: string, keyboard?: string] {
+    let commands = __get-commands
+    let command_config = $commands | get $command_name
+    
+    if ($keyboard | is-empty) {
+        let current_kb = __detect-current-keyboard
+        if ($current_kb | is-not-empty) {
+            do $command_config.cmd $current_kb
+                  
+        } else {
+            print $"No keyboard specified and not in a keyboard directory."
+            print $command_config.help_message
+            __print-keyboard-help
+        }
+    } else {
+        if (__validate-keyboard $keyboard) {
+            do $command_config.cmd $keyboard
+        }
+    }
+}
+
+def __clean-files [] {
+  let keyboards = __get-keyboards
+  let firmware_files = ($keyboards | values | each {
+    |kb| __get-firmware-name $kb
+  })
+  let firmware_paths = [
+    ($env.QMK_USERSPACE | str trim | path join "qmk_firmware")
+    ($env.QMK_USERSPACE | str trim )
+  ]
+  mut files_to_clean = []
+  for p in $firmware_paths {
+    for f in $firmware_files {
+      $files_to_clean = ($files_to_clean | append ($p | path join $f))
+    }
+  }
+  for f in $files_to_clean {
+    try {
+      rm $f
+      print $"Deleted file ($f)"
+    } catch {
+      print $"Could not delete file ($f)"
+    }
+  }
+}
+
+def __get-firmware-name [keyboard: record] {
+  mut firmware = []
+  if not ($keyboard.path | is-empty) {
+      $firmware =  append $keyboard.path
+  }
+  $firmware = ($firmware | append $keyboard.qmk_name)
+  if not ($keyboard.qmk_suffix | is-empty) {
+    $firmware = ($firmware | append $keyboard.qmk_suffix)
+  }
+  $firmware = ($firmware | append $keyboard.keymap)
+  let firmware_file = ($firmware | str join "_") + ".bin"
+  return $firmware_file
+}
+
 # Compiling | Flash specifics
 def __compile-keyboard [keyboard: string] {
   let keyboards = __get-keyboards
@@ -122,26 +196,50 @@ def __compile-keyboard [keyboard: string] {
 
   print $"Compiling ($keyboard)..."
   cd $keyboard_path
-  qmk compile -kb $config.qmk_name -km xendak
+  try {
+    mut qmk_command = $config.qmk_name
+    if not ($config.qmk_suffix | is-empty) {
+      $qmk_command = $qmk_command + "/" + $config.qmk_suffix
+    }
+    qmk compile -kb $qmk_command -km xendak
+    return true
+  } catch {
+    return false
+  }
 }
+
 def __flash-keyboard [keyboard: string] {
-  let keyboards = __get-keyboards
-  let config = $keyboards | get $keyboard
-  let keyboard_path = __get-keyboard-path $config.path $keyboard
-
-  print $"Flashing ($keyboard)..."
-  cd $keyboard_path
-  qmk flash -kb $config.qmk_name -km xendak
+    let keyboards = __get-keyboards
+    let config = $keyboards | get $keyboard
+    let keyboard_path = __get-keyboard-path $config.path $keyboard
+    let firmware_file = __get-firmware-name $config
+    
+    print $"Flashing ($keyboard) with firmware: ($firmware_file)"
+    cd $env.QMK_USERSPACE
+    
+    let flash_cmd = ["sudo", $config.flash_tool] | append $config.flash_args | append $firmware_file
+    print $"Command: ($flash_cmd | str join ' ')"
+    
+    try {
+      run-external "sudo" ($config.flash_tool) ...$config.flash_args $firmware_file
+      return true
+    } catch {
+      return false
+    }
 }
-def __compile-flash-keyboard [keyboard: string] {
-  let keyboards = __get-keyboards
-  let config = $keyboards | get $keyboard
-  let keyboard_path = __get-keyboard-path $config.path $keyboard
 
-  # TODO: fix this eventually, need to do a try catch and maybe check sha
-  print $"Compiling and flashing ($keyboard)..."
-  cd $keyboard_path
-  qmk flash -kb $config.qmk_name -km xendak
+def __compile-flash-keyboard [keyboard: string] {
+  if (__compile-keyboard $keyboard) {
+    if (__flash-keyboard $keyboard) {
+      return true
+    } else {
+      print $"Flash failed"
+      return false
+    }
+  } else {
+    print $"Compilation failed, skipping flash"
+    return false
+  }
 }
 
 def --env mkb [
@@ -161,75 +259,23 @@ def --env mkb [
   let commands = __get-commands
 
   # Check if first argument is a keyboard
+  # TODO: refactor this out..
+  # can do cmd closure on qmk entry itself
   if ($command in ($keyboards | columns)) {
     let config = $keyboards | get $command
     let keyboard_path = __get-keyboard-path $config.path $command
-    let full_path = $keyboard_path | path join $config.keymap
+    let full_path = $keyboard_path | path join "keymaps" $config.keymap
 
     print $"Navigating to ($command) keyboard directory: ($full_path)"
     cd $full_path
     return
   }
 
-  # Check if first argument is a command
   if ($command in $commands) {
-    match $command {
-      "compile" => {
-        if ($keyboard | is-empty) {
-          # Try to detect current keyboard from PWD
-          let current_kb = __detect-current-keyboard
-          if ($current_kb | is-not-empty) {
-            __compile-keyboard $current_kb
-          } else {
-            print "No keyboard specified and not in a keyboard directory."
-            print "Available keyboards for compilation:"
-            __print-keyboard-help
-          }
-        } else {
-          if (__validate-keyboard $keyboard) {
-            __compile-keyboard $keyboard
-          }
-        }
-      }
-      "flash" => {
-        if ($keyboard | is-empty) {
-          # Try to detect current keyboard from PWD
-          let current_kb = __detect-current-keyboard
-          if ($current_kb | is-not-empty) {
-            __flash-keyboard $current_kb
-          } else {
-            print "No keyboard specified and not in a keyboard directory."
-            print "Available keyboards for flashing:"
-            __print-keyboard-help
-          }
-        } else {
-          if (__validate-keyboard $keyboard) {
-            __flash-keyboard $keyboard
-          }
-        }
-      }
-      "cf" => {
-        if ($keyboard | is-empty) {
-          # Try to detect current keyboard from PWD
-          let current_kb = __detect-current-keyboard
-          if ($current_kb | is-not-empty) {
-            __compile-flash-keyboard $current_kb
-          } else {
-            print "No keyboard specified and not in a keyboard directory."
-            print "Available keyboards for compile+flash:"
-            __print-keyboard-help
-          }
-        } else {
-          if (__validate-keyboard $keyboard) {
-            __compile-flash-keyboard $keyboard
-          }
-        }
-      }
-    }
+    __execute-command $command $keyboard
     return
   }
 
-  # If we get here, the command is not recognized
   print $"Error: Unknown command or keyboard '($command)'"
   print ""
   __print-commands-help

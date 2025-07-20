@@ -92,14 +92,6 @@ in
 
       extraConfig = # nu
         ''
-
-          const NU_LIB_DIRS = [
-            '/home/${config.home.username}/Flake/home/common/programs/terminal/nushell'
-          ]
-
-          source qmk.nu
-          source functions.nu
-
           let fish_completer = {|spans|
             fish --command $'complete "--do-complete=($spans | str join " ")"'
             | from tsv --flexible --noheaders --no-infer
@@ -133,10 +125,18 @@ in
               nu => $fish_completer
               git => $fish_completer
               asdf => $fish_completer
+              hx => $fish_completer
               __zoxide_z | __zoxide_zi => $zoxide_completer
-              _ => $fish_completer
+              _ => $carapace_completer
             } | do $in $spans
           } 
+
+          const NU_LIB_DIRS = [
+            '/home/${config.home.username}/Flake/home/common/programs/terminal/nushell'
+          ]
+
+          source qmk.nu
+          source functions.nu
 
           $env.config = {
             edit_mode: vi,
@@ -154,7 +154,7 @@ in
               partial: true,
               sort: smart,
               case_sensitive: false,
-              algorithm: "prefix",
+              algorithm: "fuzzy",
               external: {
                 enable: true,
                 max_results: 100,
