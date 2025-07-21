@@ -2,7 +2,8 @@
   pkgs,
   config,
   ...
-}: {
+}:
+{
   imports = [
     ./themes/modular.nix
   ];
@@ -14,14 +15,14 @@
         old.postFixup
         + ''
           wrapProgram $out/bin/vesktop \
-            --add-flags "--enable-features=UseOzonePlatform --ozone-platform=wayland --enable-accelerated-mjpeg-decode --enable-accelerated-video --ignore-gpu-blacklist --enable-native-gpu-memory-buffers --enable-gpu-rasterization --enable-gpu --enable-features=WebRTCPipeWireCapturer --enable-wayland-ime"
+            --add-flags "--enable-features=UseOzonePlatform --ozone-platform=wayland --enable-accelerated-mjpeg-decode --enable-accelerated-video --ignore-gpu-blacklist --enable-native-gpu-memory-buffers --enable-gpu-rasterization --enable-gpu --enable-features=WebRTCPipeWireCapturer --enable-wayland-ime --wayland-text-input-version=3"
         '';
     }))
   ];
 
   # services.arrpc.enable = true;
 
-  home.persistence."/persist/home/${config.home.username}".directories = [".config/vesktop"];
+  home.persistence."/persist/home/${config.home.username}".directories = [ ".config/vesktop" ];
 
   xdg.configFile."vesktop/settings.json".text = builtins.toJSON {
     discordBranch = "stable"; # canary
@@ -41,7 +42,7 @@
     autoUpdate = false;
     autoUpdateNotification = false;
     useQuickCss = true;
-    enabledThemes = [];
+    enabledThemes = [ ];
     enableReactDevtools = false;
     frameless = false;
     transparent = false;

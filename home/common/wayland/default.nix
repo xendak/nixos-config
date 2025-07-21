@@ -48,6 +48,7 @@
     XMODIFIER = "@im=fcitx";
     GTK_IM_MODULE = "fcitx";
     QT_IM_MODULE = "fcitx";
+    QT_IM_MODULES = "wayland;fcitx;ibus";
     # XDG_CURRENT_DESKTOP = "GNOME"; # fixing QT no icon bullshit
   };
 }
