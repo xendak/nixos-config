@@ -44,7 +44,7 @@ in
       };
 
       prefer-no-csd = true;
-      screenshot-path = "${config.home.username}/Pictures/Screenshots/%Y-%m-%d-%H-%M-%S_window.png";
+      screenshot-path = "/home/${config.home.username}/Pictures/Screenshots/%Y-%m-%d-%H-%M-%S_window.png";
 
       hotkey-overlay = {
         skip-at-startup = true;
