@@ -5,6 +5,7 @@
 }:
 let
   grimblast = "/home/${config.home.username}/Flake/bin/grimniri";
+  hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
   wpctl = "${pkgs.wireplumber}/bin/wpctl";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   swaylock = "${config.programs.swaylock.package}/bin/swaylock";
@@ -117,6 +118,7 @@ in
       "Alt+Shift+bracketleft".action = screenshot-window;
       "Print".action = spawn [
         "${grimblast}"
+        "--freeze"
         "--notify"
         "copysave"
         "output"
@@ -124,6 +126,7 @@ in
       ];
       "Shift+Print".action = spawn [
         "${grimblast}"
+        "--freeze"
         "--notify"
         "copysave"
         "output"
@@ -131,6 +134,7 @@ in
       ];
       "Alt+Shift+s".action = spawn [
         "${grimblast}"
+        "--freeze"
         "--notify"
         "copysave"
         "area"
@@ -138,6 +142,7 @@ in
       ];
       "Alt+Shift+c".action = spawn [
         "${grimblast}"
+        "--freeze"
         "--notify"
         "copysave"
         "area"

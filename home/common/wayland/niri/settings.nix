@@ -27,6 +27,8 @@ in
 {
   home.packages = [
     pkgs.xwayland-satellite
+    pkgs.swaylock
+    pkgs.hyprpicker
   ];
 
   programs.niri = {
@@ -42,6 +44,7 @@ in
       };
 
       prefer-no-csd = true;
+      screenshot-path = "${config.home.username}/Pictures/Screenshots/%Y-%m-%d-%H-%M-%S_window.png";
 
       hotkey-overlay = {
         skip-at-startup = true;
@@ -244,6 +247,7 @@ in
         XMODIFIER = "@im=fcitx";
         GTK_IM_MODULE = "fcitx";
         QT_IM_MODULE = "fcitx";
+        QT_IM_MODULES = "wayland;fcitx;ibus";
         CLUTTER_BACKEND = "wayland";
         GDK_BACKEND = "wayland,x11";
         ELECTRON_OZONE_PLATFORM_HINT = "auto";
