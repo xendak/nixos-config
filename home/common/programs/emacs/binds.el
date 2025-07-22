@@ -177,3 +177,6 @@
   :config
   (meow-setup)
   (meow-global-mode))
+
+(message "---> binds.el loaded successfully!")
+

@@ -270,7 +270,7 @@ Singleton {
         
         const newClients = [];
 
-        console.log("Niri.qml data[0]: ", JSON.stringify(data[0]));
+        // console.log("Niri.qml data[0]: ", JSON.stringify(data[0]));
         
         for (const client of data) {
             if (!client) continue;

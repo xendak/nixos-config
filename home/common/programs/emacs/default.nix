@@ -69,7 +69,7 @@ in
 
   services.emacs = {
     enable = true;
-    client.enable = true;
+    # client.enable = true;
     socketActivation.enable = true;
     startWithUserSession = "graphical";
   };
@@ -79,11 +79,61 @@ in
     ".config/emacs/themes/base16-light-theme.el".source = lightTheme;
     ".config/emacs/themes/base16-dark-theme.el".source = darkTheme;
     # easier to make quick/tryout changes
-    ".config/emacs/binds.el".source = ./binds.el;
+    # ".config/emacs/binds.el".source = ./binds.el;
+    # ".config/emacs/config.el".source = ./config.el;
     # ".config/emacs/init.el".source = ./init.el;
 
-    ".local/share/applications/emacs.desktop".source =
-      "${pkgs.emacs-pgtk}/share/applications/emacsclient.desktop";
+    ".local/share/applications/emacsclient.desktop".source = pkgs.writeText "emacsclient.desktop" ''
+      [Desktop Entry]
+      Name=Emacsclient
+      GenericName=Text Editor
+      Comment=Edit text
+      MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;x-scheme-handler/org-protocol;
+      Exec=sh -c "if [ -n \\"\\$*\\" ]; then exec ${pkgs.emacs-pgtk}/bin/emacsclient --alternate-editor= --reuse-frame \\"\\$@\\"; else exec ${pkgs.emacs-pgtk}/bin/emacsclient --alternate-editor= --create-frame; fi" sh %F
+      NoDisplay=true
+      Hidden=true
+      Icon=emacs
+      Type=Application
+      Terminal=false
+      Categories=Development;TextEditor;
+      StartupNotify=true
+      StartupWMClass=Emacs
+      Keywords=emacsclient;
+      Actions=new-window;new-instance;
+
+      [Desktop Action new-window]
+      Name=New Window
+      Exec=${pkgs.emacs-pgtk}/bin/emacsclient --alternate-editor= --create-frame %F
+
+      [Desktop Action new-instance]
+      Name=New Instance
+      Exec=${pkgs.emacs-pgtk}/bin/emacs %F
+    '';
+
+    ".local/share/applications/emacs.desktop".source = pkgs.writeText "emacs.desktop" ''
+      [Desktop Entry]
+      Name=Emacs
+      GenericName=Text Editor
+      Comment=Edit text
+      MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;x-scheme-handler/org-protocol;
+      Exec=sh -c "if [ -n \\"\\$*\\" ]; then exec ${pkgs.emacs-pgtk}/bin/emacsclient --alternate-editor= --reuse-frame \\"\\$@\\"; else exec ${pkgs.emacs-pgtk}/bin/emacsclient --alternate-editor= --create-frame; fi" sh %F
+      Icon=emacs
+      Type=Application
+      Terminal=false
+      Categories=Development;TextEditor;
+      StartupNotify=true
+      StartupWMClass=Emacs
+      Keywords=emacsclient;
+      Actions=new-window;new-instance;
+
+      [Desktop Action new-window]
+      Name=New Window
+      Exec=${pkgs.emacs-pgtk}/bin/emacsclient --alternate-editor= --create-frame %F
+
+      [Desktop Action new-instance]
+      Name=New Instance
+      Exec=${pkgs.emacs-pgtk}/bin/emacs %F
+    '';
   };
 
   programs.emacs = {
@@ -105,6 +155,8 @@ in
       epkgs.rg
       epkgs.rainbow-delimiters
       epkgs.base16-theme
+      epkgs.spacious-padding
+      epkgs.company
     ];
   };
 }

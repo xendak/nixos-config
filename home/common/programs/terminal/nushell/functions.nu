@@ -20,6 +20,10 @@ def ecs [...args: string] {
   emacsclient -c -a emacs ...$args
 }
 
+def qlog [] {
+  qs log -n -c ($env.HOME | path join "Flake" "home" "common" "programs" "quickshell" "niri")
+}
+
 def history_search [term: string] {
     open $nu.history-path | query db $"SELECT * FROM history WHERE command_line LIKE '%($term)%'"
 }

@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   nnn = pkgs.vimUtils.buildVimPlugin {
     name = "nnn";
     src = pkgs.fetchFromGitHub {
@@ -8,14 +9,15 @@
       hash = "sha256-ZLokeEA70pdVmKOjK5vB8tRE0zGHicsunIHgW1Px0sw=";
     };
   };
-in {
+in
+{
   programs.neovim = {
     plugins = [
       # vim-floaterm
       # FTerm-nvim
       pkgs.vimPlugins.vim-nix
-      pkgs.vimPlugins.nvim-tree-lua
-      (pkgs.vimPlugins.nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
+      # pkgs.vimPlugins.nvim-tree-lua
+      # (pkgs.vimPlugins.nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
       pkgs.vimPlugins.plenary-nvim
       pkgs.vimPlugins.rainbow-delimiters-nvim
       pkgs.vimPlugins.telescope-fzy-native-nvim
