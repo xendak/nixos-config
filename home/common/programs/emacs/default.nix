@@ -141,13 +141,7 @@ in
     package = pkgs.emacs-pgtk;
     extraPackages = epkgs: [
       epkgs.magit
-      epkgs.lsp-mode
-      epkgs.nix-mode
-      epkgs.rust-mode
-      epkgs.zig-mode
-      epkgs.python-mode
       epkgs.editorconfig
-      epkgs.eglot
       epkgs.meow
       epkgs.devdocs
       epkgs.use-package
@@ -156,7 +150,19 @@ in
       epkgs.rainbow-delimiters
       epkgs.base16-theme
       epkgs.spacious-padding
+      epkgs.indent-bars
+
+      epkgs.nix-mode
+      epkgs.rust-mode
+      epkgs.zig-mode
+      epkgs.python-mode
+
+      epkgs.eglot
+      epkgs.lsp-mode
+      epkgs.lsp-ui
       epkgs.company
+      epkgs.corfu
+      epkgs.cape
     ];
   };
 }

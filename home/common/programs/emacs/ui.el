@@ -2,7 +2,7 @@
   :ensure t
   :config
   (setq spacious-padding-widths
-    '( :internal-border-width 10
+    '( :internal-border-width 20
        :header-line-width 4
        :mode-line-width 6
        :tab-width 4
@@ -52,4 +52,5 @@
 (when (and (not (daemonp)) (display-graphic-p))
   (my/setup-new-frame (selected-frame)))
 
+(spacious-padding-mode 1)
 (message "---> ui.el loaded successfully!")

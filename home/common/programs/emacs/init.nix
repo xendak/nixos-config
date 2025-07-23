@@ -9,9 +9,6 @@ in
       (setq inhibit-startup-screen t initial-scratch-message nil)
       (add-to-list 'default-frame-alist '(font . "${config.fontProfiles.monospace.family}-14"))
 
-      (add-to-list 'custom-theme-load-path (expand-file-name "themes/" user-emacs-directory))
-
-      (mapc 'load-file (directory-files "${emacs_path}" t "\\.el\\'"))
 
       ;; General Settings
       (setq initial-scratch-message nil)
@@ -38,6 +35,10 @@ in
             version-control t
             kept-new-versions 2
             kept-old-versions 1)
+
+      (add-to-list 'custom-theme-load-path (expand-file-name "themes/" user-emacs-directory))
+
+      (mapc 'load-file (directory-files "${emacs_path}" t "\\.el\\'"))
 
       (defun my/load-from-flake (file)
         "Load a file from the flake emacs directory."
