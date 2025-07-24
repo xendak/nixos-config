@@ -21,6 +21,7 @@
   (with-selected-frame frame
     (let ((theme-file (expand-file-name "themes/current-theme.el" user-emacs-directory)))
       (when (file-exists-p theme-file)
+        (disable-current-themes)
         (load-file theme-file)))
 
     (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))

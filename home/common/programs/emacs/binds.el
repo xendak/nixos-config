@@ -82,6 +82,7 @@
    '("d" . dired)                 ;; file manager
    '("a" . execute-extended-command) ;; M-x equivalent
    '("e" . eval-buffer)           ;; evaluate buffer
+   '("l" . lsp-mode-map)
    '("i" . imenu)                 ;; navigation
    '("c" . compile)               ;; compile
    '("/" . meow-keypad-describe-key)
@@ -116,7 +117,7 @@
    
    ;; Core editing on right home row (c,d,a,e,i)
    '("c" . meow-change)        ;; change (mnemonic)
-   '("d" . meow-delete)        ;; delete (mnemonic)
+   '("d" . meow-kill)          ;; delete (mnemonic)
    '("a" . meow-append)        ;; append (mnemonic)
    '("e" . meow-next-word)     ;; end of word (like vim)
    '("i" . meow-insert)        ;; insert (mnemonic)
@@ -156,10 +157,9 @@
    '("O" . meow-to-block)
    '("U" . meow-undo-in-selection)
    '("W" . meow-mark-symbol)
-   '("X" . meow-goto-line)
+   '("G" . meow-goto-line)
    '("Y" . meow-sync-grab)
    '("P" . meow-reverse)       ;; reverse (related to yank)
-   '("Q" . meow-goto-line)
    '("G" . meow-grab)
    '("J" . meow-bounds-of-thing)
    

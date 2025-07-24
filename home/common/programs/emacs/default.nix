@@ -151,18 +151,22 @@ in
       epkgs.base16-theme
       epkgs.spacious-padding
       epkgs.indent-bars
+      epkgs.which-key
+
+      epkgs.treesit-auto
+      epkgs.projectile
+      epkgs.all-the-icons
+      epkgs.all-the-icons-dired
 
       epkgs.nix-mode
       epkgs.rust-mode
       epkgs.zig-mode
       epkgs.python-mode
 
-      epkgs.eglot
+      epkgs.lsp-java
       epkgs.lsp-mode
       epkgs.lsp-ui
       epkgs.company
-      epkgs.corfu
-      epkgs.cape
     ];
   };
 }

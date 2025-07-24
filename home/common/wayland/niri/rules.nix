@@ -56,6 +56,7 @@ in
           { app-id = "steam"; }
           { app-id = "org.kde.dolphin"; }
           { app-id = "org.gnome.Nautilus"; }
+          { app-id = ".blueman-manager-wrapped"; }
           { title = ".*Bitwarden.*"; }
           { title = "Picture-in-Picture"; }
         ];
