@@ -11,6 +11,7 @@ in
 
 
       ;; General Settings
+      (setq use-y-or-n-p t)
       (setq initial-scratch-message nil)
       (setq use-dialog-box nil)
       (setq inhibit-startup-screen t)

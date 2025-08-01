@@ -1,72 +1,111 @@
 (use-package meow
   :ensure t
   :init
+
+(defconst meow-cheatsheet-physical-layout-split
+  "
+   ┏━━━━━━━━━┯━━━━━━━━━┯━━━━━━━━━┯━━━━━━━━━┯━━━━━━━━━┯━━━━━━━━━┓           ┏━━━━━━━━━┯━━━━━━━━━┯━━━━━━━━━┯━━━━━━━━━┯━━━━━━━━━┯━━━━━━━━━┓
+   ┃         │  <AE02> │  <AE03> │  <AE04> │  <AE05> │  <AE06> ┃           ┃  <AE07> │  <AE08> │  <AE09> │  <AE10> │  <AE11> │         ┃
+   ┃         │         │         │         │         │         ┃           ┃         │         │         │         │         │         ┃
+   ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨           ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨
+   ┃         │         │         │         │         │         ┃           ┃         │         │         │         │         │         ┃
+   ┃         │         │         │         │         │         ┃           ┃         │         │         │         │         │         ┃
+   ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨           ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨
+   ┃         │  <AD02> │  <AD03> │  <AD04> │  <AD05> │  <AD06> ┃           ┃  <AD07> │  <AD08> │  <AD09> │  <AD10> │  <AD11> │         ┃
+   ┃         │         │         │         │         │         ┃           ┃         │         │         │         │         │         ┃
+   ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨           ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨
+   ┃         │         │         │         │         │         ┃           ┃         │         │         │         │         │         ┃
+   ┃         │         │         │         │         │         ┃           ┃         │         │         │         │         │         ┃
+   ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨           ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨
+   ┃  <AC01> │  <AC02> │  <AC03> │  <AC04> │  <AC05> │  <AC06> ┃           ┃  <AC07> │  <AC08> │  <AC09> │  <AC10> │  <AC11> │  <AE01> ┃
+   ┃         │         │         │         │         │         ┃           ┃         │         │         │         │         │         ┃
+   ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨           ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨
+   ┃         │         │         │         │         │         ┃           ┃         │         │         │         │         │         ┃
+   ┃         │         │         │         │         │         ┃           ┃         │         │         │         │         │         ┃
+   ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨           ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨
+   ┃         │  <AB02> │  <AB03> │  <AB04> │  <AB05> │  <AB06> ┃           ┃  <AB07> │  <AB08> │  <AB09> │  <AB10> │  <AD12> │         ┃
+   ┃         │         │         │         │         │         ┃           ┃         │         │         │         │         │         ┃
+   ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨           ┠─────────┼─────────┼─────────┼─────────┼─────────┼─────────┨
+   ┃         │         │         │         │         │         ┃           ┃         │         │         │         │         │         ┃
+   ┃         │         │         │         │         │         ┃           ┃         │         │         │         │         │         ┃
+   ┗━━━━━━━━━┷━━━━━━━━━┷━━━━━━━━━┷━━━━━━━━━┼─────────┼─────────┨           ┠─────────┼─────────┼━━━━━━━━━┷━━━━━━━━━┷━━━━━━━━━┷━━━━━━━━━┛
+                                           ┃  <BSKL> │         ┃           ┃         │  SPC    ┃
+                                           ┃         │         ┃           ┃         │         ┃
+                                           ┠─────────┼─────────┨           ┠─────────┼─────────┨
+                                           ┃         │         ┃           ┃         │         ┃
+                                           ┃         │         ┃           ┃         │         ┃
+                                           ┗━━━━━━━━━┷━━━━━━━━━┛           ┗━━━━━━━━━┷━━━━━━━━━┛
+")
+
 (defconst meow-cheatsheet-layout-rain
-    '((<TLDE> "`" "~")
-      (<AE01> "1" "!")
-      (<AE02> "2" "@")
-      (<AE03> "3" "#")
-      (<AE04> "4" "$")
-      (<AE05> "5" "%")
-      (<AE06> "6" "^")
-      (<AE07> "7" "&")
-      (<AE08> "8" "*")
-      (<AE09> "9" "(")
-      (<AE10> "0" ")")
-      (<AE11> "-" "_")
-      (<AE12> "=" "+")
-      ;; Top row
-      (<AD01> "," "<")
-      (<AD02> "f" "F")
-      (<AD03> "l" "L")
-      (<AD04> "k" "K")
-      (<AD05> "v" "V")
-      (<AD06> "~" "^")
-      (<AD07> "w" "W")
-      (<AD08> "o" "O")
-      (<AD09> "u" "U")
-      (<AD10> "." ">")
-      (<AD11> "[" "{")
-      (<AD12> "]" "}")
-      (<BKSL> "\\" "|")
-      ;; Home row
-      (<AC01> "b" "B")
-      (<AC02> "s" "S")
-      (<AC03> "h" "H")
-      (<AC04> "t" "T")
-      (<AC05> "m" "M")
-      (<AC06> "c" "C")
-      (<AC07> "d" "D")
-      (<AC08> "a" "A")
-      (<AC09> "e" "E")
-      (<AC10> "i" "I")
-      (<AC11> "'" "\"")
-      ;; Bottom row
-      (<AB01> "p" "P")
-      (<AB02> "x" "X")
-      (<AB03> "j" "J")
-      (<AB04> "y" "Y")
-      (<AB05> "q" "Q")
-      (<AB06> "/" "?")
-      (<AB07> "g" "G")
-      (<AB08> ";" ":")
-      (<AB09> "_" "_")
-      (<AB10> "z" "Z")
-      (<LSGT> "_" "-")))
+  '(;(<AE01> ""  "")
+    (<AE02> "1"	"!")
+    (<AE03> "2"	"@")
+    (<AE04> "3"	"#")
+    (<AE05> "4"	"$")
+    (<AE06> "5"	"%")
+    (<AE07> "6"	"^")
+    (<AE08> "7"	"&")
+    (<AE09> "8"	"*")
+    (<AE10> "9"	"(")
+    (<AE11> "0"	")")
+    ; (<AE12> ""  "")
+    ; (<AD01> ""  "")
+    (<AD02> "b"	"B")
+    (<AD03> "f"	"F")
+    (<AD04> "l"	"L")
+    (<AD05> "k"	"K")
+    (<AD06> "v"	"V")
+    (<AD07> "~"	"`")
+    (<AD08> "w"	"W")
+    (<AD09> "o"	"O")
+    (<AD10> "u"	"U")
+    (<AD11> "."	">")
+    ; (<AD12> ""  "")
+    (<AC01> ","  "?")
+    (<AC02> "n"	"N")
+    (<AC03> "s"	"S")
+    (<AC04> "h"	"H")
+    (<AC05> "t"	"T")
+    (<AC06> "m"	"M")
+    (<AC07> "c"	"C")
+    (<AC08> "d"	"D")
+    (<AC09> "a"	"A")
+    (<AC10> "e"	"E")
+    (<AC11> "i"	"I")
+    (<AE01> "'"  "\"")
+    ; (<AB01> ""  "")
+    (<AB02> "p"	"P")
+    (<AB03> "x"	"x")
+    (<AB04> "j"	"J")
+    (<AB05> "y"	"Y")
+    (<AB06> "q"	"Q")
+    (<AB07> "/"	"\\")
+    (<AB08> "g"	"G")
+    (<AB09> ";"	":")
+    (<AB10> "_"	"-")
+    (<AD12> "z"	"Z")
+    ; (<AB12> ""  "")
+    (<BSKL> "r"  "R")))
 
 (defun meow-setup ()
-(setq meow-cheatsheet-layout meow-cheatsheet-layout-rain)
-(meow-motion-define-key
-   '("l" . meow-prev)      ;; up  
-   '("h" . meow-next)      ;; down
+  (setq meow-cheatsheet-layout meow-cheatsheet-layout-rain)
+  (setq meow-cheatsheet-physical-layout meow-cheatsheet-physical-layout-split)
+  (setq meow-use-cursor-position-hack t)
+  (setq meow-use-clipboard t)
+  (meow-motion-define-key
+   ;; Movement keys: l=up, s=left, h=down, t=right
+   '("h" . meow-next)     ; down (was j)
+   '("l" . meow-prev)     ; up (was k)
    '("<escape>" . ignore))
-  
-  ;; Leader key on thumb (r key)
-  ;; This puts frequently used commands on the dominant thumb
+  (setq meow-selection-command-fallback
+   '((meow-change . meow-change-char)
+     (meow-kill . meow-delete)
+     (meow-cancel-selection . ignore)
+     (meow-pop-selection . meow-pop-grab)
+     (meow-beacon-change . meow-beacon-change-char)))
   (meow-leader-define-key
-   ;; Digit arguments
-   '("SPC" . meow-M-x)
-   '("<SPC>" . meow-M-x)
+   ;; Use SPC (0-9) for digit arguments.
    '("1" . meow-digit-argument)
    '("2" . meow-digit-argument)
    '("3" . meow-digit-argument)
@@ -77,100 +116,99 @@
    '("8" . meow-digit-argument)
    '("9" . meow-digit-argument)
    '("0" . meow-digit-argument)
-   ;; Common leader commands on home row
+   '("SPC" . meow-M-x)
+   '("<SPC>" . meow-M-x)
    '("s" . save-buffer)           ;; save file
-   '("d" . dired)                 ;; file manager
+   '("f" . dired)                 ;; file manager
    '("a" . execute-extended-command) ;; M-x equivalent
    '("e" . eval-buffer)           ;; evaluate buffer
    '("l" . lsp-mode-map)
    '("i" . imenu)                 ;; navigation
-   '("c" . compile)               ;; compile
+   '("d" . compile)               ;; compile
    '("/" . meow-keypad-describe-key)
    '("?" . meow-cheatsheet))
-  
-  ;; Normal mode - optimized for your layout
+
   (meow-normal-define-key
-   ;; Numbers for expansion (keeping on number row)
    '("0" . meow-expand-0)
-   '("1" . meow-expand-1)
-   '("2" . meow-expand-2)
-   '("3" . meow-expand-3)
-   '("4" . meow-expand-4)
-   '("5" . meow-expand-5)
-   '("6" . meow-expand-6)
-   '("7" . meow-expand-7)
-   '("8" . meow-expand-8)
    '("9" . meow-expand-9)
+   '("8" . meow-expand-8)
+   '("7" . meow-expand-7)
+   '("6" . meow-expand-6)
+   '("5" . meow-expand-5)
+   '("4" . meow-expand-4)
+   '("3" . meow-expand-3)
+   '("2" . meow-expand-2)
+   '("1" . meow-expand-1)
    '("-" . negative-argument)
    
-   ;; Movement - using left side home row (l,s,h,t)
-   '("l" . meow-prev)          ;; up (like vim k, but on home row) 
-   '("s" . meow-left)          ;; left (natural position)
-   '("h" . meow-next)          ;; down (like vim j, but on home row)
-   '("t" . meow-right)         ;; right (natural position)
+   ; Free keys -> R
+   '("K" . meow-mark-symbol)
+   '("k" . meow-next-symbol)   ; mark symbol (was W, moved)
+   '("n" . meow-back-word)        ; search (very common)
+   '("b" . meow-back-symbol)     ; back word (top row)
+   '("m" . meow-next-word)          ; join (keep original)
+   '("r" . meow-replace)       ; replace (was r, moved)
+   '("/" . meow-search)
+
+   ;; Left home row - frequently used commands
+   '("s" . meow-left)          ; left movement
+   '("h" . meow-next)          ; down movement  
+   '("l" . meow-prev)          ; down movement  
+   '("t" . meow-right)         ; right movement
    
-   ;; Expansion versions (shifted versions)
-   '("L" . meow-prev-expand)
-   '("S" . meow-left-expand)
-   '("H" . meow-next-expand)
-   '("T" . meow-right-expand)
+   ;; Right home row - frequently used commands  
+   '("e" . meow-change)        ; change (very common)
+   '("d" . meow-kill)        ; delete (very common)
+   '("a" . meow-append)        ; append (very common)
+   '("i" . meow-insert)        ; insert (very common)
    
-   ;; Core editing on right home row (c,d,a,e,i)
-   '("c" . meow-change)        ;; change (mnemonic)
-   '("d" . meow-kill)          ;; delete (mnemonic)
-   '("a" . meow-append)        ;; append (mnemonic)
-   '("e" . meow-next-word)     ;; end of word (like vim)
-   '("i" . meow-insert)        ;; insert (mnemonic)
+   ;; Movement expansions (shifted versions)
+   '("S" . meow-left-expand)   ; expand left
+   '("H" . meow-next-expand)   ; expand down
+   '("T" . meow-right-expand)  ; expand right
+   '("L" . meow-prev-expand)   ; up movement
    
-   ;; Secondary commands on left home row
-   '("z" . meow-search)        ;; next/search (like vim)
-   '("m" . meow-mark-word)     ;; mark (mnemonic)
+   ;; Other frequently used commands repositioned
+   '("u" . meow-undo)          ; undo (top row, easy reach)
+   '("o" . meow-block)         ; block selection (top row)
+   '("w" . meow-mark-word)     ; mark word (top row)
+   '("y" . meow-save)          ; save/yank (moved from qwerty y position)
+   '("p" . meow-yank)          ; paste (moved to bottom row)
    
-   ;; Top row - frequently used commands
-   '("f" . meow-till)          ;; find (mnemonic)
-   '("w" . meow-mark-word)     ;; word (alternative to m)
-   '("o" . meow-block)         ;; block (mnemonic for "open block")
-   '("u" . meow-undo)          ;; undo (mnemonic)
+   ;; Less frequent commands moved to edges/bottom
+   '("f" . meow-find)          ; find (top row)
+   '("v" . meow-visit)         ; visit (top row)
+   '("_" . meow-line)          ; line selection (was x)
    
-   ;; Bottom row - less frequent commands  
-   '("p" . meow-yank)          ;; paste (mnemonic)
-   '("x" . meow-line)          ;; line (mnemonic)
-   '("j" . meow-join)          ;; join (mnemonic)
-   '("y" . meow-save)          ;; yank/copy (vim-like)
-   '("q" . meow-quit)          ;; quit (mnemonic)
+   ;; Bottom row repositioning
+   '("x" . meow-cancel-selection) ; cancel (was g, moved to bottom)
+   '("j" . meow-till)          ; till (was t, moved to make room for movement)
+   '("q" . meow-quit)          ; quit (bottom row)
+   '("z" . meow-grab)          ; pop selection (bottom row)
+   '("Z" . meow-swap-grab)     ; pop selection (bottom row)
+
+   '("g" . meow-inner-of-thing)
+   '(";" . meow-bounds-of-thing)
+   '("G" . meow-beginning-of-thing)
+   '(":" . meow-end-of-thing)
    
-   ;; Special positions
-   '("b" . meow-back-word)     ;; back word (caps lock position)
-   '("'" . repeat)             ;; repeat on right pinky
-   '("/" . meow-visit)         ;; visit (right side)
-   '("g" . meow-cancel-selection)  ;; cancel (accessible)
-   '("r" . meow-block)       ;; block select on thumb
+   ;; Special characters and remaining commands
+   '("c" . meow-reverse)       ; reverse (keep in same relative position)
+   '("'" . repeat)
    
-   ;; Upper case versions for related commands
+   ;; Shifted/capital versions for remaining commands
    '("A" . meow-open-below)
-   '("I" . meow-open-above)  
    '("D" . meow-backward-delete)
    '("E" . meow-next-symbol)
-   '("B" . meow-back-symbol)
-   '("F" . meow-find)          ;; till (related to find)
-   '("N" . meow-pop-selection) ;; pop selection
+   '("I" . meow-open-above)
    '("O" . meow-to-block)
-   '("U" . meow-undo-in-selection)
-   '("W" . meow-mark-symbol)
-   '("G" . meow-goto-line)
-   '("Y" . meow-sync-grab)
-   '("P" . meow-reverse)       ;; reverse (related to yank)
-   '("G" . meow-grab)
-   '("J" . meow-bounds-of-thing)
-   
-   ;; Symbol keys
-   '("," . meow-inner-of-thing)
-   '("." . meow-bounds-of-thing)
-   '(";" . meow-replace)       ;; replace on accessible key
-   '("[" . meow-beginning-of-thing)
-   '("]" . meow-end-of-thing)
-   '("_" . meow-swap-grab)
-   '("z" . meow-pop-selection)
+   '("Y" . meow-sync-grab)     ; sync grab (was Y, moved)
+   '("Q" . meow-undo-in-selection) ; undo in selection (was U, moved)
+   '("U" . meow-goto-line)     ; goto line (alternative, was X)
+   '("V" . meow-visit)         ; visit (duplicate for convenience)
+   '("W" . meow-mark-word)     ; mark word (duplicate for convenience)
+   '("X" . meow-line)          ; line (duplicate for convenience)
+   '("P" . meow-pop-selection) ; pop (duplicate for convenience)
    
    '("<escape>" . ignore)))
 

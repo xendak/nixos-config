@@ -57,6 +57,7 @@ in
           { app-id = "org.kde.dolphin"; }
           { app-id = "org.gnome.Nautilus"; }
           { app-id = ".blueman-manager-wrapped"; }
+          { app-id = "org.fcitx."; }
           { title = ".*Bitwarden.*"; }
           { title = "Picture-in-Picture"; }
         ];

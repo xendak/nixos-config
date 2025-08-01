@@ -152,6 +152,15 @@ in
       epkgs.spacious-padding
       epkgs.indent-bars
       epkgs.which-key
+      epkgs.direnv
+      epkgs.vertico
+      epkgs.vertico-posframe
+      epkgs.orderless
+      epkgs.marginalia
+      epkgs.embark
+      epkgs.consult
+      epkgs.expand-region
+      epkgs.nerd-icons-completion
 
       epkgs.treesit-auto
       epkgs.projectile
