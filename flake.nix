@@ -63,7 +63,7 @@
       url = "github:Aylur/ags/v1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # trying quickshell
+
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -79,7 +79,11 @@
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
     # trying out
-    zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
