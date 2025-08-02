@@ -58,7 +58,7 @@ in
         end-of-line-diagnostics = "hint";
         lsp = {
           enable = true;
-          auto-signature-help = true;
+          auto-signature-help = false;
           display-inlay-hints = true;
           display-progress-messages = true;
           display-signature-help-docs = true;
