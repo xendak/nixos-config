@@ -14,6 +14,8 @@ let
       THEME_DIR="$HOME/.config/themes"
       EMACS_THEME_DIR="$HOME/.config/emacs/themes"
       EMACS_CURRENT_THEME_FILE="$EMACS_THEME_DIR/current-theme.el"
+      FCITX_THEME_DIR="$HOME/.local/share/fcitx5/themes/current"
+
 
       case $1 in
         "dark")
@@ -39,7 +41,6 @@ let
           gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
         ;;
       esac
-
 
       mkdir -p "$HOME/.config/gtk-2.0"
       rm -f "$HOME/.config/gtk-2.0/gtkrc"
@@ -76,6 +77,11 @@ let
 
       mkdir -p $QUICKSHELL_CURRENT_THEME_DIR
       cat "$THEME_DIR/quickshell-$NEW_FILE.txt" >"$QUICKSHELL_CURRENT_THEME_DIR/current.txt"
+
+      mkdir -p $FCITX_THEME_DIR
+      cat "$THEME_DIR/fcitx5-$NEW_FILE/theme.conf" >"$FCITX_THEME_DIR/theme.conf"
+      cat "$THEME_DIR/fcitx5-$NEW_FILE/panel.svg" >"$FCITX_THEME_DIR/panel.svg"
+      cat "$THEME_DIR/fcitx5-$NEW_FILE/highlight.svg" >"$FCITX_THEME_DIR/highlight.svg"
 
       echo $(date +"%d/%m/%y | %H:%M >") "Theme switched to $NEW_FILE." >> /tmp/theme-switcher
       pkill -USR1 hx
