@@ -11,6 +11,8 @@ Singleton {
     property bool isUnlocked: false
     property list<var> entries: []
     property list<var> preppedEntries: []
+    readonly property string unlock_bin: Quickshell.env("HOME") + "/Flake/bin/unlock-rbw"
+
 
     Component.onCompleted: {
         checkUnlockStatus();
@@ -25,7 +27,7 @@ Singleton {
     function unlock(password: string): void {
         if (!unlockProcess.running) {
             const escapedPassword = password.replace(/'/g, "'\\''");
-            unlockProcess.command = ["unlock-rbw", escapedPassword];
+            unlockProcess.command = [unlock_bin, escapedPassword];
             unlockProcess.running = true;
         }
     }
