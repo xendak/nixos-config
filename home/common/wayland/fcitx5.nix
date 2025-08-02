@@ -14,7 +14,7 @@ let
 
         [InputPanel]
         NormalColor=${base05}
-        HighlightCandidateColor=${base02}
+        HighlightCandidateColor=${base00}
         EnableBlur=True
         BlurMask=
         FullWidthHighlight=True
@@ -23,7 +23,8 @@ let
         PageButtonAlignment=Bottom
 
         [InputPanel/Background]
-        Image=panel.svg
+        Color=${base02}
+        # Image=panel.svg
 
         [InputPanel/Background/Margin]
         Left=10
@@ -32,7 +33,8 @@ let
         Bottom=10
 
         [InputPanel/Highlight]
-        Image=highlight.svg
+        Color=${accent}
+        # Image=highlight.svg
 
         [InputPanel/Highlight/Margin]
         Left=20
