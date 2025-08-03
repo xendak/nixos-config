@@ -36,6 +36,7 @@ in
             version-control t
             kept-new-versions 2
             kept-old-versions 1)
+      (setq auto-save-default nil)
 
       (add-to-list 'custom-theme-load-path (expand-file-name "themes/" user-emacs-directory))
 

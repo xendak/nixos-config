@@ -2,15 +2,21 @@
 
 (column-number-mode)
 (global-display-line-numbers-mode t)
+(setq display-line-numbers-type 'relative)
 (setq scroll-margin 5)
 (setq scroll-step 1)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+(add-hook 'prog-mode-hook (lambda ()
+                            (electric-pair-mode)))
 
 (use-package all-the-icons :ensure t)
 (use-package all-the-icons-dired
   :ensure t
   :after all-the-icons
-  :hook (dired-mode . all-the-icons-dired-mode))
+  :hook (dired-mode . all-the-icons-dired-mode)
+  :config
+  (setq all-the-icons-dired-monochrome nil))
 
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -18,10 +24,10 @@
 (setq ido-use-filename-at-point 'guess)
 
 (use-package projectile :ensure t
-   :config
-   (projectile-global-mode)
-   (setq projectile-globally-ignored-directories '("dist"))
-   (setq projectile-indexing-method 'hybrid))
+  :config
+  (projectile-global-mode)
+  (setq projectile-globally-ignored-directories '("dist"))
+  (setq projectile-indexing-method 'hybrid))
 
 (use-package which-key
   :ensure t
@@ -39,6 +45,7 @@
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (setq tab-always-indent 'complete)
+(setq-default indent-tabs-mode nil)
 
 (use-package lsp-mode
   :ensure t
@@ -57,8 +64,7 @@
   (setq lsp-inlay-hints-enable t)
   (setq lsp-headerline-breadcrumb-mode nil)
   (setq lsp-headerline-breadcrumb-enable nil)
-  ; (setq lsp-eldoc-render-all t)
-
+                                        ; (setq lsp-eldoc-render-all t)
   (setq lsp-eldoc-enable-hover nil)
   (setq lsp-signature-render-documentation t)
   (setq lsp-idle-delay 0.2)
@@ -87,7 +93,8 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
-; --- Company Mode (Completion Framework) ---
+
+                                        ; --- Company Mode (Completion Framework) ---
 (use-package company
   :ensure t
   :after lsp-mode
@@ -117,15 +124,15 @@
   :ensure t
   :init
   (setq vertico-posframe-parameters
-	      '((left-fringe . 8)
+        '((left-fringe . 8)
           (right-fringe . 8)))
   :config (vertico-posframe-mode +1))
 
 (use-package orderless
   :ensure t
   :init (setq completion-styles '(orderless basic partial-completion)
-	            completion-category-defaults nil
-	            completion-category-overrides ''(file (styles partial-completion))))
+              completion-category-defaults nil
+              completion-category-overrides ''(file (styles partial-completion))))
 
 (use-package marginalia
   :ensure t
@@ -141,20 +148,20 @@
 (use-package embark
   :ensure t
   :bind (("C-." . embark-act)
-	       ("M-." . embark-dwim)
-	       ("C-h B" . embark-bindings))
+         ("M-." . embark-dwim)
+         ("C-h B" . embark-bindings))
   :init (setq prefix-help-command #'embark-prefix-help-command)
   :config
   (add-to-list 'display-buffer-alist
-	             '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-		             nil
-		             (window-parameters (mode-line-format . none)))))
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
 
 (use-package consult
   :ensure t
   :bind (("C-x b" . consult-buffer)
-	       ("C-x p b" . consult-project-buffer)
-	       ("M-y" . consult-yank-pop)
+         ("C-x p b" . consult-project-buffer)
+         ("M-y" . consult-yank-pop)
          ("M-g g" . consult-goto-line)
          ("M-g ," . consult-line)
          ("M-g i" . consult-imenu)
@@ -188,9 +195,9 @@
 
 (use-package windmove
   :bind (("S-<right>" . windmove-right)
-	       ("S-<left>" . windmove-left)
-	       ("S-<up>" . windmove-up)
-	       ("S-<down>" . windmove-down)))
+         ("S-<left>" . windmove-left)
+         ("S-<up>" . windmove-up)
+         ("S-<down>" . windmove-down)))
 
 (message "---> config.el loaded successfully!")
 (provide 'config)

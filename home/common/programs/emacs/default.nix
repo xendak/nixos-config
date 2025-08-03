@@ -74,6 +74,10 @@ in
     startWithUserSession = "graphical";
   };
 
+  home.packages = [
+    pkgs.emacs-all-the-icons-fonts
+  ];
+
   home.file = {
     ".config/emacs/themes/base16-default-theme.el".source = defaultTheme;
     ".config/emacs/themes/base16-light-theme.el".source = lightTheme;
