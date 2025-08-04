@@ -25,6 +25,8 @@
 
     ../common/programs/terminal/wezterm.nix
 
+    ../common/programs/emacs
+
     ../common/programs/quickshell
 
     ../common/games/wine.nix
