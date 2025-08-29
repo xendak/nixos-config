@@ -2,26 +2,35 @@
   pkgs,
   config,
   ...
-}: {
+}:
+{
   home.packages = [
 
     (pkgs.retroarch.withCores (
-      cores: with cores; [
+      cores:
+      with cores;
+      [
         ppsspp
         snes9x
         dolphin
         mupen64plus
         desmume
         mgba
-      ] ++ (if pkgs.system == "x86_64-linux" then [
-        # stuff that doesn't happen on ARM
-        pcsx2
-      ] else [])
+      ]
+      ++ (
+        if pkgs.system == "x86_64-linux" then
+          [
+            # stuff that doesn't happen on ARM
+            pcsx2
+          ]
+        else
+          [ ]
+      )
     ))
   ];
 
   home.persistence = {
-    "/persist/home/${config.home.username}" = {
+    "/persist" = {
       directories = [
         ".local/share/retroarch"
         ".config/retroarch"

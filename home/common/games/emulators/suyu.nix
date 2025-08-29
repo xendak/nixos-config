@@ -3,11 +3,12 @@
   config,
   inputs,
   ...
-}: {
-  home.packages = [inputs.suyu.packages.${pkgs.system}.suyu];
+}:
+{
+  home.packages = [ inputs.suyu.packages.${pkgs.system}.suyu ];
 
   home.persistence = {
-    "/persist/home/${config.home.username}" = {
+    "/persist" = {
       directories = [
         ".local/share/suyu"
         ".config/suyu"

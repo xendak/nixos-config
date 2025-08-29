@@ -11,14 +11,15 @@ let
 in
 {
   imports = [
-    inputs.impermanence.nixosModules.home-manager.impermanence
+    inputs.impermanence.homeManagerModules.impermanence
     inputs.nix-colors.homeManagerModule
 
     # ../common/colors
     ../common/colors/gorgoroth.nix
     # ../common/colors/grayscale-nier.nix
 
-  ] ++ (builtins.attrValues outputs.homeManagerModules);
+  ]
+  ++ (builtins.attrValues outputs.homeManagerModules);
 
   nix = {
     package = lib.mkDefault pkgs.nix;

@@ -2,10 +2,11 @@
   config,
   pkgs,
   ...
-}: let
+}:
+let
   steam-with-pkgs = pkgs.steam.override {
-    extraPkgs = pkgs:
-      with pkgs; [
+    extraPkgs =
+      pkgs: with pkgs; [
         xorg.libXcursor
         xorg.libXi
         xorg.libXinerama
@@ -21,7 +22,8 @@
         harfbuzz
       ];
   };
-in {
+in
+{
   home.packages = [
     steam-with-pkgs
     pkgs.gamescope
@@ -30,7 +32,7 @@ in {
   ];
 
   home.persistence = {
-    "/persist/home/${config.home.username}" = {
+    "/persist" = {
       allowOther = true;
       directories = [
         {

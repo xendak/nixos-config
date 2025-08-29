@@ -2,11 +2,12 @@
   config,
   pkgs,
   ...
-}: {
-  home.packages = with pkgs; [rustdesk-flutter];
+}:
+{
+  home.packages = with pkgs; [ rustdesk-flutter ];
 
   home.persistence = {
-    "/persist/home/${config.home.username}" = {
+    "/persist" = {
       directories = [
         ".config/rustdesk"
       ];

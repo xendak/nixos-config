@@ -1,6 +1,7 @@
-{config, ...}: {
+{ config, ... }:
+{
   home.persistence = {
-    "/persist/home/${config.home.username}" = {
+    "/persist" = {
       allowOther = true;
       directories = [
         ".local/share/anime-game-launcher"

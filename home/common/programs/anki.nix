@@ -10,7 +10,7 @@
   # https://github.com/LilleAila/dotfiles/blob/main/pkgs/anki.nix
 
   home.persistence = {
-    "/persist/home/${config.home.username}" = {
+    "/persist" = {
       directories = [
         ".local/share/Anki"
         ".local/share/Anki2"

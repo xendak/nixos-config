@@ -8,7 +8,7 @@
   };
 
   home.persistence = {
-    "/persist/home/${config.home.username}" = {
+    "/persist" = {
       directories = [
         ".config/rbw"
         ".local/cache/rbw"

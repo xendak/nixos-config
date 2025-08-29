@@ -2,17 +2,26 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   home.packages = with pkgs; [
-    (
-      lutris.override {
-        extraPkgs = pkgs: with pkgs; [vulkan-loader vulkan-tools curl nghttp2 xdelta mangohud winetricks gamescope];
-      }
-    )
+    (lutris.override {
+      extraPkgs =
+        pkgs: with pkgs; [
+          vulkan-loader
+          vulkan-tools
+          curl
+          nghttp2
+          xdelta
+          mangohud
+          winetricks
+          gamescope
+        ];
+    })
   ];
 
   home.persistence = {
-    "/persist/home/${config.home.username}/" = {
+    "/persist" = {
       allowOther = true;
       directories = [
         "Games/Wine"

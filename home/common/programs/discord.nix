@@ -31,7 +31,7 @@ in
   };
 
   home.persistence = {
-    "/persist/home/${config.home.username}" = {
+    "/persist" = {
       directories = [ ".config/discordcanary" ];
       allowOther = true;
     };

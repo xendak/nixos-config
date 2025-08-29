@@ -5,9 +5,16 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     # impermanence.url = "github:nix-community/impermanence";
-    impermanence.url = "github:misterio77/impermanence";
-    hardware.url = "github:nixos/nixos-hardware";
+    # impermanence.url = "github:misterio77/impermanence";
+    impermanence = {
+      # https://github.com/nix-community/impermanence/pull/272#discussion_r2230796215
+      url = "github:misterio77/impermanence";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+    # hardware.url = "github:nixos/nixos-hardware";
     nix-colors.url = "github:misterio77/nix-colors";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,7 +23,6 @@
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    suyu.url = "github:Noodlez1232/suyu-flake";
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
@@ -25,12 +31,32 @@
       url = "github:hyprwm/xdg-desktop-portal-hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    swayfx.url = "github:WillPower3309/swayfx";
-    hyprwm-contrib.url = "github:hyprwm/contrib";
-    hyprpicker.url = "github:hyprwm/hyprpicker";
-    hyprland-portal.url = "github:hyprwm/xdg-desktop-portal-hyprland";
-    firefox-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-    agenix.url = "github:ryantm/agenix";
+    # swayfx.url = "github:WillPower3309/swayfx";
+    hyprwm-contrib = {
+      url = "github:hyprwm/contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprpicker = {
+      url = "github:hyprwm/hyprpicker";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprland-portal = {
+      url = "github:hyprwm/xdg-desktop-portal-hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    suyu = {
+      url = "github:Noodlez1232/suyu-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     aagl = {
       url = "github:ezKEa/aagl-gtk-on-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,15 +70,24 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    wezterm.url = "github:wez/wezterm?dir=nix";
-    helix-flake.url = "github:helix-editor/helix";
-    matugen.url = "github:InioX/matugen";
+    # wezterm.url = "github:wez/wezterm?dir=nix";
+    # helix-flake.url = "github:helix-editor/helix";
+    # matugen.url = "github:InioX/matugen";
 
-    niri.url = "github:sodiboo/niri-flake";
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # kinda liked it a lot :^)
-    zig.url = "github:mitchellh/zig-overlay";
-    zls.url = "github:zigtools/zls";
+    zig = {
+      url = "github:mitchellh/zig-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    zls = {
+      url = "github:zigtools/zls";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     uwu-colors = {
       url = "github:q60/uwu_colors";
@@ -76,7 +111,10 @@
 
     # #github:owner/repo?rev=
     # NIXOS WSL
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # trying out
     zen-browser = {
@@ -94,7 +132,6 @@
       home-manager,
       agenix,
       hyprland,
-      helix-flake,
       nixos-wsl,
       ...
     }@inputs:

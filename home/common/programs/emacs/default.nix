@@ -57,7 +57,7 @@ let
 in
 {
   #home.persistence = {
-  #  "/persist/home/${config.home.username}" = {
+  #  "/persist" = {
   #    directories = [".local/cache/emacs"];
   #    allowOther = true;
   #  };

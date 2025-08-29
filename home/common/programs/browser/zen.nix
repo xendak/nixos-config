@@ -66,7 +66,7 @@ in
   ];
 
   home.persistence = {
-    "/persist/home/${config.home.username}" = {
+    "/persist" = {
       directories = [ ".config/zen/${config.home.username}" ];
       allowOther = true;
     };

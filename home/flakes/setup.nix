@@ -11,11 +11,12 @@ let
 in
 {
   imports = [
-    inputs.impermanence.nixosModules.home-manager.impermanence
+    inputs.impermanence.homeManagerModules.impermanence
     inputs.nix-colors.homeManagerModule
     # ../common/colors
     ../common/colors/gorgoroth.nix
-  ] ++ (builtins.attrValues outputs.homeManagerModules);
+  ]
+  ++ (builtins.attrValues outputs.homeManagerModules);
 
   # nixpkgs = {
   #   overlays = builtins.attrValues outputs.overlays;

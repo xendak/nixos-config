@@ -73,6 +73,7 @@
   # Home --------------------
   home = {
     username = lib.mkDefault "nixos";
+    persistence = lib.mkForce { };
     homeDirectory = lib.mkDefault "/home/nixos/";
     stateVersion = lib.mkDefault "25.05";
     sessionPath = [ "$HOME/Flakes/bin" ];

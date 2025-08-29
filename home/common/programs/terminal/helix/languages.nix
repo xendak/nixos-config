@@ -197,7 +197,8 @@ in
     };
 
     dprint = {
-      command = lib.getExe pkgs.dprint;
+      command = "dprint";
+      # command = lib.getExe pkgs.dprint;
       args = [ "lsp" ];
     };
 

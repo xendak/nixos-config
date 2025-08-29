@@ -110,7 +110,7 @@
     stateVersion = lib.mkDefault "24.05";
     sessionPath = [ "$HOME/Flakes/bin" ];
     persistence = {
-      "/persist/home/flakes" = {
+      "/persist" = {
         directories = [
           "Flake"
           "Downloads"

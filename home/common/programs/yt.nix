@@ -2,7 +2,8 @@
   pkgs,
   config,
   ...
-}: {
+}:
+{
   home.packages = with pkgs; [
     youtube-music
     yt-dlp
@@ -12,8 +13,8 @@
     waylyrics
   ];
   home.persistence = {
-    "/persist/home/${config.home.username}" = {
-      directories = [".config/YouTube Music"];
+    "/persist" = {
+      directories = [ ".config/YouTube Music" ];
       allowOther = true;
     };
   };

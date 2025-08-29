@@ -17,8 +17,8 @@ in
   home.sessionVariables.COLORTERM = "truecolor";
   programs.helix = {
     enable = true;
-    # package = pkgs.helix;
-    package = inputs.helix-flake.packages.${pkgs.system}.default;
+    package = pkgs.helix;
+    # package = inputs.helix-flake.packages.${pkgs.system}.default;
     extraPackages = [
       # pkgs.marksman
       pkgs.markdown-oxide

@@ -311,7 +311,7 @@ in
       DEFAULT_BROWSER = "firefox";
     };
     persistence = {
-      "/persist/home/${config.home.username}" = {
+      "/persist" = {
         directories = [ ".mozilla/firefox" ];
         allowOther = true;
       };

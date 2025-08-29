@@ -24,7 +24,7 @@ let
       "[]";
 in
 {
-  home.persistence."/persist/home/${config.home.username}".files = [
+  home.persistence."/persist".files = [
     ".config/nushell/history.txt"
     ".config/nushell/history.sqlite3"
     ".config/nushell/history.sqlite3-shm"
