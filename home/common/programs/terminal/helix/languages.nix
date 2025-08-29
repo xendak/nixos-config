@@ -198,6 +198,7 @@ in
 
     dprint = {
       command = "dprint";
+      # TODO: fix this eventually
       # command = lib.getExe pkgs.dprint;
       args = [ "lsp" ];
     };
