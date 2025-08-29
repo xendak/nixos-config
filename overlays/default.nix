@@ -20,6 +20,12 @@
       docSupport = false;
     };
 
+    zls-overlay = inputs.zls.packages.${final.system}.default.overrideAttrs (oldAttrs: {
+      nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [
+        inputs.zig.packages.${final.system}.master
+      ];
+    });
+    zig-master = inputs.zig.packages.${final.system}."0.15.1";
   };
 
   stable = final: _: {

@@ -90,8 +90,8 @@ let
     ''
   );
 
-  zigPkg = inputs.zig.packages.${pkgs.system}.master;
-  zlsPkg = inputs.zls.packages.${pkgs.system}.default;
+  # zigPkg = inputs.zig.packages.${pkgs.system}.master;
+  # zlsPkg = inputs.zls.packages.${pkgs.system}.default;
 in
 {
   home.packages = with pkgs; [
@@ -124,8 +124,8 @@ in
     bitwise
 
     # DEFAULT LANGUAGES i use mostly?
-    zigPkg
-    zlsPkg
+    zig-master
+    zls-overlay
     valgrind
     clang-tools
     llvmPackages_latest.libstdcxxClang
