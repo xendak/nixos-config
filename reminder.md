@@ -8,6 +8,66 @@ nix search nixpkgs ^ --json | jq -r 'keys[]' | sed 's/legacyPackages\.x86_64-lin
 ### search offline
 nix search --offline nixpkgs
 
+
+### repl
+```nix
+nix repl
+Nix 2.28.4
+Type :? for help.
+nix-repl> :lf .
+warning: input 'nixpkgs-dprint-fix' has an override for a non-existent input 'nixpkgs'
+warning: input 'nixpkgs-git-fix' has an override for a non-existent input 'nixpkgs'
+Added 19 variables.
+
+nix-repl> inputs.nixpkgs.legacyPackages.
+inputs.nixpkgs.legacyPackages.aarch64-darwin     inputs.nixpkgs.legacyPackages.riscv64-linux
+inputs.nixpkgs.legacyPackages.aarch64-linux      inputs.nixpkgs.legacyPackages.x86_64-darwin
+inputs.nixpkgs.legacyPackages.armv6l-linux       inputs.nixpkgs.legacyPackages.x86_64-freebsd
+inputs.nixpkgs.legacyPackages.armv7l-linux       inputs.nixpkgs.legacyPackages.x86_64-linux
+inputs.nixpkgs.legacyPackages.i686-linux
+inputs.nixpkgs.legacyPackages.powerpc64le-linux
+nix-repl> inputs.nixpkgs.legacyPackages.<system>
+error: syntax error, unexpected SPATH, expecting ID or OR_KW or DOLLAR_CURLY or '"'
+       at «string»:1:31:
+            1| inputs.nixpkgs.legacyPackages.<system>
+             |                               ^
+
+nix-repl> inputs.nixpkgs.legacyPackages.<system>.helix
+error: syntax error, unexpected SPATH, expecting ID or OR_KW or DOLLAR_CURLY or '"'
+       at «string»:1:31:
+            1| inputs.nixpkgs.legacyPackages.<system>.helix
+             |                               ^
+
+nix-repl> inputs.nixpkgs.legacyPackages.<system>.helix.version
+error: syntax error, unexpected SPATH, expecting ID or OR_KW or DOLLAR_CURLY or '"'
+       at «string»:1:31:
+            1| inputs.nixpkgs.legacyPackages.<system>.helix.version
+             |                               ^
+
+nix-repl> inputs.nixpkgs.legacyPackages.x86_64-linux.helix.version
+"25.07.1"
+
+nix-repl> inputs.nixpkgs.legacyPackages.x86_64-linux.wezterm
+«derivation /nix/store/r9pjk9vdg54kgf3jqfsx514d6gbsmhg3-wezterm-0-unstable-2025-07-30.drv»
+
+nix-repl> inputs.nixpkgs.legacyPackages.x86_64-linux.wezterm.version
+"0-unstable-2025-07-30"
+
+nix-repl> inputs.nixpkgs-stable.legacyPackages.x86_64-linux.wezterm.version
+"0-unstable-2025-01-03"
+
+nix-repl> inputs.nixpkgs-stable.legacyPackages.x86_64-linux.helix.version
+"25.01.1"
+
+nix-repl> inputs.nixpkgs-stable.legacyPackages.x86_64-linux.zig.version
+"0.13.0"
+
+nix-repl> inputs.nixpkgs.legacyPackages.x86_64-linux.zig.version
+"0.14.1"
+
+nix-repl> inputs.nixpkgs.legacyPackages.x86_64-linux.zls.version
+"0.14.0"
+```
 ### finding files
 ```nushell
 ls **/*.nix | where name =~ "browser"
