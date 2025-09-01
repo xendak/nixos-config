@@ -71,7 +71,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # wezterm.url = "github:wez/wezterm?dir=nix";
+    wezterm.url = "github:wez/wezterm?dir=nix";
     # helix-flake.url = "github:helix-editor/helix";
     # matugen.url = "github:InioX/matugen";
 

@@ -77,6 +77,7 @@ in
   # Wezterm configuration
   programs.wezterm = {
     enable = true;
+    package = pkgs.wezterm;
     # package = inputs.wezterm.packages.${pkgs.system}.default;
     extraConfig = ''
       local color = dofile(wezterm.config_dir .. '/colors/current.lua')
