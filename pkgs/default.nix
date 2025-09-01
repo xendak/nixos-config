@@ -15,4 +15,5 @@
   custom-xdg-desktop-portal-termfilechooser =
     pkgs.callPackage ./xdg-desktop-portal-termfilechooser
       { };
+  suyu = pkgs.callPackage ./suyu-bin { };
 }
