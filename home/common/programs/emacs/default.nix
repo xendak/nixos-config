@@ -59,7 +59,6 @@ in
   #home.persistence = {
   #  "/persist" = {
   #    directories = [".local/cache/emacs"];
-  #    allowOther = true;
   #  };
   #};
 

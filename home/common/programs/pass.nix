@@ -14,7 +14,6 @@
 
   home.persistence = {
     "/persist" = {
-      allowOther = true;
       directories = [ ".config/.password-store" ];
     };
   };

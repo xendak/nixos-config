@@ -68,7 +68,6 @@ in
   home.persistence = {
     "/persist" = {
       directories = [ ".config/zen/${config.home.username}" ];
-      allowOther = true;
     };
   };
 

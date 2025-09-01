@@ -8,6 +8,11 @@ nix search nixpkgs ^ --json | jq -r 'keys[]' | sed 's/legacyPackages\.x86_64-lin
 ### search offline
 nix search --offline nixpkgs
 
+### yt-dlp
+quick yt-dlp fix for chromes >_>
+nix run 'github:NixOS/nixpkgs/master#yt-dlp'
+
+
 
 ### repl
 ```nix

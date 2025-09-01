@@ -36,7 +36,6 @@
         ".config/retroarch"
         "Games/Emulators/RetroArch"
       ];
-      allowOther = true;
     };
   };
 }

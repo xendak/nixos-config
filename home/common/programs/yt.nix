@@ -15,7 +15,6 @@
   home.persistence = {
     "/persist" = {
       directories = [ ".config/YouTube Music" ];
-      allowOther = true;
     };
   };
 }

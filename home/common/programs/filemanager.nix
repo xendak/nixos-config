@@ -24,7 +24,6 @@
 
   home.persistence = {
     "/persist" = {
-      allowOther = true;
       directories = [ ".local/share/dolphin" ];
       files = [
         ".config/dolphinrc"

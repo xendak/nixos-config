@@ -313,7 +313,6 @@ in
     persistence = {
       "/persist" = {
         directories = [ ".mozilla/firefox" ];
-        allowOther = true;
       };
     };
   };

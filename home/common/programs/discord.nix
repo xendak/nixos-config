@@ -33,7 +33,6 @@ in
   home.persistence = {
     "/persist" = {
       directories = [ ".config/discordcanary" ];
-      allowOther = true;
     };
   };
 

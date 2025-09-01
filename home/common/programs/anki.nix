@@ -15,7 +15,6 @@
         ".local/share/Anki"
         ".local/share/Anki2"
       ];
-      allowOther = true;
     };
   };
 }

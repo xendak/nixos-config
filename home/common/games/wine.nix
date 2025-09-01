@@ -13,7 +13,6 @@
 
   home.persistence = {
     "/persist" = {
-      allowOther = true;
       directories = [
         "Games/Wine"
         "Games/Wine-Prefix"

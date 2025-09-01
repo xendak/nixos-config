@@ -11,7 +11,6 @@
       directories = [
         ".config/rustdesk"
       ];
-      allowOther = true;
     };
   };
 }

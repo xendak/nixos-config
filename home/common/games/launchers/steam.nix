@@ -33,13 +33,14 @@ in
 
   home.persistence = {
     "/persist" = {
-      allowOther = true;
       directories = [
-        {
-          directory = ".local/share/Steam";
-          method = "symlink";
-        }
+        # {
+        #   directory = ".local/share/Steam";
+        #   method = "symlink";
+        # }
+
         # ".config/steamtinkerlaunch"
+        ".local/share/Steam"
         "Games/Steam"
       ];
     };

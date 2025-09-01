@@ -133,7 +133,6 @@
           ".local/share/ssh"
           ".local/share/fish"
         ];
-        allowOther = true;
       };
     };
     sessionVariables = {

@@ -136,7 +136,6 @@
           ".local/share/ssh"
         ];
         files = [ ".local/share/fish/fish_history" ];
-        allowOther = true;
       };
 
     };

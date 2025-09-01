@@ -12,8 +12,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-    # hardware.url = "github:nixos/nixos-hardware";
-    nix-colors.url = "github:misterio77/nix-colors";
+    hardware = {
+      url = "github:nixos/nixos-hardware";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-colors = {
+      url = "github:misterio77/nix-colors";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -52,11 +58,6 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    suyu = {
-      url = "github:Noodlez1232/suyu-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     aagl = {
       url = "github:ezKEa/aagl-gtk-on-nix";
       inputs.nixpkgs.follows = "nixpkgs";

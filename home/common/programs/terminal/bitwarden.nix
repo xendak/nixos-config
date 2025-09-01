@@ -14,7 +14,6 @@
         ".local/cache/rbw"
         ".local/share/rbw"
       ];
-      allowOther = true;
     };
   };
 }

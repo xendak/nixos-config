@@ -4,7 +4,6 @@
   home.persistence = {
     "/persist" = {
       directories = [ ".local/share/zoxide" ];
-      allowOther = true;
     };
   };
 }

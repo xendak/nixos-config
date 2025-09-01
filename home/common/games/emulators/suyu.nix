@@ -1,11 +1,9 @@
 {
   pkgs,
-  config,
-  inputs,
   ...
 }:
 {
-  home.packages = [ inputs.suyu.packages.${pkgs.system}.suyu ];
+  home.packages = [ pkgs.suyu ];
 
   home.persistence = {
     "/persist" = {
@@ -14,7 +12,6 @@
         ".config/suyu"
         "Games/Suyu"
       ];
-      allowOther = true;
     };
   };
 }
