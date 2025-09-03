@@ -24,6 +24,7 @@
     # ../common/wayland/hyprland/plugins/hyprexpo.nix
 
     ../common/programs/terminal/wezterm.nix
+    ../common/programs/terminal/foot.nix
 
     ../common/programs/emacs
 

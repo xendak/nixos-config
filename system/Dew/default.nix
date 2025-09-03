@@ -106,7 +106,6 @@
   };
 
   programs.auto-cpufreq.enable = true;
-  # optionally, you can configure your auto-cpufreq settings, if you have any
   programs.auto-cpufreq.settings = {
     charger = {
       governor = "performance";
