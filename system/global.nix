@@ -64,7 +64,16 @@ in
     };
   };
 
+  age.secrets.github-token.path = {
+    file = ../../secrets/github-token.age;
+    owner = "root";
+    group = "root";
+  };
+
+  age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
+
   nix = {
+    extraOptions = ''access-tokens-files = github.com=${config.age.secrets.github-token.path}'';
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;

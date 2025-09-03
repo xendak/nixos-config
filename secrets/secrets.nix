@@ -9,6 +9,7 @@ let
 in
 {
   "pw.age".publicKeys = systems;
+  "github-token.age".publicKeys = systems;
   "gemini-api-key.age".publicKeys = systems;
 }
 
