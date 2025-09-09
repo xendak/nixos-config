@@ -16,6 +16,10 @@
       patches = (oldAttrs.patches or [ ]) ++ [ ./xdg-open-spawn-terminal.diff ];
     });
 
+    rbw = prev.rbw.overrideAttrs (oldAttrs: {
+      patches = (oldAttrs.patches or [ ]) ++ [ ./rbw-list-raw.patch ];
+    });
+
     avrdude = prev.avrdude.override {
       docSupport = false;
     };

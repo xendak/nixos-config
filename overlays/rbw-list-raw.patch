@@ -1,0 +1,60 @@
+From e2998a5593697919a81e02779aa07a8f07e345e6 Mon Sep 17 00:00:00 2001
+From: Rafael Grossi <108767275+xendak@users.noreply.github.com>
+Date: Wed, 9 Sep 2025 10:34:26 -0300
+Subject: [PATCH] Add --raw option to list command
+
+Closes #107
+---
+ src/bin/rbw/commands.rs | 9 ++++++++-
+ src/bin/rbw/main.rs     | 4 +++-
+ 2 files changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/src/bin/rbw/commands.rs b/src/bin/rbw/commands.rs
+index a5dfe9b..87b643f 100644
+--- a/src/bin/rbw/commands.rs
++++ b/src/bin/rbw/commands.rs
+@@ -1051,7 +1051,7 @@ pub fn sync() -> anyhow::Result<()> {
+     Ok(())
+ }
+ 
+-pub fn list(fields: &[String]) -> anyhow::Result<()> {
++pub fn list(fields: &[String], raw: bool) -> anyhow::Result<()> {
+     let fields: Vec<ListField> = fields
+         .iter()
+         .map(std::convert::TryFrom::try_from)
+@@ -1067,6 +1067,13 @@ pub fn list(fields: &[String]) -> anyhow::Result<()> {
+         .collect::<anyhow::Result<_>>()?;
+     ciphers.sort_unstable_by(|a, b| a.name.cmp(&b.name));
+ 
++    if raw {
++        serde_json::to_writer_pretty(std::io::stdout(), &ciphers)
++            .context("failed to write entries to stdout")?;
++        println!();
++        return Ok(());
++    }
++
+     for cipher in ciphers {
+         let values: Vec<String> = fields
+             .iter()
+diff --git a/src/bin/rbw/main.rs b/src/bin/rbw/main.rs
+index 0d62901..4edb78c 100644
+--- a/src/bin/rbw/main.rs
++++ b/src/bin/rbw/main.rs
+@@ -56,6 +56,8 @@ enum Opt {
+         visible_alias = "ls"
+     )]
+     List {
++        #[structopt(long, help = "Display output as JSON")]
++        raw: bool,
+         #[arg(
+             long,
+             help = "Fields to display. \
+@@ -312,7 +314,7 @@ fn main() {
+         Opt::Unlock => commands::unlock(),
+         Opt::Unlocked => commands::unlocked(),
+         Opt::Sync => commands::sync(),
+-        Opt::List { fields } => commands::list(fields),
++        Opt::List { fields, raw } => commands::list(fields, *raw),
+         Opt::Get {
+             find_args,
+             field,
