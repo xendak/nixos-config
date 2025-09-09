@@ -105,18 +105,19 @@
     };
   };
 
-  programs.auto-cpufreq.enable = true;
-  programs.auto-cpufreq.settings = {
-    charger = {
-      governor = "performance";
-      turbo = "auto";
-    };
+  # programs.auto-cpufreq.enable = true;
+  # programs.auto-cpufreq.settings = {
+  #   charger = {
+  #     governor = "performance";
+  #     turbo = "auto";
+  #   };
 
-    battery = {
-      governor = "powersave";
-      turbo = "auto";
-    };
-  };
+  #   battery = {
+  #     governor = "powersave";
+  #     turbo = "auto";
+  #   };
+  # };
+
   # NTFS-3G for Windows Partititions
   environment.systemPackages = [
     pkgs.ntfs3g
