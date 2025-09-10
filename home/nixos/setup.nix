@@ -40,7 +40,7 @@ in
   };
 
   # Something? -------------
-  colorscheme = lib.mkDefault colorSchemes.nord; # material-palenight;
+  # colorscheme = lib.mkDefault colorSchemes.nord; # material-palenight;
   themes.light = import ../common/colors/grayscale-nier.nix;
   themes.dark = import ../common/colors/luna.nix;
   themes.default = import ../common/colors/gorgoroth.nix;
