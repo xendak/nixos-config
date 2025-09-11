@@ -134,6 +134,33 @@ Singleton {
             running = false;
         }
     }
+    
+    function processEntriesJson(jsonData) {
+        try {
+            const allItems = JSON.parse(jsonData);
+        
+            const newEntries = allItems
+                .filter(item => item.data) 
+                .map(item => ({
+                    name: item.name || "",
+                    username: item.data.username || "",
+                    folder: item.folder || "",
+                    type: "login",
+                    login: item.data 
+                }));
+
+            root.entries = newEntries;
+        
+            root.preppedEntries = newEntries.map(entry => ({
+                name: Fuzzy.prepare(entry.name),
+                username: Fuzzy.prepare(entry.username),
+                folder: Fuzzy.prepare(entry.folder),
+                entry: entry
+            }));
+        } catch (e) {
+            console.log("Rbw.qml: Could not parse rbw JSON entries: ", e);
+        }
+    }
 
     function processEntries(lines) {
         try {
@@ -165,7 +192,8 @@ Singleton {
 
     Process {
         id: loadEntriesProcess
-        command: ["rbw", "list", "--fields", "name,user,folder"]
+        // command: ["rbw", "list", "--fields", "name,user,folder"]
+        command: ["rbw", "list", "--raw"]
         running: false
 
         property string receivedData: ""
@@ -181,8 +209,10 @@ Singleton {
         }
 
         onExited: function(exitCode, exitStatus) {
+            // console.log(receivedData);
             if (exitCode === 0) {
-                processEntries(receivedData.split('\n'));
+                processEntriesJson(receivedData);
+                // processEntries(receivedData.split('\n'));
             } else {
                 console.log("loadEntriesProcess failed with exit code:", exitCode);
             }

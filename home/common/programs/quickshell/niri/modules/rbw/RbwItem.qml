@@ -10,6 +10,36 @@ Item {
     required property var modelData
     required property PersistentProperties visibilities
 
+
+    function getHostname(uriString) {
+        console.log("uriString: " + uriString);
+        if (!uriString || !uriString.startsWith("http")) {
+            return "";
+        }
+        try {
+            // The URL object is a standard way to parse URLs
+            return new URL(uriString).hostname;
+        } catch (e) {
+            console.log("Invalid URI for icon:", uriString);
+            return "";
+        }
+    }
+
+    // Determine the icon source URL
+    property string iconUrl: {
+        // We only care about the first URI for the icon
+        const uri = root.modelData?.login?.uris[0]?.uri;
+        console.log("iconUrl: " + uri);
+        if (uri) {
+            const hostname = getHostname(uri);
+            if (hostname) {
+                // Use DuckDuckGo's icon service
+                return "https://icons.duckduckgo.com/ip3/" + hostname + ".ico";
+            }
+        }
+        return "";
+    }
+
     implicitHeight: LauncherConfig.sizes.itemHeight
 
     anchors.left: parent?.left
@@ -35,16 +65,43 @@ Item {
         anchors.rightMargin: Appearance.padding.larger
         anchors.margins: Appearance.padding.smaller
 
-        MaterialIcon {
+        // MaterialIcon {
+        //     id: icon
+
+        //     text: root.modelData?.type === "login" ? "account_circle" : 
+        //           root.modelData?.type === "card" ? "credit_card" :
+        //           root.modelData?.type === "identity" ? "badge" :
+        //           root.modelData?.type === "note" ? "note" : "lock"
+        //     font.pointSize: Appearance.font.size.extraLarge
+
+        //     anchors.verticalCenter: parent.verticalCenter
+        // }
+        Item {
             id: icon
-
-            text: root.modelData?.type === "login" ? "account_circle" : 
-                  root.modelData?.type === "card" ? "credit_card" :
-                  root.modelData?.type === "identity" ? "badge" :
-                  root.modelData?.type === "note" ? "note" : "lock"
-            font.pointSize: Appearance.font.size.extraLarge
-
+            width: Appearance.font.size.extraLarge
+            height: Appearance.font.size.extraLarge
             anchors.verticalCenter: parent.verticalCenter
+
+            // The website's icon
+            Image {
+                id: webIcon
+                anchors.fill: parent
+                source: root.iconUrl
+                visible: source !== "" && status === Image.Ready
+                fillMode: Image.PreserveAspectFit
+            }
+
+            // Fallback MaterialIcon
+            MaterialIcon {
+                id: fallbackIcon
+                anchors.centerIn: parent
+                visible: webIcon.status !== Image.Ready // Show if image is not ready/failed
+                text: root.modelData?.type === "login" ? "account_circle" :
+                      root.modelData?.type === "card" ? "credit_card" :
+                      root.modelData?.type === "identity" ? "badge" :
+                      root.modelData?.type === "note" ? "note" : "lock"
+                font.pointSize: Appearance.font.size.extraLarge
+            }
         }
 
         Item {
