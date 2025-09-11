@@ -31,6 +31,8 @@
     "usb_storage"
     "sd_mod"
   ];
+
+  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
   boot.kernelModules = [
     "kvm-intel"
     "amdgpu"
@@ -122,6 +124,15 @@
       };
     };
   };
+  systemd.services.lact = {
+    description = "AMDGPU Control Daemon";
+    after = [ "multi-user.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.lact}/bin/lact daemon";
+    };
+    enable = true;
+  };
 
   # genshin
   programs.anime-game-launcher.enable = true;
@@ -144,6 +155,9 @@
     config.boot.kernelPackages.cpupower
     pkgs.linuxKernel.packages.linux_zen.v4l2loopback # uncertain if still needed here..?
     pkgs.v4l-utils
+
+    # lact
+    pkgs.lact
 
     # trying
     pkgs.networkmanager_dmenu
@@ -192,6 +206,7 @@
   environment.persistence."/persist" = {
     hideMounts = true;
     directories = [
+      "/etc/lact"
       "/etc/NetworkManager"
       "/var/lib/NetworkManager"
     ];
@@ -229,23 +244,6 @@
     extraSpecialArgs = { inherit inputs outputs; };
     backupFileExtension = "hm-backup";
   };
-
-  # system.activationScripts.hyprlandDesktop = let
-  #   hyprlandDesktop = pkgs.writeText "Hyprland.desktop" ''
-  #     [Desktop Entry]
-  #     Name=Hyprland
-  #     Comment=Hyprland wayland session
-  #     Exec=Hyprland
-  #     Type=Application
-  #   '';
-  # in ''
-  #   mkdir -p /usr/share/xsessions
-  #   mkdir -p /usr/share/wayland-sessions
-  #   cp ${hyprlandDesktop} /usr/share/xsessions/Hyprland.desktop
-  #   cp ${hyprlandDesktop} /usr/share/wayland-sessions/Hyprland.desktop
-  #   chmod 644 /usr/share/xsessions/Hyprland.desktop
-  #   chmod 644 /usr/share/wayland-sessions/Hyprland.desktop
-  # '';
 
   services = {
     hardware = {

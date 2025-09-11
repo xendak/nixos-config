@@ -88,8 +88,7 @@
 
     deluge
 
-    # testing fuzzel
-    fuzzel
+    lact
 
     # keyboard
     qmk

@@ -73,7 +73,8 @@ in
   age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
 
   nix = {
-    extraOptions = ''access-tokens = github.com=${config.age.secrets.github-token.path}'';
+    # extraOptions = ''access-tokens = github.com=${config.age.secrets.github-token.path}'';
+    # extraOptions = ''access-tokens = github.com=${builtins.readFile config.age.secrets.github-token.path}'';
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
