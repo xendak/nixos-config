@@ -6,21 +6,17 @@
   outputs,
   ...
 }:
-let
-  inherit (inputs.nix-colors) colorSchemes;
-in
 {
   imports = [
     inputs.impermanence.homeManagerModules.impermanence
     inputs.nix-colors.homeManagerModule
-    # ../common/colors
-    # ../common/colors/kanagawa.nix
-    # ../common/colors/grayscale-nier.nix
+
+    # Set default color
     ../common/colors/gorgoroth.nix
   ]
   ++ (builtins.attrValues outputs.homeManagerModules);
 
-  nixpkgs = {
+  nixpkgs = lib.mkIf (config.home.username == "nixos") {
     overlays = builtins.attrValues outputs.overlays;
     config = {
       allowUnfree = true;
@@ -39,8 +35,6 @@ in
     };
   };
 
-  # Something? -------------
-  # colorscheme = lib.mkDefault colorSchemes.nord; # material-palenight;
   themes.light = import ../common/colors/grayscale-nier.nix;
   themes.dark = import ../common/colors/luna.nix;
   themes.default = import ../common/colors/gorgoroth.nix;

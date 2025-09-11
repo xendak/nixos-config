@@ -9,7 +9,7 @@
   imports = [
     inputs.nix-index-db.homeModules.nix-index
 
-    ./setup.nix
+    ../setup.nix
 
     ../common/programs/emacs
 
