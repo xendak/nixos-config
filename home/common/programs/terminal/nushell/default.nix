@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 let
@@ -31,6 +32,13 @@ in
     ".config/nushell/history.sqlite3-wal"
   ];
 
+  # fix for wally cli
+  home.packages = [
+    (pkgs.writeShellScriptBin "sudo-wally" ''
+      sudo ${lib.getExe pkgs.wally-cli} "$@"
+    '')
+  ];
+
   programs = {
     carapace = {
       enable = true;
@@ -56,8 +64,26 @@ in
         grep = "${pkgs.ripgrep}/bin/rg";
         tree = "${pkgs.eza}/bin/eza --git --icons --tree";
       };
-      extraEnv = # nu
+      extraEnv =
+        let
+          varsToImport = [
+            "WINEPREFIX"
+            "EDITOR"
+            "TERMBROWSER"
+          ];
+
+          mkNuVar =
+            varName:
+            lib.optionalString (builtins.hasAttr varName config.home.sessionVariables) ''
+              $env.${varName} = "${config.home.sessionVariables.${varName}}"
+            '';
+
+          importedVars = lib.concatStringsSep "\n" (map mkNuVar varsToImport);
+        in
+        # nu
         ''
+          ${importedVars}
+
           $env.EDITOR = "hx"
           $env.VISUAL = "hx"
           $env.config.buffer_editor = "hx"

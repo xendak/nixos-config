@@ -20,7 +20,7 @@ def __get-keyboards [] {
       qmk_suffix: ""
       path: "zsa"
       keymap: "xendak"
-      flash_tool: "wally-cli"
+      flash_tool: "sudo-wally"
       flash_args: []
       description: "moves to moonlander directory"
       cmd: []
@@ -217,11 +217,12 @@ def __flash-keyboard [keyboard: string] {
     print $"Flashing ($keyboard) with firmware: ($firmware_file)"
     cd $env.QMK_USERSPACE
     
-    let flash_cmd = ["sudo", $config.flash_tool] | append $config.flash_args | append $firmware_file
+    # remove the sudo here, since its from the flash tool command to avoid password for keyboards
+    let flash_cmd = [$config.flash_tool] | append $config.flash_args | append $firmware_file
     print $"Command: ($flash_cmd | str join ' ')"
     
     try {
-      run-external "sudo" ($config.flash_tool) ...$config.flash_args $firmware_file
+      run-external ($config.flash_tool) ...$config.flash_args $firmware_file
       return true
     } catch {
       return false
