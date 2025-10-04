@@ -16,7 +16,7 @@
   ]
   ++ (builtins.attrValues outputs.homeManagerModules);
 
-  nixpkgs = lib.mkIf (config.home.username == "nixos") {
+  nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
     config = {
       allowUnfree = true;

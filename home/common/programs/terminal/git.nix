@@ -6,6 +6,8 @@
     pkgs.gemini-cli
   ];
 
+  home.persistence."/persist".directories = [ ".config/gh" ];
+
   programs.lazygit = {
     enable = true;
     settings = {

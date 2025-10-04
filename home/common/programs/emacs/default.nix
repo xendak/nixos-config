@@ -170,6 +170,18 @@ in
       epkgs.all-the-icons
       epkgs.all-the-icons-dired
 
+      epkgs.org-mode
+      epkgs.org-node
+      epkgs.org-modern
+      epkgs.org
+
+      epkgs.calfw
+      epkgs.calfw-org
+      epkgs.org-variable-pitch
+      epkgs.olivetti
+      epkgs.visual-fill-column
+      epkgs.org-super-agenda
+
       epkgs.nix-mode
       epkgs.rust-mode
       epkgs.zig-mode

@@ -31,6 +31,7 @@
     # ../common/wayland/hyprland/plugins/hyprbars.nix
     # ../common/wayland/hyprland/plugins/hyprexpo.nix
 
+    ../common/programs/obsidian
     ../common/programs/quickshell
     ../common/programs/terminal/wezterm.nix
     ../common/programs/terminal/foot.nix
