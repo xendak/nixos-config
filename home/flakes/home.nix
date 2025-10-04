@@ -150,8 +150,8 @@
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
       BROWSER = "zen";
       FILEBROWSER = "dolphin";
-      TERMBROWSER = "yas";
-      WINEPREFIX = "$HOME/Games/Wine-Prefix";
+      TERMBROWSER = "yazi";
+      WINEPREFIX = "/home/flakes/Games/Wine-Prefix";
     };
   };
 

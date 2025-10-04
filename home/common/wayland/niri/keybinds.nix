@@ -77,7 +77,11 @@ in
         "f_terminal"
       ];
 
-      "super+Shift+e".action = spawn termbrowser;
+      "super+Shift+e".action = spawn terminal [
+        "--class"
+        "f_terminal"
+      ] termbrowser;
+
       "super+e".action = spawn filebrowser;
 
       "super+f".action = expand-column-to-available-width;
@@ -94,7 +98,7 @@ in
 
       "super+r".action = spawn qs-command [ "toggleLauncher" ];
       "super+d".action = spawn qs-command [ "toggleLauncher" ];
-      "super+o".action = spawn qs-command [ "toggleLlmChat" ];
+      "super+o".action = spawn [ "wl-ocr-freeze" ];
       "Ctrl+Alt+c".action = spawn qs-command [ "clearNotifs" ];
       "Ctrl+Alt+Delete".action = spawn qs-command [ "toggleSession" ];
       "super+x".action = spawn qs-command [ "toggleSession" ];

@@ -29,6 +29,7 @@
     ../common/programs/emacs
 
     ../common/programs/quickshell
+    ../common/programs/obsidian
 
     ../common/games/wine.nix
     ../common/games/launchers/steam.nix
@@ -154,8 +155,8 @@
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
       BROWSER = "zen";
       FILEBROWSER = "dolphin";
-      TERMBROWSER = "n";
-      WINEPREFIX = "$HOME/Games/Wine-Prefix";
+      TERMBROWSER = "yazi";
+      WINEPREFIX = "/home/drops/Games/Wine-Prefix";
     };
   };
 

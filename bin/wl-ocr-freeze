@@ -1,0 +1,7 @@
+#!/bin/sh
+hyprpicker -r -z &
+sleep 0.2
+wl-ocr
+if pidof hyprpicker >/dev/null; then
+  pkill hyprpicker
+fi
