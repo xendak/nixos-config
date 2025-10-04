@@ -162,6 +162,7 @@ in
           ]
 
           source qmk.nu
+          source colors.nu
           source functions.nu
 
           $env.config = {
