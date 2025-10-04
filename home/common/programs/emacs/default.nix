@@ -170,10 +170,9 @@ in
       epkgs.all-the-icons
       epkgs.all-the-icons-dired
 
-      epkgs.org-mode
+      epkgs.org
       epkgs.org-node
       epkgs.org-modern
-      epkgs.org
 
       epkgs.calfw
       epkgs.calfw-org

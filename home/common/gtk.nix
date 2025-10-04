@@ -157,7 +157,7 @@ in
     # pkgs.libsForQt5.breeze-icons
     # pkgs.libsForQt5.breeze-qt5
     # pkgs.libsForQt5.breeze-gtk
-    pkgs.gradience
+    # pkgs.gradience
     pkgs.papirus-icon-theme
     pkgs.papirus-folders
   ];
