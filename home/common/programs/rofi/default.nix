@@ -2,40 +2,46 @@
   pkgs,
   config,
   ...
-}: let
+}:
+let
   inherit (config.colorscheme) palette;
   m = builtins.elemAt config.monitors 0;
   fm_height =
-    if m.height == 1440
-    then "398"
-    else if m.height == 1080
-    then "247"
-    else "200";
+    if m.height == 1440 then
+      "398"
+    else if m.height == 1080 then
+      "247"
+    else
+      "200";
 
   fm_width =
-    if m.height == 1440
-    then "600"
-    else if m.height == 1080
-    then "350"
-    else "200";
+    if m.height == 1440 then
+      "600"
+    else if m.height == 1080 then
+      "350"
+    else
+      "200";
   im_height =
-    if m.height == 1440
-    then "150"
-    else if m.height == 1080
-    then "150"
-    else "200";
+    if m.height == 1440 then
+      "150"
+    else if m.height == 1080 then
+      "150"
+    else
+      "200";
 
   im_width =
-    if m.height == 1440
-    then "40"
-    else if m.height == 1080
-    then "40"
-    else "200";
+    if m.height == 1440 then
+      "40"
+    else if m.height == 1080 then
+      "40"
+    else
+      "200";
   wallpaper = "/persist/home/${config.home.username}/Flake/home/common/wallpapers/1.png";
   #wallpaper = "${config.home.wallpaper}";
-in {
+in
+{
   home.packages = with pkgs; [
-    rofi-wayland # -unwrapped
+    rofi # -unwrapped
   ];
 
   xdg.configFile."rofi/config.rasi".text = ''

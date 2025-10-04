@@ -1,60 +1,83 @@
-From e2998a5593697919a81e02779aa07a8f07e345e6 Mon Sep 17 00:00:00 2001
-From: Rafael Grossi <108767275+xendak@users.noreply.github.com>
-Date: Wed, 9 Sep 2025 10:34:26 -0300
-Subject: [PATCH] Add --raw option to list command
+commit 3e67f181251219066380c8355444a1e51d5f0526 (HEAD -> main)
+Author: xendak <108767275+xendak@users.noreply.github.com>
+Date:   Wed Sep 24 20:48:44 2025 -0300
 
-Closes #107
+feat(commands): get notes & uris for list --raw
+
 ---
- src/bin/rbw/commands.rs | 9 ++++++++-
- src/bin/rbw/main.rs     | 4 +++-
- 2 files changed, 11 insertions(+), 2 deletions(-)
+src/bin/rbw/commands.rs | 41 ++++++++++++++++++++++++++++++++
+1 file changed, 41 insertions(+)
 
 diff --git a/src/bin/rbw/commands.rs b/src/bin/rbw/commands.rs
-index a5dfe9b..87b643f 100644
+index bb49cf2..169c958 100644
 --- a/src/bin/rbw/commands.rs
 +++ b/src/bin/rbw/commands.rs
-@@ -1051,7 +1051,7 @@ pub fn sync() -> anyhow::Result<()> {
-     Ok(())
+@@ -54,6 +54,8 @@ struct DecryptedListCipher {
+     name: Option<String>,
+     user: Option<String>,
+     folder: Option<String>,
++    notes: Option<String>,
++    uris: Vec<(String, Option<rbw::api::UriMatchType>)>,
  }
  
--pub fn list(fields: &[String]) -> anyhow::Result<()> {
-+pub fn list(fields: &[String], raw: bool) -> anyhow::Result<()> {
-     let fields: Vec<ListField> = fields
-         .iter()
-         .map(std::convert::TryFrom::try_from)
-@@ -1067,6 +1067,13 @@ pub fn list(fields: &[String]) -> anyhow::Result<()> {
-         .collect::<anyhow::Result<_>>()?;
-     ciphers.sort_unstable_by(|a, b| a.name.cmp(&b.name));
- 
-+    if raw {
-+        serde_json::to_writer_pretty(std::io::stdout(), &ciphers)
-+            .context("failed to write entries to stdout")?;
-+        println!();
-+        return Ok(());
-+    }
+ #[derive(Debug, Clone, serde::Serialize)]
+@@ -194,6 +196,8 @@ impl From<DecryptedSearchCipher> for DecryptedListCipher {
+             name: Some(value.name),
+             user: value.user,
+             folder: value.folder,
++            notes: value.notes,
++            uris: value.uris,
+         }
+     }
+ }
+@@ -1840,6 +1844,41 @@ fn decrypt_list_cipher(
+     } else {
+         None
+     };
++    let notes = entry
++        .notes
++        .as_ref()
++        .map(|notes| {
++            crate::actions::decrypt(
++                notes,
++                entry.key.as_deref(),
++                entry.org_id.as_deref(),
++            )
++        })
++        .transpose();
++    let notes = match notes {
++        Ok(notes) => notes,
++        Err(e) => {
++            log::warn!("failed to decrypt notes: {e}");
++            None
++        }
++    };
 +
-     for cipher in ciphers {
-         let values: Vec<String> = fields
-             .iter()
-diff --git a/src/bin/rbw/main.rs b/src/bin/rbw/main.rs
-index 0d62901..4edb78c 100644
---- a/src/bin/rbw/main.rs
-+++ b/src/bin/rbw/main.rs
-@@ -56,6 +56,8 @@ enum Opt {
-         visible_alias = "ls"
-     )]
-     List {
-+        #[structopt(long, help = "Display output as JSON")]
-+        raw: bool,
-         #[arg(
-             long,
-             help = "Fields to display. \
-@@ -312,7 +314,7 @@ fn main() {
-         Opt::Unlock => commands::unlock(),
-         Opt::Unlocked => commands::unlocked(),
-         Opt::Sync => commands::sync(),
--        Opt::List { fields } => commands::list(fields),
-+        Opt::List { fields, raw } => commands::list(fields, *raw),
-         Opt::Get {
-             find_args,
-             field,
++    let uris = if let rbw::db::EntryData::Login { uris, .. } = &entry.data {
++        uris.iter()
++            .filter_map(|s| {
++                decrypt_field(
++                    "uri",
++                    Some(&s.uri),
++                    entry.key.as_deref(),
++                    entry.org_id.as_deref(),
++                )
++                .map(|uri| (uri, s.match_type))
++            })
++            .collect()
++    } else {
++        vec![]
++    };
++
+     let folder = if fields.contains(&ListField::Folder) {
+         // folder name should always be decrypted with the local key because
+         // folders are local to a specific user's vault, not the organization
+@@ -1857,6 +1896,8 @@ fn decrypt_list_cipher(
+         name,
+         user,
+         folder,
++        notes,
++        uris,
+     })
+ }
+ 

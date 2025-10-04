@@ -16,6 +16,7 @@
       patches = (oldAttrs.patches or [ ]) ++ [ ./xdg-open-spawn-terminal.diff ];
     });
 
+    # not needed anymore
     rbw = prev.rbw.overrideAttrs (oldAttrs: {
       patches = (oldAttrs.patches or [ ]) ++ [ ./rbw-list-raw.patch ];
     });
