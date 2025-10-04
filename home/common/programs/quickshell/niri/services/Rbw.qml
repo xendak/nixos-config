@@ -140,21 +140,29 @@ Singleton {
             const allItems = JSON.parse(jsonData);
         
             const newEntries = allItems
-                .filter(item => item.data) 
+                .filter(item => item) 
                 .map(item => ({
                     name: item.name || "",
-                    username: item.data.username || "",
+                    username: item.user || "",
                     folder: item.folder || "",
+                    notes: item.notes || "",
+                    uris: item.uris || [],
                     type: "login",
-                    login: item.data 
+                    // login: item.data 
                 }));
 
             root.entries = newEntries;
-        
+            // console.log(JSON.stringify(newEntries, null, 2));
+            // for (let i = 0; i < newEntries.length; i++) {
+            //     console.log("Entry " + i + ": Name: " + newEntries[i].name + ", uri: " + newEntries[i].uris[0]);
+            // }
+
             root.preppedEntries = newEntries.map(entry => ({
                 name: Fuzzy.prepare(entry.name),
                 username: Fuzzy.prepare(entry.username),
                 folder: Fuzzy.prepare(entry.folder),
+                notes: Fuzzy.prepare(entry.notes),
+                uris: Fuzzy.prepare(entry.uris),
                 entry: entry
             }));
         } catch (e) {

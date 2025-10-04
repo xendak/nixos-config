@@ -112,12 +112,12 @@ Singleton {
         command: ["systemctl", "suspend-then-hibernate"]
     }
 
-    component Action: QtObject {
-        required property string name
-        required property string desc
-        required property string icon
+    // component Action: QtObject {
+    //     required property string name
+    //     required property string desc
+    //     required property string icon
 
-        function onClicked(list: AppList): void {
-        }
-    }
+    //     function onClicked(list: AppList): void {
+    //     }
+    // }
 }

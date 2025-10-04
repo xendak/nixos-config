@@ -12,7 +12,7 @@ Item {
 
 
     function getHostname(uriString) {
-        console.log("uriString: " + uriString);
+        // console.log("uriString: " + uriString);
         if (!uriString || !uriString.startsWith("http")) {
             return "";
         }
@@ -28,8 +28,9 @@ Item {
     // Determine the icon source URL
     property string iconUrl: {
         // We only care about the first URI for the icon
-        const uri = root.modelData?.login?.uris[0]?.uri;
-        console.log("iconUrl: " + uri);
+        // console.log(root.modelData?.uris[0]?.[0]);
+        const uri = root.modelData?.uris[0]?.[0];
+        // console.log("iconUrl: " + uri);
         if (uri) {
             const hostname = getHostname(uri);
             if (hostname) {
