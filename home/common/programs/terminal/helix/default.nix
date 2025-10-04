@@ -94,6 +94,11 @@ in
           "C-p" = ":toggle lsp.display-inlay-hints";
         };
 
+        select = {
+          "{" = "goto_prev_paragraph";
+          "}" = "goto_next_paragraph";
+        };
+
         normal = {
           X = "extend_line_above";
           "{" = "goto_prev_paragraph";
