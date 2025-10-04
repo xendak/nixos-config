@@ -89,7 +89,7 @@
   :hook ((org-mode . org-node-cache-mode)
          (org-mode . org-node-backlink-mode))
   :config
-  (setq org-node-extra-id-dirs '("~/org/nodes")
+  (setq org-node-extra-id-dirs '("~/Documents/Notes/org/nodes")
         org-node-extra-id-dirs-exclude '(".sync-conflict-" "/archive/"))
   :bind (("C-c n f" . org-node-find)
          ("C-c n i" . org-node-insert-link)
