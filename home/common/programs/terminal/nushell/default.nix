@@ -56,7 +56,6 @@ in
         ll = "ls -a";
         fg = "job unfreeze";
         lg = "lazygit";
-        y = "${pkgs.yazi}/bin/yazi";
         fz = "fzf --bind 'enter:become(hx {})'";
         cat = "${pkgs.bat}/bin/bat";
         df = "${pkgs.duf}/bin/duf";
