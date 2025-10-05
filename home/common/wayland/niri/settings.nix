@@ -62,17 +62,17 @@ in
         #   enable = true;
         #   width = 2;
         #   active = {
-        #     color = c.base10;
+        #     color = c.wm_active_border;
         #   };
         #   inactive = {
-        #     color = c.base11;
+        #     color = c.wm_inactive_border;
         #   };
         # };
         insert-hint = {
           enable = true;
-          # display.color = "#${c.base10}30";
+          # display.color = "#${c.wm_active_border}30";
           display.gradient = {
-            from = "#${c.base10}50";
+            from = "#${c.wm_active_border}50";
             to = "#ff8c0060";
             angle = 135;
             in' = "oklch shorter hue";
@@ -81,15 +81,15 @@ in
 
         border = {
           width = 1;
-          active.color = c.base11;
-          inactive.color = c.base11;
+          active.color = c.wm_inactive_border;
+          inactive.color = c.wm_inactive_border;
         };
 
         focus-ring = {
           width = 1;
           active.gradient = {
-            from = "#${c.base10}50";
-            to = "#${c.base11}50";
+            from = "#${c.wm_active_border}50";
+            to = "#${c.wm_inactive_border}50";
             angle = 135;
             in' = "oklch longer hue";
           };
@@ -107,8 +107,8 @@ in
           };
           corner-radius = 12;
           active.gradient = {
-            from = "#${c.base10}";
-            to = "#${c.base11}";
+            from = "#${c.wm_active_border}";
+            to = "#${c.wm_inactive_border}";
             angle = 45;
             in' = "oklch shorter hue";
           };
@@ -143,8 +143,8 @@ in
             y = 0;
           };
           draw-behind-window = false;
-          color = c.base10;
-          inactive-color = c.base11;
+          color = c.wm_active_border;
+          inactive-color = c.wm_inactive_border;
         };
 
         gaps = 20;

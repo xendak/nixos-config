@@ -70,31 +70,30 @@
       in
       {
         exec-shutdown = [ "all-sync live-to-persist" ];
-        exec-once =
-          [
-            "swww-daemon"
-            "fish $HOME/Flake/home/common/programs/quickshell/hyprland/wallpaper.fish -f ${wallpaper}"
-            "theme-switcher"
-            "mkdir -p $HOME/tmp/Screenshots"
-            "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"
-            "swayidle -w"
-            "all-sync persist-to-live"
-            "qs -c $HOME/Flake/home/common/programs/quickshell/hyprland"
-          ]
-          ++ (
-            if config.home.username == "flakes" then
-              [
-                "sh $HOME/Flake/bin/bt-once.sh"
-                "openrgb -d \"XPG Spectrix S40G\" -m Off"
-                "${pkgs.networkmanager}/bin/nmcli radio wifi off"
-              ]
-            else
-              [
-                # "swww-daemon"
-                # "swww img ${wallpaper}"
-                # "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
-              ]
-          );
+        exec-once = [
+          "swww-daemon"
+          "fish $HOME/Flake/home/common/programs/quickshell/hyprland/wallpaper.fish -f ${wallpaper}"
+          "theme-switcher"
+          "mkdir -p $HOME/tmp/Screenshots"
+          "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"
+          "swayidle -w"
+          "all-sync persist-to-live"
+          "qs -c $HOME/Flake/home/common/programs/quickshell/hyprland"
+        ]
+        ++ (
+          if config.home.username == "flakes" then
+            [
+              "sh $HOME/Flake/bin/bt-once.sh"
+              "openrgb -d \"XPG Spectrix S40G\" -m Off"
+              "${pkgs.networkmanager}/bin/nmcli radio wifi off"
+            ]
+          else
+            [
+              # "swww-daemon"
+              # "swww img ${wallpaper}"
+              # "ags -c $HOME/Flake/home/${config.home.username}/ags/config.js"
+            ]
+        );
 
         debug = {
           disable_logs = false;
@@ -109,21 +108,20 @@
           "${m.name},${if m.enabled then "${resolution},${position},1" else "disable"}"
         ) (config.monitors);
 
-        workspace =
-          [
-            "3, maximize"
-            "4, float"
-          ]
-          ++ map (m: "${m.name},${m.workspace}") (
-            lib.filter (m: m.enabled && m.workspace != null) config.monitors
-          );
+        workspace = [
+          "3, maximize"
+          "4, float"
+        ]
+        ++ map (m: "${m.name},${m.workspace}") (
+          lib.filter (m: m.enabled && m.workspace != null) config.monitors
+        );
 
         general = {
           gaps_in = 5;
           gaps_out = 20;
           border_size = 3;
-          "col.active_border" = "rgba(${c.base10}ff)";
-          "col.inactive_border" = "rgba(${c.base11}a0)";
+          "col.active_border" = "rgba(${c.wm_active_border}ff)";
+          "col.inactive_border" = "rgba(${c.wm_inactive_border}a0)";
           resize_on_border = true;
           hover_icon_on_border = false;
         };
@@ -137,8 +135,8 @@
           shadow = {
             enabled = true;
             range = 30;
-            color = "rgba(${c.base10}f0)";
-            color_inactive = "rgba(${c.base11}66)";
+            color = "rgba(${c.wm_active_border}f0)";
+            color_inactive = "rgba(${c.wm_inactive_border}66)";
           };
 
           blur = {

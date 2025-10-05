@@ -22,8 +22,8 @@
       base0E = "#e3556f";
       base0F = "#f49d75";
 
-      base10 = "#cf2241";
-      base11 = "#2d2424";
+      wm_active_border = "#cf2241";
+      wm_inactive_border = "#2d2424";
       accent = "#ffe9c7";
       background = "#1a1515";
       foreground = "#ffe9c7";
