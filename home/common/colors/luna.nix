@@ -26,7 +26,8 @@
       accent = "#a1b56c";
       bg = "#262626";
       fg = "#c3bea9";
-      cursor = "#f36";
+      cursor_bg = "#e3556f";
+      cursor_fg = "#101010";
     };
   };
 }

@@ -4,9 +4,9 @@
     name = "biscuit";
     author = "biscuit-theme";
     palette = {
-      base00 = "#1a1515";
-      base01 = "#2d2424";
-      base02 = "#725a5a";
+      base00 = "#151515";
+      base01 = "#242424";
+      base02 = "#725f5f";
       base03 = "#9c8181";
       base04 = "#b0b893";
       base05 = "#ffe9c7";
@@ -27,6 +27,8 @@
       accent = "#ffe9c7";
       background = "#1a1515";
       foreground = "#ffe9c7";
+      cursor_bg = "#e3556f";
+      cursor_fg = "#101010";
     };
   };
 }

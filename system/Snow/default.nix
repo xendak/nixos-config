@@ -243,6 +243,7 @@
     useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs outputs; };
     backupFileExtension = "hm-backup";
+    overwriteBackup = true;
   };
 
   services = {

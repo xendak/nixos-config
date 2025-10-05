@@ -25,8 +25,9 @@
       wm_inactive_border = "#282828";
       bg = "#222222";
       fg = "#c1c1c1";
-      cursor = "#f36";
       accent = "#7cafc2";
+      cursor_bg = "#e3556f";
+      cursor_fg = "#101010";
     };
   };
 }

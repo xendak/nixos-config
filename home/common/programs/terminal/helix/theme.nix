@@ -87,8 +87,8 @@
       modifiers = [ "bold" ];
     };
     "ui.cursor" = {
-      fg = "base02";
-      bg = "base0C";
+      fg = "cursor_fg";
+      bg = "cursor_bg";
     };
     "ui.cursor.insert" = {
       fg = "base0A";

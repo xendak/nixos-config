@@ -18,8 +18,8 @@ let
       return {
         foreground = "${base05}",
         background = "${base00}",
-        cursor_bg = "#F36",
-        cursor_fg = "#000",
+        cursor_bg = "${cursor_bg}",
+        cursor_fg = "${cursor_fg}",
         cursor_border = "${base05}",
         selection_fg = "${base00}",
         selection_bg = "${base05}",
