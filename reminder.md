@@ -12,6 +12,8 @@ nix search --offline nixpkgs
 quick yt-dlp fix for chromes >_>
 nix run 'github:NixOS/nixpkgs/master#yt-dlp'
 
+### send files via lan
+localsend
 
 
 ### repl

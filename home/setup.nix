@@ -11,7 +11,6 @@
     inputs.impermanence.homeManagerModules.impermanence
     inputs.nix-colors.homeManagerModule
 
-    # Set default color
     ./common/colors/gorgoroth.nix
   ]
   ++ (builtins.attrValues outputs.homeManagerModules);
@@ -35,7 +34,7 @@
     };
   };
 
-  themes.light = import ./common/colors/grayscale-nier.nix;
+  themes.light = import ./common/colors/old-book.nix;
   themes.dark = import ./common/colors/handmadehero.nix;
   themes.default = import ./common/colors/gorgoroth.nix;
 

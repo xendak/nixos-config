@@ -1,10 +1,12 @@
 {
-  pkgs,
-  config,
+  # pkgs,
+  # config,
   ...
-}: let
-  c = config.colorscheme.palette;
-in {
+}:
+# let
+#   c = config.colorscheme.palette;
+# in
+{
   programs.starship = {
     enable = true;
   };
@@ -12,7 +14,7 @@ in {
     "$schema" = 'https://starship.rs/config-schema.json'
 
     format = """
-    ╭─\
+    [╭─](white)\
     [](color_green)\
     $os\
     $username\
@@ -38,25 +40,24 @@ in {
     $cmd_duration\
     [ ](fg:color_bg1)\
     $line_break\
-    ╰─$character"""
+    [╰─](white)$character"""
 
     palette = 'gruvbox_dark'
 
     [palettes.gruvbox_dark]
-    color_fg0 = '#${c.base00}'
-    color_bg1 = '#${c.base05}'
-    color_bg3 = '#${c.base04}'
-    color_blue = '#${c.base0C}'
-    color_red = '#${c.base08}'
-    color_green = '#${c.base0B}'
-    color_orange = '#${c.base09}'
-    color_purple = '#${c.base0E}'
-    color_aqua = '#${c.base0D}'
-    color_yellow = '#${c.base0F}'
+    color_bg1 = "white"
+    color_bg3 = "bright-blue"
+    color_blue = "cyan"
+    color_red = "red"
+    color_green = "green"
+    color_orange = "bright-red"
+    color_purple = "bright-yellow"
+    color_aqua = "blue"
+    color_yellow = "bright-cyan"
 
     [os]
     disabled = false
-    style = "bg:color_green fg:color_fg0"
+    style = "bg:color_green fg:black"
 
     [os.symbols]
     Windows = "󰍲"
@@ -82,12 +83,12 @@ in {
 
     [username]
     show_always = true
-    style_user = "bg:color_green fg:color_fg0"
-    style_root = "bg:color_green fg:color_fg0"
+    style_user = "bg:color_green fg:black"
+    style_root = "bg:color_green fg:black"
     format = '[ $user ]($style)'
 
     [directory]
-    style = "fg:color_fg0 bg:color_purple"
+    style = "fg:black bg:color_purple"
     format = "[ $path ]($style)"
     truncation_length = 3
     truncation_symbol = "…/"
@@ -102,56 +103,56 @@ in {
     [git_branch]
     symbol = ""
     style = "bg:color_red"
-    format = '[[ $symbol $branch ](fg:color_fg0 bg:color_red)]($style)'
+    format = '[[ $symbol $branch ](fg:black bg:color_red)]($style)'
 
     [git_status]
     style = "bg:color_red"
-    format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_red)]($style)'
+    format = '[[($all_status$ahead_behind )](fg:black bg:color_red)]($style)'
 
     [nodejs]
     symbol = ""
     style = "bg:color_blue"
-    format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+    format = '[[ $symbol( $version) ](fg:black bg:color_blue)]($style)'
 
     [c]
     symbol = " "
     style = "bg:color_blue"
-    format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+    format = '[[ $symbol( $version) ](fg:black bg:color_blue)]($style)'
 
     [rust]
     symbol = ""
     style = "bg:color_blue"
-    format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+    format = '[[ $symbol( $version) ](fg:black bg:color_blue)]($style)'
 
     [golang]
     symbol = ""
     style = "bg:color_blue"
-    format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+    format = '[[ $symbol( $version) ](fg:black bg:color_blue)]($style)'
 
     [php]
     symbol = ""
     style = "bg:color_blue"
-    format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+    format = '[[ $symbol( $version) ](fg:black bg:color_blue)]($style)'
 
     [java]
     symbol = " "
     style = "bg:color_blue"
-    format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+    format = '[[ $symbol( $version) ](fg:black bg:color_blue)]($style)'
 
     [kotlin]
     symbol = ""
     style = "bg:color_blue"
-    format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+    format = '[[ $symbol( $version) ](fg:black bg:color_blue)]($style)'
 
     [haskell]
     symbol = ""
     style = "bg:color_blue"
-    format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+    format = '[[ $symbol( $version) ](fg:black bg:color_blue)]($style)'
 
     [python]
     symbol = ""
     style = "bg:color_blue"
-    format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+    format = '[[ $symbol( $version) ](fg:black bg:color_blue)]($style)'
 
     [docker_context]
     symbol = ""
@@ -165,19 +166,18 @@ in {
     [cmd_duration]
     disabled = false
     style = "bg:color_bg1"
-    format = '[[  $duration ](fg:color_fg0 bg:color_bg1)]($style)'
+    format = '[[  $duration ](fg:black bg:color_bg1)]($style)'
 
     [line_break]
     disabled = false
 
     [character]
     disabled = false
-    success_symbol = '[ᐉ ](bold fg:color_orange)'
-    error_symbol = '[ᐉ ](bold fg:color_aqua)'
-    vimcmd_symbol = '[ᐉ ](bold fg:color_blue)'
-    vimcmd_replace_one_symbol = '[ᐉ ](bold fg:color_yellow)'
-    vimcmd_replace_symbol = '[ᐉ ](bold fg:color_yellow)'
-    vimcmd_visual_symbol = '[ᐉ ](bold fg:color_purple)'
-
+    success_symbol = '[ᐉ ](bold fg:orange)'
+    error_symbol = '[ᐉ ](bold fg:aqua)'
+    vimcmd_symbol = '[ᐉ ](bold fg:blue)'
+    vimcmd_replace_one_symbol = '[ᐉ ](bold fg:yellow)'
+    vimcmd_replace_symbol = '[ᐉ ](bold fg:yellow)'
+    vimcmd_visual_symbol = '[ᐉ ](bold fg:purple)'
   '';
 }
