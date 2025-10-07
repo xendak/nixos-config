@@ -39,8 +39,6 @@ let
       (provide 'base16-${name}-theme)
     '';
 
-  # Assume your themes are defined like this in your config
-  # config.themes.default.colorScheme, config.themes.light.colorScheme, etc.
   defaultTheme = mkEmacsTheme {
     name = "default";
     colorscheme = config.themes.default.colorScheme;
@@ -81,10 +79,6 @@ in
     ".config/emacs/themes/base16-default-theme.el".source = defaultTheme;
     ".config/emacs/themes/base16-light-theme.el".source = lightTheme;
     ".config/emacs/themes/base16-dark-theme.el".source = darkTheme;
-    # easier to make quick/tryout changes
-    # ".config/emacs/binds.el".source = ./binds.el;
-    # ".config/emacs/config.el".source = ./config.el;
-    # ".config/emacs/init.el".source = ./init.el;
 
     ".local/share/applications/emacsclient.desktop".source = pkgs.writeText "emacsclient.desktop" ''
       [Desktop Entry]

@@ -85,7 +85,6 @@
   :after calfw)
 
 (use-package org-node
-  :ensure (:host github :repo "meedstrom/org-node")
   :hook ((org-mode . org-node-cache-mode)
          (org-mode . org-node-backlink-mode))
   :config
