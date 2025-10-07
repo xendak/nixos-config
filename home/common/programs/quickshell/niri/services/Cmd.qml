@@ -7,13 +7,14 @@ import QtQuick
 Singleton {
     id: root
 
-    function execute(commandString: string): void {
-        // console.log("CMD: ", commandString);
-        executeProcess.command = ["sh", "-c", commandString];
-        executeProcess.startDetached();
+    function cmdExecute(commandString: string): void {
+        executeCmdProcess.cmdCommand = commandString;
+        executeCmdProcess.startDetached();
     }
 
     Process {
-        id: executeProcess
+        id: executeCmdProcess
+        property string cmdCommand
+        command: ["sh", "-c", `${cmdCommand}`]
     }
 }

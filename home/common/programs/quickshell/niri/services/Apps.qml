@@ -24,7 +24,7 @@ Singleton {
 
     function launch(entry: DesktopEntry): void {
         launchProc.entry = entry;
-        console.log(JSON.stringify(entry));
+        // console.log(JSON.stringify(entry));
         launchProc.startDetached();
     }
 

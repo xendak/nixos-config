@@ -14,14 +14,14 @@ Item {
     readonly property int rounding: Appearance.rounding.large
 
     implicitWidth: 500
-    implicitHeight: searchWrapper.height + padding * 2
+    implicitHeight: commandPromptWrapper.height + padding * 2
 
     anchors.top: parent.top
     anchors.horizontalCenter: parent.horizontalCenter
 
 
     StyledRect {
-        id: searchWrapper
+        id: commandPromptWrapper
 
         color: Colours.alpha(Colours.palette.m3surfaceContainer, true)
         radius: Appearance.rounding.full
@@ -31,10 +31,10 @@ Item {
         anchors.bottom: parent.bottom
         anchors.margins: root.padding
 
-        implicitHeight: Math.max(searchIcon.implicitHeight, search.implicitHeight, clearIcon.implicitHeight)
+        implicitHeight: Math.max(commandIcon.implicitHeight, commandPrompt.implicitHeight, commandClearIcon.implicitHeight)
 
         MaterialIcon {
-            id: searchIcon
+            id: commandIcon
 
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
@@ -45,10 +45,10 @@ Item {
         }
 
         StyledTextField {
-            id: search
+            id: commandPrompt
 
-            anchors.left: searchIcon.right
-            anchors.right: clearIcon.left
+            anchors.left: commandIcon.right
+            anchors.right: commandClearIcon.left
             anchors.leftMargin: Appearance.spacing.small
             anchors.rightMargin: Appearance.spacing.small
 
@@ -62,9 +62,9 @@ Item {
             Keys.onReturnPressed: function(event) {
                 event.accepted = true;
 
+                Cmd.cmdExecute(text);
+                // text = "";
                 root.visibilities.cmdlauncher = false;
-                Cmd.execute(text);
-                text = "";
                 return;
             }
 
@@ -74,11 +74,11 @@ Item {
             Connections {
                 target: root.visibilities
 
-                function onCmdChanged(): void {
+                function onCmdlauncherChanged(): void {
                     if (root.visibilities.cmdlauncher) {
-                        search.forceActiveFocus();
+                        commandPrompt.forceActiveFocus();
                     } else {
-                        search.text = "";
+                        commandPrompt.text = "";
                     }
                 }
             }
@@ -86,15 +86,15 @@ Item {
         }
 
         MaterialIcon {
-            id: clearIcon
+            id: commandClearIcon
 
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: root.padding
 
-            width: search.text ? implicitWidth : implicitWidth / 2
+            width: commandPrompt.text ? implicitWidth : implicitWidth / 2
             opacity: {
-                if (!search.text)
+                if (!commandPrompt.text)
                     return 0;
                 if (mouse.pressed)
                     return 0.7;
@@ -113,14 +113,14 @@ Item {
 
                 anchors.fill: parent
                 hoverEnabled: true
-                cursorShape: search.text ? Qt.PointingHandCursor : undefined
+                cursorShape: commandPrompt.text ? Qt.PointingHandCursor : undefined
 
                 onEntered: hovered = true
                 onExited: hovered = false
                 onClicked: {
-                    if (search.text) {
-                        search.text = "";
-                        search.forceActiveFocus();
+                    if (commandPrompt.text) {
+                        commandPrompt.text = "";
+                        commandPrompt.forceActiveFocus();
                     }
                 }
             }
