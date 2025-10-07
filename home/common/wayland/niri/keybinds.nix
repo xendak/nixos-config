@@ -10,6 +10,7 @@ let
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
   swaylock = "${config.programs.swaylock.package}/bin/swaylock";
   playerctl = "${config.services.playerctld.package}/bin/playerctl";
+  wl-ocr-freeze = "/home/${config.home.username}/Flake/bin/wl-ocr-freeze";
 
   baseterminal = config.home.sessionVariables.TERMINAL;
   terminal =
@@ -98,7 +99,7 @@ in
 
       "super+r".action = spawn qs-command [ "toggleLauncher" ];
       "super+d".action = spawn qs-command [ "toggleLauncher" ];
-      "super+o".action = spawn [ "wl-ocr-freeze" ];
+      "super+o".action = spawn [ "${wl-ocr-freeze}" ];
       "Ctrl+Alt+c".action = spawn qs-command [ "clearNotifs" ];
       "Ctrl+Alt+Delete".action = spawn qs-command [ "toggleSession" ];
       "super+x".action = spawn qs-command [ "toggleSession" ];
