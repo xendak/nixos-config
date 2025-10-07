@@ -8,6 +8,7 @@ import "root:/modules/dashboard" as Dashboard
 import "root:/modules/bar/popouts" as BarPopouts
 import "root:/modules/rbw" as RBW 
 import "root:/modules/llm" as LLM
+import "root:/modules/cmd" as CMD
 import Quickshell
 import QtQuick
 
@@ -26,6 +27,7 @@ Item {
     readonly property BarPopouts.Wrapper popouts: popouts
     readonly property LLM.ChatWrapper llmchat: llmchat
     readonly property RBW.Wrapper rbw: rbw
+    readonly property CMD.Wrapper cmdlauncher: cmdlauncher
         
     // onEnabledChanged: console.log("Main panels container ENABLED state changed to:", enabled)
 
@@ -37,6 +39,14 @@ Item {
 
     RBW.Wrapper {
         id: rbw
+
+        visibilities: root.visibilities
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+    }
+
+    CMD.Wrapper {
+        id: cmdlauncher
 
         visibilities: root.visibilities
         anchors.horizontalCenter: parent.horizontalCenter

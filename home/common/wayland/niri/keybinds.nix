@@ -98,7 +98,7 @@ in
       "super+Period".action = consume-or-expel-window-right;
 
       "super+r".action = spawn qs-command [ "toggleLauncher" ];
-      "super+d".action = spawn qs-command [ "toggleLauncher" ];
+      "super+d".action = spawn qs-command [ "toggleCmd" ];
       "super+o".action = spawn [ "${wl-ocr-freeze}" ];
       "Ctrl+Alt+c".action = spawn qs-command [ "clearNotifs" ];
       "Ctrl+Alt+Delete".action = spawn qs-command [ "toggleSession" ];

@@ -20,6 +20,15 @@ Scope {
             root.launcherInterrupted = false;
         }
 
+        function toggleCmd(): void {
+            root.launcherInterrupted = false;
+            if (!root.launcherInterrupted) {
+                const visibilities = Visibilities.getForActive();
+                visibilities.cmdlauncher = !visibilities.cmdlauncher;
+            }
+            root.launcherInterrupted = false;
+        }
+
         function toggleRbw(): void {
             root.launcherInterrupted = false;
             if (!root.launcherInterrupted) {

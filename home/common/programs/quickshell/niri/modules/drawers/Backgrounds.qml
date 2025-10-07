@@ -6,6 +6,7 @@ import "root:/modules/session" as Session
 import "root:/modules/launcher" as Launcher
 import "root:/modules/dashboard" as Dashboard
 import "root:/modules/llm" as LLM
+import "root:/modules/cmd" as CMD
 import "root:/modules/rbw" as RBW
 import "root:/modules/bar/popouts" as BarPopouts
 import QtQuick
@@ -53,6 +54,13 @@ Shape {
 
     Launcher.Background {
         wrapper: panels.launcher
+
+        startX: (root.width - wrapper.width) / 2 - rounding
+        startY: root.height
+    }
+
+    CMD.Background {
+        wrapper: panels.cmdlauncher
 
         startX: (root.width - wrapper.width) / 2 - rounding
         startY: root.height
