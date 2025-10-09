@@ -4,9 +4,9 @@
   ...
 }:
 {
-  imports = [
-    ./themes/modular.nix
-  ];
+  # imports = [
+  #   ./themes/modular.nix
+  # ];
 
   home.packages = [
     (pkgs.vesktop.overrideAttrs (old: {

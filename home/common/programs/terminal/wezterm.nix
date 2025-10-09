@@ -1,61 +1,15 @@
 {
-  inputs,
   config,
   pkgs,
   lib,
   ...
 }:
 let
-  # inherit (config.colorscheme) palette;
   xterm = {
     wezterm = pkgs.writeShellScriptBin "xterm" ''
       ${pkgs.wezterm}/bin/wezterm "$@"
     '';
   };
-
-  mkWeztermTheme =
-    palette: with palette; ''
-      return {
-        foreground = "${base05}",
-        background = "${base00}",
-        cursor_bg = "${cursor_bg}",
-        cursor_fg = "${cursor_fg}",
-        cursor_border = "${base05}",
-        selection_fg = "${base00}",
-        selection_bg = "${base05}",
-        ansi = {
-          "${base00}",
-          "${base08}",
-          "${base0B}",
-          "${base0A}",
-          "${base0D}",
-          "${base0E}",
-          "${base0C}",
-          "${base05}",
-        },
-        brights = {
-          "${base03}",
-          "${base08}",
-          "${base0B}",
-          "${base0A}",
-          "${base0D}",
-          "${base0E}",
-          "${base0C}",
-          "${base07}",
-        },
-        tab_bar = {
-          background = "${base01}",
-          active_tab = {
-            bg_color = "${base00}",
-            fg_color = "${base05}",
-          },
-          inactive_tab = {
-            bg_color = "${base01}",
-            fg_color = "${base04}",
-          },
-        },
-      }
-    '';
 in
 {
   home = {
@@ -66,12 +20,6 @@ in
       TERMINAL = lib.mkForce "wezterm";
     };
     sessionPath = [ "$HOME/Flake/bin" ];
-    file = {
-      ".config/wezterm/colors/default.lua".text =
-        mkWeztermTheme config.themes.default.colorScheme.palette;
-      ".config/wezterm/colors/dark.lua".text = mkWeztermTheme config.themes.dark.colorScheme.palette;
-      ".config/wezterm/colors/light.lua".text = mkWeztermTheme config.themes.light.colorScheme.palette;
-    };
   };
 
   # Wezterm configuration

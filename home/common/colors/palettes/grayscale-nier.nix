@@ -1,0 +1,32 @@
+{
+  slug = "grayscale-nier";
+  name = "grayscale-nier";
+  author = "xendak";
+  type = "light";
+  palette = {
+    base00 = "#cbc5af";
+    base01 = "#c5bfa6";
+    base02 = "#b1ab92";
+    base03 = "#948d71";
+    base04 = "#575349";
+    base05 = "#262626";
+    base06 = "#646055";
+    base07 = "#524e43";
+    base08 = "#6e5357";
+    base09 = "#535b6e";
+    base0A = "#3b382e";
+    base0B = "#3d4c39";
+    base0C = "#3f3c32";
+    base0D = "#394a4c";
+    base0E = "#211e14";
+    base0F = "#181818";
+
+    wm_active_border = "#ab4642";
+    wm_inactive_border = "#282828";
+    bg = "#b1ab92";
+    fg = "#262626";
+    accent = "#ab4642";
+    cursor_bg = "#ab4642";
+    cursor_fg = "#101010";
+  };
+}

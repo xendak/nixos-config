@@ -1,7 +1,7 @@
 { colorscheme }:
 {
   "${colorscheme.slug}" = {
-    palette = builtins.mapAttrs (name: value: "${value}") colorscheme.palette; # Add leading '#'
+    palette = builtins.mapAttrs (name: value: "${value}") colorscheme.palette;
     "attributes" = "base09";
 
     "ui.virtual.inlay-hint" = {

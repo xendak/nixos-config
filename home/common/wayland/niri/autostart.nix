@@ -15,7 +15,13 @@ let
     }
     { command = [ "swww-daemon" ]; }
     { command = [ "xwayland-satellite" ]; }
-    { command = [ "theme-switcher" ]; }
+    {
+      command = [
+        # "nix-theme-switcher"
+        "/home/${home}/Flake/bin/nix-theme-starter"
+        "gorgoroth"
+      ];
+    }
     {
       command = [
         "mkdir"
@@ -23,13 +29,13 @@ let
         "/home/${home}/tmp/Screenshots"
       ];
     }
-    {
-      command = [
-        "qs"
-        "-c"
-        "${qs_path}"
-      ];
-    }
+    # {
+    #   command = [
+    #     "qs"
+    #     "-c"
+    #     "${qs_path}"
+    #   ];
+    # }
     {
       command = [
         "fish"

@@ -51,11 +51,8 @@ in
       (setq auto-save-default nil)
       (add-to-list 'custom-theme-load-path (expand-file-name "themes/" user-emacs-directory))
 
-
-      ;; --- START OF NEW LOGIC ---
-
       (defun my/internal-load-file (file)
-        "A robust helper to load a single file from the flake path."
+        "Load a file from the flake."
         (let ((f (expand-file-name file "${emacs_path}")))
           (if (file-exists-p f)
               (load-file f)
@@ -72,7 +69,7 @@ in
         (message "Successfully loaded %s" file))
 
       (defun my/reload-config ()
-        "Reload all core Emacs config files from the flake."
+        "Reload Emacs config from flake."
         (interactive)
         (dolist (file ${toElispList startupFiles})
           (my/internal-load-file file))

@@ -1,0 +1,32 @@
+#!/bin/sh
+QS_PATH="$HOME/Flake/home/common/programs/quickshell/niri"
+LOG_FILE="/tmp/startup_info"
+
+log_message() {
+  echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >>"$LOG_FILE"
+}
+
+log_message "Startup script initiated."
+
+sleep 0.5
+log_message "Attempting to switch theme to 'gorgoroth'..."
+if nix-theme-switcher gorgoroth; then
+  log_message "Theme switcher succeeded."
+else
+  log_message "Theme switcher FAILED with exit code $?."
+fi
+
+sleep 0.5
+
+if pgrep "quickshell" >/dev/null; then
+  log_message "Quickshell process found. Killing it now."
+  pkill "quickshell"
+  sleep 1
+else
+  log_message "Quickshell process not found. No need to kill."
+fi
+
+log_message "Starting quickshell with path: $QS_PATH"
+qs -d -c "$QS_PATH"
+
+log_message "Startup script finished."

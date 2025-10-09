@@ -11,7 +11,8 @@
     inputs.impermanence.homeManagerModules.impermanence
     inputs.nix-colors.homeManagerModule
 
-    ./common/colors/gorgoroth.nix
+    ./common/colors
+    ./common/colors/old/gorgoroth.nix
   ]
   ++ (builtins.attrValues outputs.homeManagerModules);
 
@@ -34,9 +35,9 @@
     };
   };
 
-  themes.light = import ./common/colors/old-book.nix;
-  themes.dark = import ./common/colors/handmadehero.nix;
-  themes.default = import ./common/colors/gorgoroth.nix;
+  # themes.light = import ./common/colors/old-book.nix;
+  # themes.dark = import ./common/colors/handmadehero.nix;
+  # themes.default = import ./common/colors/gorgoroth.nix;
 
   home.file.".colorscheme".text = config.colorscheme.slug;
 }

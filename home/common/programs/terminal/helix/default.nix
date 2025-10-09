@@ -5,14 +5,6 @@
   inputs,
   ...
 }:
-let
-  mkHelixTheme = import ./theme.nix;
-
-  defaultTheme = mkHelixTheme { colorscheme = config.themes.default.colorScheme; };
-  lightTheme = mkHelixTheme { colorscheme = config.themes.light.colorScheme; };
-  darkTheme = mkHelixTheme { colorscheme = config.themes.dark.colorScheme; };
-
-in
 {
   home.sessionVariables.COLORTERM = "truecolor";
   programs.helix = {
@@ -32,16 +24,6 @@ in
       # pkgs.nodePackages.prettier
     ];
 
-    themes =
-      defaultTheme
-      // darkTheme
-      // lightTheme
-      // {
-        # Create named themes for direct access
-        "default" = defaultTheme.${config.themes.default.colorScheme.slug};
-        "dark" = darkTheme.${config.themes.dark.colorScheme.slug};
-        "light" = lightTheme.${config.themes.light.colorScheme.slug};
-      };
     settings = {
       # theme = darkTheme.colorscheme.slug;
       # set default as it was for WSL
