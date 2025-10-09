@@ -4,7 +4,6 @@
   author = "casey muratori";
   type = "dark";
   palette = {
-    # Greyscale Palette
     base00 = "#161616";
     base01 = "#262626";
     base02 = "#1b1b1b";

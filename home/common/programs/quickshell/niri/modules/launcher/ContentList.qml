@@ -16,13 +16,25 @@ Item {
     required property int rounding
 
     property bool showWallpapers: search.text.startsWith(`${LauncherConfig.actionPrefix}wallpaper `)
-    property var currentList: (showWallpapers ? wallpaperList : appList).item
+    property bool showNixschemes: search.text.startsWith(`${LauncherConfig.actionPrefix}nixschemes `) // Assumes 'theme' is the keyword
+
+    property var currentList: {
+        if (showNixschemes) return nixschemeList.item;
+        if (showWallpapers) return wallpaperList.item;
+        return appList.item;
+    }
+    // property var currentList: (showWallpapers ? wallpaperList : appList).item
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.bottom: parent.bottom
 
     clip: true
-    state: showWallpapers ? "wallpapers" : "apps"
+    state: {
+        if (showNixschemes) return "nixschemes";
+        if (showWallpapers) return "wallpapers";
+        return "apps";
+    }
+    // state: showWallpapers ? "wallpapers" : "apps"
 
     states: [
         State {
@@ -47,6 +59,16 @@ Item {
                 root.implicitHeight: LauncherConfig.sizes.wallpaperHeight
                 wallpaperList.active: true
             }
+        },
+
+        State {
+            name: "nixschemes"
+
+            PropertyChanges {
+                root.implicitWidth: Math.max(LauncherConfig.sizes.itemWidth, nixschemeList.width)
+                root.implicitHeight: LauncherConfig.sizes.wallpaperHeight
+                nixschemeList.active: true
+            }
         }
     ]
 
@@ -62,7 +84,7 @@ Item {
                 easing.bezierCurve: Appearance.anim.curves.standard
             }
             PropertyAction {
-                targets: [appList, wallpaperList]
+                targets: [appList, wallpaperList, nixschemeList]
                 properties: "active"
             }
             ParallelAnimation {
@@ -113,6 +135,22 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
 
         sourceComponent: WallpaperList {
+            search: root.search
+            visibilities: root.visibilities
+        }
+    }
+
+    Loader {
+        id: nixschemeList
+
+        active: false
+        asynchronous: true
+
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        sourceComponent: NixschemeList {
             search: root.search
             visibilities: root.visibilities
         }

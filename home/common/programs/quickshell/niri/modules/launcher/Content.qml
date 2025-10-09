@@ -83,6 +83,9 @@ Item {
                     if (list.showWallpapers) {
                         Wallpapers.setWallpaper(currentItem.modelData.path);
                         root.visibilities.launcher = false;
+                    } else if (list.showNixschemes) {
+                        Nixschemes.setNixscheme(currentItem.modelData.path);
+                        root.visibilities.launcher = false;
                     } else if (text.startsWith(LauncherConfig.actionPrefix)) {
                         currentItem.modelData.onClicked(list.currentList);
                     } else {

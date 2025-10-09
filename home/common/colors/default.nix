@@ -40,7 +40,8 @@
         "zathura/zathurarc" = "${home}/.config/zathura/zathurarc";
 
         # Quickshell
-        "quickshell/theme.txt" = "${home}/.local/state/caelestia/scheme/current.txt";
+        # "quickshell/theme.txt" = "${home}/.local/state/caelestia/scheme/current.txt";
+        "quickshell/theme.txt" = "${home}/.local/state/caelestia/scheme/preview.txt";
 
         # Vesktop / Discord
         "vesktop/quickCss.css" = "${home}/.config/vesktop/settings/quickCss.css";

@@ -29,7 +29,7 @@ in
     # package = inputs.wezterm.packages.${pkgs.system}.default;
     extraConfig = ''
       local color = dofile(wezterm.config_dir .. '/colors/current.lua')
-      wezterm.add_to_config_reload_watch_list(wezterm.config_dir .. '/colors/current.lua')
+      wezterm.add_to_config_reload_watch_list(wezterm.config_dir .. '/colors')
       local config = {}
 
       config.colors = color

@@ -126,26 +126,33 @@ in
                   TIMESTAMP=$(date +%s)
                   EMACSFILE="base16-''${TIMESTAMP}-theme.el"
 
-                  echo "  emacs: Cleaning theme directory ''${EDIR}..."
                   mkdir -p "''${EDIR}"
+
                   rm -f "''${EDIR}"/*
-                  sleep 0.005
+                  sleep 0.001
 
                   echo "  emacs: Generating new theme ''${EDIR}/''${EMACSFILE}..."
-                  cat "$SRC_DIR/${generatedPath}" > "''${EDIR}/''${EMACSFILE}"
+                  # cat "$SRC_DIR/${generatedPath}" > "''${EDIR}/''${EMACSFILE}"
+                  ln -snf "$SRC_DIR/emacs/themes/base16-nix-theme.el"  "''${EDIR}/''${EMACSFILE}"
 
                   echo "  emacs: Patching theme name..."
                   sed -i "s,base16-nix,base16-''${TIMESTAMP},g" "''${EDIR}/''${EMACSFILE}"
                 ''
+              # elif lib.hasInfix "wezterm/colors.lua" generatedPath then
+              #  sh
+              #   ''
+              #   ''
               else
                 let
                   cleanGeneratedPath = lib.elemAt (lib.splitString "_clone_" generatedPath) 0;
                 in
+                # sh
                 ''
                   mkdir -p "$(dirname "${targetPath}")"
-                  rm -rf "${targetPath}"
-                  sleep 0.005
-                  cat "$SRC_DIR/${cleanGeneratedPath}" >"${targetPath}" || true
+                  # rm -rf "${targetPath}"
+                  # cat "$SRC_DIR/${cleanGeneratedPath}" >"${targetPath}" || true
+                  sleep 0.002
+                  ln -sfn "$SRC_DIR/${cleanGeneratedPath}" "${targetPath}"
                   echo "Linked ${targetPath}"
                 ''
             ) config.themes.targets
@@ -170,10 +177,10 @@ in
 
           echo "(load-theme 'base16-$TIMESTAMP t)" > "$EDIR/current-theme.el"
           emacsclient -e "(load-theme 'base16-''${TIMESTAMP} t)" &> /dev/null || true &
-          emacsclient -e "(load-file \"$EDIR/current-theme.el\")" &> /dev/null || true &
+          # emacsclient -e "(load-file \"$EDIR/current-theme.el\")" &> /dev/null || true &
           echo "$(date +"%d/%m/%y | %H:%M >")" "Theme switched to $THEME_NAME." >> /tmp/theme-switcher
           pkill -USR1 hx &> /dev/null || true &
-          notify-send "Theme Manager" --expire-time=2000 --app-name="Theme Manager" --icon=preferences-desktop-theme "Theme switched to $THEME_NAME"
+          # notify-send "Theme Manager" --expire-time=2000 --app-name="Theme Manager" --icon=preferences-desktop-theme "Theme switched to $THEME_NAME"
         '';
       })
     ];

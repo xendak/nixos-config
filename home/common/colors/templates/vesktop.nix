@@ -46,19 +46,19 @@ in
 
       :root {
         --text-0: var(--bg-4);
-        --text-1: ${p.base07};
-        --text-2: ${p.base06};
+        --text-1: ${p.base04};
+        --text-2: ${p.base05};
         --text-3: ${p.base05};
         --text-4: ${p.base04};
         --text-5: ${p.base03};
 
         --bg-1: ${p.base01};
         --bg-2: ${p.base02};
-        --bg-3: ${p.base00};
-        --bg-4: ${p.base01};
+        --bg-3: ${p.base01};
+        --bg-4: ${p.bg};
         --hover: ${p.base02};
-        --active: ${p.base03};
-        --message-hover: ${p.base01};
+        --active: ${p.accent};
+        --message-hover: ${p.base00};
 
         --accent-1: ${p.base0D};
         --accent-2: ${p.base0D};

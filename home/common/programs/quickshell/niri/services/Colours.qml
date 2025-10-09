@@ -35,6 +35,7 @@ Singleton {
     }
 
     function load(data: string, isPreview: bool): void {
+        console.log(data);
         const colours = isPreview ? preview : current;
         for (const line of data.trim().split("\n")) {
             let [name, colour] = line.split(" ");
@@ -51,9 +52,15 @@ Singleton {
     }
 
     function setMode(mode: string): void {
-        setModeProc.command = ["theme-switcher", mode];
-        // setModeProc.command = ["caelestia", "scheme", "dynamic", "default", mode];
-        setModeProc.startDetached();
+        Nixschemes.setNixfile(mode)
+        // setModeProc.command = ["nix-theme-switcher", mode];
+        // notifyScheme.command = [
+        //     "sh", "-c", 
+        //     `notify-send "Theme Manager" --expire-time=2000 --app-name="Theme Manager" --icon=preferences-desktop-theme "Theme switched to ${mode}"`
+        // ]
+        // // 
+        // // setModeProc.command = ["caelestia", "scheme", "dynamic", "default", mode];
+        // setModeProc.startDetached();
         reload()
 
     }

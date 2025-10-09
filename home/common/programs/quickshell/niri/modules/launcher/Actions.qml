@@ -17,7 +17,8 @@ Singleton {
             icon: "palette"
 
             function onClicked(list: AppList): void {
-                root.autocomplete(list, "scheme");
+                console.log("Actions:: Selected nixschemes")
+                root.autocomplete(list, "nixschemes");
                 // Colours.setMode("default")
             }
         },
@@ -37,7 +38,7 @@ Singleton {
 
             function onClicked(list: AppList): void {
                 list.visibilities.launcher = false;
-                Colours.setMode("light");
+                Colours.setMode("grayscale-light");
             }
         },
         Action {
@@ -47,7 +48,7 @@ Singleton {
 
             function onClicked(list: AppList): void {
                 list.visibilities.launcher = false;
-                Colours.setMode("dark");
+                Colours.setMode("handmadehero");
             }
         },
         Action {
@@ -57,7 +58,7 @@ Singleton {
 
             function onClicked(list: AppList): void {
                 list.visibilities.launcher = false;
-                Colours.setMode("default");
+                Colours.setMode("gorgoroth");
             }
         },
         Action {
