@@ -1,3 +1,7 @@
+def rsysd [] {
+  sudo systemctl restart user@1000.service  
+}
+
 def upb [...args: string] {
   cd ($env.HOME | path join "Flake")
   sudo nixos-rebuild boot --flake .#($env.USER) --show-trace ...$args
