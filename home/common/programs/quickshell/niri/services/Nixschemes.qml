@@ -11,7 +11,7 @@ Singleton {
 
     readonly property string currentNamePath: `${Paths.state}/scheme/current.txt`.slice(7)
     readonly property string setNamePath: `${Paths.state}/scheme/preview.txt`.slice(7)
-    readonly property string path: Quickshell.env("HOME") + "/Programming/probe/python/cache/"
+    readonly property string path: Quickshell.env("HOME") + "/Flake/home/common/colors/thumbnails/"
 
     readonly property list<Nixscheme> list: nixschemes.instances
     property bool showPreview: false
