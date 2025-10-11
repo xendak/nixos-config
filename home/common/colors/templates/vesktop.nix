@@ -1,9 +1,8 @@
-{ paletteSet, ... }:
+{ lib, paletteSet, ... }:
 let
   p = paletteSet.palette;
-in
-{
-  "vesktop/quickCss.css" = # css
+  rawCss =
+    # css
     ''
       @import url('https://refact0r.github.io/midnight-discord/build/midnight.css');
       body {
@@ -56,8 +55,8 @@ in
         --bg-2: ${p.base02};
         --bg-3: ${p.base01};
         --bg-4: ${p.bg};
-        --hover: ${p.base02};
-        --active: ${p.accent};
+        --hover: ${p.accent}20;
+        --active: ${p.accent}60;
         --message-hover: ${p.base00};
 
         --accent-1: ${p.base0D};
@@ -119,8 +118,32 @@ in
         --purple-5: oklch(52% 0.11 310);
       }
 
+      .content_f75fb0 {
+        gap: var(--gap);
+      }
+
       .title_c38106 {
       	opacity: 0 !important;
       }
     '';
+  escapedCss = lib.concatStringsSep "\n" (lib.splitString "\n" rawCss);
+
+  jsonStructure = {
+    SKIP_HOST_UPDATE = true;
+    openasar = {
+      setup = true;
+      quickstart = true;
+      css = escapedCss;
+    };
+    BACKGROUND_COLOR = "${p.bg}";
+    offloadAdmControls = false;
+    enableHardwareAcceleration = true;
+    chromiumSwitches = { };
+    MINIMIZE_TO_TRAY = false;
+    OPEN_ON_STARTUP = false;
+  };
+in
+{
+  "vesktop/quickCss.css" = rawCss;
+  "discord/settings.json" = builtins.toJSON jsonStructure;
 }

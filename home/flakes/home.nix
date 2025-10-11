@@ -53,7 +53,7 @@
     #https://github.com/hunkyburrito/xdg-desktop-portal-termfilechooser?tab=readme-ov-file#installation
     ".config/xdg-desktop-portal-termfilechooser/config".source = pkgs.writeText "config" ''
       [filechooser]
-      cmd=${pkgs.custom-xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
+      cmd=${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
       default_dir=$HOME
       env=TERMCMD=${pkgs.wezterm}/bin/wezterm start --class f_terminal
     '';
@@ -82,7 +82,7 @@
     mangohud
 
     # mkxp-z
-    custom-xdg-desktop-portal-termfilechooser
+    xdg-desktop-portal-termfilechooser
 
     eb-garamond
     blender

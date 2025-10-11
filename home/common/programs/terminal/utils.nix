@@ -154,6 +154,8 @@ in
 
   home.persistence."/persist".directories = [
     ".local/cache/nix"
+    ".config/imhex"
+    ".local/share/imhex"
   ];
 
   programs.fzf = {

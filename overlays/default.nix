@@ -16,7 +16,22 @@
       patches = (oldAttrs.patches or [ ]) ++ [ ./xdg-open-spawn-terminal.diff ];
     });
 
-    # not needed anymore
+    # https://github.com/rumboon/dolphin-overlay/blob/main/default.nix
+    # hopefully this fixes dolphin for me.
+    # https://discourse.nixos.org/t/dolphin-does-not-have-mime-associations/48985/7
+    kdePackages = prev.kdePackages.overrideScope (
+      kfinal: kprev: {
+        dolphin = kprev.dolphin.overrideAttrs (oldAttrs: {
+          nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.makeWrapper ];
+          postInstall = (oldAttrs.postInstall or "") + ''
+            wrapProgram $out/bin/dolphin \
+                --set XDG_CONFIG_DIRS "${prev.libsForQt5.kservice}/etc/xdg:$XDG_CONFIG_DIRS" \
+                --run "${kprev.kservice}/bin/kbuildsycoca6 --noincremental ${prev.libsForQt5.kservice}/etc/xdg/menus/applications.menu"
+          '';
+        });
+      }
+    );
+
     rbw = prev.rbw.overrideAttrs (oldAttrs: {
       patches = (oldAttrs.patches or [ ]) ++ [ ./rbw-list-raw.patch ];
     });

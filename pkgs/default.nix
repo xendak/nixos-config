@@ -12,8 +12,8 @@
   # yuzu-updated = pkgs.callPackage ./yuzu-updated { };
   nix-inspect = pkgs.callPackage ./nix-inspect { };
   wl-ocr = pkgs.callPackage ./wl-ocr { };
-  custom-xdg-desktop-portal-termfilechooser =
-    pkgs.callPackage ./xdg-desktop-portal-termfilechooser
-      { };
+  # custom-xdg-desktop-portal-termfilechooser =
+  #   pkgs.callPackage ./xdg-desktop-portal-termfilechooser
+  #     { };
   suyu = pkgs.callPackage ./suyu-bin { };
 }

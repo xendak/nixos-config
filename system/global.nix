@@ -155,7 +155,8 @@ in
     # kdePackages.xdg-desktop-portal-kde
     xdg-desktop-portal-wlr
     xdg-desktop-portal-hyprland
-    pkgs.custom-xdg-desktop-portal-termfilechooser
+    # pkgs.custom-xdg-desktop-portal-termfilechooser
+    xdg-desktop-portal-termfilechooser
     pkgs.papirus-icon-theme
     pkgs.papirus-folders
     pkgs.adwaita-icon-theme
@@ -193,7 +194,7 @@ in
     wlr.enable = true;
     extraPortals = [
       pkgs.xdg-desktop-portal-hyprland
-      pkgs.custom-xdg-desktop-portal-termfilechooser
+      pkgs.xdg-desktop-portal-termfilechooser
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-gnome
       # pkgs.kdePackages.xdg-desktop-portal-kde

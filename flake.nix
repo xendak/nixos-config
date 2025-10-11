@@ -110,6 +110,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # terminal filepicker
+    xdg-termfilepickers = {
+      url = "github:Guekka/xdg-desktop-portal-termfilepickers";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # #github:owner/repo?rev=
     # NIXOS WSL
     nixos-wsl = {
@@ -131,6 +137,7 @@
       nixpkgs,
       nixpkgs-stable,
       home-manager,
+      xdg-termfilepickers,
       agenix,
       hyprland,
       nixos-wsl,

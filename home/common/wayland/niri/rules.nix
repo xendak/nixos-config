@@ -80,6 +80,8 @@ in
       {
         matches = [
           { app-id = "vesktop"; }
+          { app-id = "discord"; }
+          { app-id = "discordcanary"; }
           { app-id = "com.github.th_ch.youtube_music"; }
         ];
         open-on-workspace = "3";

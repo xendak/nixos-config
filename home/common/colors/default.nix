@@ -45,8 +45,8 @@
 
         # Vesktop / Discord
         "vesktop/quickCss.css" = "${home}/.config/vesktop/settings/quickCss.css";
-        "vesktop/quickCss.css_clone_1" = "${home}/.config/discord/settings/quickCss.css";
-        "vesktop/quickCss.css_clone_2" = "${home}/.config/discordcanary/settings/quickCss.css";
+        "discord/settings.json" = "${home}/.config/discord/settings.json";
+        "discord/settings.json_clone_1" = "${home}/.config/discordcanary/settings.json";
 
         # Helix
         "helix/themes/current.toml" = "${home}/.config/helix/themes/current.toml";
