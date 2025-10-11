@@ -22,6 +22,7 @@ in
     #inputs.hardware.nixosModules.common-pc-ssd
 
     ./extras/postMountFiles.nix
+    ./extras/bash.nix
     ./extras/fish.nix
     ./extras/fonts.nix
     ./openssh.nix
@@ -138,12 +139,19 @@ in
     platformTheme = "qt5ct";
   };
 
+  environment.variables = {
+    EDITOR = "hx";
+    SUDO_EDITOR = "vi";
+  };
+
   # XDG - PORTAL
   environment.systemPackages = with pkgs; [
     ripgrep
     fd
     eza
     bat
+
+    helix
 
     busybox
     lm_sensors

@@ -142,7 +142,7 @@
     };
     users.drops = {
       isNormalUser = true;
-      shell = pkgs.nushell;
+      shell = pkgs.bash;
       extraGroups = [
         "audio"
         "video"

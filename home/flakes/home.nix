@@ -147,6 +147,7 @@
       SPLIT = "v";
       GTK_THEME = "${config.gtk.theme.name}:dark";
       EDITOR = "hx";
+      SUDO_EDITOR = "vi";
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
       BROWSER = "zen";
       FILEBROWSER = "dolphin";

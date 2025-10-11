@@ -1,7 +1,6 @@
 # my main desktop
 {
   config,
-  lib,
   pkgs,
   inputs,
   outputs,
@@ -172,7 +171,7 @@
     };
     users.flakes = {
       isNormalUser = true;
-      shell = pkgs.nushell;
+      shell = pkgs.bash;
       extraGroups = [
         "audio"
         "video"

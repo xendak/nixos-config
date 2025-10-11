@@ -10,6 +10,7 @@
     inputs.home-manager.nixosModules.home-manager
     # inputs.agenix.nixosModules.default
     ../extras/fish.nix
+    ../extras/bash.nix
     # ../openssh.nix
     # ../extras/llm.nix
   ];
@@ -43,7 +44,7 @@
 
   users.users.nixos = {
     isNormalUser = true;
-    shell = pkgs.nushell;
+    shell = pkgs.bash;
     extraGroups = [
       "wheel"
       "docker"
