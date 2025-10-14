@@ -83,6 +83,8 @@
       epkgs.marginalia
       epkgs.embark
       epkgs.consult
+      epkgs.consult-projectile
+      epkgs.embark-consult
       epkgs.expand-region
       epkgs.nerd-icons-completion
 
@@ -90,6 +92,8 @@
       epkgs.projectile
       epkgs.all-the-icons
       epkgs.all-the-icons-dired
+      epkgs.vterm
+      # epkgs.dired-single
 
       epkgs.org
       epkgs.org-node
