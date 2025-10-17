@@ -32,6 +32,20 @@ let color_config = {
 }
 
 $env.config.color_config = $color_config
+# maybe use a system akin to this eventually?
+# $env.COLOR_SCHEME = {
+#   background: '#353446'
+#   foreground: '#C9C6DC'
+#   blue: '#7FBBB3'
+#   cyan: '#83C092'
+#   green: '#A7C080'
+#   purple: '#D699B6'
+#   red: '#E67E80'
+#   yellow: '#DBBC7F'
+#   white: '#D3C6AA'
+# }
+
+$env.STARSHIP_SHELL = "nu"
 
 # https://github.com/trapd00r/LS_COLORS
 # LS_COLORS using standard ANSI codes to match the terminal theme

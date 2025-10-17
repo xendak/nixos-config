@@ -1,11 +1,6 @@
 {
-  # pkgs,
-  # config,
   ...
 }:
-# let
-#   c = config.colorscheme.palette;
-# in
 {
   programs.starship = {
     enable = true;
@@ -16,7 +11,7 @@
     format = """
     [╭─](white)\
     [](color_green)\
-    $os\
+    $nix_shell\
     $username\
     [](bg:color_purple fg:color_green)\
     $directory\
@@ -28,6 +23,7 @@
     $rust\
     $golang\
     $nodejs\
+    $zig\
     $php\
     $java\
     $kotlin\
@@ -58,6 +54,13 @@
     [os]
     disabled = false
     style = "bg:color_green fg:black"
+    [nix_shell]
+    format = "[$symbol]($style)"
+    symbol = " "
+    disabled=false
+    heuristic=true
+    style = "bg:color_green fg:black"
+
 
     [os.symbols]
     Windows = "󰍲"
@@ -146,6 +149,11 @@
 
     [haskell]
     symbol = ""
+    style = "bg:color_blue"
+    format = '[[ $symbol( $version) ](fg:black bg:color_blue)]($style)'
+
+    [zig]
+    symbol = ""
     style = "bg:color_blue"
     format = '[[ $symbol( $version) ](fg:black bg:color_blue)]($style)'
 

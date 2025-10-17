@@ -39,7 +39,7 @@
         # Zathura
         "zathura/zathurarc" = "${home}/.config/zathura/zathurarc";
 
-        # Quickshell
+        # Quickshell ( half of it is done by itself )
         # "quickshell/theme.txt" = "${home}/.local/state/caelestia/scheme/current.txt";
         "quickshell/theme.txt" = "${home}/.local/state/caelestia/scheme/preview.txt";
 
@@ -50,6 +50,15 @@
 
         # Helix
         "helix/themes/current.toml" = "${home}/.config/helix/themes/current.toml";
+
+        # Nvim
+        "nvim/colors.vim" = "${home}/.config/nvim/colors.vim";
+
+        # Yazi
+        "yazi/theme.toml" = "${home}/.config/yazi/theme.toml";
+
+        # Lazygit
+        "lazygit/config.yml" = "${home}/.config/lazygit/config.yml";
 
         # Wezterm
         "wezterm/colors/current.lua" = "${home}/.config/wezterm/colors/current.lua";

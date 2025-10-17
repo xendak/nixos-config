@@ -1,11 +1,11 @@
-scheme: let
-  c = scheme.palette;
+{ paletteSet, ... }:
+let
+  p = paletteSet;
+  c = p.palette;
 in
-  /*
-  vim
-  */
-  ''
-    let g:colors_name="nix-${scheme.slug}"
+{
+  "nvim/colors.vim" = ''
+    let g:colors_name="nix-${p.name}"
 
     set termguicolors
 
@@ -326,4 +326,5 @@ in
     let g:terminal_color_13 = "#${c.base0E}"
     let g:terminal_color_14 = "#${c.base0C}"
     let g:terminal_color_15 = "#${c.base07}"
-  ''
+  '';
+}

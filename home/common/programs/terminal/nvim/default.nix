@@ -1,12 +1,8 @@
 {
-  config,
   pkgs,
   lib,
   ...
 }:
-let
-  color = pkgs.writeText "color.vim" (import ./theme.nix config.colorscheme);
-in
 {
   imports = [
     ./lsp.nix
@@ -33,9 +29,6 @@ in
         set clipboard=unnamedplus
         "Use truecolor
         set termguicolors
-        "Set colorscheme
-        "colorscheme nix-${config.colorscheme.slug}
-        source ${color}
 
         "Set fold level to highest in file
         "so everything starts out unfolded at just the right level
@@ -141,6 +134,9 @@ in
     extraLuaConfig =
       # lua
       ''
+        -- color
+        vim.cmd('source ' .. vim.fn.expand('~/.config/nvim/colors.vim'))
+
         -- telescope
         vim.keymap.set("n", "<space><space>", require("telescope.builtin").find_files, {desc = "Telescope find files"})
         vim.keymap.set("n", "<space>b", require("telescope.builtin").buffers, {desc = "Telescope buffers"})

@@ -186,20 +186,3 @@ in
     ];
   };
 }
-# ln -sfn "$SRC_DIR/${cleanGeneratedPath}" "${targetPath}"
-
-# ${lib.concatStringsSep "\n" (
-#   lib.mapAttrsToList (
-#     generatedPath: targetPath:
-#     let
-#       cleanGeneratedPath = lib.elemAt (lib.splitString "_clone_" generatedPath) 0;
-#     in
-#     ''
-#       mkdir -p "$(dirname "${targetPath}")"
-#       rm -rf "${targetPath}"
-#       sleep 0.005
-#       cat "$SRC_DIR/${cleanGeneratedPath}" >"${targetPath}" || true
-#       echo "Linked ${targetPath}"
-#     ''
-#   ) cfg.targets
-# )}
