@@ -5,6 +5,21 @@
   ];
 
   programs.bash = {
+    shellAliases = {
+      y = "yazi";
+      ls = "eza";
+      nd = "nix develop -c $SHELL";
+      ll = "eza -lah";
+      fg = "job unfreeze";
+      lg = "lazygit";
+      fz = "fzf --bind 'enter:become(hx {})'";
+      cat = "${pkgs.bat}/bin/bat";
+      df = "${pkgs.duf}/bin/duf";
+      find = "${pkgs.fd}/bin/fd";
+      grep = "${pkgs.ripgrep}/bin/rg";
+      tree = "${pkgs.eza}/bin/eza --git --icons --tree";
+    };
+
     promptInit =
       # sh
       ''
@@ -221,12 +236,5 @@
         load_prompt      
       '';
 
-    interactiveShellInit =
-      # sh
-      ''
-        if [ "$EUID" -ne 0 ] && ! [ "$TERM" = "dumb" ]; then
-          exec nu
-        fi  
-      '';
   };
 }

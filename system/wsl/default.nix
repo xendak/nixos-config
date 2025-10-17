@@ -44,7 +44,7 @@
 
   users.users.nixos = {
     isNormalUser = true;
-    shell = pkgs.bash;
+    shell = pkgs.nushell;
     extraGroups = [
       "wheel"
       "docker"
