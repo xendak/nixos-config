@@ -88,9 +88,10 @@
     (setq meow-cheatsheet-physical-layout meow-cheatsheet-physical-layout-split)
     (setq meow-use-cursor-position-hack t)
     (setq meow-use-clipboard t)
+
     (meow-motion-define-key
-     '("h" . meow-next)
-     '("l" . meow-prev)
+     '("t" . meow-next)
+     '("s" . meow-prev)
      '("<escape>" . ignore))
     (setq meow-selection-command-fallback
           '((meow-change . meow-change-char)
@@ -99,6 +100,7 @@
             (meow-pop-selection . meow-pop-grab)
             (meow-beacon-change . meow-beacon-change-char)))
     (meow-leader-define-key
+     ;; Digit arguments
      '("1" . meow-digit-argument)
      '("2" . meow-digit-argument)
      '("3" . meow-digit-argument)
@@ -109,16 +111,58 @@
      '("8" . meow-digit-argument)
      '("9" . meow-digit-argument)
      '("0" . meow-digit-argument)
+     
+     ;; General commands
      '("SPC" . meow-M-x)
      '("<SPC>" . meow-M-x)
-     '("b" . buffer)
-     '("f" . dired)
-     '("a" . execute-extended-command)
-     '("d" . compile)
-     '("e" . eval-buffer)
-     '("i" . imenu)
-     '("l" . lsp-mode-map)
-     '("/" . meow-keypad-describe-key)
+     ; '("I" . execute-extended-command)
+     
+     ;; Buffer management (Space b prefix)
+     '("o" . (lambda () (interactive)
+	       (if (project-current nil)
+		   (call-interactively #'project-eshell)
+		 (call-interactively #'eshell))))
+
+     '("d" . (lambda () (interactive)
+	       (if (project-current nil)
+		   (call-interactively #'project-find-file)
+		 (call-interactively #'find-file))))
+     '("D" . find-file)
+
+     '("a" . (lambda () (interactive)
+	       (if (project-current nil)
+		   (call-interactively #'project-dired)
+		 (call-interactively #'dired))))
+     '("O" . dired)
+
+     '("," . (lambda ()
+	       (interactive)
+	       (if (eq major-mode 'erc-mode)
+		   (call-interactively #'erc-switch-to-buffer)
+		 (if (project-current nil)
+		     (call-interactively #'project-switch-to-buffer)
+		   (call-interactively #'switch-to-buffer)))))
+     '("," . switch-to-buffer)
+
+     '("h" . kill-buffer)
+     '("H" . project-kill-buffers)
+     '("b" . project-switch-project)
+
+     '("n" . my-prefix-key)
+
+     '("f" . other-window)
+     '("F" . delete-window)
+     '("I" . previous-buffer)
+     '("A" . next-buffer)
+     '("`" . vterm-other-window)
+     '(";" . (lambda ()
+           (interactive)
+           (if (project-current nil)
+               (call-interactively #'project-compile)
+             (call-interactively #'compile))))
+     ; '(";" . compile)
+     '("l" . imenu)
+     '("P" . meow-keypad-describe-key)
      '("?" . meow-cheatsheet))
 
     (meow-normal-define-key
@@ -134,70 +178,155 @@
      '("1" . meow-expand-1)
      '("-" . negative-argument)
      
-     '("K" . meow-mark-symbol)
-     '("k" . meow-next-symbol)
-     '("n" . meow-back-word)
-     '("b" . meow-back-symbol)
-     '("m" . meow-next-word)
-     '("r" . meow-replace)
-     '("/" . isearch-forward)
-
-     '("s" . meow-left)
-     '("h" . meow-next)
+     ; movement
      '("l" . meow-prev)
+     '("h" . meow-next)
+     '("s" . meow-left)
      '("t" . meow-right)
-     
-     '("e" . meow-change)
-     '("d" . meow-kill)
-     '("a" . meow-append)
-     '("i" . meow-insert)
-     
-     '("S" . meow-left-expand)
-     '("H" . meow-next-expand)
-     '("T" . meow-right-expand)
-     '("L" . meow-prev-expand)
-     
-     '("u" . meow-undo)
-     '("o" . meow-block)
-     '("w" . meow-mark-word)
-     '("y" . meow-save)
-     '("p" . meow-yank)
-     
-     '("f" . meow-find)
-     '("v" . meow-visit)
-     '("_" . meow-line)
-     
-     '("x" . meow-cancel-selection)
-     '("j" . meow-till)
-     '("q" . meow-quit)
-     '("z" . meow-grab)
-     '("Z" . meow-swap-grab)
 
-     '("g" . meow-inner-of-thing)
-     '(";" . meow-bounds-of-thing)
-     '("G" . meow-beginning-of-thing)
-     '(":" . meow-end-of-thing)
-     
-     '("c" . meow-reverse)
-     '("'" . repeat)
-     
-     '("A" . meow-open-below)
-     '("D" . meow-backward-delete)
-     '("E" . meow-next-symbol)
-     '("I" . meow-open-above)
-     '("O" . meow-to-block)
-     '("Y" . meow-sync-grab)
-     '("Q" . meow-undo-in-selection)
-     '("U" . meow-goto-line)
-     '("V" . meow-search)
-     '("W" . meow-set-mark)
-     '("X" . meow-line)
-     '("P" . meow-pop-selection)
-     
+     '("v" . meow-search)
+     '("P" . meow-visit)
+
+     ; expansion
+     '("L" . meow-prev-expand)
+     '("H" . meow-next-expand)
+     '("S" . meow-left-expand)
+     '("T" . meow-right-expand)
+
+     '("f" . meow-back-word)
+     '("F" . meow-back-symbol)
+     '("k" . meow-next-word)
+     '("K" . meow-next-symbol)
+
+     '("i" . meow-mark-word)
+     '("I" . meow-mark-symbol)
+     '("e" . meow-line)
+     '("u" . meow-block)
+     '("." . meow-join)
+     '("c" . meow-grab)
+     '("C" . meow-pop-grab)
+     '("b" . meow-cancel-selection)
+     '("B" . meow-pop-selection)
+
+     '("`" . meow-till)
+     '("~" . meow-find)
+
+     '("x" . meow-beginning-of-thing)
+     '("j" . meow-end-of-thing)
+     '("X" . meow-inner-of-thing)
+     '("J" . meow-bounds-of-thing)
+
+     '("[" . indent-rigidly-left-to-tab-stop)
+     '("]" . indent-rigidly-right-to-tab-stop)
+
+     ; edrting
+     '("," . open-line)
+     '("<" . split-line)
+     '("a" . meow-kill)
+     '("d" . meow-change)
+     '("D" . meow-change-line)
+     '("_" . meow-delete)
+     '(";" . meow-save)
+     '(":" . meow-save-clipboard)
+     '("g" . meow-yank-dwim)
+     '("G" . meow-yank-pop-dwim)
+
+     '("w" . meow-insert)
+     '("W" . meow-open-above)
+     '("o" . meow-append)
+     '("O" . meow-open-below)
+
+     '("Z" . query-replace-regexp)
+
+     '("m" . undo-only)
+     '("M" . undo-redo)
+
+     '("y" . meow-kmacro)
+     '("Y" . kmacro-call-macro)
+
+     ; prefix n
+
+     ; prefix ;
+     ; '("af" . save-buffer)
+     ; '("aF" . save-some-buffers)
+
      '("<escape>" . ignore)))
 
   :config
   (meow-setup)
   (meow-global-mode))
+
+(defun my/dired-setup ()
+  (define-key dired-mode-map (kbd "Z") 'my/dired-zoxide-jump))
+
+(add-hook 'dired-mode-hook 'my/dired-setup)
+
+(defun my/dired-zoxide-jump ()
+  (interactive)
+  (let* ((zoxide-output (shell-command-to-string "zoxide query -l"))
+         (dirs (split-string zoxide-output "\n" t))
+         (selected-dir (completing-read "Jump to: " dirs)))
+    (when selected-dir
+      (dired selected-dir))))
+
+(defun vterm-other-window ()
+  (interactive)
+  (let ((buf (generate-new-buffer "*vterm*")))
+    (switch-to-buffer-other-window buf)
+    (vterm-mode)))
+
+;; -------------------- ;;
+;;         UTILS        ;;
+;; -------------------- ;;
+
+(defvar my-prefix-key
+  (let ((keymap (make-keymap)))
+	(define-key keymap "b" #'ivy-switch-buffer)
+	(define-key keymap "n" #'next-buffer)
+    (define-key keymap "m" #'kmacro-edit-macro)
+    (define-key keymap "y" #'meow-comment)
+	(define-key keymap "p" #'previous-buffer)
+	(define-key keymap "q" #'kill-current-buffer)
+    keymap))
+(defalias 'my-prefix-key my-prefix-key)
+(global-set-key (kbd "C-c n") 'my-prefix-key)
+
+(defun meow-change-line ()
+  "Kill till end of line and switch to INSERT state."
+  (interactive)
+  (let ((beg (point)))
+    (end-of-line)
+    (delete-region beg (point))
+    (meow-insert-mode)))
+
+(defun meow-save-clipboard ()
+  "Copy in clipboard."
+  (interactive)
+  (let ((meow-use-clipboard t))
+    (meow-save)))
+
+(defun meow-kmacro ()
+  "Toggle recording of kmacro."
+  (interactive)
+  (if defining-kbd-macro
+      (meow-end-kmacro)
+    (meow-start-kmacro)))
+
+;; -------------------- ;;
+;;       VARIABLES      ;;
+;; -------------------- ;;
+(meow-thing-register 'angle
+                     '(pair ("<") (">"))
+                     '(pair ("<") (">")))
+
+(setq meow-char-thing-table
+      '((?d . round)
+        (?a . square)
+        (?e . curly)
+        (?I . angle)
+        (?w . string)
+        (?g . paragraph)
+        (?; . line)
+        (?_ . buffer)))
 
 (message "---> binds.el loaded successfully!")

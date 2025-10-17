@@ -3,7 +3,8 @@
 (column-number-mode)
 (global-display-line-numbers-mode t)
 (setq display-line-numbers-type 'relative)
-(setq scroll-margin 5)
+(setq scroll-conservatively 10
+      scroll-margin 15)
 (setq scroll-step 1)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
