@@ -53,8 +53,8 @@
 
 (spacious-padding-mode 1)
 
-                                        ; (setq use-default-font-for-symbols nil)
-                                        ; (set-fontset-font t 'unicode "Noto Emoji" nil 'append)
+; (setq use-default-font-for-symbols nil)
+; (set-fontset-font t 'unicode "Noto Emoji" nil 'append)
 
 (set-face-background 'mode-line "gray13")
 
