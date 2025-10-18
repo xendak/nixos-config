@@ -3,7 +3,14 @@ let
   p = paletteSet.palette;
 in
 {
+  # maybe do this eventually? but for now lets just fix mask.
   "yazi/theme.toml" = # toml
+    ''
+      [which]
+      mask = { bg = "${p.base02}" }
+    '';
+
+  "yazi/some.toml" = # toml
     ''
       # vim:fileencoding=utf-8:foldmethod=marker
       # https://github.com/poperigby/gruvbox-dark-yazi/blob/main/theme.toml

@@ -5,7 +5,10 @@
   ...
 }:
 let
-  c = config.colorscheme.palette;
+  # TODO: hard code this till niri accepts imports in its files.
+  colorscheme = import ../../colors/palettes/gorgoroth.nix;
+  c = colorscheme.palette;
+
   generateNiriOutput = monitor: {
     name = monitor.name;
     value = {
@@ -70,9 +73,9 @@ in
         # };
         insert-hint = {
           enable = true;
-          # display.color = "#${c.wm_active_border}30";
+          # display.color = "${c.wm_active_border}30";
           display.gradient = {
-            from = "#${c.wm_active_border}50";
+            from = "${c.wm_active_border}50";
             to = "#ff8c0060";
             angle = 135;
             in' = "oklch shorter hue";
@@ -88,8 +91,8 @@ in
         focus-ring = {
           width = 1;
           active.gradient = {
-            from = "#${c.wm_active_border}50";
-            to = "#${c.wm_inactive_border}50";
+            from = "${c.wm_active_border}50";
+            to = "${c.wm_inactive_border}50";
             angle = 135;
             in' = "oklch longer hue";
           };
@@ -107,12 +110,12 @@ in
           };
           corner-radius = 12;
           active.gradient = {
-            from = "#${c.wm_active_border}";
-            to = "#${c.wm_inactive_border}";
+            from = "${c.wm_active_border}";
+            to = "${c.wm_inactive_border}";
             angle = 45;
             in' = "oklch shorter hue";
           };
-          inactive.color = "#${c.base02}";
+          inactive.color = "${c.base02}";
         };
 
         preset-column-widths = [

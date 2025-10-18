@@ -420,7 +420,7 @@
   :commands vterm
   :config
   (setq vterm-max-scrollback 10000)
-  (setq vterm-shell "bash"))
+  (setq vterm-shell "fish"))
 
 ;; Better dired with zoxide integration
 (use-package dired

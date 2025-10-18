@@ -12,7 +12,6 @@
     inputs.nix-colors.homeManagerModule
 
     ./common/colors
-    ./common/colors/old/gorgoroth.nix
   ]
   ++ (builtins.attrValues outputs.homeManagerModules);
 

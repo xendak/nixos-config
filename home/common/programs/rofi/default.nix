@@ -4,7 +4,10 @@
   ...
 }:
 let
-  inherit (config.colorscheme) palette;
+  # TODO: remove this eventually
+  colorscheme = import ../../colors/palettes/gorgoroth.nix;
+  c = colorscheme.palette;
+
   m = builtins.elemAt config.monitors 0;
   fm_height =
     if m.height == 1440 then
@@ -67,15 +70,15 @@ in
       width:                         20%;
       height:                        80%;
       border:                        2px;
-      border-color:                  #${palette.base0C};
+      border-color:                  #${c.base0C};
       border-radius:                 10px;
-      background-color:              #${palette.base03};
+      background-color:              #${c.base03};
     }
 
     entry {
-      background-color:              #${palette.base00};
-      text-color:                    #${palette.base05};
-      placeholder-color:             #${palette.base0C};
+      background-color:              #${c.base00};
+      text-color:                    #${c.base05};
+      placeholder-color:             #${c.base0C};
       expand:                        true;
       horizontal-align:              0.5;
       placeholder:                   " › Type here to search...";
@@ -84,7 +87,7 @@ in
       blink:                         true;
       border:                        0px 0px 2px 0px;
       border-radius:                 6px;
-      border-color:                  #${palette.base0D};
+      border-color:                  #${c.base0D};
     }
 
     inputbar {
@@ -92,15 +95,15 @@ in
       background-image:		           url("${wallpaper}", width);
       border-radius:		             10px;
       border:                        0px 0px 2px 0px;
-      border-color:                  #${palette.base0D};
-      text-color:                    #${palette.base0B};
+      border-color:                  #${c.base0D};
+      text-color:                    #${c.base0B};
       expand:                        false;
       margin:                        5px 5px 6px 5px;
       padding:                       4%;
     }
 
     listview {
-      background-color:              #${palette.base00};
+      background-color:              #${c.base00};
       border-radius:                 10px;
       padding:                       10px;
       columns:                       1;
@@ -112,9 +115,9 @@ in
     }
 
     mainbox {
-      background-color:              #${palette.base00};
+      background-color:              #${c.base00};
       border:                        0px;
-      border-color:                  #${palette.base0C};
+      border-color:                  #${c.base0C};
       children:                      [ inputbar, listview ];
       spacing:                       0%;
       padding:                       8px;
@@ -122,8 +125,8 @@ in
 
     element {
       orientation:                   horizontal;
-      background-color:              #${palette.base00};
-      text-color:                    #${palette.base05};
+      background-color:              #${c.base00};
+      text-color:                    #${c.base05};
       border-radius:                 0%;
       padding:                       0px;
     }
@@ -149,10 +152,10 @@ in
     }
 
     element selected {
-      background-color:              #${palette.base03};
-      text-color:                    #${palette.base0C};
+      background-color:              #${c.base03};
+      text-color:                    #${c.base0C};
       border:                        0px 0px 2px 0px;
-      border-color:                  #${palette.base0D};
+      border-color:                  #${c.base0D};
       border-radius:                 10px;
     }
   '';
@@ -178,12 +181,12 @@ in
     /*****----- Global Properties -----*****/
     * {
         font:                        "Sans 16";
-        background:                  #${palette.base00};
-        background-alt:              #${palette.base03};
-        foreground:                  #${palette.base05};
-        selected:                    #${palette.base0D};
-        active:                      #${palette.base0C};
-        urgent:                      #${palette.base0D};
+        background:                  #${c.base00};
+        background-alt:              #${c.base03};
+        foreground:                  #${c.base05};
+        selected:                    #${c.base0D};
+        active:                      #${c.base0C};
+        urgent:                      #${c.base0D};
         button-style:                15px;
         border-style:                0px 0px 5px 0px;
     }
@@ -201,7 +204,7 @@ in
         border-radius:               10px;
         border-color:                @selected;
         cursor:                      "default";
-        background-color:            #${palette.base03}60; // dim color
+        background-color:            #${c.base03}60; // dim color
     }
 
     /*****----- Main Box -----*****/
