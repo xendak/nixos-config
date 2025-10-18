@@ -11,7 +11,7 @@
       ''
         [[mgr.prepend_keymap]]
         on   = ["f"]
-        run  = "cd --interactive"
+        run  = "plugin smart-filter"
         desc = "Iteractively go to directory"
 
         [[mgr.prepend_keymap]]
