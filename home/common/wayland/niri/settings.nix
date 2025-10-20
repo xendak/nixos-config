@@ -162,6 +162,11 @@ in
 
       input = {
         workspace-auto-back-and-forth = true;
+
+        tablet = {
+          left-handed = true;
+        };
+
         keyboard = {
           xkb = {
             layout = "us";
