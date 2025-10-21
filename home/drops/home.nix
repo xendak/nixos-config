@@ -41,43 +41,6 @@
     # ../common/programs/rustdesk.nix
   ];
 
-  home.file = {
-    ".ssh/known_hosts".source = ../common/ssh/known_hosts;
-    ".ssh/id_ed25519.pub".source = ../common/ssh/id_ed25519.pub;
-    ".config/qmk/qmk.ini".source = pkgs.writeText "qmk.ini" ''
-      [user]
-      qmk_home = /home/drops/Programming/qmk_userspace/qmk_firmware
-    '';
-    ".ssh/config".source = pkgs.writeText "config" ''
-      AddKeysToAgent yes
-    '';
-    ".config/xdg-desktop-portal-termfilechooser/config".source = pkgs.writeText "config" ''
-      [filechooser]
-      cmd=${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
-      default_dir=$HOME
-      env=TERMCMD=${pkgs.wezterm}/bin/wezterm start --class f_terminal
-    '';
-
-    ".config/xdg-desktop-portal/portals.conf".source = pkgs.writeText "portals.conf" ''
-      [preferred]
-      default=hyprland;gtk;kde
-      org.freedesktop.impl.portal.FileChooser=termfilechooser
-    '';
-
-    ".config/fish/completions/ns.fish".source = pkgs.writeText "ns.fish" ''
-      function __nixpkgs_completions
-          bat ~/Flake/bin/nixpkgs_list
-      end
-      complete -c ns -f -a "(__nixpkgs_completions)"
-    '';
-    ".config/fish/completions/nix-run.fish".source = pkgs.writeText "nix-run.fish" ''
-      function __nixpkgs_completions
-          bat ~/Flake/bin/nixpkgs_list
-      end
-      complete -c nix-run -f -a "(__nixpkgs_completions)"
-    '';
-  };
-
   home.packages = [
     pkgs.obs-studio
 

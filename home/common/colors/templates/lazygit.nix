@@ -41,7 +41,7 @@ in
         nerdFontsVersion: '3'
         theme:
           selectedLineBgColor:
-            - '${p.base01}'
+            - '${p.base02}'
         os:
           copyToClipboardCmd: 'printf "\033]52;c;$(printf {{text}} | base64)\a" > /dev/tty '
           editInTerminal: true
