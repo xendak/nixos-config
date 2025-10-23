@@ -19,6 +19,7 @@ fi
 
 cat "$HOME/.local/state/caelestia/scheme/preview.txt" > "$HOME/.local/state/caelestia/scheme/current.txt"
 sleep 0.1
+rmdir "$HOME/Desktop"
 
 if pgrep "quickshell" >/dev/null; then
   log_message "Quickshell process found. Killing it now."

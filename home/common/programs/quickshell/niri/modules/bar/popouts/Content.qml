@@ -27,10 +27,10 @@ Item {
 
         clip: true
 
-        Popout {
-            name: "activewindow"
-            source: "ActiveWindow.qml"
-        }
+        // Popout {
+        //     name: "activewindow"
+        //     source: "ActiveWindow.qml"
+        // }
 
         Popout {
             name: "network"
