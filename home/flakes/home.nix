@@ -14,6 +14,7 @@
     ../../system/extras/mpd.nix
 
     ../common/programs/emacs
+    ../common/programs/hexecute.nix
 
     ../common
     ../common/wayland

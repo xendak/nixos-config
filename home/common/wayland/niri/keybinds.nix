@@ -120,7 +120,7 @@ in
       #   "${config.xdg.configHome}/rofi/config.rasi"
       # ];
 
-      "Alt+Shift+bracketleft".action = screenshot-window;
+      "Alt+Shift+bracketleft".action.screenshot-window = [ ];
       "Print".action = spawn [
         "${grimblast}"
         "--freeze"

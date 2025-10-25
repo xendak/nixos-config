@@ -177,7 +177,7 @@ in
 
           echo "(load-theme 'base16-$TIMESTAMP t)" > "$EDIR/current-theme.el"
           emacsclient -e "(load-theme 'base16-''${TIMESTAMP} t)" &> /dev/null || true &
-          # emacsclient -e "(load-file \"$EDIR/current-theme.el\")" &> /dev/null || true &
+          emacsclient -e "(load-file \"$EDIR/current-theme.el\")" &> /dev/null || true &
           echo "$(date +"%d/%m/%y | %H:%M >")" "Theme switched to $THEME_NAME." >> /tmp/theme-switcher
           pkill -USR1 hx &> /dev/null || true &
           # notify-send "Theme Manager" --expire-time=2000 --app-name="Theme Manager" --icon=preferences-desktop-theme "Theme switched to $THEME_NAME"

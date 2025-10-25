@@ -11,5 +11,6 @@
     ./helix
     ./bitwarden.nix
     ./utils.nix
+    ./zellij.nix
   ];
 }

@@ -1,3 +1,7 @@
+def font-searh [search_term: string] {
+  fc-list | lines | parse "{nix}: {name},{name2},{style}" | str trim | reject nix | where name =~ $search_term
+}
+
 def rsysd [] {
   sudo systemctl restart user@1000.service  
 }

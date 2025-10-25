@@ -71,6 +71,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # gesture app launcher
+    hexecute = {
+      url = "github:ThatOtherAndrew/Hexecute";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     wezterm.url = "github:wez/wezterm?dir=nix";
     # helix-flake.url = "github:helix-editor/helix";
     # matugen.url = "github:InioX/matugen";

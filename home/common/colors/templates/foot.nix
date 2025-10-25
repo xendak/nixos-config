@@ -11,7 +11,7 @@ in
       cursor=${hex p.cursor_fg} ${hex p.cursor_bg}
       foreground=${hex p.fg}
       background=${hex p.base00}
-      regular0=${hex p.base00}
+      regular0=${hex p.bg}
       regular1=${hex p.base08}
       regular2=${hex p.base0B}
       regular3=${hex p.base0A}

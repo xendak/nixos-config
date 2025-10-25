@@ -72,7 +72,7 @@
       (<AC11> "i"       "I")
       (<AE01> "'"       "\"")
       (<AB02> "p"       "P")
-      (<AB03> "x"       "x")
+      (<AB03> "x"       "X")
       (<AB04> "j"       "J")
       (<AB05> "y"       "Y")
       (<AB06> "q"       "Q")
@@ -90,8 +90,8 @@
     (setq meow-use-clipboard t)
 
     (meow-motion-define-key
-     '("t" . meow-next)
-     '("s" . meow-prev)
+     '("h" . meow-next)
+     '("l" . meow-prev)
      '("<escape>" . ignore))
     (setq meow-selection-command-fallback
           '((meow-change . meow-change-char)
@@ -176,7 +176,8 @@
      '("3" . meow-expand-3)
      '("2" . meow-expand-2)
      '("1" . meow-expand-1)
-     '("-" . negative-argument)
+     '("," . meow-reverse)
+     '("'" . negative-argument)
      
      ; movement
      '("l" . meow-prev)
@@ -185,7 +186,7 @@
      '("t" . meow-right)
 
      '("v" . meow-search)
-     '("P" . meow-visit)
+     '("p" . meow-visit)
 
      ; expansion
      '("L" . meow-prev-expand)
@@ -195,12 +196,13 @@
 
      '("f" . meow-back-word)
      '("F" . meow-back-symbol)
-     '("k" . meow-next-word)
-     '("K" . meow-next-symbol)
+     '("y" . meow-next-word)
+     '("Y" . meow-next-symbol)
 
      '("i" . meow-mark-word)
      '("I" . meow-mark-symbol)
      '("e" . meow-line)
+     '("E" . meow-goto-line)
      '("u" . meow-block)
      '("." . meow-join)
      '("c" . meow-grab)
@@ -208,8 +210,8 @@
      '("b" . meow-cancel-selection)
      '("B" . meow-pop-selection)
 
-     '("`" . meow-till)
-     '("~" . meow-find)
+     '("_" . meow-till)
+     '("z" . meow-find)
 
      '("x" . meow-beginning-of-thing)
      '("j" . meow-end-of-thing)
@@ -219,17 +221,17 @@
      '("[" . indent-rigidly-left-to-tab-stop)
      '("]" . indent-rigidly-right-to-tab-stop)
 
-     ; edrting
-     '("," . open-line)
-     '("<" . split-line)
+     ; editing
+     '("q" . open-line)
+     '("Q" . split-line)
      '("a" . meow-kill)
      '("d" . meow-change)
      '("D" . meow-change-line)
-     '("_" . meow-delete)
+     '("~" . meow-delete)
      '(";" . meow-save)
      '(":" . meow-save-clipboard)
-     '("g" . meow-yank-dwim)
-     '("G" . meow-yank-pop-dwim)
+     '("g" . meow-yank)
+     '("G" . meow-yank-pop)
 
      '("w" . meow-insert)
      '("W" . meow-open-above)
@@ -241,14 +243,11 @@
      '("m" . undo-only)
      '("M" . undo-redo)
 
-     '("y" . meow-kmacro)
-     '("Y" . kmacro-call-macro)
+     '("k" . meow-kmacro)
+     '("K" . kmacro-call-macro)
 
-     ; prefix n
-
-     ; prefix ;
-     ; '("af" . save-buffer)
-     ; '("aF" . save-some-buffers)
+     ; testing?
+     '("r" . meow-replace)
 
      '("<escape>" . ignore)))
 
@@ -281,12 +280,13 @@
 
 (defvar my-prefix-key
   (let ((keymap (make-keymap)))
-	(define-key keymap "b" #'ivy-switch-buffer)
-	(define-key keymap "n" #'next-buffer)
+	(define-key keymap "b" #'meow-undo-in-selection)
+	(define-key keymap "u" #'next-buffer)
+	(define-key keymap "o" #'previous-buffer)
     (define-key keymap "m" #'kmacro-edit-macro)
     (define-key keymap "y" #'meow-comment)
-	(define-key keymap "p" #'previous-buffer)
 	(define-key keymap "q" #'kill-current-buffer)
+	(define-key keymap "w" #'delete-window)
     keymap))
 (defalias 'my-prefix-key my-prefix-key)
 (global-set-key (kbd "C-c n") 'my-prefix-key)
@@ -305,16 +305,20 @@
   (let ((meow-use-clipboard t))
     (meow-save)))
 
+(defun meow-smart-reverse ()
+  "Reverse selection or begin negative argument."
+  (interactive)
+  (if (use-region-p)
+      (meow-reverse)
+    (negative-argument nil)))
+
 (defun meow-kmacro ()
   "Toggle recording of kmacro."
   (interactive)
   (if defining-kbd-macro
-      (meow-end-kmacro)
-    (meow-start-kmacro)))
+      (kmacro-end-macro)
+    (kmacro-start-macro)))
 
-;; -------------------- ;;
-;;       VARIABLES      ;;
-;; -------------------- ;;
 (meow-thing-register 'angle
                      '(pair ("<") (">"))
                      '(pair ("<") (">")))
@@ -323,10 +327,11 @@
       '((?d . round)
         (?a . square)
         (?e . curly)
-        (?I . angle)
-        (?w . string)
-        (?g . paragraph)
-        (?; . line)
-        (?_ . buffer)))
+        (?, . angle)
+        (?i . defun)
+        (?g . string)
+        (?; . paragraph)
+        (?_ . line)
+        (?z . buffer)))
 
 (message "---> binds.el loaded successfully!")

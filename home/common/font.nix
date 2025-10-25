@@ -29,6 +29,7 @@
     pkgs.source-han-sans-japanese
     pkgs.source-han-code-jp
     pkgs.eb-garamond
+    pkgs.anakron
     # pkgs.material-symbols
     pkgs.material-design-icons
     pkgs.ibm-plex

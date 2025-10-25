@@ -245,7 +245,6 @@ in
   services.speechd.enable = false;
 
   services.xserver.desktopManager.runXdgAutostartIfNone = true;
-  i18n.inputMethod.fcitx5.waylandFrontend = true;
   # services.xserver = {
   #   enable = true;
   #   dpi = 96;
