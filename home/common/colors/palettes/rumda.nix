@@ -5,10 +5,10 @@
   type = "light";
   palette = {
     base00 = "#D5CCBA";
-    base01 = "#D5CCBA";
+    base01 = "#bfb7a7";
     base02 = "#b3aa98";
-    base03 = "#9e4234";
-    base04 = "#6F4732";
+    base03 = "#958e82";
+    base04 = "#6a665d";
     base05 = "#181818";
     base06 = "#45373C";
     base07 = "#45373C";
@@ -25,7 +25,7 @@
     wm_inactive_border = "#282828";
     bg = "#b3aa98";
     fg = "#181818";
-    accent = "#7cafc2";
+    accent = "#447028";
     cursor_bg = "#ab4737";
     cursor_fg = "#101010";
   };

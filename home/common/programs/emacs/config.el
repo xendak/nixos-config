@@ -30,10 +30,20 @@
   (setq projectile-globally-ignored-directories '("dist"))
   (setq projectile-indexing-method 'hybrid))
 
+
 (use-package which-key
   :ensure t
-  :diminish which-key-mode
+  :after meow
   :config
+  (setq which-key-side-by-side-layout nil)
+
+  (setq which-key-min-display-lines 10)
+
+  (setq which-key-separator " → " )
+  (setq which-key-unicode-correction 3)
+  (setq which-key-key-alignment :right)
+
+  (setq which-key-description-alignment :left)
   (setq which-key-idle-delay 0.1)
   (which-key-mode))
 

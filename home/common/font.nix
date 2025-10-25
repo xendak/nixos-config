@@ -18,6 +18,7 @@
       ];
 
       serif = [
+        "Vollkorn"
         "EB Garamond"
         "Source Han Serif JP"
       ];
@@ -30,6 +31,7 @@
     pkgs.source-han-code-jp
     pkgs.eb-garamond
     pkgs.anakron
+    pkgs.vollkorn
     # pkgs.material-symbols
     pkgs.material-design-icons
     pkgs.ibm-plex

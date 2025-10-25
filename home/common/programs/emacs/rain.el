@@ -96,7 +96,7 @@
     (setq meow-selection-command-fallback
           '((meow-change . meow-change-char)
             (meow-kill . meow-delete)
-            (meow-cancel-selection . ignore)
+            (meow-cancel-selection . keyboard-quit)
             (meow-pop-selection . meow-pop-grab)
             (meow-beacon-change . meow-beacon-change-char)))
     (meow-leader-define-key
@@ -117,7 +117,7 @@
      '("<SPC>" . meow-M-x)
      ; '("I" . execute-extended-command)
      
-     ;; Buffer management (Space b prefix)
+     ;; FIGURE THIS OUT,TIS NOT GOOD ATM
      '("o" . (lambda () (interactive)
 	       (if (project-current nil)
 		   (call-interactively #'project-eshell)
@@ -176,8 +176,8 @@
      '("3" . meow-expand-3)
      '("2" . meow-expand-2)
      '("1" . meow-expand-1)
-     '("," . meow-reverse)
-     '("'" . negative-argument)
+     ; '("," . meow-reverse)
+     ; '("'" . negative-argument)
      
      ; movement
      '("l" . meow-prev)
@@ -246,14 +246,32 @@
      '("k" . meow-kmacro)
      '("K" . kmacro-call-macro)
 
-     ; testing?
-     '("r" . meow-replace)
+     ; hard paragraph movement
+     '("," . backward-paragraph)
+     '("'" . forward-paragraph)
+
+     ; prefixed keys?
+     '("r r" . meow-replace)
+     '("r ," . meow-reverse)
+     '("r '" . negative-argument)
+     '("r u" . meow-undo-in-selection)
+     '("r c" . meow-comment)
+     '("r W" . delete-window)
+     '("r q" . kill-current-buffer)
+     '("r s" . save-buffer)
+     '("r <SPC> s" . save-some-buffers)
 
      '("<escape>" . ignore)))
 
   :config
   (meow-setup)
   (meow-global-mode))
+
+(defun goto-match-paren (arg)
+  "Go to the matching paren/bracket, similar to vi's %."
+  (interactive "p")
+  (cond ((looking-at "\\s(") (forward-list 1) (backward-char 1))
+        ((looking-at "\\s)") (forward-char 1) (backward-list 1))))
 
 (defun my/dired-setup ()
   (define-key dired-mode-map (kbd "Z") 'my/dired-zoxide-jump))
@@ -334,4 +352,5 @@
         (?_ . line)
         (?z . buffer)))
 
+(global-unset-key (kbd "C-x C-c"))
 (message "---> binds.el loaded successfully!")

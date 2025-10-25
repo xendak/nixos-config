@@ -1,5 +1,26 @@
-def font-searh [search_term: string] {
-  fc-list | lines | parse "{nix}: {name},{name2},{style}" | str trim | reject nix | where name =~ $search_term
+def get-fonts [s?: string] {
+    ^fc-list
+    | parse "{file_path}: {names_str}:style={styles_str}"
+    | each { |row|
+        let names_list = ($row.names_str | split row "," | str trim)
+        {
+            name: ($names_list.0),
+            font-file: ($row.file_path | path basename),
+            # name2: ($names_list.1),
+            # name3: ($names_list.2),
+            style: ($row.styles_str | split row "," | str trim).0
+        }
+    } | uniq-by name | uniq-by font-file | sort
+    
+}
+ 
+def font-search [s?: string] {
+  if not ($s | is-empty) { 
+    get-fonts | where ($it.name | str downcase) =~ $s
+    
+  } else {
+    get-fonts
+  }
 }
 
 def rsysd [] {
