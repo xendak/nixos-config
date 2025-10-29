@@ -2,6 +2,7 @@
 {
   imports = [
     ./rofi # might put pw-rofi sometime there
+    ./syncthing.nix
     # ./ags.nix
     ./discord.nix
     ./filemanager.nix

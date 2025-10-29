@@ -16,6 +16,7 @@ let
   # hasOptinPersistence = config.environment.persistence ? "/persist";
 in
 {
+
   services.openssh = {
     enable = true;
     settings = {
@@ -26,6 +27,8 @@ in
       StreamLocalBindUnlink = "yes";
       # Allow forwarding ports to everywhere
       GatewayPorts = "clientspecified";
+      AcceptEnv = "WAYLAND_DISPLAY";
+      X11Forwarding = true;
     };
 
     hostKeys = [

@@ -151,6 +151,9 @@
         "networkmanager"
       ];
       hashedPasswordFile = "/persist/home/secrets/passwd-drops";
+      openssh.authorizedKeys.keys = lib.splitString "\n" (
+        builtins.readFile ../../home/common/ssh/id_ed25519.pub
+      );
       packages = [ pkgs.home-manager ];
     };
   };
