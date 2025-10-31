@@ -193,21 +193,21 @@ in
 
       animations.window-open = {
         custom-shader = builtins.readFile ./shaders/window-open.glsl;
-        easing = {
+        kind.easing = {
           curve = "ease-out-cubic";
           duration-ms = 200;
         };
       };
       animations.window-close = {
         custom-shader = builtins.readFile ./shaders/window-close.glsl;
-        easing = {
+        kind.easing = {
           curve = "ease-out-quad";
           duration-ms = 250;
         };
       };
       animations.window-resize = {
         custom-shader = builtins.readFile ./shaders/window-resize.glsl;
-        easing = {
+        kind.easing = {
           curve = "ease-out-cubic";
           duration-ms = 200;
         };

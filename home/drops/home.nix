@@ -17,6 +17,7 @@
     ../common/wayland/niri
     ../common/programs/terminal/nushell
 
+    ../common/programs/hexecute.nix
     ../common/programs/vesktop
 
     # ../common/wayland/swayfx
