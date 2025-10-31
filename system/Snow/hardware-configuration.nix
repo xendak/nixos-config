@@ -8,6 +8,12 @@
     options = [
       "rw"
       "uid=1000"
+      "gid=100"
+      "dmask=022"
+      "fmask=133"
+      "noauto"
+      "x-systemd.automount"
+      "x-systemd.device-timeout=5s"
     ];
   };
 
@@ -25,6 +31,9 @@
     options = [
       "rw"
       "uid=1000"
+      "gid=100"
+      "dmask=022"
+      "fmask=133"
       "noauto"
       "x-systemd.automount"
       "x-systemd.device-timeout=5s"
@@ -51,6 +60,9 @@
     options = [
       "rw"
       "uid=1000"
+      "gid=100"
+      "dmask=022"
+      "fmask=133"
       "noauto"
       "x-systemd.automount"
       "x-systemd.device-timeout=5s"

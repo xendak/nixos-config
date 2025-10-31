@@ -46,13 +46,14 @@
     configurationLimit = 6;
     # to find windows handle.
     # edk2-uefi-shell.enable = true;
+    sortKey = "0";
 
     windows = {
       "11" = {
         title = "Windows 11";
         # it seems this can change? for some reason.
         efiDeviceHandle = "HD1b";
-        sortKey = "0";
+        sortKey = "1";
       };
     };
   };

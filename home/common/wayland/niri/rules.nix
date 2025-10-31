@@ -1,4 +1,5 @@
 {
+  config,
   ...
 }:
 let
@@ -62,6 +63,8 @@ in
           { title = "Picture-in-Picture"; }
         ];
         open-floating = true;
+        default-column-width.proportion = 0.65;
+        default-window-height.proportion = 0.65;
       }
       {
         matches = [
@@ -130,12 +133,17 @@ in
       }
       {
         matches = [
+          { app-id = "r#\".*exe.*\"#"; }
+        ];
+        open-on-workspace = "4";
+      }
+      {
+        matches = [
           { app-id = "steam"; }
           { app-id = "lutris"; }
         ];
         open-on-workspace = "5";
       }
-
       {
         matches = [ { } ];
         geometry-corner-radius = {
@@ -144,7 +152,7 @@ in
           bottom-left = border-radius;
           bottom-right = border-radius;
         };
-        default-column-display = "tabbed";
+        default-column-display = "normal";
         clip-to-geometry = true;
       }
     ];

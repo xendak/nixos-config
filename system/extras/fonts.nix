@@ -10,11 +10,12 @@
       # font-awesome
       # noto-fonts
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       source-han-sans
       source-han-code-jp
       nerd-fonts.jetbrains-mono
 
+      vollkorn
       cozette
     ];
 
@@ -23,13 +24,14 @@
     fontconfig.defaultFonts = {
       serif = [
         "Sofia Pro"
-        "EB Garamond"
-        "Source Han Sans JP"
+        "Vollkorn"
+        "Source Han Sans"
         "Noto Color Emoji"
       ];
       sansSerif = [
         "Sofia Pro"
-        "Source Han Sans JP"
+        "Vollkorn"
+        "Source Han Sans"
         "Noto Color Emoji"
       ];
       monospace = [

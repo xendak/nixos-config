@@ -5,7 +5,7 @@
     defaultFonts = {
       monospace = [
         "JetBrainsMono Nerd Font"
-        "Source Han Sans JP"
+        "Source Han Sans"
         "Noto Color Emoji"
       ];
       emoji = [
@@ -13,21 +13,21 @@
       ];
       sansSerif = [
         "Sofia Pro"
-        "Source Han Sans JP"
+        "Source Han Sans"
         "Noto Color Emoji"
       ];
 
       serif = [
         "Vollkorn"
         "EB Garamond"
-        "Source Han Serif JP"
+        "Source Han Serif"
       ];
     };
   };
 
   home.packages = [
-    pkgs.source-han-serif-japanese
-    pkgs.source-han-sans-japanese
+    pkgs.source-han-serif
+    pkgs.source-han-sans
     pkgs.source-han-code-jp
     pkgs.eb-garamond
     pkgs.anakron

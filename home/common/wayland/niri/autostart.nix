@@ -53,14 +53,14 @@ let
         "/home/${home}/Flake/bin/bt-once.sh"
       ];
     }
-    {
-      command = [
-        "${pkgs.networkmanager}/bin/nmcli"
-        "radio"
-        "wifi"
-        "off"
-      ];
-    }
+    # {
+    #   command = [
+    #     "${pkgs.networkmanager}/bin/nmcli"
+    #     "radio"
+    #     "wifi"
+    #     "off"
+    #   ];
+    # }
     {
       command = [
         "openrgb"
