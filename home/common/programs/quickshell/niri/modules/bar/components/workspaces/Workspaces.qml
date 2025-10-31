@@ -19,27 +19,6 @@ Item {
     implicitWidth: layout.implicitWidth
     implicitHeight: layout.implicitHeight
 
-    // onOccupiedChanged: {
-    //     console.log("Workspaces.qml - Occupied lookup table updated:", JSON.stringify(occupied));
-    // }
-
-    // Timer {
-    //     interval: 5000
-    //     running: true
-    //     repeat: true
-    //     onTriggered: {
-    //         console.log("=== WORKSPACES DEBUG ===");
-    //         console.log("Niri.workspaces:", JSON.stringify(Niri.workspaces));
-    //         console.log("Occupied:", JSON.stringify(occupied));
-    //         console.log("Active WS:", Niri.activeWsId);
-    //         Niri.debugState();
-    //         if (!Niri._workspacesFetched) {
-    //                     console.log("Trying manual refresh...");
-    //                     Niri.manualRefresh();
-    //                 }
-    //     }
-    // }
-
     ColumnLayout {
         id: layout
 

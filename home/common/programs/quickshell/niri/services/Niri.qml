@@ -282,10 +282,13 @@ Singleton {
             //     console.warn("Client", client.id, "references workspace", client.workspace_id, "but workspace not found");
             // }
             const clientObj = {
+                id: client.id || -1,
                 address: (client.id || "").toString(),
                 title: client.title,
                 fakeTitle: client.title || qsTr("Desktop"),
                 wmClass: client.class || client.app_id || "",
+                app_id: client.app_id || "",
+                layout: client.layout || null,
                 pid: client.pid || 0,
                 workspaceId: client.workspace_id || 0,
                 is_focused: client.is_focused,
@@ -427,10 +430,17 @@ Singleton {
             case "killactive":
                 niriCommand.push("close-window");
                 break;
+            case "focus-window":
+                const windowId = parts[1];
+                if (!isNaN(windowId)) {
+                    niriCommand.push("focus-window");
+                    niriCommand.push("--id");
+                    niriCommand.push(windowId);
+                }
+                break;
                 
             default:
                 niriCommand.push(command);
-                // console.log("executing command as is: ", command);
                 break;
         }
         
@@ -443,7 +453,17 @@ Singleton {
     }
 
     function getClientsForWorkspace(wsId) {
-        return root.clients.filter(c => c.workspaceId === wsId);
+        const clients = root.clients.filter(c => c.workspaceId === wsId);
+        return clients;
+    }
+
+     function getClientsForActiveWorkspace() {
+        const clients = root.clients.filter(c => c.workspaceId === root.activeWsId);
+        return clients;
+    }
+
+    function focusWindow(windowId) {
+        dispatch(`focus-window ${windowId}`)
     }
 
     function debugState() {

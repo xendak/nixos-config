@@ -22,6 +22,9 @@ Singleton {
         property bool activeIndicator: true
         property bool occupiedBg: false
         property bool showWindows: false
+        property bool windowIconImage: true // false -> MaterialIcons, true -> IconImage
+        property int windowIconGap: 5
+        property int windowIconSize: 30
         property bool activeTrail: false
         property string label: "○"
         property string occupiedLabel: "●"

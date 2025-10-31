@@ -134,6 +134,21 @@ Item {
             anchors.margins: Appearance.spacing.large
 
             monitor: Brightness.getMonitorForScreen(root.screen)
+            MouseArea {
+                anchors.fill: parent
+                anchors.leftMargin: -BorderConfig.thickness
+                anchors.rightMargin: -BorderConfig.thickness
+                propagateComposedEvents: true  // Let clicks pass through
+                onWheel: event => {
+                    const direction = event.angleDelta.y > 0 ? -1 : 1;
+                    activeWindow.focusRelativeWindow(direction);
+                    event.accepted = true;
+                }
+                onClicked: event => {
+                    event.accepted = false;
+                }
+            }
+
         }
 
         Tray {

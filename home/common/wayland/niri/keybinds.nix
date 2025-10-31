@@ -80,7 +80,7 @@ in
 
       "super+Shift+e".action = spawn terminal [
         "--class"
-        "f_terminal"
+        "f_yazi"
       ] termbrowser;
 
       "super+e".action = spawn filebrowser;

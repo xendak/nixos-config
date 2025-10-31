@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   inputs,
   ...
 }:
@@ -59,6 +60,27 @@
 
     ltex-ls # Spell checking LSP
   ];
+
+  # icon entry for bottom
+  home.file = {
+    ".local/share/applications/bottom.desktop".source =
+      pkgs.writeText /bottom.desktop
+        # ini
+        ''
+          [Desktop Entry]
+          Name=bottom
+          Version=1.5
+          GenericName=System Monitor
+          Comment=A customizable cross-platform graphical process/system monitor for the terminal.
+          Exec=btm
+          Icon=/home/${config.home.username}/Flake/home/common/icons/bottom.svg
+          Terminal=true
+          Type=Application
+          Categories=System;ConsoleOnly;Monitor;
+          StartupNotify=false
+
+        '';
+  };
 
   home.persistence."/persist".directories = [
     ".local/cache/nix"

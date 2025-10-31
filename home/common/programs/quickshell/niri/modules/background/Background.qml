@@ -8,12 +8,12 @@ Variants {
     StyledWindow {
         id: win
 
-        required property ShellScreen modelData
+        // required property ShellScreen modelData
 
-        screen: modelData
-        name: "background"
-        WlrLayershell.exclusionMode: ExclusionMode.Ignore
-        WlrLayershell.layer: WlrLayer.Background
+        // screen: modelData
+        // name: "background"
+        // WlrLayershell.exclusionMode: ExclusionMode.Ignore
+        // WlrLayershell.layer: WlrLayer.Background
         // color: "black"
 
         // anchors.top: true
@@ -22,5 +22,6 @@ Variants {
         // anchors.right: true
 
         // Wallpaper {}
+        // mask: Region {}
     }
 }

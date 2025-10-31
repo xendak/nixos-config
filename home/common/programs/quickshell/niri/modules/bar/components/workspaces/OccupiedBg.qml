@@ -19,7 +19,6 @@ Item {
         let count = 0;
         const start = groupOffset;
         const end = start + BarConfig.workspaces.shown;
-        console.log("occupied?");
         for (const [ws, occ] of Object.entries(occupied)) {
             if (ws > start && ws <= end && occ) {
                 if (!occupied[ws - 1]) {

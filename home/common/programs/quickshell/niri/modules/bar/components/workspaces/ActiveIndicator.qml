@@ -41,10 +41,11 @@ StyledRect {
     }
 
     clip: true
-    x: 1
+    // x: 1
+    anchors.horizontalCenter: parent.horizontalCenter
     y: offset + 1
-    implicitWidth: BarConfig.sizes.innerHeight - 2
-    implicitHeight: size - 2
+    implicitWidth: BarConfig.sizes.innerHeight
+    implicitHeight: size + 2
     radius: BarConfig.workspaces.rounded ? Appearance.rounding.full : 0
     color: Colours.palette.m3primary
 

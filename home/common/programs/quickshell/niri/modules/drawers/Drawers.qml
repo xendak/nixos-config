@@ -30,7 +30,6 @@ Variants {
             name: "drawers"
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
             
-            // OnDemand for Hyprland, doesnt seem to work for niri.
             WlrLayershell.keyboardFocus: visibilities.launcher || visibilities.cmdlauncher || visibilities.rbw || visibilities.session || visibilities.llmchat ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
             mask: Region {
@@ -57,18 +56,6 @@ Variants {
                     width: modelData.width
                     height: modelData.height
                     intersection: Intersection.Subtract
-                }
-            }
-
-            HyprlandFocusGrab {
-                active: visibilities.launcher || visibilities.cmdlauncher || visibilities.rbw || visibilities.session || visibilities.llmchat
-                
-                windows: [win]
-                onCleared: {
-                    visibilities.cmdlauncher = false;
-                    visibilities.launcher = false;
-                    visibilities.session = false;
-                    visibilities.llmchat = false;
                 }
             }
 

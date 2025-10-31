@@ -1,126 +1,238 @@
 pragma ComponentBehavior: Bound
+
 import "root:/widgets"
 import "root:/services"
 import "root:/utils"
 import "root:/config"
+import Quickshell
+import Quickshell.Widgets
 import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
     id: root
+    
     required property Brightness.Monitor monitor
-    property color colour: Colours.palette.m3primary
-    readonly property Item child: child
     
-    property var activeClient: Niri.clients.find(c => c.is_focused === true);
+    implicitWidth: BarConfig.sizes.innerHeight
+    implicitHeight: windowColumn.implicitHeight
+
+    readonly property var sortedClients: clientModel.values
     
-    implicitWidth: child.implicitWidth
-    implicitHeight: child.implicitHeight
-    
-    MouseArea {
-        anchors.top: parent.top
-        anchors.bottom: child.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        onWheel: event => {
-            if (event.angleDelta.y > 0)
-                Audio.setVolume(Audio.volume + 0.1);
-            else if (event.angleDelta.y < 0)
-                Audio.setVolume(Audio.volume - 0.1);
+    function focusRelativeWindow(direction) {
+        const clients = clientModel.values;
+        if (clients.length === 0) return;
+        
+        const focusedIndex = clients.findIndex(c => c.is_focused);
+        
+        if (focusedIndex === -1) {
+            const firstId = clients[0]?.id;
+            if (firstId) Niri.focusWindow(firstId);
+            return;
+        }
+        
+        let nextIndex = focusedIndex + direction;
+        if (nextIndex < 0) {
+            nextIndex = clients.length - 1;
+        } else if (nextIndex >= clients.length) {
+            nextIndex = 0;
+        }
+        
+        const nextClient = clients[nextIndex];
+        const windowId = nextClient?.id;
+        if (windowId) {
+            Niri.focusWindow(windowId);
         }
     }
     
-    MouseArea {
-        anchors.top: child.bottom
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        onWheel: event => {
-            const monitor = root.monitor;
-            if (event.angleDelta.y > 0)
-                monitor.setBrightness(monitor.brightness + 0.1);
-            else if (event.angleDelta.y < 0)
-                monitor.setBrightness(monitor.brightness - 0.1);
+    Connections {
+        target: Niri
+        
+        function onClientsChanged() {
+            updateClientList();
+        }
+        
+        function onActiveWsIdChanged() {
+            updateClientList();
         }
     }
     
-    Item {
-        id: child
-        property Item current: text1
+    Component.onCompleted: {
+        updateClientList();
+    }
+    
+    function updateClientList() {
+        let clients = Niri.getClientsForActiveWorkspace();
+        if (clients && clients.length > 0) {
+        }
+        
+        // Sort by pos_in_scrolling_layout
+        if (clients && clients.length > 0) {
+            clients = clients.sort((a, b) => {
+                const aPos = a.layout?.pos_in_scrolling_layout;
+                const bPos = b.layout?.pos_in_scrolling_layout;
+                
+                // Floating windows (null pos_in_scrolling_layout) go first
+                if (!aPos && !bPos) return 0;
+                if (!aPos) return -1;
+                if (!bPos) return 1;
+                
+                // Compare column (first element)
+                if (aPos[0] !== bPos[0]) {
+                    return aPos[0] - bPos[0];
+                }
+                
+                // If same column, compare row (second element)
+                return aPos[1] - bPos[1];
+            });
+            
+            clients.forEach((c, i) => {
+                const pos = c.layout?.pos_in_scrolling_layout;
+            });
+        }
+        
+        clientModel.values = clients || [];
+    }
+    
+    ColumnLayout {
+        id: windowColumn
         anchors.centerIn: parent
-        clip: true
-        implicitWidth: Math.max(icon.implicitWidth, current.implicitHeight)
-        implicitHeight: icon.implicitHeight + current.implicitWidth + current.anchors.topMargin
+        spacing: BarConfig.workspaces.windowIconGap
         
-        MaterialIcon {
-            id: icon
-            animate: true
-            text: Icons.getAppCategoryIcon(root.activeClient?.wmClass, "desktop_windows")
-            color: root.colour
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
-        
-        Title {
-            id: text1
-        }
-        
-        Title {
-            id: text2
-        }
-        
-        TextMetrics {
-            id: metrics
-            text: root.activeClient?.fakeTitle ?? ""
-            font.pointSize: Appearance.font.size.smaller
-            font.family: Appearance.font.family.mono
-            elide: Qt.ElideRight
-            elideWidth: root.height - icon.height
-            onTextChanged: {
-                const next = child.current === text1 ? text2 : text1;
-                next.text = elidedText;
-                child.current = next;
+        Repeater {
+            id: repeater
+            model: ScriptModel {
+                id: clientModel
+                values: []
             }
-            onElideWidthChanged: child.current.text = elidedText
-        }
-        
-        Behavior on implicitWidth {
-            NumberAnimation {
-                duration: Appearance.anim.durations.normal
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.anim.curves.emphasized
-            }
-        }
-        
-        Behavior on implicitHeight {
-            NumberAnimation {
-                duration: Appearance.anim.durations.normal
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.anim.curves.emphasized
-            }
-        }
-    }
-    
-    component Title: StyledText {
-        id: text
-        anchors.horizontalCenter: icon.horizontalCenter
-        anchors.top: icon.bottom
-        anchors.topMargin: Appearance.spacing.small
-        font.pointSize: metrics.font.pointSize
-        font.family: metrics.font.family
-        color: root.colour
-        opacity: child.current === this ? 1 : 0
-        transform: Rotation {
-            angle: 90
-            origin.x: text.implicitHeight / 2
-            origin.y: text.implicitHeight / 2
-        }
-        width: implicitHeight
-        height: implicitWidth
-        
-        Behavior on opacity {
-            NumberAnimation {
-                duration: Appearance.anim.durations.normal
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.anim.curves.standard
+            
+            delegate: Item {
+                id: windowIconItem
+                
+                required property var modelData
+                required property int index
+                
+                Layout.preferredWidth: BarConfig.sizes.innerHeight + Appearance.padding.normal
+                Layout.preferredHeight: BarConfig.workspaces.windowIconSize + Appearance.padding.normal
+                
+                Component.onCompleted: {
+                    if (modelData) {
+                    }
+                }
+                
+                // The actual icon/visual
+                Loader {
+                    id: iconLoader
+                    anchors.centerIn: parent
+                    
+                    sourceComponent: BarConfig.workspaces.windowIconImage 
+                                     ? imageIconComponent 
+                                     : materialIconComponent
+                }
+                
+                Component {
+                    id: imageIconComponent
+                    
+                    Item {
+                        implicitWidth: BarConfig.workspaces.windowIconSize + Appearance.padding.normal
+                        implicitHeight: BarConfig.workspaces.windowIconSize + Appearance.padding.normal
+                        
+                        // Background for focused window
+                        Rectangle {
+                            anchors.centerIn: parent
+                            width: parent.width
+                            height: parent.height
+                            // color: Colours.palette.m3primary
+                            color: windowIconItem.modelData?.is_focused ? Colours.palette.m3primary : Colours.palette.m3outlineVariant
+                            radius: Appearance.rounding.small
+                            // opacity: windowIconItem.modelData?.is_focused ? 0.6 : 0.0
+                            
+                            Behavior on opacity {
+                                NumberAnimation {
+                                    duration: Appearance.anim.durations.normal
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: Appearance.anim.curves.standard
+                                }
+                            }
+                        }
+                        
+                        IconImage {
+                            id: img
+                            anchors.centerIn: parent
+                            implicitSize: BarConfig.workspaces.windowIconSize
+                            source: Icons.getAppIcon(
+                                windowIconItem.modelData?.wmClass,
+                                "", 
+                                "image-missing"
+                            )
+                        }
+                    }
+                }
+                
+                Component {
+                    id: materialIconComponent
+                    
+                    Item {
+                        implicitWidth: BarConfig.workspaces.windowIconSize + Appearance.padding.normal
+                        implicitHeight: BarConfig.workspaces.windowIconSize + Appearance.padding.normal
+                        
+                        // Background for focused window
+                        Rectangle {
+                            anchors.centerIn: parent
+                            width: parent.width
+                            height: parent.height
+                            // color: Colours.palette.m3primary
+                            color: windowIconItem.modelData?.is_focused ? Colours.palette.m3primary : Colours.palette.m3outlineVariant
+                            radius: Appearance.rounding.normal
+                            // opacity: windowIconItem.modelData?.is_focused ? 0.8 : 0.0
+                            
+                            Behavior on opacity {
+                                NumberAnimation {
+                                    duration: Appearance.anim.durations.normal
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: Appearance.anim.curves.standard
+                                }
+                            }
+                        }
+                        
+                        MaterialIcon {
+                            anchors.centerIn: parent
+                            font.pointSize: BarConfig.workspaces.windowIconSize
+                            text: Icons.getAppCategoryIcon(
+                                windowIconItem.modelData?.wmClass || 
+                                "", 
+                                "terminal"
+                            )
+                            color: windowIconItem.modelData?.is_focused ? Colours.palette.m3onPrimary : Colours.palette.m3primaryVariant
+                            
+                            Behavior on color {
+                                NumberAnimation {
+                                    duration: Appearance.anim.durations.normal
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: Appearance.anim.curves.standard
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                StateLayer {
+                    anchors.fill: parent
+                    radius: Appearance.rounding.small
+                    
+                    function onClicked() {
+                        const windowId = windowIconItem.modelData.id;
+                        
+                        
+                        if (windowId !== undefined && windowId !== null) {
+                            Niri.focusWindow(windowId);
+                        } else {
+                            console.error("ERROR: Could not find window ID!");
+                            console.error("Available keys:", Object.keys(windowIconItem.modelData));
+                        }
+                    }
+                }
             }
         }
     }

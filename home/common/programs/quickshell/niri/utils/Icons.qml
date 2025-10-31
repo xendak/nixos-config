@@ -102,7 +102,18 @@ Singleton {
             "395": "snowing"
         })
 
-    readonly property var desktopEntrySubs: ({})
+    readonly property var desktopEntrySubs: ({
+        "zen": "zen-beta",
+        "zen-beta": "zen-beta",
+        "zen-alpha": "zen-beta",
+        "f_terminal": "wezterm",
+        "f_yazi": "yazi",
+        "nu": "wezterm",
+        "org.pwmt.zathura": "wezterm",
+        "zathura": "wezterm",
+        "btm": "SysMonTask",
+        "bottom": "SysMonTask",
+    })
 
     readonly property var categoryIcons: ({
             WebBrowser: "web",
@@ -147,13 +158,44 @@ Singleton {
     property string osIcon: ""
     property string osName
 
-    function getDesktopEntry(name: string): DesktopEntry {
-        name = name.toLowerCase().replace(/ /g, "-");
+    // function getDesktopEntry(name: string): DesktopEntry {
+    //     name = name.toLowerCase().replace(/ /g, "-");
 
+    //     if (desktopEntrySubs.hasOwnProperty(name))
+    //         name = desktopEntrySubs[name];
+
+    //     return DesktopEntries.applications.values.find(a => a.id.toLowerCase() === name) ?? null;
+    // }
+
+   function getDesktopEntry(name: string): DesktopEntry {
+        if (!name) return null;
+        
+        // Try the mapped/original name as-is first
+        let entry = DesktopEntries.applications.values.find(a => a.id.toLowerCase() === name.toLowerCase());
+        if (entry) return entry;
+        
+        // Then try with lowercase and dashes
+        name = name.toLowerCase().replace(/ /g, "-");
+        
+        // Check desktopEntrySubs
         if (desktopEntrySubs.hasOwnProperty(name))
             name = desktopEntrySubs[name];
 
-        return DesktopEntries.applications.values.find(a => a.id.toLowerCase() === name) ?? null;
+        entry = DesktopEntries.applications.values.find(a => a.id.toLowerCase() === name);
+        if (entry) return entry;
+        
+        // Last resort: try to find a partial match
+        entry = DesktopEntries.applications.values.find(a => 
+            a.id.toLowerCase().includes(name) || 
+            name.includes(a.id.toLowerCase())
+        );
+        
+        if (!entry) {
+            // Log missing mappings to help you add them
+            console.log(`[Icons] No desktop entry found for WM class: "${originalName}"`);
+        }
+        
+        return entry ?? null;
     }
 
     function getAppIcon(name: string, fallback: string): string {
