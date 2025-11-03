@@ -1,3 +1,5 @@
+kodansha -> https://vadasambar.github.io/kanji_order/
+
 https://tsawyer87.github.io/posts/using_nushell_with_nixos/
 super+Shift+e { spawn  "foot" "-e" "-a" "f_terminal" "fish" "-c" "yazi"; }
 

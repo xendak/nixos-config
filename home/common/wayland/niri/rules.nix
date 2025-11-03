@@ -135,6 +135,8 @@ in
       {
         matches = [
           { app-id = "r#\".*exe.*\"#"; }
+          { app-id = "steam_app_default"; }
+          { app-id = "explorer.exe"; }
         ];
         open-on-workspace = "4";
       }

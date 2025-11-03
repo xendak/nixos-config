@@ -38,7 +38,7 @@
       [filechooser]
       cmd=${pkgs.xdg-desktop-portal-termfilechooser}/share/xdg-desktop-portal-termfilechooser/yazi-wrapper.sh
       default_dir=$HOME
-      env=TERMCMD='${lib.getExe pkgs.foot} -a "f_terminal" -T "terminal filechooser"'
+      env=TERMCMD='${lib.getExe pkgs.foot} -a "f_yazi" -T "terminal filechooser"'
 
     '';
     ".config/xdg-desktop-portal/portals.conf".source = pkgs.writeText "portals.conf" ''

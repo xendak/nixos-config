@@ -5,7 +5,7 @@
   };
   home.file = {
     ".local/share/applications/org.pwmt.zathura.desktop".source =
-      pkgs.writeText /org.pwmt.zathura.desktop
+      pkgs.writeText "org.pwmt.zathura.desktop"
         # ini
         ''
           [Desktop Entry]

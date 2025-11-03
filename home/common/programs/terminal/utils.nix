@@ -64,7 +64,7 @@
   # icon entry for bottom
   home.file = {
     ".local/share/applications/bottom.desktop".source =
-      pkgs.writeText /bottom.desktop
+      pkgs.writeText "bottom.desktop"
         # ini
         ''
           [Desktop Entry]
