@@ -19,6 +19,11 @@ Item {
     implicitHeight: windowColumn.implicitHeight
 
     readonly property var sortedClients: clientModel.values
+
+    function isEmpty(): bool {
+        const clients = clientModel.values;
+        return clients.length === 0;
+    }
     
     function focusRelativeWindow(direction) {
         const clients = clientModel.values;
@@ -217,21 +222,43 @@ Item {
                     }
                 }
                 
-                StateLayer {
+
+                // For some reason StateLayer consumes the clicks even though we said for it go through
+                // so just go without for now :(
+                MouseArea {
                     anchors.fill: parent
-                    radius: Appearance.rounding.small
-                    
-                    function onClicked() {
+                    hoverEnabled: true
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                
+                    onClicked: event => {
+                        console.log("Here: " + event.button);
+                    }    
+                    onPressed: event => {
+                        if (!windowIconItem.modelData) {
+                            console.error("ERROR: modelData is null or undefined!");
+                            return;
+                        }
+                        
                         const windowId = windowIconItem.modelData.id;
                         
-                        
-                        if (windowId !== undefined && windowId !== null) {
-                            Niri.focusWindow(windowId);
-                        } else {
+                        if (windowId === undefined || windowId === null) {
                             console.error("ERROR: Could not find window ID!");
-                            console.error("Available keys:", Object.keys(windowIconItem.modelData));
+                            return;
+                        }
+                        
+                        if (event.button === Qt.RightButton) {
+                            Niri.killWindow(windowId);
+                        } else {
+                            Niri.focusWindow(windowId);
+                            
                         }
                     }
+
+                    onWheel: event => {
+                        const direction = event.angleDelta.y > 0 ? -1 : 1;
+                        root.focusRelativeWindow(direction);
+                        event.accepted = true;
+                    }                    
                 }
             }
         }

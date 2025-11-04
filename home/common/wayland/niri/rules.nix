@@ -56,6 +56,7 @@ in
           { app-id = "deluge"; }
           { app-id = "rustdesk"; }
           { app-id = "steam"; }
+          { app-id = "lutris"; }
           { app-id = "org.kde.dolphin"; }
           { app-id = "org.gnome.Nautilus"; }
           { app-id = ".blueman-manager-wrapped"; }
@@ -134,7 +135,7 @@ in
       }
       {
         matches = [
-          { app-id = "r#\".*exe.*\"#"; }
+          { app-id = ".*exe.*"; }
           { app-id = "steam_app_default"; }
           { app-id = "explorer.exe"; }
         ];

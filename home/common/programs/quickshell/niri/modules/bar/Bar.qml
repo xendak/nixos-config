@@ -138,14 +138,21 @@ Item {
                 anchors.fill: parent
                 anchors.leftMargin: -BorderConfig.thickness
                 anchors.rightMargin: -BorderConfig.thickness
-                propagateComposedEvents: true  // Let clicks pass through
+                propagateComposedEvents: true
+                acceptedButtons: Qt.LeftButton
+
                 onWheel: event => {
                     const direction = event.angleDelta.y > 0 ? -1 : 1;
                     activeWindow.focusRelativeWindow(direction);
                     event.accepted = true;
                 }
                 onClicked: event => {
-                    event.accepted = false;
+                    if (activeWindow.isEmpty()) {
+                        const c = "hexecute";
+                        Cmd.cmdExecute(c);
+                        console.log("Clicked empty slot: " + event.button);
+                    }
+                    event.accepted = true;
                 }
             }
 

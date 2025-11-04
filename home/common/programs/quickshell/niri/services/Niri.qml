@@ -430,12 +430,26 @@ Singleton {
             case "killactive":
                 niriCommand.push("close-window");
                 break;
+
             case "focus-window":
-                const windowId = parts[1];
-                if (!isNaN(windowId)) {
-                    niriCommand.push("focus-window");
-                    niriCommand.push("--id");
-                    niriCommand.push(windowId);
+                if (parts.length > 1) {
+                    const windowId = parts[1];
+                    if (!isNaN(windowId)) {
+                        niriCommand.push("focus-window");
+                        niriCommand.push("--id");
+                        niriCommand.push(windowId);
+                    }
+                }
+                break;
+
+            case "close-window":
+                if (parts.length > 1) {
+                    const windowId = parts[1];
+                    if (!isNaN(windowId)) {
+                        niriCommand.push("close-window");
+                        niriCommand.push("--id");
+                        niriCommand.push(windowId);
+                    }
                 }
                 break;
                 
@@ -464,6 +478,9 @@ Singleton {
 
     function focusWindow(windowId) {
         dispatch(`focus-window ${windowId}`)
+    }
+    function killWindow(windowId) {
+        dispatch(`close-window ${windowId}`)
     }
 
     function debugState() {
