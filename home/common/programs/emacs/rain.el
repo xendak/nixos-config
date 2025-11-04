@@ -352,5 +352,10 @@
         (?_ . line)
         (?z . buffer)))
 
-(global-unset-key (kbd "C-x C-c"))
+; if i dont know the command name.. this is useful
+(let ((current-command (global-lookup-key (kbd "C-x C-c"))))
+  (when current-command
+    (global-set-key (kbd "C-x C-q") current-command)
+    (global-unset-key (kbd "C-x C-c"))))
+
 (message "---> binds.el loaded successfully!")
