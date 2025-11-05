@@ -150,9 +150,8 @@ Item {
                     if (activeWindow.isEmpty()) {
                         const c = "hexecute";
                         Cmd.cmdExecute(c);
-                        console.log("Clicked empty slot: " + event.button);
                     }
-                    event.accepted = true;
+                    event.accepted = false;
                 }
             }
 

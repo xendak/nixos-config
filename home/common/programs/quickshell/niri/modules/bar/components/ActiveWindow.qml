@@ -19,12 +19,11 @@ Item {
     implicitHeight: windowColumn.implicitHeight
 
     readonly property var sortedClients: clientModel.values
-
-    function isEmpty(): bool {
+    
+    function isEmpty() {
         const clients = clientModel.values;
         return clients.length === 0;
     }
-    
     function focusRelativeWindow(direction) {
         const clients = clientModel.values;
         if (clients.length === 0) return;
@@ -69,8 +68,6 @@ Item {
     
     function updateClientList() {
         let clients = Niri.getClientsForActiveWorkspace();
-        if (clients && clients.length > 0) {
-        }
         
         // Sort by pos_in_scrolling_layout
         if (clients && clients.length > 0) {
@@ -90,10 +87,6 @@ Item {
                 
                 // If same column, compare row (second element)
                 return aPos[1] - bPos[1];
-            });
-            
-            clients.forEach((c, i) => {
-                const pos = c.layout?.pos_in_scrolling_layout;
             });
         }
         
@@ -121,19 +114,49 @@ Item {
                 Layout.preferredWidth: BarConfig.sizes.innerHeight + Appearance.padding.normal
                 Layout.preferredHeight: BarConfig.workspaces.windowIconSize + Appearance.padding.normal
                 
-                Component.onCompleted: {
-                    if (modelData) {
-                    }
-                }
-                
-                // The actual icon/visual
                 Loader {
-                    id: iconLoader
-                    anchors.centerIn: parent
+                    id: windowLoader
+                    anchors.fill: parent
+                    active: windowIconItem.modelData
                     
-                    sourceComponent: BarConfig.workspaces.windowIconImage 
-                                     ? imageIconComponent 
-                                     : materialIconComponent
+                    sourceComponent: MouseArea {
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        hoverEnabled: true
+                        
+                        onClicked: event => {
+                            
+                            const windowId = windowIconItem.modelData?.id;
+                            
+                            if (windowId === undefined || windowId === null) {
+                                console.error("ERROR: Could not find window ID!");
+                                return;
+                            }
+                            
+                            if (event.button === Qt.LeftButton) {
+                                Niri.focusWindow(windowId);
+                            } else if (event.button === Qt.RightButton) {
+                                Niri.killWindow(windowId);
+                            }
+                        }
+                        
+                        Loader {
+                            id: iconLoader
+                            anchors.centerIn: parent
+                            z: -2
+                            
+                            sourceComponent: BarConfig.workspaces.windowIconImage 
+                                             ? imageIconComponent 
+                                             : materialIconComponent
+                        }
+                        
+                        // Temporarily disabled to test
+                        // StateLayer {
+                        //     anchors.centerIn: parent
+                        //     width: parent.width
+                        //     height: parent.height
+                        //     radius: Appearance.rounding.normal
+                        // }
+                    }
                 }
                 
                 Component {
@@ -148,12 +171,10 @@ Item {
                             anchors.centerIn: parent
                             width: parent.width
                             height: parent.height
-                            // color: Colours.palette.m3primary
                             color: windowIconItem.modelData?.is_focused ? Colours.palette.m3primary : Colours.palette.m3outlineVariant
                             radius: Appearance.rounding.small
-                            // opacity: windowIconItem.modelData?.is_focused ? 0.6 : 0.0
                             
-                            Behavior on opacity {
+                            Behavior on color {
                                 NumberAnimation {
                                     duration: Appearance.anim.durations.normal
                                     easing.type: Easing.BezierSpline
@@ -167,8 +188,7 @@ Item {
                             anchors.centerIn: parent
                             implicitSize: BarConfig.workspaces.windowIconSize
                             source: Icons.getAppIcon(
-                                windowIconItem.modelData?.wmClass,
-                                "", 
+                                windowIconItem.modelData?.wmClass || "",
                                 "image-missing"
                             )
                         }
@@ -187,12 +207,10 @@ Item {
                             anchors.centerIn: parent
                             width: parent.width
                             height: parent.height
-                            // color: Colours.palette.m3primary
                             color: windowIconItem.modelData?.is_focused ? Colours.palette.m3primary : Colours.palette.m3outlineVariant
                             radius: Appearance.rounding.normal
-                            // opacity: windowIconItem.modelData?.is_focused ? 0.8 : 0.0
                             
-                            Behavior on opacity {
+                            Behavior on color {
                                 NumberAnimation {
                                     duration: Appearance.anim.durations.normal
                                     easing.type: Easing.BezierSpline
@@ -205,8 +223,7 @@ Item {
                             anchors.centerIn: parent
                             font.pointSize: BarConfig.workspaces.windowIconSize
                             text: Icons.getAppCategoryIcon(
-                                windowIconItem.modelData?.wmClass || 
-                                "", 
+                                windowIconItem.modelData?.wmClass || "",
                                 "terminal"
                             )
                             color: windowIconItem.modelData?.is_focused ? Colours.palette.m3onPrimary : Colours.palette.m3primaryVariant
@@ -220,45 +237,6 @@ Item {
                             }
                         }
                     }
-                }
-                
-
-                // For some reason StateLayer consumes the clicks even though we said for it go through
-                // so just go without for now :(
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    acceptedButtons: Qt.LeftButton | Qt.RightButton
-                
-                    onClicked: event => {
-                        console.log("Here: " + event.button);
-                    }    
-                    onPressed: event => {
-                        if (!windowIconItem.modelData) {
-                            console.error("ERROR: modelData is null or undefined!");
-                            return;
-                        }
-                        
-                        const windowId = windowIconItem.modelData.id;
-                        
-                        if (windowId === undefined || windowId === null) {
-                            console.error("ERROR: Could not find window ID!");
-                            return;
-                        }
-                        
-                        if (event.button === Qt.RightButton) {
-                            Niri.killWindow(windowId);
-                        } else {
-                            Niri.focusWindow(windowId);
-                            
-                        }
-                    }
-
-                    onWheel: event => {
-                        const direction = event.angleDelta.y > 0 ? -1 : 1;
-                        root.focusRelativeWindow(direction);
-                        event.accepted = true;
-                    }                    
                 }
             }
         }

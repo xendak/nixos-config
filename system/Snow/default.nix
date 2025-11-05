@@ -93,6 +93,15 @@
   age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
   # environment.etc."something".source = "${config.age.secrets.pw.path}";
 
+  services.greetd = {
+    settings = {
+      initial_session = {
+        command = "niri-session";
+        user = "flakes";
+      };
+    };
+  };
+
   systemd.services = {
     "agenix-secrets" = {
       wantedBy = [ "default.target" ];
