@@ -21,16 +21,22 @@
 
     enableDefaultPackages = true;
 
+    fontconfig.localConf = ''
+      <!-- use a less horrible font substition for pdfs such as https://www.bkent.net/Doc/mdarchiv.pdf -->
+      <match target="pattern">
+        <test qual="any" name="family"><string>Arial</string></test>
+        <edit name="family" mode="assign" binding="same"><string>IBM Plex Sans</string></edit>
+      </match>
+    '';
     fontconfig.defaultFonts = {
       serif = [
-        "Sofia Pro"
-        "Vollkorn"
+        "IBM Plex Sans"
         "Source Han Sans"
         "Noto Color Emoji"
       ];
       sansSerif = [
         "Sofia Pro"
-        "Vollkorn"
+        "IBM Plex Sans"
         "Source Han Sans"
         "Noto Color Emoji"
       ];

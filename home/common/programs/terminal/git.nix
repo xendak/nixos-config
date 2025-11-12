@@ -8,8 +8,19 @@
 
   home.persistence."/persist".directories = [ ".config/gh" ];
 
-  programs.lazygit = {
+  programs.lazygit.enable = true;
+
+  programs.delta = {
     enable = true;
+    enableGitIntegration = true;
+    options = {
+      dark = true;
+      side-by-side = true;
+      line-numbers = true;
+      hyperlinks = true;
+      syntax-theme = "base16";
+      navigate = true;
+    };
   };
 
   programs.git = {
@@ -25,6 +36,8 @@
 
     ignores = [
       "*.swp"
+      "*~"
+      "node_modules"
       ".zig-cache/"
       "zig-out/"
       ".direnv/"

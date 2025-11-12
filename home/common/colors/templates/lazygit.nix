@@ -34,7 +34,8 @@ in
       disableStartupPopups: true
       git:
         pagers:
-          externalDiffCommand: difft --color=always --syntax-highlight=on --tab-width=2
+          - pager: delta --dark --paging=never --side-by-side --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}" --syntax-theme=base16
+          - externalDiffCommand: difft --color=always --syntax-highlight=on --tab-width=2
       gui:
         filterMode: fuzzy
         language: en

@@ -19,18 +19,11 @@
       ];
 
       serif = [
-        "Vollkorn"
+        "IBM Plex Sans"
         "EB Garamond"
         "Source Han Serif"
       ];
     };
-    localConf = ''
-      <!-- use a less horrible font substition for pdfs such as https://www.bkent.net/Doc/mdarchiv.pdf -->
-      <match target="pattern">
-        <test qual="any" name="family"><string>Arial</string></test>
-        <edit name="family" mode="assign" binding="same"><string>Sofia Pro</string></edit>
-      </match>
-    '';
   };
 
   home.packages = [
@@ -38,8 +31,6 @@
     pkgs.source-han-sans
     pkgs.source-han-code-jp
     pkgs.eb-garamond
-    pkgs.anakron
-    pkgs.vollkorn
     # pkgs.material-symbols
     pkgs.material-design-icons
     pkgs.ibm-plex
