@@ -125,6 +125,15 @@ let
       .title_c38106 {
       	opacity: 0 !important;
       }
+
+      .trailing_c38106 {
+        position: relative;
+        vertical-align: center;
+        top: calc(
+          var(--custom-app-top-bar-height) + -2px + var(--custom-guild-list-padding)
+        ) !important;
+      }
+
     '';
   escapedCss = lib.concatStringsSep "\n" (lib.splitString "\n" rawCss);
 

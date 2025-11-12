@@ -33,7 +33,7 @@ in
         output: terminal
       disableStartupPopups: true
       git:
-        paging:
+        pagers:
           externalDiffCommand: difft --color=always --syntax-highlight=on --tab-width=2
       gui:
         filterMode: fuzzy
