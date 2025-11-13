@@ -1,6 +1,7 @@
 import "root:/widgets"
 import "root:/services"
 import "root:/config"
+import "root:/utils"
 import Quickshell
 import Quickshell.Widgets
 import QtQuick
@@ -34,7 +35,7 @@ Item {
         IconImage {
             id: icon
 
-            source: Quickshell.iconPath(root.modelData?.icon, "image-missing")
+            source: Icons.getAppIcon(root.modelData?.icon ?? "", "")
             implicitSize: parent.height * 0.8
 
             anchors.verticalCenter: parent.verticalCenter

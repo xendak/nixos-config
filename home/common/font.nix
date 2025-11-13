@@ -6,6 +6,7 @@
     defaultFonts = {
       monospace = [
         "JetBrainsMono Nerd Font"
+        "Source Han Code JP"
         "Source Han Sans"
         "Noto Color Emoji"
       ];
@@ -19,9 +20,10 @@
       ];
 
       serif = [
-        "IBM Plex Sans"
+        "Sofia Pro"
         "EB Garamond"
         "Source Han Serif"
+        "Noto Color Emoji"
       ];
     };
   };
@@ -31,6 +33,7 @@
     pkgs.source-han-sans
     pkgs.source-han-code-jp
     pkgs.eb-garamond
+    pkgs.miracode
     # pkgs.material-symbols
     pkgs.material-design-icons
     pkgs.ibm-plex

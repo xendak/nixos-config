@@ -60,7 +60,7 @@ Item {
                 id: icon
 
                 implicitSize: details.implicitHeight
-                source: Icons.getAppIcon(activeClient?.wmClass ?? "", "image-missing")
+                source: Icons.getAppIcon(activeClient?.wmClass ?? "", "")
             }
 
             Column {

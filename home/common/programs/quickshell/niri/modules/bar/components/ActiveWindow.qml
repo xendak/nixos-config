@@ -189,7 +189,7 @@ Item {
                             implicitSize: BarConfig.workspaces.windowIconSize
                             source: Icons.getAppIcon(
                                 windowIconItem.modelData?.wmClass || "",
-                                "image-missing"
+                                ""
                             )
                         }
                     }

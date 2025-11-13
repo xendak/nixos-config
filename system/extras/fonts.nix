@@ -14,8 +14,8 @@
       source-han-sans
       source-han-code-jp
       nerd-fonts.jetbrains-mono
+      miracode
 
-      vollkorn
       cozette
     ];
 
@@ -25,24 +25,26 @@
       <!-- use a less horrible font substition for pdfs such as https://www.bkent.net/Doc/mdarchiv.pdf -->
       <match target="pattern">
         <test qual="any" name="family"><string>Arial</string></test>
-        <edit name="family" mode="assign" binding="same"><string>IBM Plex Sans</string></edit>
+        <edit name="family" mode="assign" binding="same"><string>Sofia Pro</string></edit>
       </match>
     '';
     fontconfig.defaultFonts = {
       serif = [
-        "IBM Plex Sans"
-        "Source Han Sans"
+        "Sofia Pro"
+        "EB Garamond"
+        "Source Han Serif"
         "Noto Color Emoji"
       ];
       sansSerif = [
         "Sofia Pro"
+        "EB Garamond"
         "IBM Plex Sans"
         "Source Han Sans"
         "Noto Color Emoji"
       ];
       monospace = [
         "JetBrainsMono Nerd Font"
-        "Scientifica"
+        "CozzeteVector"
         "Source Han Code JP"
         "Noto Color Emoji"
       ];

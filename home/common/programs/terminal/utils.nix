@@ -42,6 +42,8 @@
     llvmPackages_latest.lldb
     cppcheck
     gdb
+    # gdb front-end
+    gf
 
     inputs.uwu-colors.packages.${pkgs.system}.default
 
@@ -79,6 +81,13 @@
           Categories=System;ConsoleOnly;Monitor;
           StartupNotify=false
 
+        '';
+    ".config/bat/config".source =
+      pkgs.writeText "config"
+        # yaml
+        ''
+          --theme="base16"
+          --map-syntax "*ignore:Git Ignore"
         '';
   };
 

@@ -3,34 +3,40 @@
   stdenv,
 }:
 with lib;
-  stdenv.mkDerivation {
-    name = "useful-fonts";
-    version = "1.0";
-    src1 = ./SofiaPro.ttf;
-    src2 = ./FOT-NEWRODINPRO-M.OTF;
-    src3 = ./FOT-RODINHIMAWARIPRO-M.OTF;
-    src4 = ./RODINPRO-B.OTF;
-    src5 = ./PROGGYCLEANNERDFONTMONO-REGULAR.TTF;
-    src6 = ./PROGGYCLEANSZNERDFONTMONO-REGULAR.TTF;
-    src7 = ./PROGGYDOTTED_REGULAR.TTF;
+stdenv.mkDerivation {
+  name = "useful-fonts";
+  version = "1.0";
 
-    dontUnpack = true;
-    dontBuild = true;
-    dontConfigure = true;
+  src = builtins.filterSource (
+    path: type:
+    let
+      cName = baseNameOf (toString path);
+      baseName = lib.strings.toLower cName;
+    in
+    type == "directory"
+    || (
+      type == "regular"
+      && (lib.strings.hasSuffix ".ttf" baseName || lib.strings.hasSuffix ".otf" baseName)
+    )
+  ) ./.;
 
-    installPhase = ''
-      install -Dm 644 $src2 $out/share/fonts/opentype/FOT-NEWRODINPRO-M.OTF
-      install -Dm 644 $src3 $out/share/fonts/opentype/FOT-RODINHIMAWARIPRO-M.OTF
-      install -Dm 644 $src4 $out/share/fonts/opentype/RODINPRO-B.OTF
-      install -Dm 644 $src5 $out/share/fonts/ttf/PROGGYCLEANNERDFONTMONO-REGULAR.TTF
-      install -Dm 644 $src6 $out/share/fonts/ttf/PROGGYCLEANSZNERDFONTMONO-REGULAR.TTF
-      install -Dm 644 $src7 $out/share/fonts/ttf/PROGGYDOTTED_REGULAR.TTF
-      install -Dm 644 $src1 $out/share/fonts/ttf/SofiaPro.ttf
-    '';
+  dontBuild = true;
+  dontConfigure = true;
 
-    meta = {
-      description = "Useful fonts i use somewhere";
-      license = licenses.unfree;
-      platforms = platforms.all;
-    };
-  }
+  installPhase = ''
+    mkdir -p $out/share/fonts/truetype
+    mkdir -p $out/share/fonts/opentype
+
+    # Find and install TTF fonts
+    find $src -iname "*.ttf" -type f -exec sh -c 'install -Dm 644 "$1" "$2/share/fonts/truetype/$(basename "$1")"' _ {} $out \;
+
+    # Find and install OTF fonts  
+    find $src -iname "*.otf" -type f -exec sh -c 'install -Dm 644 "$1" "$2/share/fonts/opentype/$(basename "$1")"' _ {} $out \;
+  '';
+
+  meta = {
+    description = "Useful fonts i use somewhere";
+    license = licenses.unfree;
+    platforms = platforms.all;
+  };
+}

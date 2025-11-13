@@ -102,17 +102,22 @@ Singleton {
             "395": "snowing"
         })
 
+    // this checks a non .desktop into a .desktop
     readonly property var desktopEntrySubs: ({
-        "zen": "zen-beta",
-        "zen-beta": "zen-beta",
-        "zen-alpha": "zen-beta",
-        "f_terminal": "wezterm",
+        "zen": "zen-browser",
+        "zen-beta": "zen-browser",
+        "f_terminal": "org.wezfurlong.wezterm",
         "f_yazi": "yazi",
-        "nu": "wezterm",
-        "org.pwmt.zathura": "wezterm",
-        "zathura": "wezterm",
-        "btm": "SysMonTask",
-        "bottom": "SysMonTask",
+        "nu": "org.wezfurlong.wezterm",
+        "btm": "utilities-system-monitor",
+        "bottom": "utilities-system-monitor",
+    })
+
+    // this checks inside home/common/icons
+    readonly property var customIconEntrySubs: ({
+        "btm": "bottom.svg",
+        "org.pwmt.zathura": "zathura.svg",
+        // "bottom": "bottom.svg",
     })
 
     readonly property var categoryIcons: ({
@@ -158,48 +163,75 @@ Singleton {
     property string osIcon: ""
     property string osName
 
-    // function getDesktopEntry(name: string): DesktopEntry {
-    //     name = name.toLowerCase().replace(/ /g, "-");
-
-    //     if (desktopEntrySubs.hasOwnProperty(name))
-    //         name = desktopEntrySubs[name];
-
-    //     return DesktopEntries.applications.values.find(a => a.id.toLowerCase() === name) ?? null;
-    // }
-
    function getDesktopEntry(name: string): DesktopEntry {
         if (!name) return null;
         
-        // Try the mapped/original name as-is first
+        // original name
         let entry = DesktopEntries.applications.values.find(a => a.id.toLowerCase() === name.toLowerCase());
         if (entry) return entry;
         
-        // Then try with lowercase and dashes
+        // lowercase and dashes
         name = name.toLowerCase().replace(/ /g, "-");
         
-        // Check desktopEntrySubs
-        if (desktopEntrySubs.hasOwnProperty(name))
-            name = desktopEntrySubs[name];
-
-        entry = DesktopEntries.applications.values.find(a => a.id.toLowerCase() === name);
-        if (entry) return entry;
-        
-        // Last resort: try to find a partial match
+        // partial match
         entry = DesktopEntries.applications.values.find(a => 
             a.id.toLowerCase().includes(name) || 
             name.includes(a.id.toLowerCase())
         );
         
         if (!entry) {
-            // Log missing mappings to help you add them
-            console.log(`[Icons] No desktop entry found for WM class: "${originalName}"`);
+            console.log(`[Icons] No desktop entry found for WM class: "${name}"`);
         }
         
         return entry ?? null;
     }
 
+    // TODO: fix class != title, for some apps, to have proper icon :)
     function getAppIcon(name: string, fallback: string): string {
-        return Quickshell.iconPath(getDesktopEntry(name)?.icon, fallback);
+        if (!name && !fallback) fallback = "application-default-icon";
+        if (!name) {
+            console.log("ICONS.qml:: Calling with empty name string, fallback: " + fallback);
+            name = fallback;
+        }
+    
+        // First custom subs
+        if (customIconEntrySubs.hasOwnProperty(name)) {
+            const customFile = customIconEntrySubs[name];
+            const customIconPath = "file:/" + Quickshell.env("HOME") + "/Flake/home/common/icons/" + customFile;
+            console.log(`Using custom mapped icon for "${name}": ${customIconPath}`);
+            return customIconPath;
+        }
+
+
+        // Second desktoop entry subs
+        let iconName = name;
+        if (desktopEntrySubs.hasOwnProperty(name)) {
+            iconName = desktopEntrySubs[name];
+            console.log(`Icon substitution: "${name}" -> "${iconName}"`);
+
+            const themeIcon = Quickshell.iconPath(iconName.toLowerCase(), "");
+            if (themeIcon) {
+                console.log(`Icon from theme: "${iconName}" -> "${themeIcon}"`);
+                return themeIcon;
+            }
+        }
+
+        // default .desktop entry
+        const desktopIcon = getDesktopEntry(name)?.icon;
+        if (desktopIcon) {
+            // names or paths
+            if (desktopIcon.startsWith("/") || desktopIcon.startsWith("file://")) {
+                return desktopIcon.startsWith("file://") ? desktopIcon : "file://" + desktopIcon;
+            }
+            // iconPath
+            const resolved = Quickshell.iconPath(desktopIcon, "");
+            console.log(`Icon desktop: "${name}" -> "${desktopIcon}" = ${resolved}`);
+            return resolved;
+        }
+
+        // last resort fallback
+        console.log(`Using custom default.svg for "${name}"`);
+        return "file://" + Quickshell.env("HOME") + "/Flake/home/common/icons/default.svg";
     }
 
     function getAppCategoryIcon(name: string, fallback: string): string {

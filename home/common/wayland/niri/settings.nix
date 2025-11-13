@@ -191,20 +191,20 @@ in
         theme = config.gtk.cursorTheme.name;
       };
 
-      animations.window-open = {
-        custom-shader = builtins.readFile ./shaders/window-open.glsl;
-        kind.easing = {
-          curve = "ease-out-cubic";
-          duration-ms = 200;
-        };
-      };
-      animations.window-close = {
-        custom-shader = builtins.readFile ./shaders/window-close.glsl;
-        kind.easing = {
-          curve = "ease-out-quad";
-          duration-ms = 250;
-        };
-      };
+      # animations.window-open = {
+      #   custom-shader = builtins.readFile ./shaders/window-open.glsl;
+      #   kind.easing = {
+      #     curve = "ease-out-cubic";
+      #     duration-ms = 200;
+      #   };
+      # };
+      # animations.window-close = {
+      #   custom-shader = builtins.readFile ./shaders/window-close.glsl;
+      #   kind.easing = {
+      #     curve = "ease-out-quad";
+      #     duration-ms = 250;
+      #   };
+      # };
       animations.window-resize = {
         custom-shader = builtins.readFile ./shaders/window-resize.glsl;
         kind.easing = {
