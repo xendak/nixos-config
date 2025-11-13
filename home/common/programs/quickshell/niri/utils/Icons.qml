@@ -163,7 +163,26 @@ Singleton {
     property string osIcon: ""
     property string osName
 
-   function getDesktopEntry(name: string): DesktopEntry {
+    function resolveIconPath(name: string, fallback: string): string {
+        if (!name && !fallback) fallback = "application-default-icon";
+        if (!name) {
+            return Quickshell.iconPath(fallback);
+        }
+        
+        if (desktopEntrySubs.hasOwnProperty(name)) {
+            name = desktopEntrySubs[name];
+        }
+        
+        if (customIconEntrySubs.hasOwnProperty(name)) {
+            const customFile = customIconEntrySubs[name];
+            const customIconPath = "file:/" + Quickshell.env("HOME") + "/Flake/home/common/icons/" + customFile;
+            return customIconPath;
+        }
+        
+        return Quickshell.iconPath(name, fallback);
+    }
+
+    function getDesktopEntry(name: string): DesktopEntry {
         if (!name) return null;
         
         // original name
@@ -190,7 +209,7 @@ Singleton {
     function getAppIcon(name: string, fallback: string): string {
         if (!name && !fallback) fallback = "application-default-icon";
         if (!name) {
-            console.log("ICONS.qml:: Calling with empty name string, fallback: " + fallback);
+            // console.log("ICONS.qml:: Calling with empty name string, fallback: " + fallback);
             name = fallback;
         }
     
@@ -198,7 +217,7 @@ Singleton {
         if (customIconEntrySubs.hasOwnProperty(name)) {
             const customFile = customIconEntrySubs[name];
             const customIconPath = "file:/" + Quickshell.env("HOME") + "/Flake/home/common/icons/" + customFile;
-            console.log(`Using custom mapped icon for "${name}": ${customIconPath}`);
+            // console.log(`Using custom mapped icon for "${name}": ${customIconPath}`);
             return customIconPath;
         }
 
@@ -207,11 +226,11 @@ Singleton {
         let iconName = name;
         if (desktopEntrySubs.hasOwnProperty(name)) {
             iconName = desktopEntrySubs[name];
-            console.log(`Icon substitution: "${name}" -> "${iconName}"`);
+            // console.log(`Icon substitution: "${name}" -> "${iconName}"`);
 
             const themeIcon = Quickshell.iconPath(iconName.toLowerCase(), "");
             if (themeIcon) {
-                console.log(`Icon from theme: "${iconName}" -> "${themeIcon}"`);
+                // console.log(`Icon from theme: "${iconName}" -> "${themeIcon}"`);
                 return themeIcon;
             }
         }
@@ -225,12 +244,12 @@ Singleton {
             }
             // iconPath
             const resolved = Quickshell.iconPath(desktopIcon, "");
-            console.log(`Icon desktop: "${name}" -> "${desktopIcon}" = ${resolved}`);
+            // console.log(`Icon desktop: "${name}" -> "${desktopIcon}" = ${resolved}`);
             return resolved;
         }
 
         // last resort fallback
-        console.log(`Using custom default.svg for "${name}"`);
+        // console.log(`Using custom default.svg for "${name}"`);
         return "file://" + Quickshell.env("HOME") + "/Flake/home/common/icons/default.svg";
     }
 

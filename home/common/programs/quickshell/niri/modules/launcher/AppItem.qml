@@ -35,7 +35,9 @@ Item {
         IconImage {
             id: icon
 
-            source: Icons.getAppIcon(root.modelData?.icon ?? "", "")
+            // source: root.modelData?.icon ? Quickshell.iconPath(root.modelData?.icon ?? "" , "") : Icons.getAppIcon(root.modelData?.icon ?? "", "")
+            source: Icons.resolveIconPath(root.modelData?.icon ?? "", "application-x-executable")
+            // source: Icons.getAppIcon(activeClient?.wmClass ?? "", "")
             implicitSize: parent.height * 0.8
 
             anchors.verticalCenter: parent.verticalCenter
