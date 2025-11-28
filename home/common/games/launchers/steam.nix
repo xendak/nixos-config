@@ -28,6 +28,7 @@ in
     steam-with-pkgs
     pkgs.gamescope
     pkgs.protontricks
+    pkgs.mangohud
     # steamtinkerlaunch
   ];
 

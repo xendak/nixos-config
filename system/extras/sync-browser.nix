@@ -32,6 +32,7 @@ let
     Default/History
     Default/Web Data
     Local State
+    Default/Secure Preferences
     Default/Preferences
     Default/Local Storage
     Default/Sessions

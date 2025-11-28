@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  config,
   ...
 }:
 let
@@ -54,9 +53,21 @@ in
     #   "BrowserSignin" = 0;
     #   "SyncDisabled" = true;
     #   "PasswordManagerEnabled" = false;
-    #   "SpellcheckLanguage" = [ "en-US" "pt-BR" "ja-JP" ];
+    #   "SpellcheckLanguage" = [
+    #     "en-US"
+    #     "pt-BR"
+    #     "ja-JP"
+    #   ];
     #   "ui.zoom.force_enable_zoom_scrollbars" = true;
     # };
+
+    # extensions = [
+    #   "cbghhgpcnddeihccjmnadmkaejncjndb"
+    #   "jinjaccalgkegednnccohejagnlnfdag"
+    #   "dbepggeogbaibhgnhhndojpepiihcmeb"
+    #   "nngceckbapebfimnlniiiahkandclblb"
+    #   "cjpalhdlnbpafiamejdnhcphjbkeiagm"
+    # ];
 
     extensions =
       let
@@ -82,7 +93,7 @@ in
         (createChromiumExtension {
           # Vencord
           id = "cbghhgpcnddeihccjmnadmkaejncjndb";
-          sha256 = "sha256:0z5mi01n47wvrl5g6x0h0y90v7jjrs8ymdlzlx9rpwd52r6sh7wb";
+          sha256 = "sha256:0mzk9pgkbrm99zyn5pmw6n79d7xjgx138lgw2gayxapdwgkhjsds";
           version = "1.11.9";
         })
         (createChromiumExtension {
@@ -94,19 +105,19 @@ in
         (createChromiumExtension {
           # Vimium
           id = "dbepggeogbaibhgnhhndojpepiihcmeb";
-          sha256 = "sha256:0m8xski05w2r8igj675sxrlkzxlrl59j3a7m0r6c8pwcvka0r88d";
+          sha256 = "sha256:13a56wx9i4plj8k9ifbi0aq1a9fipvfkm61r2sysbqd9z3nnwsy1";
           version = "2.1.2";
         })
         (createChromiumExtension {
           # Bitwarden
           id = "nngceckbapebfimnlniiiahkandclblb";
-          sha256 = "sha256:1cqxid070yiqhw99najwg3nj3csdr8cp12pd0gggnfp34c8n2dig";
+          sha256 = "sha256:1njzbgk4y4jr6x361d3v0wsn6v8g4rsjr27lx66414x9bpcnrr5w";
           version = "2025.3.2";
         })
         (createChromiumExtension {
           # Ublock
           id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
-          sha256 = "sha256:1lnk0k8zy0w33cxpv93q1am0d7ds2na64zshvbwdnbjq8x4sw5p6";
+          sha256 = "sha256:0c2y84bwyliqkff7xn6swvg6fbsprc65p79bvnxdh88wzqyhf3pd";
           version = "1.63.2";
         })
       ];

@@ -9,8 +9,8 @@
     # kdePackages.dolphin
     # or
     # libsForQt5.dolphin
-    nautilus
-    nautilus-open-any-terminal
+    # nautilus
+    # nautilus-open-any-terminal
     kdePackages.dolphin
     kdePackages.ark
     kdePackages.kio-extras
@@ -21,6 +21,7 @@
   # to enable qtct colors
   # [UiSettings]
   # ColorScheme=*
+  # QT_QPA_PLATFORMTHEME=kde dolphin
 
   home.persistence = {
     "/persist" = {

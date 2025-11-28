@@ -11,13 +11,13 @@
     ./scripts.nix
   ];
 
-  programs = {
-    fish.loginShellInit = ''
-      if test (tty) = "/dev/tty1"
-        exec Hyprland &> /dev/null
-      end
-    '';
-  };
+  # programs = {
+  #   fish.loginShellInit = ''
+  #     if test (tty) = "/dev/tty1"
+  #       exec Hyprland &> /dev/null
+  #     end
+  #   '';
+  # };
 
   xdg.portal =
     let
@@ -37,7 +37,7 @@
     pkgs.swayidle
     pkgs.brightnessctl
     inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast
-    inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
+    # inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
   ];
 
   wayland.windowManager.hyprland = {
@@ -60,7 +60,9 @@
         brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
         # swaylock = "${config.programs.swaylock.package}/bin/swaylock";
         playerctl = "${config.services.playerctld.package}/bin/playerctl";
-        c = config.colorscheme.palette;
+
+        colorscheme = import ../../colors/palettes/gorgoroth.nix;
+        c = colorscheme.palette;
         wallpaper = "$HOME/Flake/home/common/wallpapers/13.jpg";
         # wallpaper =
         # if config.home.username == "drops" then
@@ -73,8 +75,9 @@
         exec-once = [
           "swww-daemon"
           "fish $HOME/Flake/home/common/programs/quickshell/hyprland/wallpaper.fish -f ${wallpaper}"
-          "theme-switcher"
+          "/home/${config.home.username}/Flake/bin/nix-theme-starter gorgoroth"
           "mkdir -p $HOME/tmp/Screenshots"
+          "rmdir -r $HOME/Desktop"
           "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"
           "swayidle -w"
           "all-sync persist-to-live"
@@ -85,7 +88,7 @@
             [
               "sh $HOME/Flake/bin/bt-once.sh"
               "openrgb -d \"XPG Spectrix S40G\" -m Off"
-              "${pkgs.networkmanager}/bin/nmcli radio wifi off"
+              # "${pkgs.networkmanager}/bin/nmcli radio wifi off"
             ]
           else
             [

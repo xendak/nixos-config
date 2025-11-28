@@ -90,9 +90,9 @@
   :config
   (setq org-node-extra-id-dirs '("~/Documents/Notes/org/nodes")
         org-node-extra-id-dirs-exclude '(".sync-conflict-" "/archive/"))
-  :bind (("C-c n f" . org-node-find)
-         ("C-c n i" . org-node-insert-link)
-         ("C-c n r" . org-node-visit-random))
+  ; :bind (("C-c o f" . org-node-find)
+  ;        ("C-c o i" . org-node-insert-link)
+  ;        ("C-c o r" . org-node-visit-random))
   :after org)
 
 (use-package org-super-agenda

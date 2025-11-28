@@ -148,7 +148,7 @@
      '("H" . project-kill-buffers)
      '("b" . project-switch-project)
 
-     '("n" . my-prefix-key)
+     '("n" . compile-and-run)
 
      '("f" . other-window)
      '("F" . delete-window)
@@ -292,22 +292,95 @@
     (switch-to-buffer-other-window buf)
     (vterm-mode)))
 
-;; -------------------- ;;
-;;         UTILS        ;;
-;; -------------------- ;;
+;; Compile and Run
+(defvar my-run-command nil
+  "The last command used to *run* the compiled program.")
+(defvar my-run-command-history nil
+  "History for `my-run-command`.")
 
-(defvar my-prefix-key
-  (let ((keymap (make-keymap)))
-	(define-key keymap "b" #'meow-undo-in-selection)
-	(define-key keymap "u" #'next-buffer)
-	(define-key keymap "o" #'previous-buffer)
-    (define-key keymap "m" #'kmacro-edit-macro)
-    (define-key keymap "y" #'meow-comment)
-	(define-key keymap "q" #'kill-current-buffer)
-	(define-key keymap "w" #'delete-window)
+(defun my-run-program (command)
+  "Run COMMAND as a compilation job."
+  (interactive
+   (let ((command (read-shell-command "Run command: " my-run-command 'my-run-command-history)))
+     (list command)))
+  (setq my-run-command command)
+  (add-to-history 'my-run-command-history my-run-command)
+  (compile command))
+
+(defun my-vterm-run-program (command)
+  "Run COMMAND in an interactive VTerm."
+  (interactive
+   (let ((command (read-shell-command "Run command: " my-run-command 'my-run-command-history)))
+     (list command)))
+  (setq my-run-command command)
+  (add-to-history 'my-run-command-history my-run-command)
+  
+  (let ((project-dir (or (and (fboundp 'project-root) (project-root (project-current t)))
+                         default-directory)))
+    
+    (cond
+     ((and (fboundp 'projectile-project-root)
+           (projectile-project-root)
+           (fboundp 'projectile-run-vterm-other-window))
+      (projectile-run-vterm-other-window))
+     (t
+      (require 'vterm)
+      (vterm-other-window)))
+    
+    (let ((vterm-buffer (current-buffer)))
+      (while (not (get-buffer-process vterm-buffer))
+        (sleep-for 0.1))
+      
+      (let ((current-dir (with-current-buffer vterm-buffer default-directory)))
+        (unless (string-equal (file-truename current-dir) (file-truename project-dir))
+          (vterm-send-string (format "cd %s\n" (shell-quote-argument project-dir)))
+          (sleep-for 0.1)))
+      
+      (vterm-send-string "clear\n")
+      (sleep-for 0.1)
+      (vterm-send-string (format "%s; exit\n" command))
+      
+      (set-process-sentinel
+       (get-buffer-process vterm-buffer)
+       (lambda (proc event)
+         (when (memq (process-status proc) '(exit signal))
+           (when (buffer-live-p (process-buffer proc))
+             (kill-buffer (process-buffer proc)))))))))
+
+(defun my-eshell-run-program (command)
+  "Run COMMAND in an interactive Eshell"
+  (interactive
+   (let ((command (read-shell-command "Run command: " my-run-command 'my-run-command-history)))
+     (list command)))
+
+  (setq my-run-command command)
+  (add-to-history 'my-run-command-history my-run-command)
+
+  (let ((project-dir (or (and (fboundp 'project-root) (project-root (project-current t)))
+                         default-directory)))
+
+    (if (fboundp 'project-eshell)
+        (call-interactively #'project-eshell)
+      (let ((default-directory project-dir))
+        (call-interactively #'eshell)))
+
+    (with-current-buffer (current-buffer)
+      (goto-char (point-max))
+      (insert command)
+      (eshell-send-input))
+    ))
+
+(defvar compile-and-run
+  (let ((keymap (make-sparse-keymap)))
+    (define-key keymap "c" #'compile)
+    (define-key keymap "r" #'my-run-program)
+    (define-key keymap "e" #'my-eshell-run-program)
+    (define-key keymap "i" #'my-vterm-run-program)
+    (define-key keymap "," #'previous-error)
+    (define-key keymap "'" #'next-error)
     keymap))
-(defalias 'my-prefix-key my-prefix-key)
-(global-set-key (kbd "C-c n") 'my-prefix-key)
+
+(global-set-key (kbd "C-c n") compile-and-run)
 
 (defun meow-change-line ()
   "Kill till end of line and switch to INSERT state."
@@ -353,9 +426,10 @@
         (?z . buffer)))
 
 ; if i dont know the command name.. this is useful
-(let ((current-command (global-lookup-key (kbd "C-x C-c"))))
-  (when current-command
-    (global-set-key (kbd "C-x C-q") current-command)
-    (global-unset-key (kbd "C-x C-c"))))
+(let ((current-command (global-key-binding (kbd "C-x C-c"))))
+  (if current-command
+      (progn
+        (global-set-key (kbd "C-x C-q") current-command)
+        (global-unset-key (kbd "C-x C-c")))))
 
 (message "---> binds.el loaded successfully!")

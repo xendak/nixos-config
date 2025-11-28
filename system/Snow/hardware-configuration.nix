@@ -2,7 +2,7 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  fileSystems."/mnt/Windows" = {
+  fileSystems."/local/windows" = {
     device = "/dev/disk/by-uuid/FEC63D8AC63D43E5";
     fsType = "ntfs3";
     options = [
@@ -11,40 +11,40 @@
       "gid=100"
       "dmask=022"
       "fmask=133"
-      "noauto"
+      "nofail"
       "x-systemd.automount"
       "x-systemd.device-timeout=5s"
     ];
   };
 
-  # trying to see if this works.
-  # dont think i need this anymore.
-  # fileSystems."/boot/efi-windows" = {
-  #   device = "/dev/nvme0n1p1";
-  #   fsType = "vfat";
-  #   options = ["ro"];
-  # };
-
-  fileSystems."/mnt/LocalDisk" = {
-    device = "/dev/disk/by-uuid/50A43AA6A43A8F0A";
-    fsType = "ntfs3";
-    options = [
-      "rw"
-      "uid=1000"
-      "gid=100"
-      "dmask=022"
-      "fmask=133"
-      "noauto"
-      "x-systemd.automount"
-      "x-systemd.device-timeout=5s"
-    ];
-  };
-
-  fileSystems."/mnt/Nixos" = {
+  fileSystems."/local/nixos/games" = {
     device = "/dev/disk/by-label/NIXOS";
     fsType = "btrfs";
     options = [
       "rw"
+      "subvol=@games"
+      "compress=zstd"
+      "noatime"
+    ];
+  };
+
+  fileSystems."/local/nixos/dbs" = {
+    device = "/dev/disk/by-label/NIXOS";
+    fsType = "btrfs";
+    options = [
+      "rw"
+      "subvol=@dbs"
+      "compress=zstd"
+      "noatime"
+    ];
+  };
+
+  fileSystems."/local/nixos/data" = {
+    device = "/dev/disk/by-label/NIXOS";
+    fsType = "btrfs";
+    options = [
+      "rw"
+      "subvol=@data"
       "compress=zstd"
       "noatime"
     ];
@@ -54,7 +54,7 @@
   #   fsType = "btrfs";
   #   options = ["rw" "subvol=Programming" "compress=zstd" "noatime"];
   # };
-  fileSystems."/mnt/Storage" = {
+  fileSystems."/local/storage" = {
     device = "/dev/disk/by-uuid/920881090880EE13";
     fsType = "ntfs3";
     options = [
@@ -63,7 +63,7 @@
       "gid=100"
       "dmask=022"
       "fmask=133"
-      "noauto"
+      "nofail"
       "x-systemd.automount"
       "x-systemd.device-timeout=5s"
     ];

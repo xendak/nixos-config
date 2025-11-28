@@ -430,7 +430,7 @@
   :commands vterm
   :config
   (setq vterm-max-scrollback 10000)
-  (setq vterm-shell "fish"))
+  (setq vterm-shell "nu"))
 
 ;; Better dired with zoxide integration
 (use-package dired
@@ -445,6 +445,28 @@
   :ensure t
   :defer t
   :mode "\\.zig\\'")
+
+;; testing pascal?
+(defun my-pascal-helper ()
+  (interactive)
+  (setq compilation-error-regexp-alist-alist
+        (cons '(pascal "^\\(.*\\)(\\([0-9]+\\)+\\,\\([0-9]+\\)).*"
+                       1 ;; file
+                       2 ;; line
+                       3 ;; column? 
+                       )
+              compilation-error-regexp-alist-alist))
+
+  (setq compilation-error-regexp-alist
+        (cons 'pascal compilation-error-regexp-alist))
+  )
+
+
+(add-hook 'pascal-mode-hook (lambda ()                         
+                              (my-pascal-helper)
+                              ; (flycheck-mode -1)
+                              )
+          )
 
 ;; Auto-mode associations for proper LSP activation
 (add-to-list 'auto-mode-alist '("\\.zig\\'" . zig-mode))

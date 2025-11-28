@@ -117,6 +117,7 @@ Singleton {
     readonly property var customIconEntrySubs: ({
         "btm": "bottom.svg",
         "org.pwmt.zathura": "zathura.svg",
+        "vesktop": "vesktop.png",
         // "bottom": "bottom.svg",
     })
 

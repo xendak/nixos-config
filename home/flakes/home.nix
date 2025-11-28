@@ -18,7 +18,7 @@
 
     ../common
     ../common/wayland
-    # ../common/wayland/hyprland
+    ../common/wayland/hyprland
     ../common/wayland/niri
     ../common/programs/terminal/nushell
     # ../common/wayland/swayfx
@@ -69,6 +69,12 @@
   systemd.user.startServices = "sd-switch";
 
   # Home --------------------
+  # maybe check these paths so they make better sense later?
+  home.file = {
+    "Nixos/Games".source = config.lib.file.mkOutOfStoreSymlink "/local/nixos/games";
+    "Nixos/Data".source = config.lib.file.mkOutOfStoreSymlink "/local/nixos/data";
+  };
+
   home = {
     username = lib.mkDefault "flakes";
     homeDirectory = lib.mkDefault "/home/flakes/";

@@ -1,9 +1,14 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports = [ ./plugins ];
   home.packages = [
     pkgs.yazi
   ];
+
+  xdg.mimeApps.defaultApplications = {
+    "inode/directory" = lib.mkForce [ "yazi.desktop" ];
+    # "text/xml" = [ "zen.desktop" ];
+  };
 
   home.file.".config/yazi/keymap.toml".source =
     pkgs.writeText "keymap.toml"

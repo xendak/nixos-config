@@ -220,7 +220,9 @@ in
         NIXOS_OZONE_WL = "1";
         LIBSEAT_BACKEND = "logind";
         QT_QPA_PLATFORM = "wayland;xcb";
-        QT_QPA_PLATFORMTHEME = "qt6ct";
+        # tthis seems to work better overall?
+        QT_QPA_PLATFORMTHEME = "kde";
+        # QT_QPA_PLATFORMTHEME = "qt5ct";
         QT_WAYLAND_DISABLE_WINDOWDECORATION = "0";
         WLR_NO_HARDWARE_CURSORS = "1";
         INPUT_METHOD = "fcitx";

@@ -6,7 +6,7 @@
 }:
 let
   zen-wrapped = pkgs.writeShellScriptBin "zen" ''
-    exec ${inputs.zen-browser.packages.${pkgs.system}.default}/bin/zen \
+    exec ${inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default}/bin/zen \
       --profile "/home/${config.home.username}/.config/zen/${config.home.username}" \
       "$@"
   '';
@@ -29,31 +29,33 @@ let
     fi
 
     # cp ${
-      inputs.zen-browser.packages.${pkgs.system}.default
+      inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     }/share/applications/zen.desktop $out/share/applications/zen.desktop
 
     # Similar logic for desktop file
     if [ -e "${
-      inputs.zen-browser.packages.${pkgs.system}.default
+      inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     }/share/applications/zen.desktop" ]; then
       cp ${
-        inputs.zen-browser.packages.${pkgs.system}.default
+        inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
       }/share/applications/zen.desktop $out/share/applications/zen.desktop
       substituteInPlace $out/share/applications/zen.desktop --replace "Exec=zen" "Exec=${zen-wrapped}/bin/zen"
       substituteInPlace $out/share/applications/zen.desktop --replace "Icon=zen-beta" "Icon=zen"
     elif [ -e "${
-      inputs.zen-browser.packages.${pkgs.system}.default
+      inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     }/share/applications/zen-beta.desktop" ]; then
       cp ${
-        inputs.zen-browser.packages.${pkgs.system}.default
+        inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
       }/share/applications/zen-beta.desktop $out/share/applications/zen.desktop
       substituteInPlace $out/share/applications/zen.desktop --replace "Exec=zen-beta" "Exec=${zen-wrapped}/bin/zen"
       substituteInPlace $out/share/applications/zen.desktop --replace "Icon=zen-beta" "Icon=zen"
     else
       echo "Error: Neither zen.desktop nor zen-beta.desktop file found!" >&2
-      echo "Contents of ${inputs.zen-browser.packages.${pkgs.system}.default}/share/applications/:" >&2
+      echo "Contents of ${
+        inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+      }/share/applications/:" >&2
       ls -la "${
-        inputs.zen-browser.packages.${pkgs.system}.default
+        inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
       }/share/applications/" | sed 's/^/  /' >&2
       exit 1
     fi

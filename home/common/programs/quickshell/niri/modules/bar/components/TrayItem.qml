@@ -41,6 +41,7 @@ Item {
                 id: icon
                 source: {
                     let icon = root.modelData.icon;
+                    console.log("TRAY.qml:: " + icon);
                     if (icon.includes("?path=")) {
                         const [name, path] = icon.split("?path=");
                         icon = `file://${path}/${name.slice(name.lastIndexOf("/") + 1)}`;

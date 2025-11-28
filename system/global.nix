@@ -136,6 +136,7 @@ in
 
   qt = {
     enable = true;
+    # do i even need this here?
     platformTheme = "qt5ct";
   };
 
@@ -214,7 +215,7 @@ in
   # Persistence -----------------------------
   programs.fuse.userAllowOther = true;
   programs.dconf.enable = true;
-  environment.enableAllTerminfo = true;
+  # environment.enableAllTerminfo = true;
   environment.persistence."/persist" = {
     hideMounts = true;
     directories = [
