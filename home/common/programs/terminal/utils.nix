@@ -32,6 +32,9 @@
     difftastic
     bitwise
 
+    imv
+    sxiv
+
     # DEFAULT LANGUAGES i use mostly?
     zig-master
     zls-overlay

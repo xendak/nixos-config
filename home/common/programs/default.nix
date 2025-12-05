@@ -7,6 +7,7 @@
     ./discord.nix
     ./filemanager.nix
     ./anki.nix
+    ./milton.nix
     ./browser
     ./terminal # ./kitty.nix ./fish.nix ./git.nix ./nvim
     # ./kvantum

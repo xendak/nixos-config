@@ -9,6 +9,7 @@
   win10sur = pkgs.callPackage ./win10sur { };
   # breezex-cursor = pkgs.callPackage ./breezex-cursor { };
   mkxp-z = pkgs.callPackage ./mkxp-z { };
+  milton = pkgs.callPackage ./milton { };
   # yuzu-updated = pkgs.callPackage ./yuzu-updated { };
   nix-inspect = pkgs.callPackage ./nix-inspect { };
   wl-ocr = pkgs.callPackage ./wl-ocr { };

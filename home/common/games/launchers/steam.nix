@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   ...
 }:
@@ -20,6 +19,7 @@ let
         pango
         libthai
         harfbuzz
+        xdg-utils
       ];
   };
 in
@@ -41,6 +41,7 @@ in
         # }
 
         # ".config/steamtinkerlaunch"
+        ".config/MangoHud"
         ".local/share/Steam"
         "Games/Steam"
       ];
