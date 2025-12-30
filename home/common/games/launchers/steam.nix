@@ -29,6 +29,7 @@ in
     pkgs.gamescope
     pkgs.protontricks
     pkgs.mangohud
+    pkgs.umu-launcher
     # steamtinkerlaunch
   ];
 
@@ -42,6 +43,7 @@ in
 
         # ".config/steamtinkerlaunch"
         ".config/MangoHud"
+        ".local/share/umu"
         ".local/share/Steam"
         "Games/Steam"
       ];

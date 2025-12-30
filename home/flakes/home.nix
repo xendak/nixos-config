@@ -93,6 +93,7 @@
           ".config/fcitx5"
           ".config/OpenRGB"
           ".config/dconf"
+          ".config/obs-studio"
           # ".local/share/anime-game-launcher"
           # ".local/share/honkers-railway-launcher"
           # ".nixops"
@@ -113,7 +114,7 @@
       FULLSCREEN_SAVE_FILE = "$(date +%Y-%m-%d_%M).png";
       AREA_SAVE_FILE = "$(date +%Y-%m-%d_%M)_snip.png";
       AREA_CONFIG_DIR = "Snips";
-      NNN_BMS = "p:$HOME/Programming;f:$HOME/Flake;c:$HOME/.config;w:/mnt/Windows";
+      NNN_BMS = "p:$HOME/Programming;f:$HOME/Flake;c:$HOME/.config;w:/local/windows";
       SPLIT = "v";
       GTK_THEME = "${config.gtk.theme.name}:dark";
       EDITOR = "hx";
@@ -128,7 +129,8 @@
 
   monitors = [
     {
-      name = "DP-1";
+      # DP-1
+      name = "ASUSTek COMPUTER INC VG27AQL1A MBLMQS141050";
       width = 2560;
       height = 1440;
       refreshRate = 144.006;

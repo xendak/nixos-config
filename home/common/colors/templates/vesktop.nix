@@ -49,7 +49,7 @@ let
         --text-2: ${p.base05};
         --text-3: ${p.base05};
         --text-4: ${p.base04};
-        --text-5: ${p.base03};
+        --text-5: ${p.base04}90;
 
         --bg-1: ${p.base01};
         --bg-2: ${p.base02};
@@ -122,16 +122,31 @@ let
         gap: var(--gap);
       }
 
-      .title_c38106 {
-      	opacity: 0 !important;
+      .interactive_bf202d {
+        color: var(--interactive-text-default) !important;
       }
 
-      .trailing_c38106 {
-        position: relative;
-        vertical-align: center;
-        top: calc(
-          var(--custom-app-top-bar-height) + -2px + var(--custom-guild-list-padding)
-        ) !important;
+      .title_c38106 {
+      	opacity: 0 !important;
+      	display: none;
+      }
+
+      .c38106a3f0c3ca76-title {
+        display: none;
+      }
+
+      .c38106a3f0c3ca76-winButton {
+        width: 32px !important;
+        height: 32px !important; 
+      }
+
+      .c38106a3f0c3ca76-trailing {
+        top: calc(var(--top-bar-height) + var(--border-thickness));
+        right: calc(var(--gap) + var(--border-thickness));
+        gap: var(--space-xs);
+        z-index: 1000;
+        height: 32px;
+        position: relative !important;
       }
 
     '';

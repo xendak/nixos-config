@@ -63,7 +63,7 @@
       "gid=100"
       "dmask=022"
       "fmask=133"
-      "nofail"
+      "noauto"
       "x-systemd.automount"
       "x-systemd.device-timeout=5s"
     ];

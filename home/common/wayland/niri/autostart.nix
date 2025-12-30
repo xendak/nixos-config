@@ -1,8 +1,9 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 let
   home = config.home.username;
   qs_path = "/home/${home}/Flake/home/common/programs/quickshell/niri";
   wallpaper = "/home/${home}/Flake/home/common/wallpapers/13.jpg";
+  bin_path = "/home/${home}/Flake/bin/";
 
   baseCommands = [
     {
@@ -18,7 +19,7 @@ let
     {
       command = [
         # "nix-theme-switcher"
-        "/home/${home}/Flake/bin/nix-theme-starter"
+        "${bin_path}/nix-theme-starter"
         "gorgoroth"
       ];
     }
@@ -39,6 +40,13 @@ let
     {
       command = [
         "fish"
+        "${bin_path}/sync-desktop-files.fish"
+      ];
+    }
+
+    {
+      command = [
+        "fish"
         "${qs_path}/wallpaper.fish"
         "-f"
         "${wallpaper}"
@@ -50,7 +58,7 @@ let
     {
       command = [
         "sh"
-        "/home/${home}/Flake/bin/bt-once.sh"
+        "${bin_path}/bt-once.sh"
       ];
     }
     # {

@@ -1,3 +1,108 @@
+# Syncs .desktop files from Flake to user application folder
+def sync-desktop-files [] {
+  let source_dir = ($env.HOME | path join "Flake" "home" "common" "desktop")
+  let dest_dir = ($env.HOME | path join ".local" "share" "applications")
+
+  if not ($source_dir | path exists) {
+    mkdir $source_dir
+  }
+
+  print $"Syncing desktop files..."
+  print $"From: ($source_dir)"
+  print $"To:   ($dest_dir)"
+
+  ls $source_dir | where name =~ ".desktop" | each { |file|
+    let filename = ($file.name | path basename)
+    let target = ($dest_dir | path join $filename)
+    
+    ln -sf $file.name $target
+  }
+  
+  print "Sync complete!"
+}
+
+# Creates a .desktop file for Umu/Wine applications with Gamescope/MangoHud support
+def create-umu-desktop-files [
+    name: string        # The name of the application
+    exe: path           # The full path to the executable
+    --prefix: path      # Optional: Custom Wine Prefix path
+    --proton: path      # Optional: Path to specific Proton version
+    --icon: path        # Optional: Custom Icon path
+    --mangohud          # Enable MangoHud
+    --gamescope         # Enable Gamescope
+    --gamescope-args: string  # Arguments for Gamescope (e.g., "-W 1920 -H 1080 -f")
+    --topology          # Enable WINE_CPU_TOPOLOGY=8:0,2,4,6,8,10,12,14
+    --wayland           # Enable PROTON_ENABLE_WAYLAND=1
+    --async             # Enable DXVK_ASYNC=1
+    --ntsync            # Enable PROTON_USE_NTSYNC=1
+] {
+  let home = $env.HOME
+  let flake_desktop_dir = ($home | path join "Flake" "home" "common" "desktop")
+
+  let full_exe = ($exe | path expand)
+  let full_custom_prefix = if ($prefix | is-empty) { "" } else { $prefix | path expand }
+  let full_proton = if ($proton | is-empty) { "" } else { $proton | path expand }
+
+  let safe_filename = ($name | str replace --all " " "")
+
+  let final_prefix = if ($full_custom_prefix | is-empty) {
+    $home | path join "Games" "Wine-Prefix"
+  } else {
+    $full_custom_prefix
+  }
+
+  let final_icon = if ($icon | is-empty) {
+    $home | path join "Flake" "home" "common" "icons" $"($safe_filename).png"
+  } else {
+    ($safe_filename | path expand)
+  }
+
+  let e_proton = if ($full_proton | is-empty) { 
+    "" 
+  } else { 
+    $"ProtonPath=\"($full_proton)\" " 
+  }
+
+
+  # Note: Gamescope requires "--" before the internal command
+  let gs_cmd = if $gamescope { 
+    let args = if ($gamescope_args | is-empty) { "" } else { $"($gamescope_args) " }
+    $"gamescope ($args)-- " 
+  } else { 
+    "" 
+  }
+
+  # Note: Disables SMT i think? otherwise would be
+  # WINE_CPU_TOPOLOGY=16:0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+  let e_topology = if $topology { "WINE_CPU_TOPOLOGY=8:0,2,4,6,8,10,12,14 " } else { "" }
+  let e_wayland = if $wayland { "PROTON_ENABLE_WAYLAND=1 " } else { "" }
+  let e_async = if $async { "DXVK_ASYNC=1 " } else { "" }
+  let e_ntsync = if $ntsync { "PROTON_USE_NTSYNC=1 " } else { "" }
+  let e_mango = if $mangohud { "MANGOHUD=1 " } else { "" }
+
+  let final_env_vars = $"($e_proton)($e_wayland)($e_async)($e_ntsync)($e_topology)($e_mango)"
+
+  let content = $"[Desktop Entry]
+Name=($name)
+Exec=env WINEPREFIX=\"($final_prefix)\" ($final_env_vars)($gs_cmd)umu-run \"($full_exe)\"
+Icon=($final_icon)
+Type=Application
+Keywords=($name)
+MimeType=application/x-ms-dos-executable
+StartupWMClass=($name)
+"
+  
+  if not ($flake_desktop_dir | path exists) { mkdir $flake_desktop_dir }
+
+  let save_path = ($flake_desktop_dir | path join $"($safe_filename).desktop")
+  
+  $content | save --force $save_path
+  
+  print $"Created definition at: ($save_path)"
+  
+  sync-desktop-files
+}
+
 def get-fonts [s?: string] {
     ^fc-list
     | parse "{file_path}: {names_str}:style={styles_str}"

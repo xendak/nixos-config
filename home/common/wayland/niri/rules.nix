@@ -48,10 +48,17 @@ in
       }
       {
         matches = [
+          { title = "mpb"; }
+        ];
+        default-column-width.proportion = 0.5;
+        default-window-height.proportion = 0.5;
+      }
+
+      {
+        matches = [
           { app-id = "pavucontrol"; }
           { app-id = "f_terminal"; }
           { app-id = "f_yazi"; }
-          { app-id = "mpv"; }
           { app-id = "Winetricks"; }
           { app-id = "deluge"; }
           { app-id = "rustdesk"; }
@@ -61,6 +68,7 @@ in
           { app-id = "org.gnome.Nautilus"; }
           { app-id = ".blueman-manager-wrapped"; }
           { app-id = "org.fcitx."; }
+          { title = ".*mpv"; }
           { title = ".*Bitwarden.*"; }
           { title = "Picture-in-Picture"; }
         ];
@@ -114,18 +122,12 @@ in
         };
       }
       {
-        matches = [ { title = "Picture in picture"; } ];
+        matches = [
+
+          { title = "Discord Popout"; }
+          { title = "Picture in picture"; }
+        ];
         open-on-workspace = "2";
-        open-floating = true;
-        default-floating-position = {
-          x = 32;
-          y = 32;
-          relative-to = "bottom-right";
-        };
-      }
-      {
-        matches = [ { title = "Discord Popout"; } ];
-        open-on-workspace = "3";
         open-floating = true;
         default-floating-position = {
           x = 32;

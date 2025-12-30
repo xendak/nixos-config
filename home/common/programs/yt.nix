@@ -1,16 +1,17 @@
 {
   pkgs,
-  config,
   ...
 }:
 {
   home.packages = with pkgs; [
-    youtube-music
+    pear-desktop
     yt-dlp
     mpv
     mpd
     ncmpcpp
     waylyrics
+    pavucontrol
+    ytmdl
   ];
   home.persistence = {
     "/persist" = {

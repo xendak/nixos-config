@@ -118,6 +118,7 @@ Singleton {
         "btm": "bottom.svg",
         "org.pwmt.zathura": "zathura.svg",
         "vesktop": "vesktop.png",
+        "imv": "imv.svg",
         // "bottom": "bottom.svg",
     })
 

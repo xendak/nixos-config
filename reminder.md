@@ -1,3 +1,11 @@
+gamescope -W 3840 -H 2160 -w 3840 -h 2160 -r 144 -f --force-grab-cursor -- gamemoderun mangohud PROTON_ENABLE_NVAPI=1 DXVK_ASYNC=1 %command%
+
+
+gamescope -f -r 144 -H 1440 -h 1440 -- DXKV_ASYNC=1 PROTON_USE_NTSYNC=1 PROTON_FSR4_UPGRADE=1 PROTON_ENABLE_WAYLAND=1 mangohud %command% -dx12
+
+WINE_CPU_TOPOLOGY=16:0,1,2,3,4,5,6,7,16,17,18,19,20,21,22,23 PROTON_USE_NTSYNC=1 PROTON_FSR4_UPGRADE=1 
+
+
 kodansha -> https://vadasambar.github.io/kanji_order/
 
 https://tsawyer87.github.io/posts/using_nushell_with_nixos/
