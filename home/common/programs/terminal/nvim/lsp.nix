@@ -94,14 +94,6 @@
         # lua
         ''
           local rust_tools = require('rustaceanvim')
-          # vim.lsp.config('rust-analyzer', {
-          #   cmd = { "rust-analyzer" },
-          #   tools = { autoSetHints = true }
-          # })
-          # vim.lsp.enable("rust-analyzer", {
-          #   cmd = { "rust-analyzer" },
-          #   tools = { autoSetHints = true }
-          # })
           vim.api.nvim_set_hl(0, '@lsp.type.comment.rust', {})
         '';
     }

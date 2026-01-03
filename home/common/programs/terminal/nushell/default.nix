@@ -55,6 +55,7 @@ in
       shellAliases = {
         ll = "ls -a";
         fg = "job unfreeze";
+        imv = "imv-dir";
         lg = "lazygit";
         fz = "fzf --bind 'enter:become(hx {})'";
         cat = "${pkgs.bat}/bin/bat";
