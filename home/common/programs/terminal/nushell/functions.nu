@@ -21,48 +21,112 @@ def sync-desktop-files [] {
   print "Sync complete!"
 }
 
+# Download an icon from SteamGridDB
+def fetch-game-icon [game_name: string, save_path: string] {
+    let api_key = $env.STEAMGRIDDB 
+    
+    if ($api_key | is-empty) {
+        print "Warning: No STEAMGRIDDB_API_KEY found. Skipping auto-download."
+        return false
+    }
+
+    print $"Searching SteamGridDB for '($game_name)'..."
+    let search_game = ($game_name | str replace --all " " "-")
+
+    let search_url = $"https://www.steamgriddb.com/api/v2/search/autocomplete/($search_game)"
+    let search_res = (http get --headers [Authorization $"Bearer ($api_key)"] $search_url)
+
+    if ($search_res.data | is-empty) {
+        print "Game not found on SteamGridDB."
+        return false
+    }
+
+    let game_id = $search_res.data.0.id
+    print $"Found Game ID: ($game_id) (($search_res.data.0.name))"
+
+    let icon_url = $"https://www.steamgriddb.com/api/v2/icons/game/($game_id)"
+    let icon_res = (http get --headers [Authorization $"Bearer ($api_key)"] $icon_url)
+
+    if ($icon_res.data | is-empty) {
+        print "No icons found for this game."
+        return false
+    }
+
+    let icon = $icon_res.data.0.thumb
+    print $"Downloading icon: ($icon)..."
+
+    try {
+        http get $icon | save --force $save_path
+        print "Icon saved successfully."
+        return true
+    } catch {
+        print "Failed to download icon file."
+        return false
+    }
+}
+
 # Creates a .desktop file for Umu/Wine applications with Gamescope/MangoHud support
+# -- are optionals
+# PRESSURE_VESSEL_SHELL=after <- enables shell for CE $PROTONPATH/run proton ./path/to/cheatengine.exe 
 def create-umu-desktop-files [
     name: string        # The name of the application
     exe: path           # The full path to the executable
-    --prefix: path      # Optional: Custom Wine Prefix path
-    --proton: path      # Optional: Path to specific Proton version
-    --icon: path        # Optional: Custom Icon path
+    --prefix: path      # Custom Wine Prefix path
+    --proton: path      # Path to specific Proton version
+    --icon: path        # Custom Icon path (thats not in /common/icons)
+    --id: string        # GAMEID from umu-database : https://github.com/Open-Wine-Components/umu-database/blob/main/umu-database.csv
     --mangohud          # Enable MangoHud
-    --gamescope         # Enable Gamescope
-    --gamescope-args: string  # Arguments for Gamescope (e.g., "-W 1920 -H 1080 -f")
     --topology          # Enable WINE_CPU_TOPOLOGY=8:0,2,4,6,8,10,12,14
     --wayland           # Enable PROTON_ENABLE_WAYLAND=1
     --async             # Enable DXVK_ASYNC=1
     --ntsync            # Enable PROTON_USE_NTSYNC=1
+    --custom: string    # Custom Option String
+    --gamescope         # Enable Gamescope
+    --gamescope-args: string  # Arguments for Gamescope (e.g., "-W 1920 -H 1080 -f")
 ] {
   let home = $env.HOME
   let flake_desktop_dir = ($home | path join "Flake" "home" "common" "desktop")
+  let icons_dir = ($home | path join "Flake" "home" "common" "icons")
 
   let full_exe = ($exe | path expand)
   let full_custom_prefix = if ($prefix | is-empty) { "" } else { $prefix | path expand }
   let full_proton = if ($proton | is-empty) { "" } else { $proton | path expand }
-
-  let safe_filename = ($name | str replace --all " " "")
-
   let final_prefix = if ($full_custom_prefix | is-empty) {
     $home | path join "Games" "Wine-Prefix"
   } else {
     $full_custom_prefix
   }
 
-  let final_icon = if ($icon | is-empty) {
-    $home | path join "Flake" "home" "common" "icons" $"($safe_filename).png"
+  let safe_filename = ($name | str replace --all " " "")
+
+  let default_icon_path = ($icons_dir | path join $"($safe_filename).png")
+
+  let final_icon = if not ($icon | is-empty) {
+    ($icon | path expand)
   } else {
-    ($safe_filename | path expand)
+    if ($default_icon_path | path exists) {
+      $default_icon_path
+    } else {
+      print "Icon not found locally. Attempting auto-download..."
+      let success = (fetch-game-icon $name $default_icon_path)
+      if $success {
+          $default_icon_path
+      } else {
+          "" 
+      }
+    }
   }
 
   let e_proton = if ($full_proton | is-empty) { 
     "" 
   } else { 
-    $"ProtonPath=\"($full_proton)\" " 
+    $"PROTONPATH=\"($full_proton)\" " 
   }
-
+  let e_gameid = if ($id| is-empty) { 
+    "" 
+  } else { 
+    $"GAMEID=\"($id)\" " 
+  }
 
   # Note: Gamescope requires "--" before the internal command
   let gs_cmd = if $gamescope { 
@@ -79,8 +143,9 @@ def create-umu-desktop-files [
   let e_async = if $async { "DXVK_ASYNC=1 " } else { "" }
   let e_ntsync = if $ntsync { "PROTON_USE_NTSYNC=1 " } else { "" }
   let e_mango = if $mangohud { "MANGOHUD=1 " } else { "" }
+  let e_custom = if ($custom | is-empty) { "" } else { $"($custom) " }
 
-  let final_env_vars = $"($e_proton)($e_wayland)($e_async)($e_ntsync)($e_topology)($e_mango)"
+  let final_env_vars = $"($e_proton)($e_wayland)($e_async)($e_ntsync)($e_topology)($e_gameid)($e_custom)($e_mango)"
 
   let content = $"[Desktop Entry]
 Name=($name)

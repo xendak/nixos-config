@@ -53,7 +53,7 @@ in
     nushell = {
       enable = true;
       shellAliases = {
-        ll = "ls -a";
+        ll = "ls -al";
         fg = "job unfreeze";
         imv = "imv-dir";
         lg = "lazygit";
@@ -96,9 +96,13 @@ in
           $env.PROMPT_MULTILINE_INDICATOR = ""
 
           # AI key setup
-          let secret_path = ($env.HOME | path join '.ssh/gemini')
-          if ($secret_path | path exists) {
-              $env.GEMINI_API_KEY = (open $secret_path | str trim)
+          let gemini_key = ($env.HOME | path join '.ssh/gemini')
+          if ($gemini_key | path exists) {
+              $env.GEMINI_API_KEY = (open $gemini_key | str trim)
+          }
+          let steam_key = ($env.HOME | path join '.ssh/steam')
+          if ($steam_key | path exists) {
+              $env.STEAMGRIDDB = (open $steam_key | str trim)
           }
 
           $env.NU_LIB_DIRS = ($env.NU_LIB_DIRS |
