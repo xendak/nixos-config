@@ -56,7 +56,7 @@
 
     nixd # Nix LSP
     alejandra
-    nixfmt-rfc-style # Nix formatter
+    nixfmt # Nix formatter
     nvd # Differ
     nix-output-monitor
     nix-tree

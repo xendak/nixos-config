@@ -145,7 +145,7 @@ Singleton {
                     name: item.name || "",
                     username: item.user || "",
                     folder: item.folder || "",
-                    notes: item.notes || "",
+                    // notes: item.notes || "",
                     uris: item.uris || [],
                     type: "login",
                     // login: item.data 
@@ -161,7 +161,7 @@ Singleton {
                 name: Fuzzy.prepare(entry.name),
                 username: Fuzzy.prepare(entry.username),
                 folder: Fuzzy.prepare(entry.folder),
-                notes: Fuzzy.prepare(entry.notes),
+                // notes: Fuzzy.prepare(entry.notes),
                 uris: Fuzzy.prepare(entry.uris),
                 entry: entry
             }));

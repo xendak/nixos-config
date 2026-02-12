@@ -31,7 +31,11 @@
     "sd_mod"
   ];
 
-  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
+  boot.kernelParams = [
+    "amdgpu.ppfeaturemask=0xffffffff"
+    "split_lock_detect=off"
+  ];
+
   boot.kernelModules = [
     "kvm-intel"
     "amdgpu"
@@ -89,6 +93,14 @@
     group = "users";
     mode = "600";
   };
+  age.secrets.steamgriddb = {
+    file = ../../secrets/steamgriddb.age;
+    symlink = false;
+    name = "steamgriddb";
+    owner = "flakes";
+    group = "users";
+    mode = "600";
+  };
 
   age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
   # environment.etc."something".source = "${config.age.secrets.pw.path}";
@@ -123,6 +135,9 @@
               cat ${config.age.secrets.gemini-api-key.path} > "/home/flakes/.ssh/gemini"
               chown flakes:users /home/flakes/.ssh/gemini
               chmod 600 /home/flakes/.ssh/gemini
+              cat ${config.age.secrets.steamgriddb.path} > "/home/flakes/.ssh/steam"
+              chown flakes:users /home/flakes/.ssh/steam
+              chmod 600 /home/flakes/.ssh/steam
               rm -f /run/agenix/gemini
               rm -f /run/agenix/id_ed25519
               rm -f /run/agenix.d/1/gemini

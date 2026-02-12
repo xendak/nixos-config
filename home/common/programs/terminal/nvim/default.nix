@@ -131,7 +131,7 @@
         "Sudo save
         cmap w!! w !sudo tee > /dev/null %
       '';
-    extraLuaConfig =
+    initLua =
       # lua
       ''
         -- color

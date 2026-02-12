@@ -32,9 +32,10 @@
       }
     );
 
-    rbw = prev.rbw.overrideAttrs (oldAttrs: {
-      patches = (oldAttrs.patches or [ ]) ++ [ ./rbw-list-raw.patch ];
-    });
+    # TODO: fix this patch
+    # rbw = prev.rbw.overrideAttrs (oldAttrs: {
+    #   patches = (oldAttrs.patches or [ ]) ++ [ ./rbw-list-raw.patch ];
+    # });
 
     avrdude = prev.avrdude.override {
       docSupport = false;

@@ -60,7 +60,14 @@
     group = "users";
     mode = "600";
   };
-
+  age.secrets.steamgriddb = {
+    file = ../../secrets/steamgriddb.age;
+    symlink = false;
+    name = "steamgriddb";
+    owner = "drops";
+    group = "users";
+    mode = "600";
+  };
   age.secrets.pw = {
     file = ../../secrets/pw.age;
     symlink = false;
@@ -94,6 +101,9 @@
               cat ${config.age.secrets.gemini-api-key.path} > "/home/drops/.ssh/gemini"
               chown drops:users /home/drops/.ssh/gemini
               chmod 600 /home/drops/.ssh/gemini
+              cat ${config.age.secrets.steamgriddb.path} > "/home/drops/.ssh/steam"
+              chown drops:users /home/drops/.ssh/steam
+              chmod 600 /home/drops/.ssh/steam
               rm -f /run/agenix/gemini
               rm -f /run/agenix/id_ed25519
               rm -f /run/agenix.d/1/gemini

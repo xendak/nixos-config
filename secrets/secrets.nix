@@ -16,6 +16,7 @@ in
 {
   "pw.age".publicKeys = systems;
   "github-token.age".publicKeys = all;
+  "steamgriddb.age".publicKeys = all;
   "gemini-api-key.age".publicKeys = all;
 }
 

@@ -28,11 +28,12 @@ Item {
     // Determine the icon source URL
     property string iconUrl: {
         // We only care about the first URI for the icon
-        // console.log(root.modelData?.uris[0]?.[0]);
-        const uri = root.modelData?.uris[0]?.[0];
+        console.log(root.modelData?.uris);
+        const uri = root.modelData?.uris[0];
         // console.log("iconUrl: " + uri);
         if (uri) {
             const hostname = getHostname(uri);
+            console.log("hostname: " + hostname)
             if (hostname) {
                 // Use DuckDuckGo's icon service
                 return "https://icons.duckduckgo.com/ip3/" + hostname + ".ico";
