@@ -48,6 +48,7 @@ in
       }
       {
         matches = [
+          { title = ".*mpv"; }
           { title = "mpb"; }
         ];
         default-column-width.proportion = 0.5;
@@ -64,11 +65,10 @@ in
           { app-id = "rustdesk"; }
           { app-id = "steam"; }
           { app-id = "lutris"; }
-          { app-id = "org.kde.dolphin"; }
+          # { app-id = "org.kde.dolphin"; }
           { app-id = "org.gnome.Nautilus"; }
           { app-id = ".blueman-manager-wrapped"; }
           { app-id = "org.fcitx."; }
-          { title = ".*mpv"; }
           { title = ".*Bitwarden.*"; }
           { title = "Picture-in-Picture"; }
         ];

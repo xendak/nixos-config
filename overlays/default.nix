@@ -41,23 +41,25 @@
       docSupport = false;
     };
 
-    zls-overlay = inputs.zls.packages.${final.system}.default.overrideAttrs (oldAttrs: {
-      nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [
-        inputs.zig.packages.${final.system}.master
-      ];
-    });
-    zig-master = inputs.zig.packages.${final.system}."0.15.1";
+    zls-overlay =
+      inputs.zls.packages.${final.stdenv.hostPlatform.system}.default.overrideAttrs
+        (oldAttrs: {
+          nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [
+            inputs.zig.packages.${final.stdenv.hostPlatform.system}.master
+          ];
+        });
+    zig-master = inputs.zig.packages.${final.stdenv.hostPlatform.system}."0.15.1";
   };
 
   stable = final: _: {
-    stable = inputs.nixpkgs-stable.legacyPackages.${final.system};
+    stable = inputs.nixpkgs-stable.legacyPackages.${final.stdenv.hostPlatform.system};
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.unstable'
   unstable-packages = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {
-      system = final.system;
+      system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
     };
   };

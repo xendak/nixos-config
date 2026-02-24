@@ -96,7 +96,7 @@
   age.secrets.steamgriddb = {
     file = ../../secrets/steamgriddb.age;
     symlink = false;
-    name = "steamgriddb";
+    name = "steam";
     owner = "flakes";
     group = "users";
     mode = "600";

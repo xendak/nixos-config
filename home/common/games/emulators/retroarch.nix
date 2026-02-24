@@ -18,7 +18,7 @@
         mgba
       ]
       ++ (
-        if pkgs.system == "x86_64-linux" then
+        if pkgs.stdenv.hostPlatform.system == "x86_64-linux" then
           [
             # stuff that doesn't happen on ARM
             pcsx2

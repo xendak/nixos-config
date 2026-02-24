@@ -36,8 +36,8 @@
   home.packages = [
     pkgs.swayidle
     pkgs.brightnessctl
-    inputs.hyprwm-contrib.packages.${pkgs.system}.grimblast
-    # inputs.hyprpicker.packages.${pkgs.system}.hyprpicker
+    inputs.hyprwm-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast
+    # inputs.hyprpicker.packages.${pkgs.stdenv.hostPlatform.system}.hyprpicker
   ];
 
   wayland.windowManager.hyprland = {

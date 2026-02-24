@@ -3,12 +3,14 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   c = config.colorscheme.palette;
-in {
+in
+{
   wayland.windowManager.hyprland = {
     plugins = [
-      inputs.hyprland-plugins.packages.${pkgs.system}.hyprexpo
+      inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprexpo
     ];
     settings.plugin = {
       hyprexpo = {
@@ -20,7 +22,7 @@ in {
         gesture_distance = 300;
         gesture_positive = true;
       };
-      bind = ["SUPERSHIFT, tab, hyprexpo:expo, toggle"];
+      bind = [ "SUPERSHIFT, tab, hyprexpo:expo, toggle" ];
     };
   };
 }

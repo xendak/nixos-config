@@ -35,6 +35,8 @@
     sxiv
 
     # DEFAULT LANGUAGES i use mostly?
+    odin
+    ols
     zig-master
     zls-overlay
     valgrind
@@ -43,11 +45,12 @@
     llvmPackages_latest.libcxx
     llvmPackages_latest.lldb
     cppcheck
+    rr
     gdb
     # gdb front-end
     gf
 
-    inputs.uwu-colors.packages.${pkgs.system}.default
+    inputs.uwu-colors.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # language formatters
     # nodePackages.prettier

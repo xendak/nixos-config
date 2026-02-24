@@ -10,7 +10,7 @@
   programs.helix = {
     enable = true;
     package = pkgs.helix;
-    # package = inputs.helix-flake.packages.${pkgs.system}.default;
+    # package = inputs.helix-flake.packages.${pkgs.stdenv.hostPlatform.system}.default;
     extraPackages = [
       # pkgs.marksman
       pkgs.markdown-oxide

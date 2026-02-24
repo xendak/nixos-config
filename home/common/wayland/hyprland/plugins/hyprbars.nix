@@ -4,23 +4,23 @@
   lib,
   inputs,
   ...
-}: let
+}:
+let
   c = config.colorscheme.palette;
   hyprbars =
-    (inputs.hyprland-plugins.packages.${pkgs.system}.hyprbars.override {
+    (inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprbars.override {
       # Make sure it's using the same hyprland package as we are
       hyprland = config.wayland.windowManager.hyprland.package;
-    })
-    .overrideAttrs (old: {
-      # Yeet the initialization notification (I hate it)
-      postPatch =
-        (old.postPatch or "")
-        + ''
+    }).overrideAttrs
+      (old: {
+        # Yeet the initialization notification (I hate it)
+        postPatch = (old.postPatch or "") + ''
           ${lib.getExe pkgs.gnused} -i '/Initialized successfully/d' main.cpp
         '';
-      # patches = (old.patches or [ ]) ++ [ ./barDeco.patch ];
-    });
-in {
+        # patches = (old.patches or [ ]) ++ [ ./barDeco.patch ];
+      });
+in
+{
   wayland.windowManager.hyprland = {
     plugins = [
       hyprbars
@@ -42,14 +42,16 @@ in {
           ];
         };
       };
-      bind = let
-        barsEnabled = "hyprctl -j getoption plugin:hyprbars:bar_height | ${lib.getExe pkgs.jq} -re '.int != 0'";
-        setBarHeight = height: "hyprctl keyword plugin:hyprbars:bar_height ${toString height}";
-        toggleOn = setBarHeight config.wayland.windowManager.hyprland.settings.plugin.hyprbars.bar_height;
-        toggleOff = setBarHeight 0;
-      in [
-        "SUPERSHIFT,T,exec,${barsEnabled} && ${toggleOff} || ${toggleOn}"
-      ];
+      bind =
+        let
+          barsEnabled = "hyprctl -j getoption plugin:hyprbars:bar_height | ${lib.getExe pkgs.jq} -re '.int != 0'";
+          setBarHeight = height: "hyprctl keyword plugin:hyprbars:bar_height ${toString height}";
+          toggleOn = setBarHeight config.wayland.windowManager.hyprland.settings.plugin.hyprbars.bar_height;
+          toggleOff = setBarHeight 0;
+        in
+        [
+          "SUPERSHIFT,T,exec,${barsEnabled} && ${toggleOff} || ${toggleOn}"
+        ];
     };
   };
 }

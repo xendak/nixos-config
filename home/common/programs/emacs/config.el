@@ -69,6 +69,7 @@
    (zig-mode . lsp-deferred)
    (js-mode . lsp-deferred)
    (java-mode . lsp-deferred)
+   (odin-mode . lsp-deferred)
    (lsp-mode . lsp-inlay-hints-mode))
   :init
   (setq lsp-keymap-prefix "C-c l")

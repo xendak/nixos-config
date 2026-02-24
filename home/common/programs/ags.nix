@@ -2,13 +2,14 @@
   inputs,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     inputs.ags.homeManagerModules.default
   ];
 
   home.packages = [
-    inputs.matugen.packages.${pkgs.system}.default
+    inputs.matugen.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     pkgs.swww
     pkgs.glib

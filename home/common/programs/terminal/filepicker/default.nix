@@ -8,7 +8,7 @@
   imports = [ inputs.xdg-termfilepickers.homeManagerModules.default ];
   services.xdg-desktop-portal-termfilepickers =
     let
-      termfilepickers = inputs.xdg-termfilepickers.packages.${pkgs.system}.default;
+      termfilepickers = inputs.xdg-termfilepickers.packages.${pkgs.stdenv.hostPlatform.system}.default;
     in
     {
       enable = true;

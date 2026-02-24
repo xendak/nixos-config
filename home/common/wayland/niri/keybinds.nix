@@ -24,7 +24,16 @@ let
   browser = config.home.sessionVariables.BROWSER;
   # editor = config.home.sessionVariables.EDITOR;
   filebrowser = config.home.sessionVariables.FILEBROWSER;
-  termbrowser = config.home.sessionVariables.TERMBROWSER;
+  termbrowser =
+    if config.home.sessionVariables.TERMBROWSER == "yazi" then
+      [
+        "nu"
+        "-l"
+        "-c"
+        "y; nu"
+      ]
+    else
+      config.home.sessionVariables.TERMBROWSER;
   print = "/home/${config.home.username}/Pictures/Screenshots";
   tmpprint = "/home/${config.home.username}/tmp/Screenshots";
 

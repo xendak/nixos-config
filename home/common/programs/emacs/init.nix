@@ -18,7 +18,6 @@ let
   ];
 
   toElispList = files: "'(" + pkgs.lib.concatStringsSep " " (map (f: ''"${f}"'') files) + ")";
-
 in
 {
   home.file = {
@@ -31,6 +30,7 @@ in
         (set-face-attribute 'default nil :height 120)
 
         (setq use-y-or-n-p t)
+        (setq dired-kill-when-opening-new-dired-buffer t)
         (setq use-dialog-box nil)
         (setq package-check-signature nil)
         (setq read-buffer-completion-ignore-case t

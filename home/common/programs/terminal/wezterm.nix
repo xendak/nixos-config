@@ -26,7 +26,7 @@ in
   programs.wezterm = {
     enable = true;
     package = pkgs.wezterm;
-    # package = inputs.wezterm.packages.${pkgs.system}.default;
+    # package = inputs.wezterm.packages.${pkgs.stdenv.hostPlatform.system}.default;
     extraConfig = ''
       local color = dofile(wezterm.config_dir .. '/colors/current.lua')
       wezterm.add_to_config_reload_watch_list(wezterm.config_dir .. '/colors')

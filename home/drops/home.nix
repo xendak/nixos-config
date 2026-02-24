@@ -58,7 +58,7 @@
     pkgs.xdg-desktop-portal-termfilechooser
     pkgs.matugen
 
-    # inputs.zen-browser.packages.${pkgs.system}.default
+    # inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # keyboard
     pkgs.qmk
