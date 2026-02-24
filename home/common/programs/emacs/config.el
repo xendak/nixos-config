@@ -69,17 +69,31 @@
    (zig-mode . lsp-deferred)
    (js-mode . lsp-deferred)
    (java-mode . lsp-deferred)
-   (odin-mode . lsp-deferred)
-   (lsp-mode . lsp-inlay-hints-mode))
+   (odin-mode . lsp-deferred))
   :init
   (setq lsp-keymap-prefix "C-c l")
+  :custom
+  (lsp-odin-ols-download-binaries nil)
   :config
   (setq lsp-inlay-hints-enable t)
   (setq lsp-headerline-breadcrumb-mode nil)
   (setq lsp-headerline-breadcrumb-enable nil)
   (setq lsp-eldoc-enable-hover nil)
   (setq lsp-signature-render-documentation t)
+  (setq lsp-odin-server-command "ols")
+  (setq lsp-odin-ols-executable "ols")
   (setq lsp-idle-delay 0.2))
+
+(with-eval-after-load 'lsp-mode
+  ;; Define the Odin Language Server client manually
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection "ols")
+    :major-modes '(odin-mode)
+    :server-id 'ols-nix)) ; Custom ID to avoid conflict with built-in scripts
+
+  ;; Ensure the odin-mode ID matches what the LSP server expects
+  (add-to-list 'lsp-language-id-configuration '(odin-mode . "odin")))
 
 (use-package lsp-ui
   :ensure t
@@ -87,7 +101,8 @@
   :commands lsp-ui-mode
   :hook (lsp-mode . lsp-ui-mode)
   :config
-  (setq lsp-ui-doc-show-with 'childframe)
+  (setq lsp-ui-doc-use-childframe t)
+  ; (setq lsp-ui-doc-show-with 'childframe)
   (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-sideline-enable t)
   (setq lsp-ui-sideline-show-diagnostics t)
@@ -447,6 +462,9 @@
   :defer t
   :mode "\\.zig\\'")
 
+(use-package odin-mode
+  :mode ("\\.odin\\'" . odin-mode))
+
 ;; testing pascal?
 (defun my-pascal-helper ()
   (interactive)
@@ -471,6 +489,7 @@
 
 ;; Auto-mode associations for proper LSP activation
 (add-to-list 'auto-mode-alist '("\\.zig\\'" . zig-mode))
+(add-to-list 'auto-mode-alist '("\\.odin\\'" . odin-mode))
 
 (message "---> config.el loaded successfully!")
 (provide 'config)

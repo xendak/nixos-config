@@ -110,6 +110,16 @@
       epkgs.rust-mode
       epkgs.zig-mode
       epkgs.python-mode
+      (epkgs.trivialBuild {
+        pname = "odin-mode";
+        version = "latest";
+        src = pkgs.fetchFromGitHub {
+          owner = "mattt-b";
+          repo = "odin-mode";
+          rev = "master";
+          sha256 = "sha256-4Fq8OegWd7nwiOx+OCe0tQ+ivfiSrbMvjHDEQVJEpho=";
+        };
+      })
 
       epkgs.lsp-java
       epkgs.lsp-mode
