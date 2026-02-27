@@ -42,6 +42,9 @@ in
         # }
 
         # ".config/steamtinkerlaunch"
+
+        ".local/cache/mesa_shader_cache"
+        ".local/cache/radv_builtin_shaders"
         ".config/MangoHud"
         ".local/share/umu"
         ".local/share/Steam"
