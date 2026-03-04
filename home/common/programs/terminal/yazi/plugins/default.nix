@@ -1,5 +1,6 @@
 { pkgs, lib, ... }:
 let
+  # TODO: refactor this into keybinds.nix and init.nix
   pluginBinds = [
     # toml
     ''
@@ -28,6 +29,11 @@ let
       on = "<S-Enter>"
       run = "plugin augment-command -- open --interactive"
       desc = "Enter the child directory, or open the file"
+
+      [[mgr.prepend_keymap]]
+      on = "i"
+      run = "plugin augment-command -- shell --block 'bat -p --pager $PAGER %s'"
+      desc = "Open with bat"
 
       [[mgr.prepend_keymap]]
       on = "<Enter>"
@@ -66,7 +72,7 @@ in
     pkgs.bat
   ];
 
-  _module.args.pluginBinds = lib.concatStringSep "\n" pluginBinds;
+  _module.args.pluginBinds = lib.concatStringsSep "\n" pluginBinds;
   # deprecated for now
   home.file."config/yazi/plugins/smart-enter/main.lua".source = ./smart-enter.lua;
 
