@@ -25,6 +25,7 @@
     bat
     lazygit
     tree
+    ffmpeg
 
     imhex
     hexyl

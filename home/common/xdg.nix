@@ -1,6 +1,7 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   browser = [ "zen.desktop" ];
+  terminal = [ "foot.desktop" ];
 
   # XDG MIME types
   associations = {
@@ -17,6 +18,7 @@ let
     "x-scheme-handler/http" = browser;
     "x-scheme-handler/https" = browser;
     "x-scheme-handler/unknown" = browser;
+    "x-scheme-handler/terminal" = terminal;
 
     "audio/*" = [ "mpv.desktop" ];
     "video/*" = [ "mpv.dekstop" ];
@@ -29,13 +31,31 @@ let
   };
 in
 {
+
+  home.packages = [
+    pkgs.handlr-regex
+    pkgs.walker
+    (pkgs.writeShellScriptBin "xdg-open" ''handlr open "$@"'')
+    (pkgs.writeShellScriptBin "xterm" "handlr launch x-scheme-handler/terminal -- \"$@\"")
+  ];
   xdg = {
     enable = true;
     cacheHome = config.home.homeDirectory + "/.local/cache";
 
     mimeApps = {
       enable = true;
+      associations.added = associations;
       defaultApplications = associations;
+    };
+
+    # TODO: maybe not? eventually replace with qs or ags
+    configFile = {
+      "handlr/handlr.toml".text = ''
+        enable_selector = true
+        selector = "walker -d -k -p 'Open with:'"
+        term_exec_args = '-e'
+        expand_wildcards = true
+      '';
     };
 
     userDirs = {

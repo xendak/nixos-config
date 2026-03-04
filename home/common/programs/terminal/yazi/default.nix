@@ -1,24 +1,24 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  pluginBinds,
+  ...
+}:
 {
   imports = [ ./plugins ];
   home.packages = [
     pkgs.yazi
+    (pkgs._7zz.override { enableUnfree = true; })
   ];
 
   xdg.mimeApps.defaultApplications = {
     "inode/directory" = lib.mkForce [ "yazi.desktop" ];
-    # "text/xml" = [ "zen.desktop" ];
   };
 
-  home.file.".config/yazi/keymap.toml".source =
+  home.file.".config/yazi/keymap.toml".source = (
     pkgs.writeText "keymap.toml"
       # toml
       ''
-        [[mgr.prepend_keymap]]
-        on   = ["f"]
-        run  = "plugin smart-filter"
-        desc = "Iteractively go to directory"
-
         [[mgr.prepend_keymap]]
         on   = ["F"]
         run  = "filter --smart"
@@ -50,14 +50,14 @@
         desc = "Unyank"
 
         [[mgr.prepend_keymap]]
-        on   = ["Y", "y"]
-        run  = "plugin copy-file-contents content"
-        desc = "Copy file(s) content only"
+        on = "<C-s>"
+        for = "unix"
+        run = 'shell "$SHELL" --block'
+        desc = "Open shell here"
 
-        [[mgr.prepend_keymap]]
-        on   = ["Y",  "a"]
-        run  = "plugin copy-file-contents formatted"
-        desc = "Copy file(s) content only in md format"
-      '';
+      ''
+    + "\n"
+    + pluginBinds
+  );
 
 }
