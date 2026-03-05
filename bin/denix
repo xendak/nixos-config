@@ -1,5 +1,6 @@
 #!/bin/sh
+fname=$(basename "$1")
 
-cat "$1" > "/tmp/$1"
+cat "$1" > "/tmp/$fname"
 rm "$1"
-mv "/tmp/$1" ./
+mv "/tmp/$fname" "$(dirname "$1")/$fname"

@@ -54,6 +54,32 @@
       }
 
       # PLUGINS
+      # zoxide-manager
+      {
+        desc = "Reset $PWD entry in zoxide";
+        on = [
+          "<A-z>"
+          "r"
+        ];
+        run = "plugin zoxide-manager -- reset";
+      }
+      {
+        desc = "Remove $PWD from zoxide";
+        on = [
+          "<A-z>"
+          "d"
+        ];
+        run = "plugin zoxide-manager -- remove";
+      }
+      {
+        desc = "Add $PWD to zoxide";
+        on = [
+          "<A-z>"
+          "a"
+        ];
+        run = "plugin zoxide-manager -- add";
+      }
+
       {
         on = "f";
         run = "plugin smart-filter";

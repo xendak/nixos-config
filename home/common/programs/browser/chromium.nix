@@ -93,7 +93,7 @@ in
         (createChromiumExtension {
           # Vencord
           id = "cbghhgpcnddeihccjmnadmkaejncjndb";
-          sha256 = "sha256:0mzk9pgkbrm99zyn5pmw6n79d7xjgx138lgw2gayxapdwgkhjsds";
+          sha256 = "sha256:0l7bz754pgcqhs0ijdrd7cizncjvchglaqknqsrg843r2xyddsm1";
           version = "1.11.9";
         })
         (createChromiumExtension {
@@ -111,13 +111,13 @@ in
         (createChromiumExtension {
           # Bitwarden
           id = "nngceckbapebfimnlniiiahkandclblb";
-          sha256 = "sha256:1njzbgk4y4jr6x361d3v0wsn6v8g4rsjr27lx66414x9bpcnrr5w";
+          sha256 = "sha256:1fiyyl36rh9nfzsx8pcjmgwdnfpy886aklnhrjb0rvkd7zf3w1d1";
           version = "2025.3.2";
         })
         (createChromiumExtension {
           # Ublock
           id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
-          sha256 = "sha256:0c2y84bwyliqkff7xn6swvg6fbsprc65p79bvnxdh88wzqyhf3pd";
+          sha256 = "sha256:0ksbby7sim15b6ym8m3yjw3zz0942r9sg43grqpv1cckb55c4ha8";
           version = "1.63.2";
         })
       ];

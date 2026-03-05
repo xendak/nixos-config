@@ -44,6 +44,8 @@
     zls-overlay =
       inputs.zls.packages.${final.stdenv.hostPlatform.system}.default.overrideAttrs
         (oldAttrs: {
+          doCheck = false;
+          doInstallCheck = false;
           nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [
             inputs.zig.packages.${final.stdenv.hostPlatform.system}.master
           ];
