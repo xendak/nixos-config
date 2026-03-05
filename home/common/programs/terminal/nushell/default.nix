@@ -70,6 +70,7 @@ in
             "WINEPREFIX"
             "EDITOR"
             "TERMBROWSER"
+            "FILEBROWSER"
           ];
 
           mkNuVar =

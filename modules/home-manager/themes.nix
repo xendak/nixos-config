@@ -83,7 +83,10 @@ in
   };
   config = lib.mkIf cfg.enable {
     themes.generated = themesDerivation;
+
     home.packages = [
+      # hard req for now
+      pkgs.vivid
       (pkgs.writeShellApplication {
         name = "nix-theme-switcher";
         runtimeInputs = with pkgs; [
@@ -162,6 +165,29 @@ in
 
           themeTypesJson='${builtins.toJSON (lib.mapAttrs (_: p: p.type or "dark") palettes)}'
           THEME_TYPE=$(echo "$themeTypesJson" | jq -r ".[\"$THEME_NAME\"]")
+
+          # TODO: VIVID LS_COLOR
+          # VIVID_GEN_FILE="$SRC_DIR/vivid/theme.yml" 
+          # RESOLVED_THEME=""
+
+          # if [[ -f "$VIVID_GEN_FILE" ]]; then
+          #    RESOLVED_THEME="$VIVID_GEN_FILE"
+          # elif vivid themes | grep -qxw "$THEME_NAME"; then
+          #    RESOLVED_THEME="$THEME_NAME"
+          # else
+          #    if [[ "$THEME_TYPE" == "dark" ]]; then
+          #       RESOLVED_THEME="zenburn"
+          #    else
+          #       RESOLVED_THEME="rose-pine-dawn"
+          #    fi
+          # fi
+
+          # vivid generate "$RESOLVED_THEME" > /tmp/current_ls_colors
+
+          # # yazi fix
+          # if command -v ya &> /dev/null; then
+          #     ya pub dds-ls-colors --str "$(cat /tmp/current_ls_colors)"
+          # fi
 
           if [[ "$THEME_TYPE" == "dark" ]]; then
             export GTK_THEME="${config.gtk.theme.name}:dark"
