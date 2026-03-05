@@ -4,18 +4,15 @@
   lib,
   ...
 }:
-let
-  xterm = {
-    wezterm = pkgs.writeShellScriptBin "xterm" ''
-      ${pkgs.wezterm}/bin/wezterm "$@"
-    '';
-  };
-in
+# let
+#   xterm = {
+#     wezterm = pkgs.writeShellScriptBin "xterm" ''
+#       ${pkgs.wezterm}/bin/wezterm "$@"
+#     '';
+#   };
+# in
 {
   home = {
-    packages = [
-      xterm.wezterm
-    ];
     sessionVariables = {
       TERMINAL = lib.mkForce "wezterm";
     };

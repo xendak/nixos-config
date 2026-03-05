@@ -21,7 +21,7 @@
     unzip
     unrar
     p7zip-rar
-    xdg-utils
+
     bat
     lazygit
     tree
@@ -32,6 +32,8 @@
     difftastic
     bitwise
 
+    duckdb
+    glow
     imv
     sxiv
 

@@ -4,23 +4,27 @@
 }:
 let
   steam-with-pkgs = pkgs.steam.override {
-    extraPkgs =
-      pkgs: with pkgs; [
-        libxcursor
-        libxi
-        libxinerama
-        libxscrnsaver
-        libpng
-        libpulseaudio
-        libvorbis
-        stdenv.cc.cc.lib
-        libkrb5
-        keyutils
-        pango
-        libthai
-        harfbuzz
-        xdg-utils
-      ];
+    extraPkgs = pkgs: [
+      pkgs.libxcursor
+      pkgs.libxi
+      pkgs.libxinerama
+      pkgs.libxscrnsaver
+      pkgs.libpng
+      pkgs.libpulseaudio
+      pkgs.libvorbis
+      pkgs.stdenv.cc.cc.lib
+      pkgs.libkrb5
+      pkgs.keyutils
+      pkgs.pango
+      pkgs.libthai
+      pkgs.harfbuzz
+      pkgs.handlr-regex
+
+      # FIX: trying out
+      # xdg-utils
+      (pkgs.writeShellScriptBin "xdg-open" ''handlr open "$@"'')
+      (pkgs.writeShellScriptBin "xterm" "handlr launch x-scheme-handler/terminal -- \"$@\"")
+    ];
   };
 in
 {

@@ -37,6 +37,10 @@ in
     pkgs.walker
     (pkgs.writeShellScriptBin "xdg-open" ''handlr open "$@"'')
     (pkgs.writeShellScriptBin "xterm" "handlr launch x-scheme-handler/terminal -- \"$@\"")
+    # (pkgs.lib.hiPrio (pkgs.writeShellScriptBin "xdg-open" ''handlr open "$@"''))
+    # (pkgs.lib.hiPrio (
+    #   pkgs.writeShellScriptBin "xterm" "handlr launch x-scheme-handler/terminal -- \"$@\""
+    # ))
   ];
   xdg = {
     enable = true;

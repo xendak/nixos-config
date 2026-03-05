@@ -12,9 +12,9 @@
     # ...
     # });
 
-    xdg-utils-spawn-terminal = prev.xdg-utils.overrideAttrs (oldAttrs: {
-      patches = (oldAttrs.patches or [ ]) ++ [ ./xdg-open-spawn-terminal.diff ];
-    });
+    # xdg-utils-spawn-terminal = prev.xdg-utils.overrideAttrs (oldAttrs: {
+    #   patches = (oldAttrs.patches or [ ]) ++ [ ./xdg-open-spawn-terminal.diff ];
+    # });
 
     # https://github.com/rumboon/dolphin-overlay/blob/main/default.nix
     # hopefully this fixes dolphin for me.

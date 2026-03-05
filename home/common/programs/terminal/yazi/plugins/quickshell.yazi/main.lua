@@ -20,6 +20,8 @@ end)
 
 local function entry()
     local urls = get_targets()
+    local value = nil
+    local event = nil
     
     if #urls == 0 then 
         return ya.notify({ 
@@ -28,12 +30,18 @@ local function entry()
             level = "warn", 
             timeout = 3 
         })
+    elseif #urls == 1 then
+        value, event = ya.input({
+            title = "Execute:",
+            pos = { "top-center", y = 3, w = 40 },
+        })
+    else
+        value, event = ya.input({
+            title = "Execute on " .. #urls .. " items:",
+            pos = { "top-center", y = 3, w = 40 },
+        })
     end
 
-    local value, event = ya.input({
-        title = "Execute on " .. #urls .. " items:",
-        pos = { "top-center", y = 3, w = 40 },
-    })
 
     if event ~= 1 or not value or value == "" then return end
 
