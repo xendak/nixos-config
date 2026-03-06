@@ -55,22 +55,22 @@ let
         --bg-2: ${p.base02};
         --bg-3: ${p.base01};
         --bg-4: ${p.bg};
-        --hover: ${p.accent}20;
-        --active: ${p.accent}60;
+        --hover: ${p.primary}20;
+        --active: ${p.primary}60;
         --message-hover: ${p.base00};
 
         --accent-1: ${p.base0D};
         --accent-2: ${p.base0D};
-        --accent-3: ${p.accent};
+        --accent-3: ${p.primary};
         --accent-4: ${p.base0C};
         --accent-5: ${p.base0B};
         --accent-new: var(--accent-2);
 
-        --online: ${p.base0B};
-        --dnd: ${p.base08};
-        --idle: ${p.base0A};
-        --streaming: ${p.base0E};
-        --offline: var(--red-2);
+        --online: ${p.green};
+        --dnd: ${p.yellow};
+        --idle: ${p.yellow};
+        --streaming: ${p.blue};
+        --offline: ${p.on_surface_variant};
 
         --mention: linear-gradient(to right, color-mix(in hsl, var(--blue-2), transparent 90%) 40%, transparent);
         --mention-hover: linear-gradient(to right, color-mix(in hsl, var(--blue-2), transparent 95%) 40%, transparent);

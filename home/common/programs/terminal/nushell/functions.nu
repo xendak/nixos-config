@@ -235,8 +235,6 @@ def upd [
     --show-trace (-s)      # Append --show-trace to rebuild
     --no-cache (-c)        # Disable eval-cache
     --delete-old (-d)      # Collect garbage after success
-    --reboot-sys (-b)      # Reboot after everything is done
-    --shutdown-sys (-s)    # shutdown after everything is done
 ] {
     cd ($env.HOME | path join "Flake")
     
@@ -261,16 +259,6 @@ def upd [
             print "Cleaning up garbage..."
             sudo nix-collect-garbage -d
             nix-collect-garbage -d
-        }
-
-        if $reboot_sys {
-            print "Rebooting system..."
-            reboot
-        }
-
-        if $shutdown_sys {
-            print "Shutingdown system..."
-            poweroff
         }
     }
 }

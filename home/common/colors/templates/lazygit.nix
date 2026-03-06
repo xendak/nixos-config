@@ -1,6 +1,6 @@
 { paletteSet, ... }:
 let
-  p = paletteSet.palette;
+  m = paletteSet.palette;
 in
 {
   "lazygit/config.yml" =
@@ -41,14 +41,34 @@ in
         language: en
         nerdFontsVersion: '3'
         theme:
+          activeBorderColor:
+            - '${m.primary}'
+            - bold
+          inactiveBorderColor:
+            - '${m.selection_fg}'
+          searchingActiveBorderColor:
+            - '${m.secondary}'
+            - bold
+          optionsTextColor:
+            - '${m.on_surface_variant}'
           selectedLineBgColor:
-            - '${p.base02}'
+            - '${m.primary_container}'
+          selectedRangeBgColor:
+            - '${m.secondary_container}'
+          cherryPickedCommitBgColor:
+            - '${m.tertiary_container}'
+          cherryPickedCommitFgColor:
+            - '${m.on_tertiary_container}'
+          unstagedChangesColor:
+            - '${m.error}'
+          defaultFgColor:
+            - '${m.on_surface}'
         os:
           copyToClipboardCmd: 'printf "\033]52;c;$(printf {{text}} | base64)\a" > /dev/tty '
           editInTerminal: true
           editPreset: helix (hx)
-          open: xdg-open {{filename}} >/dev/null
-          openLink: xdg-open {{link}} >/dev/null
+          open: handlr open {{filename}} >/dev/null
+          openLink: handlr open {{link}} >/dev/null
         refresher:
           fetchInverval: 120
           refreshInterval: 120

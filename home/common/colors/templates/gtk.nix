@@ -1,8 +1,9 @@
 { paletteSet, config, ... }:
 let
-  p = paletteSet.palette;
+  m = paletteSet.palette;
   settingsIni =
     if paletteSet.type == "dark" then
+      # ini
       ''
         [Settings]
         gtk-application-prefer-dark-theme=1
@@ -13,6 +14,7 @@ let
         gtk-cursor-theme-size=${toString config.gtk.cursorTheme.size}
       ''
     else
+      # ini
       ''
         [Settings]
         gtk-application-prefer-dark-theme=0
@@ -24,74 +26,87 @@ let
       '';
 in
 {
-  "gtk/gtk.css" = ''
-    @define-color accent_color ${p.base0D};
-    @define-color accent_bg_color ${p.base0D};
-    @define-color accent_fg_color ${p.base00};
+  "gtk/gtk.css" =
+    # css
+    ''
+      /* ── Accent (primary) ────────────────────────────────────────────── */
+      @define-color accent_color              ${m.primary};
+      @define-color accent_bg_color           ${m.primary};
+      @define-color accent_fg_color           ${m.on_primary};
 
-    @define-color destructive_color ${p.base08};
-    @define-color destructive_bg_color ${p.base08};
-    @define-color destructive_fg_color ${p.base07};
+      /* ── Destructive (error) ─────────────────────────────────────────── */
+      @define-color destructive_color         ${m.error};
+      @define-color destructive_bg_color      ${m.error};
+      @define-color destructive_fg_color      ${m.on_error};
 
-    @define-color success_color ${p.base0B};
-    @define-color success_bg_color ${p.base0B};
-    @define-color success_fg_color ${p.base00};
+      /* ── Success (primary — M3 has no dedicated success token) ───────── */
+      @define-color success_color             ${m.primary};
+      @define-color success_bg_color          ${m.primary_container};
+      @define-color success_fg_color          ${m.on_primary_container};
 
-    @define-color warning_color ${p.base0A};
-    @define-color warning_bg_color ${p.base0A};
-    @define-color warning_fg_color ${p.base00};
+      /* ── Warning (tertiary) ──────────────────────────────────────────── */
+      @define-color warning_color             ${m.tertiary};
+      @define-color warning_bg_color          ${m.tertiary_container};
+      @define-color warning_fg_color          ${m.on_tertiary_container};
 
-    @define-color error_color ${p.base08};
-    @define-color error_bg_color ${p.base08};
-    @define-color error_fg_color ${p.base07};
+      /* ── Error ───────────────────────────────────────────────────────── */
+      @define-color error_color               ${m.error};
+      @define-color error_bg_color            ${m.error_container};
+      @define-color error_fg_color            ${m.on_error_container};
 
-    @define-color window_bg_color ${p.base00};
-    @define-color window_fg_color ${p.base05};
+      /* ── Window ──────────────────────────────────────────────────────── */
+      @define-color window_bg_color           ${m.bg};
+      @define-color window_fg_color           ${m.on_background};
 
-    @define-color view_bg_color ${p.base00};
-    @define-color view_fg_color ${p.base05};
+      /* ── View (content areas) ────────────────────────────────────────── */
+      @define-color view_bg_color             ${m.surface};
+      @define-color view_fg_color             ${m.on_surface};
 
-    @define-color headerbar_bg_color @window_bg_color;
-    @define-color headerbar_fg_color @window_fg_color;
-    @define-color headerbar_border_color @window_bg_color;
-    @define-color headerbar_backdrop_color @window_bg_color;
-    @define-color headerbar_shade_color @window_bg_color;
+      /* ── Headerbar ───────────────────────────────────────────────────── */
+      @define-color headerbar_bg_color        ${m.surface_container};
+      @define-color headerbar_fg_color        ${m.on_surface};
+      @define-color headerbar_border_color    ${m.outline_variant};
+      @define-color headerbar_backdrop_color  ${m.surface_container_low};
+      @define-color headerbar_shade_color     ${m.surface_container_high};
 
-    @define-color card_bg_color ${p.base02};
-    @define-color card_fg_color @window_fg_color;
-    @define-color card_shade_color rgba(0, 0, 0, 0.2);
+      /* ── Cards / Dialogs ─────────────────────────────────────────────── */
+      @define-color card_bg_color             ${m.surface_container};
+      @define-color card_fg_color             ${m.on_surface};
+      @define-color card_shade_color          rgba(0, 0, 0, 0.15);
 
-    @define-color dialog_bg_color @card_bg_color;
-    @define-color dialog_fg_color @card_fg_color;
+      @define-color dialog_bg_color           ${m.surface_container_high};
+      @define-color dialog_fg_color           ${m.on_surface};
 
-    @define-color popover_bg_color ${p.base01};
-    @define-color popover_fg_color @window_fg_color;
+      /* ── Popover ─────────────────────────────────────────────────────── */
+      @define-color popover_bg_color          ${m.surface_container_low};
+      @define-color popover_fg_color          ${m.on_surface};
 
-    @define-color shade_color rgba(0, 0, 0, 0.36);
-    @define-color scrollbar_outline_color rgba(0, 0, 0, 0.5);
+      /* ── Sidebar ─────────────────────────────────────────────────────── */
+      @define-color sidebar_bg_color          ${m.surface_container_low};
+      @define-color secondary_sidebar_bg_color ${m.surface_container_lowest};
+      @define-color sidebar_backdrop_color    ${m.surface_container_lowest};
+      @define-color secondary_sidebar_backdrop_color ${m.surface_container_lowest};
 
-    @define-color sidebar_bg_color ${p.base01};
-    @define-color secondary_sidebar_bg_color @sidebar_bg_color;
-    @define-color sidebar_backdrop_color @sidebar_bg_color;
-    @define-color secondary_sidebar_backdrop_color @sidebar_bg_color;
+      /* ── Misc ────────────────────────────────────────────────────────── */
+      @define-color shade_color               rgba(0, 0, 0, 0.3);
+      @define-color scrollbar_outline_color   ${m.outline_variant};
 
-    .navigation-sidebar {
-        background-color: @sidebar_bg_color;
-        color: @window_fg_color;
-    }
+      .navigation-sidebar {
+          background-color: @sidebar_bg_color;
+          color: @window_fg_color;
+      }
 
-    headerbar.default-decoration {
-        margin-bottom: 50px;
-        margin-top: -100px;
-    }
+      headerbar.default-decoration {
+          margin-bottom: 50px;
+          margin-top: -100px;
+      }
 
-    /* rm -rf window shadows */
-    window.csd,              /* gtk4? */
-    window.csd decoration { /* gtk3 */
-        box-shadow: none;
-    }
-
-  '';
+      /* rm -rf window shadows */
+      window.csd,
+      window.csd decoration {
+          box-shadow: none;
+      }
+    '';
 
   "gtk/settings.ini" = settingsIni;
 }

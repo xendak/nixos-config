@@ -5,7 +5,7 @@
 {
   themes = {
     enable = true;
-    activeTheme = "gorgoroth";
+    activeTheme = "testing";
     palettesPath = ./palettes;
     templatesPath = ./templates;
 

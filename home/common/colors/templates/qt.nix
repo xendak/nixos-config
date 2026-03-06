@@ -5,84 +5,94 @@
   ...
 }:
 let
-  p = paletteSet.palette;
+  m = paletteSet.palette;
   f = config.fontProfiles;
 
   mkQtCtScheme =
     colors: lib.concatStringsSep ", " (map (color: "#ff" + (lib.removePrefix "#" color)) colors);
 in
 {
-  # File 1: The color scheme for qt5ct and qt6ct
+  # TODO: find wtf is the highlight/hover
+  #   WindowText / ButtonText / Text  → on_surface
+  #   Window / Button / Base          → surface* containers
+  #   Highlight                       → primary
+  #   HighlightedText                 → on_primary
+  #   Link / LinkVisited              → secondary / on_secondary_container
+  #   BrightText (error signal)       → error
+  # Order: WindowText, Window, Light, Midlight, Dark, Mid, Text,
+  #        BrightText, ButtonText, Base, Window(again), Shadow,
+  #        Highlight, HighlightedText, Link, LinkVisited,
+  #        AlternateBase, NoRole, ToolTipBase, ToolTipText, PlaceholderText
   "qt/colors.conf" = lib.generators.toINI { } {
     ColorScheme = {
       active_colors = mkQtCtScheme [
-        p.base06
-        p.base00
-        p.base06
-        p.base05
-        p.base01
-        p.base02
-        p.base06
-        p.base07
-        p.base06
-        p.base02
-        p.base00
-        p.base00
-        p.accent
-        p.base00
-        p.base0D
-        p.base0E
-        p.base01
-        p.base01
-        p.base01
-        p.base06
-        p.base05
+        m.on_surface # WindowText
+        m.surface_container # Window
+        m.surface_container_high # Light
+        m.surface_container # Midlight
+        m.surface_container_low # Dark
+        m.outline_variant # Mid
+        m.on_surface # Text
+        m.error # BrightText
+        m.on_surface # ButtonText
+        m.surface # Base
+        m.surface_container_low # Window (alt)
+        m.background # Shadow
+        m.primary # Highlight
+        m.on_primary # HighlightedText
+        m.secondary # Link
+        m.on_secondary_container # LinkVisited
+        m.surface_container_low # AlternateBase
+        m.surface_container_low # NoRole
+        m.surface_container_high # ToolTipBase
+        m.on_surface # ToolTipText
+        m.outline # PlaceholderText
       ];
       inactive_colors = mkQtCtScheme [
-        p.base04
-        p.base00
-        p.base05
-        p.base04
-        p.base01
-        p.base02
-        p.base04
-        p.base05
-        p.base04
-        p.base00
-        p.base00
-        p.base00
-        p.accent
-        p.base00
-        p.base0D
-        p.base0E
-        p.base00
-        p.base01
-        p.base01
-        p.base05
-        p.base04
+        m.on_surface_variant # WindowText
+        m.surface_container_low # Window
+        m.surface_container # Light
+        m.surface_container_low # Midlight
+        m.background # Dark
+        m.outline_variant # Mid
+        m.on_surface_variant # Text
+        m.error # BrightText
+        m.on_surface_variant # ButtonText
+        m.background # Base
+        m.background # Window (alt)
+        m.background # Shadow
+        m.primary # Highlight (keep for selection)
+        m.on_primary # HighlightedText
+        m.secondary # Link
+        m.on_secondary_container # LinkVisited
+        m.background # AlternateBase
+        m.surface_container_low # NoRole
+        m.surface_container # ToolTipBase
+        m.on_surface_variant # ToolTipText
+        m.outline # PlaceholderText
       ];
       disabled_colors = mkQtCtScheme [
-        p.base04
-        p.base00
-        p.base04
-        p.base03
-        p.base00
-        p.base01
-        p.base04
-        p.base05
-        p.base04
-        p.base00
-        p.base00
-        p.base00
-        p.accent
-        p.base00
-        p.base0D
-        p.base0E
-        p.base00
-        p.base01
-        p.base01
-        p.base04
-        p.base03
+        m.outline # WindowText
+        m.surface_container_low # Window
+        m.surface_container # Light
+        m.surface_container_low # Midlight
+        m.background # Dark
+        m.outline_variant # Mid
+        m.outline # Text
+        m.error # BrightText
+        m.outline # ButtonText
+        m.background # Base
+        m.background # Window (alt)
+        m.background # Shadow
+        m.primary_container # Highlight (dimmed)
+        m.on_primary_container # HighlightedText
+        m.secondary # Link
+        m.on_secondary_container # LinkVisited
+        m.background # AlternateBase
+        m.surface_container_low # NoRole
+        m.surface_container # ToolTipBase
+        m.outline # ToolTipText
+        m.outline_variant # PlaceholderText
       ];
     };
   };
@@ -122,7 +132,6 @@ in
     [Troubleshooting]
     force_raster_widgets=1
     ignored_applications=@Invalid()
-
   '';
 
   "qt/kdeglobals" = ''
@@ -130,15 +139,15 @@ in
     update_info=kded.upd:kde3.0,mouse_cursor_theme.upd:kde3.4.99,kaccel.upd:kde3.3/r1
 
     [ColorEffects:Disabled]
-    Color=${p.base03}
+    Color=${m.outline}
     ColorAmount=0
     ColorEffect=0
     ContrastAmount=0.1
     ContrastEffect=2
 
     [ColorEffects:Inactive]
-    ChangeSelectionColor=true
-    Color=${p.base01}
+    ChangeSelectionColor=false
+    Color=${m.surface_container_low}
     ColorAmount=0.3
     ColorEffect=2
     ContrastAmount=0.4
@@ -148,78 +157,78 @@ in
     IntensityEffect=0
 
     [Colors:Button]
-    BackgroundAlternate=${p.base02}
-    BackgroundNormal=${p.base01}
-    DecorationFocus=${p.base0D}
-    DecorationHover=${p.base0C}
-    ForegroundActive=${p.base06}
-    ForegroundInactive=${p.base04}
-    ForegroundLink=${p.base0D}
-    ForegroundNegative=${p.base08}
-    ForegroundNeutral=${p.base0A}
-    ForegroundNormal=${p.base05}
-    ForegroundPositive=${p.base0B}
-    ForegroundVisited=${p.base0E}
+    BackgroundAlternate=${m.surface_container_high}
+    BackgroundNormal=${m.surface_container}
+    DecorationFocus=${m.primary}
+    DecorationHover=${m.primary}
+    ForegroundActive=${m.on_surface}
+    ForegroundInactive=${m.on_surface_variant}
+    ForegroundLink=${m.secondary}
+    ForegroundNegative=${m.error}
+    ForegroundNeutral=${m.tertiary}
+    ForegroundNormal=${m.on_surface}
+    ForegroundPositive=${m.primary}
+    ForegroundVisited=${m.on_secondary_container}
 
     [Colors:Selection]
-    BackgroundAlternate=${p.base0C}
-    BackgroundNormal=${p.base0D}
-    DecorationFocus=${p.base0D}
-    DecorationHover=${p.base0C}
-    ForegroundActive=${p.base06}
-    ForegroundInactive=${p.base04}
-    ForegroundLink=${p.base0D}
-    ForegroundNegative=${p.base08}
-    ForegroundNeutral=${p.base0A}
-    ForegroundNormal=${p.base07}
-    ForegroundPositive=${p.base0B}
-    ForegroundVisited=${p.base0E}
+    BackgroundAlternate=${m.secondary}
+    BackgroundNormal=${m.primary}
+    DecorationFocus=${m.primary}
+    DecorationHover=${m.primary}
+    ForegroundActive=${m.on_primary_container}
+    ForegroundInactive=${m.on_surface_variant}
+    ForegroundLink=${m.secondary}
+    ForegroundNegative=${m.error}
+    ForegroundNeutral=${m.tertiary}
+    ForegroundNormal=${m.on_primary_container}
+    ForegroundPositive=${m.primary}
+    ForegroundVisited=${m.on_secondary_container}
 
     [Colors:Tooltip]
-    BackgroundAlternate=${p.base02}
-    BackgroundNormal=${p.base01}
-    DecorationFocus=${p.base0D}
-    DecorationHover=${p.base0C}
-    ForegroundActive=${p.base06}
-    ForegroundInactive=${p.base04}
-    ForegroundLink=${p.base0D}
-    ForegroundNegative=${p.base08}
-    ForegroundNeutral=${p.base0A}
-    ForegroundNormal=${p.base05}
-    ForegroundPositive=${p.base0B}
-    ForegroundVisited=${p.base0E}
+    BackgroundAlternate=${m.surface_container_high}
+    BackgroundNormal=${m.surface_container}
+    DecorationFocus=${m.primary}
+    DecorationHover=${m.primary}
+    ForegroundActive=${m.on_surface}
+    ForegroundInactive=${m.on_surface_variant}
+    ForegroundLink=${m.secondary}
+    ForegroundNegative=${m.error}
+    ForegroundNeutral=${m.tertiary}
+    ForegroundNormal=${m.on_surface}
+    ForegroundPositive=${m.primary}
+    ForegroundVisited=${m.on_secondary_container}
 
     [Colors:View]
-    BackgroundAlternate=${p.base01}
-    BackgroundNormal=${p.base00}
-    DecorationFocus=${p.base0D}
-    DecorationHover=${p.base0C}
-    ForegroundActive=${p.base06}
-    ForegroundInactive=${p.base04}
-    ForegroundLink=${p.base0D}
-    ForegroundNegative=${p.base08}
-    ForegroundNeutral=${p.base0A}
-    ForegroundNormal=${p.base05}
-    ForegroundPositive=${p.base0B}
-    ForegroundVisited=${p.base0E}
+    BackgroundAlternate=${m.surface_container_high}
+    BackgroundNormal=${m.surface}
+    DecorationFocus=${m.primary}
+    DecorationHover=${m.primary}
+    ForegroundActive=${m.on_surface}
+    ForegroundInactive=${m.on_surface_variant}
+    ForegroundLink=${m.secondary}
+    ForegroundNegative=${m.error}
+    ForegroundNeutral=${m.tertiary}
+    ForegroundNormal=${m.on_surface}
+    ForegroundPositive=${m.primary}
+    ForegroundVisited=${m.on_secondary_container}
 
     [Colors:Window]
-    BackgroundAlternate=${p.base02}
-    BackgroundNormal=${p.base01}
-    DecorationFocus=${p.base0D}
-    DecorationHover=${p.base0C}
-    ForegroundActive=${p.base06}
-    ForegroundInactive=${p.base04}
-    ForegroundLink=${p.base0D}
-    ForegroundNegative=${p.base08}
-    ForegroundNeutral=${p.base0A}
-    ForegroundNormal=${p.base05}
-    ForegroundPositive=${p.base0B}
-    ForegroundVisited=${p.base0E}
+    BackgroundAlternate=${m.surface_container}
+    BackgroundNormal=${m.surface_container_low}
+    DecorationFocus=${m.primary}
+    DecorationHover=${m.primary}
+    ForegroundActive=${m.on_surface}
+    ForegroundInactive=${m.on_surface_variant}
+    ForegroundLink=${m.secondary}
+    ForegroundNegative=${m.error}
+    ForegroundNeutral=${m.tertiary}
+    ForegroundNormal=${m.on_surface}
+    ForegroundPositive=${m.primary}
+    ForegroundVisited=${m.on_secondary_container}
 
     [General]
     ColorScheme=current
-    desktofFont=${f.regular.family},12,-1,5,50,0,0,0,0,0
+    desktopFont=${f.regular.family},12,-1,5,50,0,0,0,0,0
     fixed=${f.monospace.family},12,-1,5,50,0,0,0,0,0
     font=${f.regular.family},12,-1,5,50,0,0,0,0,0
     menuFont=${f.regular.family},12,-1,5,50,0,0,0,0,0
@@ -237,12 +246,12 @@ in
     contrast=7
 
     [WM]
-    activeBackground=${p.base0D}
-    activeBlend=${p.base0C}
+    activeBackground=${m.primary}
+    activeBlend=${m.secondary}
     activeFont=${f.regular.family},12,-1,5,75,0,0,0,0,0
-    activeForeground=${p.base07}
-    inactiveBackground=${p.base02}
-    inactiveBlend=${p.base03}
-    inactiveForeground=${p.base04}
+    activeForeground=${m.on_primary}
+    inactiveBackground=${m.surface_container}
+    inactiveBlend=${m.outline_variant}
+    inactiveForeground=${m.on_surface_variant}
   '';
 }

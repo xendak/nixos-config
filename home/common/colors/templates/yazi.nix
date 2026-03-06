@@ -1,46 +1,50 @@
 { paletteSet, ... }:
 let
-  p = paletteSet.palette;
+  m = paletteSet.palette;
 in
 {
-  # maybe do this eventually? but for now lets just fix mask.
-  "yazi/theme.toml" = # toml
-    ''
-      [which]
-      mask = { bg = "${p.base02}" }
-    '';
-
   "yazi/some.toml" = # toml
     ''
+      [which]
+      mask = { bg = "${m.surface_container}" }
+    '';
+
+  "yazi/theme.toml" = # toml
+    ''
       # vim:fileencoding=utf-8:foldmethod=marker
-      # https://github.com/poperigby/gruvbox-dark-yazi/blob/main/theme.toml
+      # Material Design 3 – auto-generated
+      # Mapping:
+      #   cwd / navigation accent  → secondary
+      #   hover (selected item)    → primary_container / on_primary_container
+      #   find / search highlight  → primary
+      #   markers                  → primary / secondary / error containers
+      #   tabs active              → on_primary_container / primary_container
+      #   borders                  → outline_variant
+      #   mode badges              → on_primary / primary (normal),
+      #                             on_tertiary / tertiary (select),
+      #                             on_secondary / secondary (unset)
 
       # : Manager {{{
 
       [mgr]
-      cwd = { fg = "${p.base0D}" }
+      cwd = { fg = "${m.secondary}" }
 
-      # Hovered
-      hovered         = { fg = "${p.base00}", bg = "${p.base0D}" }
+      hovered         = { fg = "${m.on_primary_container}", bg = "${m.primary_container}" }
       preview_hovered = { underline = true }
 
-      # Find
-      find_keyword  = { fg = "${p.base0B}", italic = true }
-      find_position = { fg = "${p.base09}", bg = "reset", italic = true }
+      find_keyword  = { fg = "${m.primary}", italic = true }
+      find_position = { fg = "${m.on_primary}", bg = "reset", italic = true }
 
-      # Marker
-      marker_selected = { fg = "${p.base0B}", bg = "${p.base02}" }
-      marker_copied   = { fg = "${p.base0C}", bg = "${p.base02}" }
-      marker_cut      = { fg = "${p.base08}", bg = "${p.base02}" }
+      marker_selected = { fg = "${m.on_primary_container}",   bg = "${m.primary_container}" }
+      marker_copied   = { fg = "${m.on_secondary_container}", bg = "${m.secondary_container}" }
+      marker_cut      = { fg = "${m.on_error_container}",     bg = "${m.error_container}" }
 
-      # Tab
-      tab_active   = { fg = "${p.base00}", bg = "${p.base03}" }
-      tab_inactive = { fg = "${p.base04}", bg = "${p.base01}" }
+      tab_active   = { fg = "${m.on_primary_container}", bg = "${m.primary_container}" }
+      tab_inactive = { fg = "${m.on_surface_variant}",   bg = "${m.surface_container_low}" }
       tab_width    = 1
 
-      # Border
       border_symbol = "│"
-      border_style  = { fg = "${p.base03}" }
+      border_style  = { fg = "${m.outline_variant}" }
 
       # : }}}
 
@@ -50,34 +54,32 @@ in
       [status]
       separator_open  = ""
       separator_close = ""
-      separator_style = { fg = "${p.base01}", bg = "${p.base01}" }
+      separator_style = { fg = "${m.surface_container_low}", bg = "${m.surface_container_low}" }
 
-      # Progress
-      progress_label  = { fg = "${p.base06}", bold = true }
-      progress_normal = { fg = "${p.base03}", bg = "${p.base01}" }
-      progress_error  = { fg = "${p.base08}", bg = "${p.base01}" }
+      progress_label  = { fg = "${m.on_surface}", bold = true }
+      progress_normal = { fg = "${m.outline}",    bg = "${m.surface_container_low}" }
+      progress_error  = { fg = "${m.error}",      bg = "${m.surface_container_low}" }
 
-      # Permissions
-      permissions_t = { fg = "${p.base03}" }
-      permissions_r = { fg = "${p.base0B}" }
-      permissions_w = { fg = "${p.base08}" }
-      permissions_x = { fg = "${p.base0C}" }
-      permissions_s = { fg = "${p.base02}" }
+      permissions_t = { fg = "${m.outline}" }
+      permissions_r = { fg = "${m.primary}" }
+      permissions_w = { fg = "${m.error}" }
+      permissions_x = { fg = "${m.secondary}" }
+      permissions_s = { fg = "${m.outline_variant}" }
 
       # : }}}
 
 
-      # : mode {{{
+      # : Mode {{{
 
       [mode]
-      normal_main = { fg = "${p.base00}", bg = "${p.base0D}", bold = true }
-      normal_alt  = { fg = "${p.base00}", bg = "${p.base0D}", bold = true }
+      normal_main = { fg = "${m.on_primary}",   bg = "${m.primary}",   bold = true }
+      normal_alt  = { fg = "${m.on_primary}",   bg = "${m.primary}",   bold = true }
 
-      select_main = { fg = "${p.base00}", bg = "${p.base0B}", bold = true }
-      select_alt  = { fg = "${p.base00}", bg = "${p.base0B}", bold = true }
+      select_main = { fg = "${m.on_tertiary}",  bg = "${m.tertiary}",  bold = true }
+      select_alt  = { fg = "${m.on_tertiary}",  bg = "${m.tertiary}",  bold = true }
 
-      unset_main  = { fg = "${p.base00}", bg = "${p.base0E}", bold = true }
-      unset_alt   = { fg = "${p.base00}", bg = "${p.base0E}", bold = true }
+      unset_main  = { fg = "${m.on_secondary}", bg = "${m.secondary}", bold = true }
+      unset_alt   = { fg = "${m.on_secondary}", bg = "${m.secondary}", bold = true }
 
       # : }}}
 
@@ -85,9 +87,9 @@ in
       # : Input {{{
 
       [input]
-      border   = { fg = "${p.base03}" }
+      border   = { fg = "${m.outline}" }
       title    = {}
-      value    = { fg = "${p.base05}" }
+      value    = { fg = "${m.on_surface}" }
       selected = { reversed = true }
 
       # : }}}
@@ -96,9 +98,9 @@ in
       # : Select {{{
 
       [select]
-      border   = { fg = "${p.base03}" }
-      active   = { fg = "${p.base09}" }
-      inactive = { fg = "${p.base04}" }
+      border   = { fg = "${m.outline}" }
+      active   = { fg = "${m.primary}" }
+      inactive = { fg = "${m.on_surface_variant}" }
 
       # : }}}
 
@@ -106,7 +108,7 @@ in
       # : Tasks {{{
 
       [tasks]
-      border  = { fg = "${p.base03}" }
+      border  = { fg = "${m.outline}" }
       title   = {}
       hovered = { underline = true }
 
@@ -116,12 +118,12 @@ in
       # : Which {{{
 
       [which]
-      mask            = { bg = "${p.base02}" }
-      cand            = { fg = "${p.base0D}" }
-      rest            = { fg = "${p.base03}" }
-      desc            = { fg = "${p.base09}" }
-      separator       = "  "
-      separator_style = { fg = "${p.base03}" }
+      mask            = { bg = "${m.surface_container}" }
+      cand            = { fg = "${m.secondary}" }
+      rest            = { fg = "${m.outline}" }
+      desc            = { fg = "${m.on_surface_variant}" }
+      separator       = "  "
+      separator_style = { fg = "${m.outline_variant}" }
 
       # : }}}
 
@@ -129,11 +131,11 @@ in
       # : Help {{{
 
       [help]
-      on      = { fg = "${p.base09}" }
-      exec    = { fg = "${p.base0D}" }
-      desc    = { fg = "${p.base04}" }
-      hovered = { bg = "${p.base01}", bold = true }
-      footer  = { fg = "${p.base00}", bg = "${p.base04}" }
+      on      = { fg = "${m.primary}" }
+      exec    = { fg = "${m.secondary}" }
+      desc    = { fg = "${m.on_surface_variant}" }
+      hovered = { bg = "${m.surface_container_high}", bold = true }
+      footer  = { fg = "${m.on_primary}", bg = "${m.primary}" }
 
       # : }}}
 
@@ -142,25 +144,18 @@ in
 
       [filetype]
       rules = [
-          # Images
-          { mime = "image/*", fg = "${p.base0E}" },
-
-          # Videos
-          { mime = "video/*", fg = "${p.base0C}" },
-          { mime = "audio/*", fg = "${p.base0C}" },
-
-          # Archives
-          { mime = "application/zip",           fg = "${p.base09}" },
-          { mime = "application/gzip",          fg = "${p.base09}" },
-          { mime = "application/x-tar",         fg = "${p.base09}" },
-          { mime = "application/x-bzip",        fg = "${p.base09}" },
-          { mime = "application/x-bzip2",       fg = "${p.base09}" },
-          { mime = "application/x-7z-compressed", fg = "${p.base09}" },
-          { mime = "application/x-rar",         fg = "${p.base09}" },
-
-          # Fallback
-          { name = "*", fg = "${p.base05}" },
-          { name = "*/", fg = "${p.base0D}", bold = true }
+          { mime = "image/*",                     fg = "${m.on_secondary_container}" },
+          { mime = "video/*",                     fg = "${m.on_primary_container}" },
+          { mime = "audio/*",                     fg = "${m.on_primary_container}" },
+          { mime = "application/zip",             fg = "${m.tertiary}" },
+          { mime = "application/gzip",            fg = "${m.tertiary}" },
+          { mime = "application/x-tar",           fg = "${m.tertiary}" },
+          { mime = "application/x-bzip",          fg = "${m.tertiary}" },
+          { mime = "application/x-bzip2",         fg = "${m.tertiary}" },
+          { mime = "application/x-7z-compressed", fg = "${m.tertiary}" },
+          { mime = "application/x-rar",           fg = "${m.tertiary}" },
+          { name = "*",                           fg = "${m.on_surface}" },
+          { name = "*/",                          fg = "${m.secondary}", bold = true },
       ]
 
       # : }}}

@@ -141,10 +141,6 @@ in
                   echo "  emacs: Patching theme name..."
                   sed -i "s,base16-nix,base16-''${TIMESTAMP},g" "''${EDIR}/''${EMACSFILE}"
                 ''
-              # elif lib.hasInfix "wezterm/colors.lua" generatedPath then
-              #  sh
-              #   ''
-              #   ''
               else
                 let
                   cleanGeneratedPath = lib.elemAt (lib.splitString "_clone_" generatedPath) 0;
@@ -152,8 +148,6 @@ in
                 # sh
                 ''
                   mkdir -p "$(dirname "${targetPath}")"
-                  # rm -rf "${targetPath}"
-                  # cat "$SRC_DIR/${cleanGeneratedPath}" >"${targetPath}" || true
                   sleep 0.002
                   ln -sfn "$SRC_DIR/${cleanGeneratedPath}" "${targetPath}"
                   echo "Linked ${targetPath}"
@@ -182,12 +176,6 @@ in
           #    fi
           # fi
 
-          # vivid generate "$RESOLVED_THEME" > /tmp/current_ls_colors
-
-          # # yazi fix
-          # if command -v ya &> /dev/null; then
-          #     ya pub dds-ls-colors --str "$(cat /tmp/current_ls_colors)"
-          # fi
 
           if [[ "$THEME_TYPE" == "dark" ]]; then
             export GTK_THEME="${config.gtk.theme.name}:dark"
@@ -201,12 +189,26 @@ in
             echo "Set GTK preference to light."
           fi
 
+          PREVIEW="/home/${config.home.username}/.local/state/caelestia/scheme/preview.txt"
+          CURRENT="/home/${config.home.username}/.local/state/caelestia/scheme/current.txt"
+          echo "Deleting: old"
+          rm -f "$CURRENT"
+          sleep 0.2
+          cp -f "$PREVIEW" "$CURRENT"
+
+
           echo "(load-theme 'base16-$TIMESTAMP t)" > "$EDIR/current-theme.el"
           emacsclient -e "(load-theme 'base16-''${TIMESTAMP} t)" &> /dev/null || true &
           emacsclient -e "(load-file \"$EDIR/current-theme.el\")" &> /dev/null || true &
           echo "$(date +"%d/%m/%y | %H:%M >")" "Theme switched to $THEME_NAME." >> /tmp/theme-switcher
           pkill -USR1 hx &> /dev/null || true &
-          # notify-send "Theme Manager" --expire-time=2000 --app-name="Theme Manager" --icon=preferences-desktop-theme "Theme switched to $THEME_NAME"
+
+          vivid generate nord > /tmp/current_ls_colors
+
+          # # yazi fix
+          if command -v ya &> /dev/null; then
+              ya pub dds-ls-colors --str "$(cat /tmp/current_ls_colors)"
+          fi
         '';
       })
     ];

@@ -36,7 +36,7 @@ Singleton {
     function setNixfile(theme: string): void {
         setScheme.command = [
             "sh", "-c",
-            `nix-theme-switcher ${theme} && cat ${setNamePath} && cat ${setNamePath} > ${currentNamePath}`
+            `nix-theme-switcher ${theme}`
         ]
         notifyScheme.command = [
             "sh", "-c", 
@@ -52,7 +52,7 @@ Singleton {
         const schemeName = path.slice(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
         setScheme.command = [
             "sh", "-c",
-            `nix-theme-switcher ${schemeName} && cat ${setNamePath} && cat ${setNamePath} > ${currentNamePath}`
+            `nix-theme-switcher ${schemeName}`
         ]
         notifyScheme.command = [
             "sh", "-c", 
@@ -67,12 +67,12 @@ Singleton {
         showPreview = false;
         const schemeName = path.slice(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
         // getPreviewColoursProc.command = ["/home/flakes/tmp/nix-theme-switcher-preview", schemeName]
-        getPreviewColoursProc.command = [
-            "sh", "-c", 
-            // `/home/flakes/tmp/nix-theme-switcher-preview ${schemeName} && cat /home/flakes/.local/state/caelestia/scheme/preview.txt`
-            // `/home/flakes/tmp/helper ${schemeName} && cat ${Paths.state}/scheme/preview.txt`
-            `nix-theme-switcher ${schemeName} && cat ${setNamePath}`
-        ]
+        // getPreviewColoursProc.command = [
+        //     "sh", "-c", 
+        //     // `/home/flakes/tmp/nix-theme-switcher-preview ${schemeName} && cat /home/flakes/.local/state/caelestia/scheme/preview.txt`
+        //     // `/home/flakes/tmp/helper ${schemeName} && cat ${Paths.state}/scheme/preview.txt`
+        //         `cat ${setNamePath}`
+        // ]
 
         getPreviewColoursProc.running = true;
     }
