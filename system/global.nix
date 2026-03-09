@@ -85,6 +85,11 @@ in
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
 
     settings = {
+      trusted-users = [
+        "root"
+        "flakes"
+        "drops"
+      ];
       # was getting a warning
       download-buffer-size = 524288000;
       # Enable flakes and new 'nix' command
@@ -96,6 +101,7 @@ in
         "https://ezkea.cachix.org"
         "https://nix-community.cachix.org"
         "https://cache.nixos.org/"
+        "ssh-ng://flakes@Snow.local"
       ];
       trusted-public-keys = [
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="

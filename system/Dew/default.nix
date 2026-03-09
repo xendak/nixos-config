@@ -1,4 +1,4 @@
-# my main desktop
+# my laptop
 {
   config,
   lib,
@@ -205,6 +205,21 @@
       "remote-config-proxy-prd.uca.cloud.unity3d.com"
     ];
   };
+
+  nix.buildMachines = [
+    {
+      hostName = "Snow";
+      sshUser = "flakes";
+      sshKey = "/home/drops/.ssh/id_ed25519";
+      system = "x86_64-linux";
+      supportedFeatures = [
+        "nixos-test"
+        "benchmark"
+        "big-parallel"
+        "kvm"
+      ];
+    }
+  ];
 
   home-manager = {
     users.drops = import ../../home/drops/home.nix;
