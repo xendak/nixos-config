@@ -299,7 +299,7 @@
     avahi = {
       enable = true;
       openFirewall = true;
-      nssmdns4 = true;
+      nssmdns = true;
       publish = {
         enable = true;
         addresses = true;

@@ -96,6 +96,7 @@ in
       experimental-features = "nix-command flakes";
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
+    };
   };
 
   # Adds non sudo wally cli

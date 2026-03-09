@@ -165,24 +165,19 @@
       formatter = forEachPkgs (pkgs: pkgs.nixpkgs-fmt);
 
       nixosConfigurations = {
-        flakes = nixpkgs.lib.nixosSystem {
+        Snow = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
           };
           modules = [ ./system/Snow ];
         };
-      };
-      nixosConfigurations = {
-        drops = nixpkgs.lib.nixosSystem {
+        Dew = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
           };
           modules = [ ./system/Dew ];
         };
-      };
-
-      nixosConfigurations = {
-        nixos = nixpkgs.lib.nixosSystem {
+        wsl = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
           };
@@ -194,27 +189,21 @@
       };
 
       homeConfigurations = {
-        "Snow@flakes" = home-manager.lib.homeManagerConfiguration {
+        "flakes@Snow" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
           };
           modules = [ ./home/flakes/home.nix ];
         };
-      };
-
-      homeConfigurations = {
-        "Dew@drops" = home-manager.lib.homeManagerConfiguration {
+        "drops@Dew" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
           };
           modules = [ ./home/drops/home.nix ];
         };
-      };
-
-      homeConfigurations = {
-        "wsl@nixos" = home-manager.lib.homeManagerConfiguration {
+        "nixos@wsl" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
