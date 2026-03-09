@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  host,
+  ...
+}:
 let
   emacs_path = "/home/${config.home.username}/Flake/home/common/programs/emacs";
 
@@ -8,7 +13,7 @@ let
     "org.el"
   ];
 
-  keyboardLayout = if config.home.username == "drops" then "qwerty.el" else "rain.el";
+  keyboardLayout = if host == "Dew" then "qwerty.el" else "rain.el";
 
   startupFiles = baseFiles ++ [ keyboardLayout ];
 

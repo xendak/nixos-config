@@ -1,5 +1,6 @@
 {
   inputs,
+  host,
   lib,
   config,
   pkgs,
@@ -64,11 +65,6 @@
         colorscheme = import ../../colors/palettes/gorgoroth.nix;
         c = colorscheme.palette;
         wallpaper = "$HOME/Flake/home/common/wallpapers/13.jpg";
-        # wallpaper =
-        # if config.home.username == "drops" then
-        # "$HOME/Flake/home/common/wallpapers/1.png"
-        # else
-        # "$HOME/Flake/home/common/wallpapers/13.jpg";
       in
       {
         exec-shutdown = [ "all-sync live-to-persist" ];
@@ -84,7 +80,7 @@
           "qs -c $HOME/Flake/home/common/programs/quickshell/hyprland"
         ]
         ++ (
-          if config.home.username == "flakes" then
+          if host == "Snow" then
             [
               "sh $HOME/Flake/bin/bt-once.sh"
               "openrgb -d \"XPG Spectrix S40G\" -m Off"

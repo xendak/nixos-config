@@ -75,8 +75,8 @@
 
   # Home --------------------
   home = {
-    username = lib.mkDefault "drops";
-    homeDirectory = lib.mkDefault "/home/drops/";
+    username = lib.mkDefault "xendak";
+    homeDirectory = lib.mkDefault "/home/xendak/";
     stateVersion = lib.mkDefault "25.05";
     sessionPath = [ "$HOME/Flake/bin" ];
     persistence = {
@@ -120,7 +120,7 @@
       BROWSER = "zen";
       FILEBROWSER = "dolphin";
       TERMBROWSER = "yazi";
-      WINEPREFIX = "/home/drops/Games/Wine-Prefix";
+      WINEPREFIX = "/home/xendak/Games/Wine-Prefix";
     };
   };
 

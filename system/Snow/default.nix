@@ -103,7 +103,6 @@
   };
 
   age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
-  # environment.etc."something".source = "${config.age.secrets.pw.path}";
 
   services.greetd = {
     settings = {

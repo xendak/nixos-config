@@ -210,7 +210,8 @@ def upb [
   let flags = if $show_trace { $flags | append "--show-trace" } else { $flags }
   let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
 
-  sudo nixos-rebuild boot --flake $".#($env.USER)" ...$flags
+  let host = sys host | get hostname
+  sudo nixos-rebuild boot --flake $".#($host)" ...$flags
 
   if $env.LAST_EXIT_CODE == 0 {
     if $delete_old {
@@ -252,7 +253,8 @@ def upd [
   let flags = if $show_trace { $flags | append "--show-trace" } else { $flags }
   let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
 
-  sudo nixos-rebuild switch --flake $".#($env.USER)" ...$flags
+  let host = sys host | get hostname
+  sudo nixos-rebuild switch --flake $".#($host)" ...$flags
 
   if $env.LAST_EXIT_CODE == 0 {
     if $delete_old {

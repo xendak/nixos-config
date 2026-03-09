@@ -193,15 +193,17 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
+            host = "Snow";
           };
           modules = [ ./home/flakes/home.nix ];
         };
-        "drops@Dew" = home-manager.lib.homeManagerConfiguration {
+        "xendak@Dew" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
+            host = "Dew";
           };
-          modules = [ ./home/drops/home.nix ];
+          modules = [ ./home/xendak.nix ];
         };
         "nixos@wsl" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";

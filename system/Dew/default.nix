@@ -56,7 +56,7 @@
     file = ../../secrets/gemini-api-key.age;
     symlink = false;
     name = "gemini";
-    owner = "drops";
+    owner = "xendak";
     group = "users";
     mode = "600";
   };
@@ -64,7 +64,7 @@
     file = ../../secrets/steamgriddb.age;
     symlink = false;
     name = "steam";
-    owner = "drops";
+    owner = "xendak";
     group = "users";
     mode = "600";
   };
@@ -72,7 +72,7 @@
     file = ../../secrets/pw.age;
     symlink = false;
     name = "id_ed25519";
-    owner = "drops";
+    owner = "xendak";
     group = "users";
     mode = "600";
   };
@@ -85,7 +85,7 @@
       wants = [ "agenix.service" ];
       after = [
         "agenix.service"
-        "home-manager-drops.service"
+        "home-manager-xendak.service"
         "kanata-laptop.service"
       ];
       serviceConfig = {
@@ -94,16 +94,16 @@
           let
             script = pkgs.writeScript "myuser-start" ''
               #!${pkgs.runtimeShell}
-              mkdir -p /home/drops/.ssh
-              cat ${config.age.secrets.pw.path} > "/home/drops/.ssh/id_ed25519"
-              chown drops:users /home/drops/.ssh/id_ed25519
-              chmod 600 /home/drops/.ssh/id_ed25519
-              cat ${config.age.secrets.gemini-api-key.path} > "/home/drops/.ssh/gemini"
-              chown drops:users /home/drops/.ssh/gemini
-              chmod 600 /home/drops/.ssh/gemini
-              cat ${config.age.secrets.steamgriddb.path} > "/home/drops/.ssh/steam"
-              chown drops:users /home/drops/.ssh/steam
-              chmod 600 /home/drops/.ssh/steam
+              mkdir -p /home/xendak/.ssh
+              cat ${config.age.secrets.pw.path} > "/home/xendak/.ssh/id_ed25519"
+              chown xendak:users /home/xendak/.ssh/id_ed25519
+              chmod 600 /home/xendak/.ssh/id_ed25519
+              cat ${config.age.secrets.gemini-api-key.path} > "/home/xendak/.ssh/gemini"
+              chown xendak:users /home/xendak/.ssh/gemini
+              chmod 600 /home/xendak/.ssh/gemini
+              cat ${config.age.secrets.steamgriddb.path} > "/home/xendak/.ssh/steam"
+              chown xendak:users /home/xendak/.ssh/steam
+              chmod 600 /home/xendak/.ssh/steam
               rm -f /run/agenix/gemini
               rm -f /run/agenix/id_ed25519
               rm -f /run/agenix.d/1/gemini
@@ -114,19 +114,6 @@
       };
     };
   };
-
-  # programs.auto-cpufreq.enable = true;
-  # programs.auto-cpufreq.settings = {
-  #   charger = {
-  #     governor = "performance";
-  #     turbo = "auto";
-  #   };
-
-  #   battery = {
-  #     governor = "powersave";
-  #     turbo = "auto";
-  #   };
-  # };
 
   # NTFS-3G for Windows Partititions
   environment.systemPackages = [
@@ -146,12 +133,15 @@
 
   # User & Host -----------------------------
   nix.settings = {
+    fallback = true;
+    warn-dirty = false;
+    connect-timeout = 10;
     substituters = [
       "https://hyprland.cachix.org"
       "https://ezkea.cachix.org"
       "https://nix-community.cachix.org"
       "https://cache.nixos.org/"
-      "ssh-ng://flakes@Snow.local"
+      "ssh-ng://flakes@Snow"
     ];
     trusted-public-keys = [
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
@@ -166,7 +156,7 @@
     users.root = {
       hashedPasswordFile = "/persist/home/secrets/passwd-root";
     };
-    users.drops = {
+    users.xendak = {
       isNormalUser = true;
       shell = pkgs.nushell;
       extraGroups = [
@@ -176,10 +166,7 @@
         "wheel"
         "networkmanager"
       ];
-      hashedPasswordFile = "/persist/home/secrets/passwd-drops";
-      openssh.authorizedKeys.keys = lib.splitString "\n" (
-        builtins.readFile ../../home/common/ssh/id_ed25519.pub
-      );
+      hashedPasswordFile = "/persist/home/secrets/passwd-xendak";
       packages = [ pkgs.home-manager ];
     };
   };
@@ -226,7 +213,7 @@
     {
       hostName = "Snow";
       sshUser = "flakes";
-      sshKey = "/home/drops/.ssh/id_ed25519";
+      sshKey = "/persist/etc/ssh/ssh_host_ed25519_key";
       system = "x86_64-linux";
       supportedFeatures = [
         "nixos-test"
@@ -238,10 +225,13 @@
   ];
 
   home-manager = {
-    users.drops = import ../../home/drops/home.nix;
+    users.xendak = import ../../home/xendak.nix;
     useUserPackages = true;
     useGlobalPkgs = true;
-    extraSpecialArgs = { inherit inputs outputs; };
+    extraSpecialArgs = {
+      inherit inputs outputs;
+      host = "Dew";
+    };
     backupFileExtension = "hm-backup";
     overwriteBackup = true;
   };

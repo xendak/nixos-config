@@ -13,7 +13,19 @@ let
     config.environment ? persistence && config.environment.persistence ? "/persist";
 in
 {
-
+  users.users.xendak = {
+    # openssh.authorizedKeys.keyFiles = lib.attrsets.mapAttrsToList (name: _: pubKey name) (
+    #   (lib.splitString "\n" (builtins.readFile ../home/common/ssh/id_ed25519.pub))
+    #   ++ lib.attrsets.filterAttrs (name: _: builtins.pathExists (pubKey name)) hosts
+    # );
+    openssh.authorizedKeys.keys =
+      (lib.splitString "\n" (builtins.readFile ../home/common/ssh/id_ed25519.pub))
+      ++ (map (name: builtins.readFile ./${name}/ssh_host_ed25519_key.pub) (
+        builtins.filter (name: builtins.pathExists ./${name}/ssh_host_ed25519_key.pub) (
+          builtins.attrNames hosts
+        )
+      ));
+  };
   services.openssh = {
     enable = true;
     settings = {

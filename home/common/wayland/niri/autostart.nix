@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, host, ... }:
 let
   home = config.home.username;
   qs_path = "/home/${home}/Flake/home/common/programs/quickshell/niri";
@@ -18,7 +18,6 @@ let
     { command = [ "xwayland-satellite" ]; }
     {
       command = [
-        # "nix-theme-switcher"
         "${bin_path}/nix-theme-starter"
         "gorgoroth"
       ];
@@ -30,13 +29,6 @@ let
         "/home/${home}/tmp/Screenshots"
       ];
     }
-    # {
-    #   command = [
-    #     "qs"
-    #     "-c"
-    #     "${qs_path}"
-    #   ];
-    # }
     {
       command = [
         "fish"
@@ -61,14 +53,6 @@ let
         "${bin_path}/bt-once.sh"
       ];
     }
-    # {
-    #   command = [
-    #     "${pkgs.networkmanager}/bin/nmcli"
-    #     "radio"
-    #     "wifi"
-    #     "off"
-    #   ];
-    # }
     {
       command = [
         "openrgb"
@@ -82,5 +66,5 @@ let
 in
 {
   programs.niri.settings.spawn-at-startup =
-    baseCommands ++ (if home == "flakes" then desktopCommands else [ ]);
+    baseCommands ++ (if host == "Snow" then desktopCommands else [ ]);
 }

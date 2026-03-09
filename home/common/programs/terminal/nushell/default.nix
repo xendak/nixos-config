@@ -71,6 +71,7 @@ in
             "EDITOR"
             "TERMBROWSER"
             "FILEBROWSER"
+            "HOSTNAME"
           ];
 
           mkNuVar =

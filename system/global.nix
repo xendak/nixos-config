@@ -87,8 +87,7 @@ in
     settings = {
       trusted-users = [
         "root"
-        "flakes"
-        "drops"
+        "@wheel"
       ];
       # was getting a warning
       download-buffer-size = 524288000;
