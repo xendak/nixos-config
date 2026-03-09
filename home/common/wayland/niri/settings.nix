@@ -158,8 +158,9 @@ in
 
         keyboard = {
           xkb = {
-            layout = "us";
-            variant = "altgr-intl";
+            layout = "mine";
+            # layout = "us";
+            # variant = "altgr-intl";
             options = "ctrl:nocaps";
             rules = "evdev";
           };

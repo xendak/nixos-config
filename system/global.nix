@@ -262,6 +262,17 @@ in
   services.speechd.enable = false;
 
   services.xserver.desktopManager.runXdgAutostartIfNone = true;
+  services.xserver.xkb = {
+    layout = "mine";
+    extraLayouts = {
+      mine = {
+        description = "My custom xkb layout.";
+        languages = [ "eng" ];
+        symbolsFile = ./extras/custom_layout.xkb;
+      };
+    };
+  };
+
   # services.xserver = {
   #   enable = true;
   #   dpi = 96;

@@ -78,6 +78,7 @@
     };
 
     wezterm.url = "github:wez/wezterm?dir=nix";
+    wezterm-floating.url = "github:yasunogithub/wezterm?ref=floating-pane&dir=nix";
     # helix-flake.url = "github:helix-editor/helix";
     # matugen.url = "github:InioX/matugen";
 

@@ -1,0 +1,25 @@
+default partial alphanumeric_keys
+xkb_symbols "basic" {
+    include "us(altgr-intl)"
+
+    // Top 
+    key <AD01> { [ q, Q, egrave, Egrave ] };                      // AltGr + q -> è
+    key <AD02> { [ w, W, agrave, Agrave ] };                      // AltGr + w -> à
+    key <AD03> { [ e, E, eacute, Eacute ] };                      // AltGr + e -> é
+    key <AD04> { [ r, R, ecircumflex, Ecircumflex ] };            // AltGr + r -> ê
+    key <AD07> { [ u, U, uacute, Uacute ] };                      // AltGr + u -> ú
+    key <AD08> { [ i, I, iacute, Iacute ] };                      // AltGr + i -> í
+    key <AD09> { [ o, O, oacute, Oacute ] };                      // AltGr + o -> ó
+    key <AD10> { [ p, P, odiaeresis, Odiaeresis ] };              // AltGr + p -> ö
+
+    // Middle
+    key <AC01> { [ a, A, aacute, Aacute ] };                      // AltGr + a -> á
+    key <AC03> { [ d, D, atilde, Atilde ] };                      // AltGr + d -> ã
+    key <AC05> { [ g, G, acircumflex, Acircumflex ] };            // AltGr + g -> â
+    key <AC09> { [ l, L, oslash, Ooblique ] };                    // AltGr + l -> ø
+
+    //  Bottom 
+    key <AB06> { [ n, N, ntilde, Ntilde ] };                      // AltGr + n -> ñ
+    key <AB08> { [ comma, less, ccedilla, Ccedilla ] };           // AltGr + , -> ç
+    key <AB09> { [ period, greater, ocircumflex, Ocircumflex ] }; // AltGr + . -> ô
+};
