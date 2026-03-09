@@ -26,6 +26,7 @@ let
     "--disable-sync"
     "--disable-speech-api"
     "--disable-speech-synthesis-api"
+    "--password-store=basic"
   ];
 
   # Base Chromium package

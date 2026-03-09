@@ -88,6 +88,7 @@ in
           $env.EDITOR = "hx"
           $env.VISUAL = "hx"
           $env.config.buffer_editor = "hx"
+          $env.STARSHIP_SHELL = "nu"
 
           $env.config.cursor_shape.vi_insert = "blink_line"
           $env.config.cursor_shape.vi_normal = "blink_block"

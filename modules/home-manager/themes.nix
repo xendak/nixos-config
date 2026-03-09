@@ -160,22 +160,6 @@ in
           themeTypesJson='${builtins.toJSON (lib.mapAttrs (_: p: p.type or "dark") palettes)}'
           THEME_TYPE=$(echo "$themeTypesJson" | jq -r ".[\"$THEME_NAME\"]")
 
-          # TODO: VIVID LS_COLOR
-          # VIVID_GEN_FILE="$SRC_DIR/vivid/theme.yml" 
-          # RESOLVED_THEME=""
-
-          # if [[ -f "$VIVID_GEN_FILE" ]]; then
-          #    RESOLVED_THEME="$VIVID_GEN_FILE"
-          # elif vivid themes | grep -qxw "$THEME_NAME"; then
-          #    RESOLVED_THEME="$THEME_NAME"
-          # else
-          #    if [[ "$THEME_TYPE" == "dark" ]]; then
-          #       RESOLVED_THEME="zenburn"
-          #    else
-          #       RESOLVED_THEME="rose-pine-dawn"
-          #    fi
-          # fi
-
 
           if [[ "$THEME_TYPE" == "dark" ]]; then
             export GTK_THEME="${config.gtk.theme.name}:dark"
@@ -203,9 +187,57 @@ in
           echo "$(date +"%d/%m/%y | %H:%M >")" "Theme switched to $THEME_NAME." >> /tmp/theme-switcher
           pkill -USR1 hx &> /dev/null || true &
 
-          vivid generate nord > /tmp/current_ls_colors
+          VIVID_THEME_FILE="$SRC_DIR/vivid/themes/current.yml"
+          if [[ -f "$VIVID_THEME_FILE" ]]; then
+            vivid generate "$VIVID_THEME_FILE" > /tmp/current_ls_colors
+          elif [[ "$THEME_TYPE" == "dark" ]]; then
+            vivid generate nord > /tmp/current_ls_colors
+          else
+            vivid generate rose-pine-dawn > /tmp/current_ls_colors
+          fi
 
-          # # yazi fix
+
+          # custom vivid
+          LS_COLORS="$(cat /tmp/current_ls_colors)"
+          export LS_COLORS
+
+          # yazi fix
+
+          # Nushell
+          cat > "$HOME/.config/nushell/colors.nu" << NUEOF
+          # AUTO GENERATED
+          let color_config = {
+              separator: "dark_gray"
+              leading_trailing_space_bg: "#ffffff"
+              header: "green"
+              date: "magenta"
+              filesize: "blue"
+              row_index: "cyan"
+              hints: "dark_gray"
+              string: "white"
+              primitive: "white"
+              int: "green"
+              float: "green"
+              bool: "cyan"
+              nothing: "red"
+              binary: "magenta"
+              cellpath: "cyan"
+              duration: "yellow"
+              range: "yellow"
+              search_result: "bright-yellow"
+              shape_garbage: "bright-red"
+              shape_bool: "bright-cyan"
+              shape_int: "bright-green"
+              shape_float: "bright-green"
+              shape_range: "bright-yellow"
+              shape_string: "bright-blue"
+              shape_string_interpolation: "bright-cyan"
+          }
+
+          \$env.config.color_config = \$color_config
+          \$env.LS_COLORS = "$LS_COLORS"
+          NUEOF
+
           if command -v ya &> /dev/null; then
               ya pub dds-ls-colors --str "$(cat /tmp/current_ls_colors)"
           fi

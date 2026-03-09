@@ -102,6 +102,11 @@
           url = "*.torrent";
           run = ''faster-piper -- transmission-show "$1"'';
         }
+        {
+          name = "*.mpk";
+          run = "noop";
+        }
+
       ];
       append_previewers = [
         {
@@ -139,6 +144,10 @@
         {
           mime = "{audio}/*";
           run = "mediainfo";
+        }
+        {
+          name = "*.mpk";
+          run = "noop";
         }
       ];
     };

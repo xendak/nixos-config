@@ -198,69 +198,69 @@ def rsysd [] {
 }
 
 def upb [
-    --show-trace (-s)      # Append --show-trace to rebuild
-    --no-cache (-c)        # Disable eval-cache
-    --delete-old (-d)      # Collect garbage after success
-    --reboot-sys (-b)      # Reboot after everything is done
-    --shutdown-sys (-s)    # shutdown after everything is done
+  --show-trace (-l)      # Append --show-trace to rebuild
+  --no-cache (-c)        # Disable eval-cache
+  --delete-old (-d)      # Collect garbage after success
+  --reboot-sys (-r)      # Reboot after everything is done
+  --shutdown-sys (-u)    # shutdown after everything is done
 ] {
-    cd ($env.HOME | path join "Flake")
+  cd ($env.HOME | path join "Flake")
 
-    let flags = []
-    let flags = if $show_trace { $flags | append "--show-trace" } else { $flags }
-    let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
+  let flags = []
+  let flags = if $show_trace { $flags | append "--show-trace" } else { $flags }
+  let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
 
-    sudo nixos-rebuild boot --flake $".#($env.USER)" ...$flags
+  sudo nixos-rebuild boot --flake $".#($env.USER)" ...$flags
 
-    if $env.LAST_EXIT_CODE == 0 {
-        if $delete_old {
-            print "Cleaning up garbage..."
-            sudo nix-collect-garbage -d
-            nix-collect-garbage -d
-        }
-
-        if $reboot_sys {
-            print "Rebooting system..."
-            reboot
-        }
-
-        if $shutdown_sys {
-            print "Shutingdown system..."
-            poweroff
-        }
+  if $env.LAST_EXIT_CODE == 0 {
+    if $delete_old {
+      print "Cleaning up garbage..."
+      sudo nix-collect-garbage -d
+      nix-collect-garbage -d
     }
+
+    if $reboot_sys {
+      print "Rebooting system..."
+      reboot
+    }
+
+    if $shutdown_sys {
+      print "Shutingdown system..."
+      poweroff
+    }
+  }
 }
 
 def upd [
-    --show-trace (-s)      # Append --show-trace to rebuild
-    --no-cache (-c)        # Disable eval-cache
-    --delete-old (-d)      # Collect garbage after success
+  --show-trace (-l)      # Append --show-trace to rebuild
+  --no-cache (-c)        # Disable eval-cache
+  --delete-old (-d)      # Collect garbage after success
 ] {
-    cd ($env.HOME | path join "Flake")
-    
-    # BS home-manager doesnt replace...
-    let to_del = [
-        $"($env.HOME)/.config/gtk-2.0/gtkrc"
-        $"($env.HOME)/.config/gtk-3.0/settings.ini"
-        $"($env.HOME)/.config/gtk-4.0/gtk.css"
-        $"($env.HOME)/.config/gtk-4.0/settings.ini"
-        $"($env.HOME)/.config/zathura/zathurarc"
-    ]
-    $to_del | each {|it| if ($it | path exists) { rm $it } }
+  cd ($env.HOME | path join "Flake")
+  
+  # BS home-manager doesnt replace...
+  let to_del = [
+    $"($env.HOME)/.config/gtk-2.0/gtkrc"
+    $"($env.HOME)/.config/gtk-3.0/settings.ini"
+    $"($env.HOME)/.config/gtk-4.0/gtk.css"
+    $"($env.HOME)/.config/gtk-4.0/settings.ini"
+    $"($env.HOME)/.config/zathura/zathurarc"
+  ]
+  $to_del | each {|it| if ($it | path exists) { rm $it } }
 
-    let flags = []
-    let flags = if $show_trace { $flags | append "--show-trace" } else { $flags }
-    let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
+  let flags = []
+  let flags = if $show_trace { $flags | append "--show-trace" } else { $flags }
+  let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
 
-    sudo nixos-rebuild switch --flake $".#($env.USER)" ...$flags
+  sudo nixos-rebuild switch --flake $".#($env.USER)" ...$flags
 
-    if $env.LAST_EXIT_CODE == 0 {
-        if $delete_old {
-            print "Cleaning up garbage..."
-            sudo nix-collect-garbage -d
-            nix-collect-garbage -d
-        }
+  if $env.LAST_EXIT_CODE == 0 {
+    if $delete_old {
+      print "Cleaning up garbage..."
+      sudo nix-collect-garbage -d
+      nix-collect-garbage -d
     }
+  }
 }
 
 def et [...args: string] {
