@@ -189,13 +189,13 @@
       };
 
       homeConfigurations = {
-        "flakes@Snow" = home-manager.lib.homeManagerConfiguration {
+        "xendak@Snow" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
             host = "Snow";
           };
-          modules = [ ./home/flakes/home.nix ];
+          modules = [ ./home/xendak.nix ];
         };
         "xendak@Dew" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
@@ -209,8 +209,9 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
+            host = "wsl";
           };
-          modules = [ ./home/nixos/home.nix ];
+          modules = [ ./home/xendak.nix ];
         };
       };
     };

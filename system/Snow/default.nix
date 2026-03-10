@@ -81,7 +81,7 @@
     file = ../../secrets/pw.age;
     symlink = false;
     name = "id_ed25519";
-    owner = "flakes";
+    owner = "xendak";
     group = "users";
     mode = "600";
   };
@@ -89,7 +89,7 @@
     file = ../../secrets/gemini-api-key.age;
     symlink = false;
     name = "gemini";
-    owner = "flakes";
+    owner = "xendak";
     group = "users";
     mode = "600";
   };
@@ -97,7 +97,7 @@
     file = ../../secrets/steamgriddb.age;
     symlink = false;
     name = "steam";
-    owner = "flakes";
+    owner = "xendak";
     group = "users";
     mode = "600";
   };
@@ -108,7 +108,7 @@
     settings = {
       initial_session = {
         command = "niri-session";
-        user = "flakes";
+        user = "xendak";
       };
     };
   };
@@ -119,7 +119,7 @@
       wants = [ "agenix.service" ];
       after = [
         "agenix.service"
-        "home-manager-flakes.service"
+        "home-manager-xendak.service"
       ];
       serviceConfig = {
         Type = "oneshot";
@@ -127,16 +127,16 @@
           let
             script = pkgs.writeScript "myuser-start" ''
               #!${pkgs.runtimeShell}
-              mkdir -p /home/flakes/.ssh
-              cat ${config.age.secrets.pw.path} > "/home/flakes/.ssh/id_ed25519"
-              chown flakes:users /home/flakes/.ssh/id_ed25519
-              chmod 600 /home/flakes/.ssh/id_ed25519
-              cat ${config.age.secrets.gemini-api-key.path} > "/home/flakes/.ssh/gemini"
-              chown flakes:users /home/flakes/.ssh/gemini
-              chmod 600 /home/flakes/.ssh/gemini
-              cat ${config.age.secrets.steamgriddb.path} > "/home/flakes/.ssh/steam"
-              chown flakes:users /home/flakes/.ssh/steam
-              chmod 600 /home/flakes/.ssh/steam
+              mkdir -p /home/xendak/.ssh
+              cat ${config.age.secrets.pw.path} > "/home/xendak/.ssh/id_ed25519"
+              chown xendak:users /home/xendak/.ssh/id_ed25519
+              chmod 600 /home/xendak/.ssh/id_ed25519
+              cat ${config.age.secrets.gemini-api-key.path} > "/home/xendak/.ssh/gemini"
+              chown xendak:users /home/xendak/.ssh/gemini
+              chmod 600 /home/xendak/.ssh/gemini
+              cat ${config.age.secrets.steamgriddb.path} > "/home/xendak/.ssh/steam"
+              chown xendak:users /home/xendak/.ssh/steam
+              chmod 600 /home/xendak/.ssh/steam
               rm -f /run/agenix/gemini
               rm -f /run/agenix/id_ed25519
               rm -f /run/agenix.d/1/gemini
@@ -193,7 +193,8 @@
     users.root = {
       hashedPasswordFile = "/persist/home/secrets/passwd-root";
     };
-    users.flakes = {
+    users.xendak = {
+      uid = 1000;
       isNormalUser = true;
       shell = pkgs.nushell;
       extraGroups = [
@@ -203,10 +204,7 @@
         "wheel"
         "networkmanager"
       ];
-      hashedPasswordFile = "/persist/home/secrets/passwd-flakes";
-      openssh.authorizedKeys.keys = lib.splitString "\n" (
-        builtins.readFile ../../home/common/ssh/id_ed25519.pub
-      );
+      hashedPasswordFile = "/persist/home/secrets/passwd-xendak";
       packages = [ pkgs.home-manager ];
     };
   };
@@ -280,10 +278,13 @@
   };
 
   home-manager = {
-    users.flakes = import ../../home/flakes/home.nix;
+    users.xendak = import ../../home/xendak.nix;
     useUserPackages = true;
     useGlobalPkgs = true;
-    extraSpecialArgs = { inherit inputs outputs; };
+    extraSpecialArgs = {
+      inherit inputs outputs;
+      host = "Snow";
+    };
     backupFileExtension = "hm-backup";
     overwriteBackup = true;
   };
@@ -298,7 +299,7 @@
     avahi = {
       enable = true;
       openFirewall = true;
-      nssmdns = true;
+      nssmdns4 = true;
       publish = {
         enable = true;
         addresses = true;

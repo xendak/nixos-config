@@ -76,8 +76,8 @@
   };
 
   home = {
-    username = lib.mkDefault "flakes";
-    homeDirectory = lib.mkDefault "/home/flakes/";
+    username = lib.mkDefault "xendak";
+    homeDirectory = lib.mkDefault "/home/xendak/";
     stateVersion = lib.mkDefault "24.05";
     sessionPath = [ "$HOME/Flakes/bin" ];
     persistence = {
@@ -123,7 +123,7 @@
       BROWSER = "zen";
       FILEBROWSER = "dolphin";
       TERMBROWSER = "yazi";
-      WINEPREFIX = "/home/flakes/Games/Wine-Prefix";
+      WINEPREFIX = "/home/xendak/Games/Wine-Prefix";
     };
   };
 

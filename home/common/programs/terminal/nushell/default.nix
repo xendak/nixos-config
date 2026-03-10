@@ -53,7 +53,6 @@ in
     nushell = {
       enable = true;
       shellAliases = {
-        ll = "ls -al";
         fg = "job unfreeze";
         imv = "imv-dir";
         lg = "lazygit";

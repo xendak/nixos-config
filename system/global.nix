@@ -91,9 +91,7 @@ in
       ];
       # was getting a warning
       download-buffer-size = 524288000;
-      # Enable flakes and new 'nix' command
       experimental-features = "nix-command flakes";
-      # Deduplicate and optimize nix store
       auto-optimise-store = true;
     };
   };

@@ -1,3 +1,7 @@
+def ll [path: path = .] {
+  ls -al $path | reject target readonly num_links inode created accessed
+}
+
 # Syncs .desktop files from Flake to user application folder
 def sync-desktop-files [] {
   let source_dir = ($env.HOME | path join "Flake" "home" "common" "desktop")

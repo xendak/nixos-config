@@ -141,7 +141,7 @@
       "https://ezkea.cachix.org"
       "https://nix-community.cachix.org"
       "https://cache.nixos.org/"
-      "ssh-ng://flakes@Snow"
+      "ssh-ng://xendak@Snow"
     ];
     trusted-public-keys = [
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
@@ -212,7 +212,7 @@
   nix.buildMachines = [
     {
       hostName = "Snow";
-      sshUser = "flakes";
+      sshUser = "xendak";
       sshKey = "/persist/etc/ssh/ssh_host_ed25519_key";
       system = "x86_64-linux";
       supportedFeatures = [
