@@ -15,6 +15,7 @@ let
 in
 {
   "pw.age".publicKeys = systems;
+  "nix-cache.age".publicKeys = systems;
   "github-token.age".publicKeys = all;
   "steamgriddb.age".publicKeys = all;
   "gemini-api-key.age".publicKeys = all;
@@ -31,3 +32,4 @@ in
 
 # edit key with agenix
 # agenix -e file.age
+# sudo agenix -e pw.age -i /persist/etc/ssh/ssh_host_ed25519_key

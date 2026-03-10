@@ -77,6 +77,15 @@
     ];
   };
 
+  age.secrets.nix-cache = {
+    file = ../../secrets/nix-cache.age;
+    symlink = false;
+    name = "cache-key.priv";
+    owner = "root";
+    group = "root";
+    mode = "600";
+  };
+
   age.secrets.pw = {
     file = ../../secrets/pw.age;
     symlink = false;
@@ -101,8 +110,6 @@
     group = "users";
     mode = "600";
   };
-
-  age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
 
   services.greetd = {
     settings = {
@@ -262,6 +269,7 @@
   };
 
   nix.settings = {
+    secret-key-files = [ config.age.secrets.nix-cache.path ];
     substituters = lib.mkForce [
       "https://hyprland.cachix.org"
       "https://ezkea.cachix.org"
