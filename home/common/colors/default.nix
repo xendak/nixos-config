@@ -5,13 +5,13 @@
 {
   themes = {
     enable = true;
-    activeTheme = "testing";
+    theme = "gorgoroth-material";
     palettesPath = ./palettes;
     templatesPath = ./templates;
+    wallpaper = "/home/${config.home.username}/Flake/home/common/wallpapers/13.jpg";
 
     targets =
       let
-        # theme = config.themes.activeTheme;
         home = config.home.homeDirectory;
       in
       {

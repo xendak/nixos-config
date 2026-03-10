@@ -54,9 +54,8 @@ const bgColors = {
     105: "lightmagenta",
     106: "lightcyan",
 };
-// Define the LS_COLORS content by reading this from environment variable LS_COLORS
-const lsColorsContent = process.env.LS_COLORS;
-//const lsColorsContent = "*.patch=48;5;197;38;5;232;1";
+const lsColorsContent = process.argv[2] || process.env.LS_COLORS;
+
 // Helper function to convert RGB to Hex
 function rgbToHex(r, g, b) {
     return `#${[r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("")}`;

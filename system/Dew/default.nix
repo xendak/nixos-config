@@ -76,8 +76,6 @@
     group = "users";
     mode = "600";
   };
-  age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
-  # environment.etc."something".source = "${config.age.secrets.pw.path}";
 
   systemd.services = {
     "agenix-secrets" = {
@@ -132,24 +130,42 @@
   location.provider = "geoclue2";
 
   # User & Host -----------------------------
-  nix.settings = {
-    fallback = true;
-    warn-dirty = false;
-    connect-timeout = 10;
-    substituters = [
-      "https://cache.nixos.org/"
-      "https://hyprland.cachix.org"
-      "https://ezkea.cachix.org"
-      "https://nix-community.cachix.org"
-      "ssh-ng://xendak@Snow"
+  nix = {
+    buildMachines = [
+      {
+        hostName = "Snow";
+        sshUser = "xendak";
+        sshKey = "/persist/etc/ssh/ssh_host_ed25519_key";
+        system = "x86_64-linux";
+        supportedFeatures = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
+      }
     ];
-    trusted-public-keys = [
-      "Snow-1:ePOd1J2YyhEQZjXK3t/yA5Nt3aWFo4Bdp3ibjtW6Lpo="
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI="
-    ];
+    distributedBuilds = true;
+    settings = {
+      builders-use-substitutes = true;
+      fallback = true;
+      warn-dirty = false;
+      connect-timeout = 10;
+      substituters = [
+        "https://cache.nixos.org/"
+        "https://hyprland.cachix.org"
+        "https://ezkea.cachix.org"
+        "https://nix-community.cachix.org"
+        "ssh-ng://xendak@Snow"
+      ];
+      trusted-public-keys = [
+        "Snow-1:ePOd1J2YyhEQZjXK3t/yA5Nt3aWFo4Bdp3ibjtW6Lpo="
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI="
+      ];
+    };
   };
 
   users = {
@@ -210,21 +226,6 @@
       "remote-config-proxy-prd.uca.cloud.unity3d.com"
     ];
   };
-
-  nix.buildMachines = [
-    {
-      hostName = "Snow";
-      sshUser = "xendak";
-      sshKey = "/persist/etc/ssh/ssh_host_ed25519_key";
-      system = "x86_64-linux";
-      supportedFeatures = [
-        "nixos-test"
-        "benchmark"
-        "big-parallel"
-        "kvm"
-      ];
-    }
-  ];
 
   home-manager = {
     users.xendak = import ../../home/xendak.nix;

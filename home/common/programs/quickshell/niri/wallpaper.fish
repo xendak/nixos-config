@@ -42,6 +42,7 @@ else
 
     # The path to the last chosen wallpaper
     set last_wallpaper_path "$state_dir/last.txt"
+    set persistent_wallpaper_path "$HOME/Flake/.wallpaper"
 
     # Use wallpaper given as argument else choose random
     if set -q _flag_f
@@ -121,6 +122,7 @@ else
     # Store the wallpaper chosen
     mkdir -p $state_dir
     echo $chosen_wallpaper >$last_wallpaper_path
+    echo $chosen_wallpaper >$persistent_wallpaper_path
     ln -sf $chosen_wallpaper "$state_dir/current"
     swww img "$state_dir/current"
 end

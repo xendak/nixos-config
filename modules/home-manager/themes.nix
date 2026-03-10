@@ -8,7 +8,234 @@ let
   cfg = config.themes;
   palettes = import cfg.palettesPath { inherit lib; };
   templates = import cfg.templatesPath { inherit lib; };
+  currTheme = "/home/${config.home.username}/Flake/.theme";
+  currWallpaper = "/home/${config.home.username}/Flake/.wallpaper";
 
+  # Helper Scripter
+  # nix-theme-starter
+  nix-theme-starter = pkgs.writeShellApplication {
+    name = "nix-theme-starter";
+    runtimeInputs = with pkgs; [
+      coreutils
+      procps
+      fish
+      nix-theme-switcher
+    ];
+    text = ''
+      if [ -f "${currTheme}" ]; then
+        TARGET_THEME=$(cat "${currTheme}")
+      else
+        TARGET_THEME="${cfg.theme}"
+      fi
+
+      if [ -f "${currWallpaper}" ]; then
+        TARGET_WALL=$(cat "${currWallpaper}")
+      else
+        TARGET_WALL="${cfg.wallpaper}"
+      fi
+
+      echo "$(date +"%d/%m/%y | %H:%M >")" "Theme switched to $TARGET_THEME." >> /tmp/nix-autostart
+      echo "$(date +"%d/%m/%y | %H:%M >")" "Theme switched to $TARGET_WALL." >> /tmp/nix-autostart
+
+      nix-theme-switcher "$TARGET_THEME" &
+      fish "/home/${config.home.username}/Flake/home/common/programs/quickshell/niri/wallpaper.fish" -f "$TARGET_WALL"
+
+      [ -d "$HOME/Desktop" ] && rmdir "$HOME/Desktop" 2>/dev/null
+      [ -d "$HOME/tmp/Screenshots" ] || mkdir -p "$HOME/tmp/Screenshots" 2>/dev/null
+
+      pkill -x "quickshell" || true
+      sleep 0.1
+      qs -d -c "/home/${config.home.username}/Flake/home/common/programs/quickshell/niri/"
+    '';
+  };
+
+  # nix-theme-switcher
+  nix-theme-switcher = pkgs.writeShellApplication {
+    name = "nix-theme-switcher";
+    runtimeInputs = with pkgs; [
+      gsettings-desktop-schemas
+      jq
+      vivid
+      nodejs
+      coreutils
+      gnused
+    ];
+    bashOptions = [
+      "errexit"
+      "pipefail"
+    ];
+    text = ''
+      set -e
+
+      THEME_NAME="$1"
+      ALL_THEMES_DIR="${themesDerivation}"
+      SRC_DIR="$ALL_THEMES_DIR/$THEME_NAME"
+
+      if [[ -z "$THEME_NAME" ]]; then
+        echo "Nix: $ALL_THEMES_DIR"
+        echo "Usage: nix-theme-switcher <theme_name>"
+        echo "Available themes:"
+        find "$ALL_THEMES_DIR" -maxdepth 1 -type d -printf '%f\n' | tail -n +2 | column
+        exit 1
+      fi
+
+      if [[ ! -d "$SRC_DIR" ]]; then
+        echo "Error: Theme '$THEME_NAME' not found."
+        exit 1
+      fi
+
+      echo "Switching to theme: $THEME_NAME"
+      echo "$THEME_NAME" > "${currTheme}"
+
+      ${lib.concatStringsSep "\n" (
+        lib.mapAttrsToList (
+          generatedPath: targetPath:
+          if lib.hasInfix "emacs/themes/base16-nix" generatedPath then
+            # sh
+            ''
+              EDIR="$(dirname "${targetPath}")"
+              TIMESTAMP=$(date +%s)
+              EMACSFILE="base16-''${TIMESTAMP}-theme.el"
+
+              mkdir -p "''${EDIR}"
+
+              rm -f "''${EDIR}"/*
+              sleep 0.001
+
+              echo "  emacs: Generating new theme ''${EDIR}/''${EMACSFILE}..."
+              # cat "$SRC_DIR/${generatedPath}" > "''${EDIR}/''${EMACSFILE}"
+              ln -snf "$SRC_DIR/emacs/themes/base16-nix-theme.el"  "''${EDIR}/''${EMACSFILE}"
+
+              echo "  emacs: Patching theme name..."
+              sed -i "s,base16-nix,base16-''${TIMESTAMP},g" "''${EDIR}/''${EMACSFILE}"
+            ''
+          else if lib.hasSuffix "yazi/theme.toml" targetPath then
+            # sh
+            ''
+              # Yazi is staticaly generated for UI
+              # but needs to be dinamically generated for ICONS | LS_COLORS
+              YDIR="$(dirname "${targetPath}")"
+              mkdir -p "$YDIR"
+              VIVID_THEME="$SRC_DIR/vivid/themes/current.yml"
+              CURRENT_LS=$(vivid generate "$VIVID_THEME")
+
+              GEN_SCRIPT="/tmp/yazi_gen.js"
+              cat > "$GEN_SCRIPT" << 'NODEJS'
+              ${lib.readFile ../../home/common/colors/templates/index.js}
+              NODEJS
+
+              export LS_COLORS="$CURRENT_LS"
+              DYNAMIC_RULES=$(node "$GEN_SCRIPT")
+              {
+                cat "$SRC_DIR/yazi/theme.toml"
+                echo -e "\n[filetype]\nrules = ["
+                echo "$DYNAMIC_RULES"
+                echo "]"
+              } > "${targetPath}"  
+            ''
+          else
+            let
+              cleanGeneratedPath = lib.elemAt (lib.splitString "_clone_" generatedPath) 0;
+            in
+            # sh
+            ''
+              mkdir -p "$(dirname "${targetPath}")"
+              sleep 0.002
+              ln -sfn "$SRC_DIR/${cleanGeneratedPath}" "${targetPath}"
+              echo "Linked ${targetPath}"
+            ''
+        ) config.themes.targets
+      )}
+
+      ## needed to be rm -rf  and cat to force reload of some files... sadly
+
+      themeTypesJson='${builtins.toJSON (lib.mapAttrs (_: p: p.type or "dark") palettes)}'
+      THEME_TYPE=$(echo "$themeTypesJson" | jq -r ".[\"$THEME_NAME\"]")
+
+
+      if [[ "$THEME_TYPE" == "dark" ]]; then
+        export GTK_THEME="${config.gtk.theme.name}:dark"
+        # gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+        dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
+        echo "Set GTK preference to dark."
+      else
+        export GTK_THEME="${config.gtk.theme.name}:light"
+        # gsettings set org.gnome.desktop.interface color-scheme "prefer-light"
+        dconf write /org/gnome/desktop/interface/color-scheme "'prefer-light'"
+        echo "Set GTK preference to light."
+      fi
+
+      PREVIEW="/home/${config.home.username}/.local/state/caelestia/scheme/preview.txt"
+      CURRENT="/home/${config.home.username}/.local/state/caelestia/scheme/current.txt"
+      echo "Deleting: old"
+      rm -f "$CURRENT"
+      sleep 0.2
+      cp -f "$PREVIEW" "$CURRENT"
+
+
+      echo "(load-theme 'base16-$TIMESTAMP t)" > "$EDIR/current-theme.el"
+      emacsclient -e "(load-theme 'base16-''${TIMESTAMP} t)" &> /dev/null || true &
+      emacsclient -e "(load-file \"$EDIR/current-theme.el\")" &> /dev/null || true &
+      echo "$(date +"%d/%m/%y | %H:%M >")" "Theme switched to $THEME_NAME." >> /tmp/theme-switcher
+      pkill -USR1 hx &> /dev/null || true &
+
+      # TODO: fix this, its doing two tmes for now reason
+      VIVID_THEME_FILE="$SRC_DIR/vivid/themes/current.yml"
+      if [[ -f "$VIVID_THEME_FILE" ]]; then
+        vivid generate "$VIVID_THEME_FILE" > /tmp/current_ls_colors
+      elif [[ "$THEME_TYPE" == "dark" ]]; then
+        vivid generate nord > /tmp/current_ls_colors
+      else
+        vivid generate rose-pine-dawn > /tmp/current_ls_colors
+      fi
+
+
+      # custom vivid
+      LS_COLORS="$(cat /tmp/current_ls_colors)"
+      export LS_COLORS
+
+      # Nushell
+      cat > "$HOME/Flake/home/common/programs/terminal/nushell/colors.nu" << NUEOF
+      # AUTO GENERATED
+      let color_config = {
+          separator: "dark_gray"
+          leading_trailing_space_bg: "#ffffff"
+          header: "green"
+          date: "magenta"
+          filesize: "blue"
+          row_index: "cyan"
+          hints: "dark_gray"
+          string: "white"
+          primitive: "white"
+          int: "green"
+          float: "green"
+          bool: "cyan"
+          nothing: "red"
+          binary: "magenta"
+          cellpath: "cyan"
+          duration: "yellow"
+          range: "yellow"
+          search_result: "bright-yellow"
+          shape_garbage: "bright-red"
+          shape_bool: "bright-cyan"
+          shape_int: "bright-green"
+          shape_float: "bright-green"
+          shape_range: "bright-yellow"
+          shape_string: "bright-blue"
+          shape_string_interpolation: "bright-cyan"
+      }
+
+      \$env.config.color_config = \$color_config
+      \$env.LS_COLORS = "$LS_COLORS"
+      NUEOF
+
+      if command -v ya &> /dev/null; then
+          ya pub dds-ls-colors --str "$(cat /tmp/current_ls_colors)"
+      fi
+    '';
+  };
+
+  # Generation
   # Generate themes by combining each palette with each template
   generatedThemes = lib.mapAttrs (
     paletteName: paletteData:
@@ -48,10 +275,15 @@ in
 {
   options.themes = {
     enable = lib.mkEnableOption "Enable dynamic theming module";
-    activeTheme = lib.mkOption {
+    theme = lib.mkOption {
       type = lib.types.str;
-      default = "gorgoroth";
-      description = "The name of the currently active theme.";
+      default = "gorgoroth-material";
+      description = "The name of the default(startup) theme.";
+    };
+    wallpaper = lib.mkOption {
+      type = lib.types.str;
+      default = "/home/${config.home.username}/Flake/home/common/wallpapers/13.jpg";
+      description = "The path of the default(startup) wallpaper.";
     };
     targets = lib.mkOption {
       type = lib.types.attrsOf lib.types.str;
@@ -87,162 +319,8 @@ in
     home.packages = [
       # hard req for now
       pkgs.vivid
-      (pkgs.writeShellApplication {
-        name = "nix-theme-switcher";
-        runtimeInputs = with pkgs; [
-          gsettings-desktop-schemas
-          jq
-        ];
-        bashOptions = [
-          "errexit"
-          "pipefail"
-        ];
-        text = ''
-          set -e
-
-          THEME_NAME="$1"
-          ALL_THEMES_DIR="${themesDerivation}"
-          SRC_DIR="$ALL_THEMES_DIR/$THEME_NAME"
-
-          if [[ -z "$THEME_NAME" ]]; then
-            echo "Nix: $ALL_THEMES_DIR"
-            echo "Usage: nix-theme-switcher <theme_name>"
-            echo "Available themes:"
-            find "$ALL_THEMES_DIR" -maxdepth 1 -type d -printf '%f\n' | tail -n +2 | column
-            exit 1
-          fi
-
-          if [[ ! -d "$SRC_DIR" ]]; then
-            echo "Error: Theme '$THEME_NAME' not found."
-            exit 1
-          fi
-
-          echo "Switching to theme: $THEME_NAME"
-
-          ${lib.concatStringsSep "\n" (
-            lib.mapAttrsToList (
-              generatedPath: targetPath:
-              if lib.hasInfix "emacs/themes/base16-nix" generatedPath then
-                # sh
-                ''
-                  EDIR="$(dirname "${targetPath}")"
-                  TIMESTAMP=$(date +%s)
-                  EMACSFILE="base16-''${TIMESTAMP}-theme.el"
-
-                  mkdir -p "''${EDIR}"
-
-                  rm -f "''${EDIR}"/*
-                  sleep 0.001
-
-                  echo "  emacs: Generating new theme ''${EDIR}/''${EMACSFILE}..."
-                  # cat "$SRC_DIR/${generatedPath}" > "''${EDIR}/''${EMACSFILE}"
-                  ln -snf "$SRC_DIR/emacs/themes/base16-nix-theme.el"  "''${EDIR}/''${EMACSFILE}"
-
-                  echo "  emacs: Patching theme name..."
-                  sed -i "s,base16-nix,base16-''${TIMESTAMP},g" "''${EDIR}/''${EMACSFILE}"
-                ''
-              else
-                let
-                  cleanGeneratedPath = lib.elemAt (lib.splitString "_clone_" generatedPath) 0;
-                in
-                # sh
-                ''
-                  mkdir -p "$(dirname "${targetPath}")"
-                  sleep 0.002
-                  ln -sfn "$SRC_DIR/${cleanGeneratedPath}" "${targetPath}"
-                  echo "Linked ${targetPath}"
-                ''
-            ) config.themes.targets
-          )}
-
-          ## needed to be rm -rf  and cat to force reload of some files... sadly
-
-          themeTypesJson='${builtins.toJSON (lib.mapAttrs (_: p: p.type or "dark") palettes)}'
-          THEME_TYPE=$(echo "$themeTypesJson" | jq -r ".[\"$THEME_NAME\"]")
-
-
-          if [[ "$THEME_TYPE" == "dark" ]]; then
-            export GTK_THEME="${config.gtk.theme.name}:dark"
-            # gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
-            dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
-            echo "Set GTK preference to dark."
-          else
-            export GTK_THEME="${config.gtk.theme.name}:light"
-            # gsettings set org.gnome.desktop.interface color-scheme "prefer-light"
-            dconf write /org/gnome/desktop/interface/color-scheme "'prefer-light'"
-            echo "Set GTK preference to light."
-          fi
-
-          PREVIEW="/home/${config.home.username}/.local/state/caelestia/scheme/preview.txt"
-          CURRENT="/home/${config.home.username}/.local/state/caelestia/scheme/current.txt"
-          echo "Deleting: old"
-          rm -f "$CURRENT"
-          sleep 0.2
-          cp -f "$PREVIEW" "$CURRENT"
-
-
-          echo "(load-theme 'base16-$TIMESTAMP t)" > "$EDIR/current-theme.el"
-          emacsclient -e "(load-theme 'base16-''${TIMESTAMP} t)" &> /dev/null || true &
-          emacsclient -e "(load-file \"$EDIR/current-theme.el\")" &> /dev/null || true &
-          echo "$(date +"%d/%m/%y | %H:%M >")" "Theme switched to $THEME_NAME." >> /tmp/theme-switcher
-          pkill -USR1 hx &> /dev/null || true &
-
-          VIVID_THEME_FILE="$SRC_DIR/vivid/themes/current.yml"
-          if [[ -f "$VIVID_THEME_FILE" ]]; then
-            vivid generate "$VIVID_THEME_FILE" > /tmp/current_ls_colors
-          elif [[ "$THEME_TYPE" == "dark" ]]; then
-            vivid generate nord > /tmp/current_ls_colors
-          else
-            vivid generate rose-pine-dawn > /tmp/current_ls_colors
-          fi
-
-
-          # custom vivid
-          LS_COLORS="$(cat /tmp/current_ls_colors)"
-          export LS_COLORS
-
-          # yazi fix
-
-          # Nushell
-          cat > "$HOME/.config/nushell/colors.nu" << NUEOF
-          # AUTO GENERATED
-          let color_config = {
-              separator: "dark_gray"
-              leading_trailing_space_bg: "#ffffff"
-              header: "green"
-              date: "magenta"
-              filesize: "blue"
-              row_index: "cyan"
-              hints: "dark_gray"
-              string: "white"
-              primitive: "white"
-              int: "green"
-              float: "green"
-              bool: "cyan"
-              nothing: "red"
-              binary: "magenta"
-              cellpath: "cyan"
-              duration: "yellow"
-              range: "yellow"
-              search_result: "bright-yellow"
-              shape_garbage: "bright-red"
-              shape_bool: "bright-cyan"
-              shape_int: "bright-green"
-              shape_float: "bright-green"
-              shape_range: "bright-yellow"
-              shape_string: "bright-blue"
-              shape_string_interpolation: "bright-cyan"
-          }
-
-          \$env.config.color_config = \$color_config
-          \$env.LS_COLORS = "$LS_COLORS"
-          NUEOF
-
-          if command -v ya &> /dev/null; then
-              ya pub dds-ls-colors --str "$(cat /tmp/current_ls_colors)"
-          fi
-        '';
-      })
+      nix-theme-switcher
+      nix-theme-starter
     ];
   };
 }

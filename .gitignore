@@ -3,3 +3,6 @@
 /bin/p.sh
 /bin/nixpkgs_list
 /home/common/desktop
+/home/common/programs/terminal/nushell/colors.nu
+.theme
+.wallpaper

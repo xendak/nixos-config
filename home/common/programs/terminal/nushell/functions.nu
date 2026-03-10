@@ -207,6 +207,7 @@ def upb [
   --delete-old (-d)      # Collect garbage after success
   --reboot-sys (-r)      # Reboot after everything is done
   --shutdown-sys (-u)    # shutdown after everything is done
+  --nom (-n)             # Disables Nix Output Monitor
 ] {
   cd ($env.HOME | path join "Flake")
 
@@ -215,7 +216,12 @@ def upb [
   let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
 
   let host = sys host | get hostname
-  sudo nixos-rebuild boot --flake $".#($host)" ...$flags
+  if not $nom {
+    sudo nixos-rebuild boot --flake $".#($host)" ...$flags --log-format internal-json -v e+o>| nom --json
+  } else {
+    sudo nixos-rebuild boot --flake $".#($host)" ...$flags
+  }
+
 
   if $env.LAST_EXIT_CODE == 0 {
     if $delete_old {
@@ -240,6 +246,7 @@ def upd [
   --show-trace (-l)      # Append --show-trace to rebuild
   --no-cache (-c)        # Disable eval-cache
   --delete-old (-d)      # Collect garbage after success
+  --nom (-n)             # Disables Nix Output Monitor
 ] {
   cd ($env.HOME | path join "Flake")
   
@@ -256,9 +263,12 @@ def upd [
   let flags = []
   let flags = if $show_trace { $flags | append "--show-trace" } else { $flags }
   let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
-
   let host = sys host | get hostname
-  sudo nixos-rebuild switch --flake $".#($host)" ...$flags
+  if not $nom {
+    sudo nixos-rebuild switch --flake $".#($host)" ...$flags --log-format internal-json -v e+o>| nom --json
+  } else {
+    sudo nixos-rebuild switch --flake $".#($host)" ...$flags
+  }
 
   if $env.LAST_EXIT_CODE == 0 {
     if $delete_old {

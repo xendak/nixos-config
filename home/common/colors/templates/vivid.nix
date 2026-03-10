@@ -1,166 +1,163 @@
 { paletteSet, lib, ... }:
 let
-  m = paletteSet.palette;
+  p = paletteSet.palette;
   hex = str: lib.removePrefix "#" str;
 in
 {
   "vivid/themes/current.yml" = ''
     colors:
-      # ── M3 surface tiers ─────────────────────────────────────────────────
-      # (nord0-3 equivalents: dark background steps)
-      bg:           '${hex m.background}'
-      surface_low:  '${hex m.surface_container_low}'
-      surface:      '${hex m.surface_container}'
-      surface_high: '${hex m.surface_container_high}'
+      background:   '${hex p.background}'
+      foreground:   '${hex p.on_background}'
+      surface:      '${hex p.surface}'
+      on_surface:   '${hex p.on_surface}'
+      surface_low:  '${hex p.surface_container_low}'
+      surface_high: '${hex p.surface_container_high}'
 
-      # ── M3 foreground tiers ───────────────────────────────────────────────
-      # (nord4-6 equivalents: light text steps)
-      fg:           '${hex m.on_surface}'
-      fg_bright:    '${hex m.on_background}'
-      fg_brightest: '${hex m.inverse_on_surface}'
+      primary:      '${hex p.primary}'   # green 
+      secondary:    '${hex p.secondary}' # yellow
+      tertiary:     '${hex p.tertiary}'  # blue
+      on_primary:   '${hex p.on_primary}'
+      on_secondary: '${hex p.on_secondary}'
+      on_tertiary:  '${hex p.on_tertiary}'
 
-      # ── M3 accent tiers ───────────────────────────────────────────────────
-      pri_cont:     '${hex m.on_primary_container}'    # nord7  teal-ish
-      pri:          '${hex m.primary}'                 # nord8  primary
-      sec:          '${hex m.secondary}'               # nord9  secondary
-      sec_dark:     '${hex m.on_secondary_container}'  # nord10 darker secondary
+      green:        '${hex p.green}'
+      yellow:       '${hex p.yellow}'
+      blue:         '${hex p.blue}'
+      grey:         '${hex p.grey}'
+      red:          '${hex p.red}'
+      magenta:      '${hex p.magenta}'
+      cyan:         '${hex p.cyan}'
+      orange:       '${hex p.orange}'
 
-      # ── M3 semantic colors ────────────────────────────────────────────────
-      error:        '${hex m.error}'                   # nord11 red
-      tertiary:     '${hex m.tertiary}'                # nord12 orange-ish
-      ter_cont:     '${hex m.on_tertiary_container}'   # nord13 yellow-ish
-      green:        '${hex m.primary}'                 # nord14 green → primary
-      magenta:      '${hex m.on_secondary_container}'  # nord15 magenta
-
-      dim_fg:       '${hex m.outline}'                 # dim-foreground
+      dim:          '${hex p.selection_fg}'
 
     core:
       normal_text:
-        foreground: dim_fg
+        foreground: dim
+
       reset_to_normal:
-        background: bg
-        foreground: fg
+        background: background
+        foreground: foreground
         font-style: regular
 
-    # ── File Types ───────────────────────────────────────────────────────────
+    # File Types
       regular_file:
-        foreground: fg
+        foreground: foreground
 
       directory:
-        foreground: sec_dark
+        foreground: blue
         font-style: bold
 
       multi_hard_link:
-        foreground: pri
+        foreground: blue
         font-style: underline
 
       symlink:
-        foreground: pri
+        foreground: blue
 
       broken_symlink:
-        foreground: error
+        foreground: red
 
       missing_symlink_target:
-        # BG HERE #
-        background: surface_high
-        foreground: error
+        background: red
+        foreground: on_surface
         font-style: bold
 
       fifo:
-        foreground: pri_cont
+        foreground: dim
         font-style:
           - bold
           - underline
 
       character_device:
-        foreground: ter_cont
+        foreground: dim
 
       block_device:
-        foreground: ter_cont
+        foreground: dim
         font-style: underline
 
       door:
-        foreground: ter_cont
+        foreground: dim
         font-style: italic
 
       socket:
-        foreground: ter_cont
+        foreground: dim
         font-style: bold
 
-    # ── File Permissions ──────────────────────────────────────────────────────
+    # File Permissions
       executable_file:
-        foreground: pri_cont
+        foreground: green
         font-style: bold
 
       file_with_capability:
-        foreground: fg
+        foreground: yellow
         font-style:
           - bold
           - underline
 
       setuid:
-        foreground: fg
+        foreground: on_surface
+        background: surface_high
         font-style:
           - bold
           - underline
 
       setgid:
-        foreground: fg
+        foreground: on_surface
+        background: surface_low
         font-style:
           - bold
           - underline
 
       sticky:
-        # BG HERE #
-        background: surface_high
-        foreground: fg_bright
+        background: dim
+        foreground: foreground
         font-style: underline
 
       other_writable:
-        # BG HERE #
-        background: surface
-        foreground: fg_bright
+        background: dim
+        foreground: foreground
         font-style: bold
 
       sticky_other_writable:
-        background: surface_low
-        foreground: fg_bright
+        background: dim
+        foreground: foreground
         font-style:
           - bold
           - underline
 
-    # ── Document Types ────────────────────────────────────────────────────────
+    # Document Types
     archives:
-      foreground: fg_bright
+      foreground: orange
       font-style: bold
 
     executable:
-      foreground: pri_cont
+      foreground: green
       font-style: bold
 
     markup:
-      foreground: fg_brightest
+      foreground: cyan
       web:
-        foreground: fg
+        foreground: magenta
 
     media:
-      foreground: magenta
+      foreground: cyan
       fonts:
-        foreground: fg
+        foreground: magenta
 
     office:
-      foreground: green
+      foreground: yellow
 
     programming:
       source:
-        foreground: pri_cont
+        foreground: yellow
       tooling:
-        foreground: fg
+        foreground: grey
 
     text:
-      foreground: fg
+      foreground: foreground
 
     unimportant:
-      foreground: surface_high
+      foreground: dim
   '';
 }

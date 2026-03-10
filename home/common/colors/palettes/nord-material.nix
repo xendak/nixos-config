@@ -10,6 +10,7 @@ let
     fg = "#e5e9f0";
     bg = "#20242c";
     surface_container = "#2e3440";
+    surface_container_low = "#171a20";
     surface_container_high = "#171a20";
 
     cursor_bg = "#e3556f";
@@ -24,6 +25,7 @@ let
     green = "#a3be8c";
     magenta = "#b48ead";
     blue = "#81a1c1";
+    cyan = "#8fbcbb";
     white = "#eceff4";
     selection_fg = "#4A4458";
   };

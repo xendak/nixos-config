@@ -1,8 +1,10 @@
-{ config, host, ... }:
+{
+  config,
+  host,
+  ...
+}:
 let
   home = config.home.username;
-  qs_path = "/home/${home}/Flake/home/common/programs/quickshell/niri";
-  wallpaper = "/home/${home}/Flake/home/common/wallpapers/13.jpg";
   bin_path = "/home/${home}/Flake/bin/";
 
   baseCommands = [
@@ -15,20 +17,8 @@ let
       ];
     }
     { command = [ "swww-daemon" ]; }
+    { command = [ "nix-theme-starter" ]; }
     { command = [ "xwayland-satellite" ]; }
-    {
-      command = [
-        "${bin_path}/nix-theme-starter"
-        "gorgoroth"
-      ];
-    }
-    {
-      command = [
-        "mkdir"
-        "-p"
-        "/home/${home}/tmp/Screenshots"
-      ];
-    }
     {
       command = [
         "fish"
@@ -36,14 +26,6 @@ let
       ];
     }
 
-    {
-      command = [
-        "fish"
-        "${qs_path}/wallpaper.fish"
-        "-f"
-        "${wallpaper}"
-      ];
-    }
   ];
 
   desktopCommands = [

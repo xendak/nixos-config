@@ -8,7 +8,14 @@
   gnumake,
   libGL,
   libGLU,
-  xorg,
+  libX11,
+  libXext,
+  libXrandr,
+  libXinerama,
+  libXcursor,
+  libXi,
+  libXScrnSaver,
+  libXxf86vm,
   glib,
   gtk2,
   dbus,
@@ -46,14 +53,15 @@ clangStdenv.mkDerivation rec {
   buildInputs = [
     libGL
     libGLU
-    xorg.libX11
-    xorg.libXext
-    xorg.libXrandr
-    xorg.libXinerama
-    xorg.libXcursor
-    xorg.libXi
-    xorg.libXScrnSaver
-    xorg.libXxf86vm
+    # Updated names
+    libX11
+    libXext
+    libXrandr
+    libXinerama
+    libXcursor
+    libXi
+    libXScrnSaver
+    libXxf86vm
     glib
     gtk2
     dbus
@@ -95,13 +103,10 @@ clangStdenv.mkDerivation rec {
 
     cmake .. \
       -DVIDEO_WAYLAND=OFF \
-      -DCMAKE_INSTALL_PREFIX="$PWD/linux64" \
-      # -DCMAKE_BUILD_TYPE=Debug \
-      # -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+      -DCMAKE_INSTALL_PREFIX="$PWD/linux64"
 
     make -j$NIX_BUILD_CORES install
 
-    # needs the "debug." for sme reason?
     cd linux64/lib
     ln -sf libSDL2.a libSDL2d.a
     ln -sf libSDL2main.a libSDL2maind.a
@@ -128,14 +133,15 @@ clangStdenv.mkDerivation rec {
         stdenv.cc.cc.lib
         libGL
         libGLU
-        xorg.libX11
-        xorg.libXext
-        xorg.libXrandr
-        xorg.libXinerama
-        xorg.libXcursor
-        xorg.libXi
-        xorg.libXScrnSaver
-        xorg.libXxf86vm
+        # Updated names
+        libX11
+        libXext
+        libXrandr
+        libXinerama
+        libXcursor
+        libXi
+        libXScrnSaver
+        libXxf86vm
         glib
         gtk2
         dbus
@@ -163,10 +169,7 @@ clangStdenv.mkDerivation rec {
 
       ln -s ${myDesktopItem}/share/applications/*.desktop $out/share/applications/
 
-      ls ./*
-
       cp Milton $out/bin/milton
-
 
       patchelf --set-rpath "${lib.makeLibraryPath runtimeDeps}" $out/bin/milton
     '';
