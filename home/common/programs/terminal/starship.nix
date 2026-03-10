@@ -13,6 +13,7 @@
     [](color_green)\
     $nix_shell\
     $username\
+    $hostname\
     [](bg:color_purple fg:color_green)\
     $directory\
     [](fg:color_purple bg:color_red)\
@@ -89,6 +90,12 @@
     style_user = "bg:color_green fg:black"
     style_root = "bg:color_green fg:black"
     format = '[ $user ]($style)'
+
+    [hostname]
+    ssh_only = true
+    style = "bg:color_green fg:black"
+    format = '[ @ $hostname ]($style)'
+    disabled = false
 
     [directory]
     style = "fg:black bg:color_purple"

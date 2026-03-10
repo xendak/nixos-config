@@ -3,6 +3,11 @@
   programs.yazi.keymap = {
     mgr.prepend_keymap = [
       {
+        desc = "Select directory(ies), file(s)";
+        on = "<C-o>";
+        run = "open";
+      }
+      {
         on = "F";
         run = "filter --smart";
         desc = "Iteractively go to directory";
