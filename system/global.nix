@@ -22,6 +22,7 @@ in
     #inputs.hardware.nixosModules.common-pc-ssd
 
     ./extras/postMountFiles.nix
+    ./extras/tailscale.nix
     ./extras/bash.nix
     ./extras/fish.nix
     ./extras/fonts.nix
