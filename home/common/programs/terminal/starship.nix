@@ -94,7 +94,7 @@
     [hostname]
     ssh_only = true
     style = "bg:color_green fg:black"
-    format = '[ @ $hostname ]($style)'
+    format = '[@ $hostname ]($style)'
     disabled = false
 
     [directory]

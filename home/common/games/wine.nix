@@ -8,7 +8,7 @@
     gamescope
     # wineWowPackages.stable
     # wineWowPackages.staging
-    wineWowPackages.waylandFull
+    wineWow64Packages.waylandFull
   ];
 
   home.persistence = {

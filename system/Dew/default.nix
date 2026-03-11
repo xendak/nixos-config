@@ -153,11 +153,11 @@
       warn-dirty = false;
       connect-timeout = 10;
       substituters = [
+        "ssh-ng://xendak@Snow"
         "https://cache.nixos.org/"
         "https://hyprland.cachix.org"
         "https://ezkea.cachix.org"
         "https://nix-community.cachix.org"
-        "ssh-ng://xendak@Snow"
       ];
       trusted-public-keys = [
         "Snow-1:ePOd1J2YyhEQZjXK3t/yA5Nt3aWFo4Bdp3ibjtW6Lpo="
