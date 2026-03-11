@@ -98,23 +98,26 @@ in
   };
 
   # Adds non sudo wally cli
-  security.sudo = {
-    enable = true;
-    extraRules = [
-      {
-        commands = [
-          {
-            command = "${lib.getExe pkgs.evtest}";
-            options = [ "NOPASSWD" ];
-          }
-          {
-            command = "${lib.getExe pkgs.wally-cli}";
-            options = [ "NOPASSWD" ];
-          }
-        ];
-        groups = [ "wheel" ];
-      }
-    ];
+  security = {
+    pam.services.swaylock = { };
+    sudo = {
+      enable = true;
+      extraRules = [
+        {
+          commands = [
+            {
+              command = "${lib.getExe pkgs.evtest}";
+              options = [ "NOPASSWD" ];
+            }
+            {
+              command = "${lib.getExe pkgs.wally-cli}";
+              options = [ "NOPASSWD" ];
+            }
+          ];
+          groups = [ "wheel" ];
+        }
+      ];
+    };
   };
 
   hardware.enableRedistributableFirmware = true;

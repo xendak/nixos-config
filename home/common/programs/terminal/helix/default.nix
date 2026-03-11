@@ -41,6 +41,7 @@
           enable = true;
           auto-signature-help = false;
           display-inlay-hints = true;
+          display-color-swatches = true;
           display-progress-messages = true;
           display-signature-help-docs = true;
           display-messages = true;

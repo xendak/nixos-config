@@ -39,6 +39,26 @@ let
       inherit indent;
     }
     {
+      name = "zig";
+      language-servers = [ "zls" ];
+      auto-format = true;
+    }
+    {
+      name = "c";
+      language-servers = [ "clangd" ];
+      inherit indent;
+    }
+    {
+      name = "cpp";
+      language-servers = [ "clangd" ];
+      inherit indent;
+    }
+    {
+      name = "java";
+      language-servers = [ "jdtls" ];
+      inherit indent;
+    }
+    {
       name = "python";
       language-servers = [ "pyright" ];
       formatter = {
@@ -48,6 +68,16 @@ let
           "--quiet"
         ];
       };
+    }
+    {
+      name = "dart";
+      language-servers = [ "dart-lsp" ];
+      auto-format = true;
+    }
+    {
+      name = "rust";
+      language-servers = [ "rust-analyzer" ];
+      auto-format = true;
     }
     {
       name = "lua";
@@ -84,7 +114,23 @@ let
       ];
     }
     {
+      name = "jsx";
+      auto-format = true;
+      language-servers = [
+        "dprint"
+        "typescript-language-server"
+      ];
+    }
+    {
       name = "typescript";
+      auto-format = true;
+      language-servers = [
+        "dprint"
+        "typescript-language-server"
+      ];
+    }
+    {
+      name = "tsx";
       auto-format = true;
       language-servers = [
         "dprint"
@@ -134,7 +180,6 @@ let
         "json"
         "yaml"
       ];
-
 in
 {
   language-server = {
@@ -143,6 +188,12 @@ in
     }/bin/uwu_colors";
 
     ols.command = lib.getExe pkgs.ols;
+    zls.command = lib.getExe pkgs.zls;
+    clangd.command = "${pkgs.clang-tools}/bin/clangd";
+    jdtls.command = lib.getExe pkgs.jdt-language-server;
+    dart-lsp.command = "dart";
+    dart-lsp.args = [ "language-server" ];
+
     pyright.command = lib.getExe pkgs.pyright;
     lua-language-server.command = lib.getExe pkgs.lua-language-server;
 
@@ -172,7 +223,8 @@ in
     };
   };
 
-  language = map withUwu (rawLanguages ++ prettierLangsList);
+  # documentColor capable LSP have colors built-in by default
+  language = map withUwu rawLanguages ++ prettierLangsList;
 
   home.file.".dprint.json".source = builtins.toFile "dprint.json" (
     builtins.toJSON {
