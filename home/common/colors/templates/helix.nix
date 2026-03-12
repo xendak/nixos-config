@@ -1,4 +1,5 @@
 { paletteSet, lib, ... }:
+# TODO: fix this to use ANSI COLORS 'text' but MATERIAL on menu/ui
 let
   p = paletteSet.palette;
 
@@ -34,7 +35,7 @@ in
     "warning" = "orange"
 
     ["ui.virtual.inlay-hint"]
-    fg = "tertiary_container"
+    fg = "selection_fg"
 
     ["ui.virtual.jump-label"]
     fg = "on_primary"

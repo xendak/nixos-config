@@ -87,12 +87,13 @@ in
 
           $env.EDITOR = "hx"
           $env.VISUAL = "hx"
-          $env.config.buffer_editor = "hx"
           $env.STARSHIP_SHELL = "nu"
 
+          $env.config.buffer_editor = "hx"
           $env.config.cursor_shape.vi_insert = "blink_line"
           $env.config.cursor_shape.vi_normal = "blink_block"
 
+          $env.NU_EXPERIMENTAL_OPTIONS=native-clip
           $env.PROMPT_INDICATOR_VI_NORMAL = ""
           $env.PROMPT_INDICATOR_VI_INSERT = ""
           $env.PROMPT_MULTILINE_INDICATOR = ""

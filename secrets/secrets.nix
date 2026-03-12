@@ -32,4 +32,4 @@ in
 
 # edit key with agenix
 # agenix -e file.age
-# sudo agenix -e pw.age -i /persist/etc/ssh/ssh_host_ed25519_key
+# sudo EDITOR=hx agenix -e pw.age -i /persist/etc/ssh/ssh_host_ed25519_key

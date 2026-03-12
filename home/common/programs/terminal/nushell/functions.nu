@@ -1,5 +1,5 @@
 def ll [path: path = .] {
-  ls -al $path | reject target readonly num_links inode created accessed
+  ls -al | select name mode user size modified target
 }
 
 # Syncs .desktop files from Flake to user application folder
@@ -216,6 +216,16 @@ def upb [
   let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
 
   let host = sys host | get hostname
+
+  if $host != "Snow" {
+    let snow_up = (nc -z -w 1 Snow 22 | complete | get exit_code) == 0
+      if $snow_up {
+      print "❄️ Snow is online..."
+      let flags = if $snow_up { $flags | append ["--option" "max-jobs" "0"] } else { $flags }
+    } 
+  }
+
+  
   if not $nom {
     sudo nixos-rebuild boot --flake $".#($host)" ...$flags --log-format internal-json -v e+o>| nom --json
   } else {
@@ -264,6 +274,16 @@ def upd [
   let flags = if $show_trace { $flags | append "--show-trace" } else { $flags }
   let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
   let host = sys host | get hostname
+
+  # --- Remote Builder Logic ---
+  if $host != "Snow" {
+    let snow_up = (nc -z -w 1 Snow 22 | complete | get exit_code) == 0
+      if $snow_up {
+      print "❄️ Snow is online..."
+      let flags = if $snow_up { $flags | append ["--option" "max-jobs" "0"] } else { $flags }
+    } 
+  }
+  
   if not $nom {
     sudo nixos-rebuild switch --flake $".#($host)" ...$flags --log-format internal-json -v e+o>| nom --json
   } else {

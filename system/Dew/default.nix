@@ -113,6 +113,15 @@
     };
   };
 
+  services.greetd = {
+    settings = {
+      initial_session = {
+        command = "niri-session";
+        user = "xendak";
+      };
+    };
+  };
+
   # NTFS-3G for Windows Partititions
   environment.systemPackages = [
     pkgs.ntfs3g
