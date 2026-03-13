@@ -16,7 +16,7 @@ xkb_symbols "basic" {
     key <AC01> { [ a, A, aacute, Aacute ] };                      // AltGr + a -> á
     key <AC03> { [ d, D, atilde, Atilde ] };                      // AltGr + d -> ã
     key <AC05> { [ g, G, acircumflex, Acircumflex ] };            // AltGr + g -> â
-    key <AC09> { [ l, L, oslash, Ooblique ] };                    // AltGr + l -> ø
+    key <AC09> { [ l, L, otilde, Otilde ] };                      // AltGr + l -> õ
 
     //  Bottom 
     key <AB06> { [ n, N, ntilde, Ntilde ] };                      // AltGr + n -> ñ
