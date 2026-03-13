@@ -18,24 +18,26 @@ let
     exec "$BINARY" --profile "/home/${config.home.username}/.config/zen/${config.home.username}" "$@"
   '';
 
-  zen-with-desktop = pkgs.runCommand "zen-with-desktop" { } ''
-    mkdir -p $out/bin $out/share/applications
+  zen-with-desktop = pkgs.symlinkJoin {
+    name = "zen-browser-wrapped";
+    paths = [ zen-wrapped ];
 
-    ln -s ${zen-wrapped}/bin/zen $out/bin/zen
+    postBuild = ''
+      mkdir -p $out/share/applications
 
-    if [ -f "${zen-pkg}/share/applications/zen.desktop" ]; then
-      DESKTOP_FILE="${zen-pkg}/share/applications/zen.desktop"
-    else
-      DESKTOP_FILE="${zen-pkg}/share/applications/zen-beta.desktop"
-    fi
+      if [ -f "${zen-pkg}/share/applications/zen.desktop" ]; then
+        SRC_DESKTOP="${zen-pkg}/share/applications/zen.desktop"
+      else
+        SRC_DESKTOP="${zen-pkg}/share/applications/zen-beta.desktop"
+      fi
 
-    cp "$DESKTOP_FILE" $out/share/applications/zen.desktop
+      cp "$SRC_DESKTOP" $out/share/applications/zen.desktop
+      chmod +w $out/share/applications/zen.desktop
 
-    substituteInPlace $out/share/applications/zen.desktop \
-      --replace "Exec=zen" "Exec=$out/bin/zen" \
-      --replace "Exec=zen-beta" "Exec=$out/bin/zen" \
-      --replace "Icon=zen-beta" "Icon=zen"
-  '';
+      sed -i 's/^Exec=.*/Exec=zen %u/' $out/share/applications/zen.desktop
+      sed -i 's/^Icon=.*/Icon=zen/' $out/share/applications/zen.desktop
+    '';
+  };
 in
 {
   home.packages = [ zen-with-desktop ];
