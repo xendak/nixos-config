@@ -2,9 +2,9 @@
   :ensure t
   :config
   (setq org-capture-templates
-        '(("t" "Inbox" entry (file+headline "~/org/capture/inbox.org" "Inbox")
+        '(("t" "Inbox" entry (file+headline "~/Documents/Notes/org/capture/inbox.org" "Inbox")
            "* TODO %?\nSCHEDULED: %t\n%i")
-          ("s" "Schedule" entry (file+headline "~/org/capture/inbox.org" "Inbox")
+          ("s" "Schedule" entry (file+headline "~/Documents/Notes/org/capture/inbox.org" "Inbox")
            "* %?\nSCHEDULED: %t\n%i")))
 
   (setq org-refile-targets (quote (("school.org" :maxlevel . 2)

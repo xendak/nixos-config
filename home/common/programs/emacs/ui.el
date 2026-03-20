@@ -1,3 +1,4 @@
+;; :Packages
 (use-package spacious-padding
   :ensure t
   :config
@@ -11,119 +12,95 @@
 
 (use-package indent-bars
   :ensure t
+  :custom
+  (indent-bars-prefer-character t) 
   :hook (prog-mode . indent-bars-mode))
 
 (use-package rainbow-delimiters
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
+;; :Frame
+
 (defun my/setup-new-frame (frame)
   (with-selected-frame frame
-    (let ((theme-file (expand-file-name "themes/current-theme.el" user-emacs-directory)))
+    (let ((theme-name 'custom-nix)
+          (theme-file (expand-file-name "themes/custom-nix-theme.el" user-emacs-directory)))
       (when (file-exists-p theme-file)
-        (load-file theme-file)))
-
+        (load-file theme-file)
+        (enable-theme theme-name)))
+    
+    (set-frame-parameter frame 'background-mode 'dark)
+    
     (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
     (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
     (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-    (when (fboundp 'spacious-padding-mode-for-frame)
-      (spacious-padding-mode 1)
-      (spacious-padding-mode-for-frame))))
+    
+    (when (fboundp 'spacious-padding-mode)
+      (spacious-padding-mode 1))))
+
+;; :Status Line
+
+(defun ntf/get-custom-theme-color (color-key)
+  "Retrieve a color from the custom-theme-colors plist."
+  (when (boundp 'custom-theme-colors)
+    (plist-get custom-theme-colors color-key)))
+
+(defun ntf/get-meow-indicator-colors (indicator)
+  "Map Meow indicators to Helix-style statusline colors."
+  (let ((pri      (ntf/get-custom-theme-color :primary))
+        (on-pri   (ntf/get-custom-theme-color :on-primary))
+        (sec      (ntf/get-custom-theme-color :secondary))
+        (on-sec   (ntf/get-custom-theme-color :on-secondary))
+        (ter      (ntf/get-custom-theme-color :tertiary))
+        (on-ter   (ntf/get-custom-theme-color :on-tertiary))
+        (on-cur   (ntf/get-custom-theme-color :cursor-fg))
+        (cur      (ntf/get-custom-theme-color :cursor-bg)))
+    (cond
+     ((string= indicator "N") ; Normal Mode
+      (list (or pri "#83a598") (or on-pri "black")))
+     ((string= indicator "I") ; Insert Mode
+      (list (or ter "#b8bb26") (or on-ter "black")))
+     ((string= indicator "B") ; Beacon Mode
+      (list (or sec "#fabd2f") (or on-sec "black")))
+     ((string= indicator "M") ; Motion
+      (list (or cur "#928374") (or on-cur "black")))
+     (t ; Fallback (Beacon, etc.)
+      (list (or cur "#3c3836") (or on-cur "white"))))))
+
+(defun ntf/mode-line-format (left right)
+  (let* ((width (window-width))
+         (left-len (length (format-mode-line left)))
+         (right-len (length (format-mode-line right)))
+         (available-width (max 1 (- width left-len right-len))))
+    (format "%s%s%s" left (make-string available-width ?\s) right)))
+
+(setq-default mode-line-format
+  '((:eval (ntf/mode-line-format
+            (format-mode-line
+             '(" "
+               (:eval
+                (let* ((ind (substring (meow-indicator) 1 2))
+                       (colors (ntf/get-meow-indicator-colors ind)))
+                  (propertize (concat " " ind " ") 'face `(:background ,(car colors) :foreground ,(cadr colors) :weight bold))))
+               " %* "
+               (:eval (propertize "%b" 'face 'bold))
+               " %m "))
+            (format-mode-line
+             '((:eval (when (and (featurep 'org-clock) (org-clock-is-active))
+                        (concat (org-clock-get-clock-string) " ")))
+               " %l:%c "
+               (vc-mode vc-mode)
+               " "))))))
 
 
-(defun my/apply-theme-modeline-colors ()
-  (when (boundp 'base16-default-theme-colors)
-    (let* ((colors base16-default-theme-colors)
-           (bg-color (plist-get colors :base02))
-           (fg-color (plist-get colors :base05))
-           (inactive-bg (plist-get colors :base01))
-           (inactive-fg (plist-get colors :base04)))
-      (when (and bg-color fg-color)
-        (set-face-attribute 'mode-line nil :background bg-color :foreground fg-color))
-      (when (and inactive-bg inactive-fg)
-        (set-face-attribute 'mode-line-inactive nil :background inactive-bg :foreground inactive-fg)))))
-
-
-
+;; :Fixes
 (add-hook 'after-make-frame-functions #'my/setup-new-frame)
-(add-hook 'after-load-theme-hook #'my/apply-theme-modeline-colors)
 
 (when (and (not (daemonp)) (display-graphic-p))
   (my/setup-new-frame (selected-frame)))
 
-(spacious-padding-mode 1)
-
-; (setq use-default-font-for-symbols nil)
-; (set-fontset-font t 'unicode "Noto Emoji" nil 'append)
-
-(set-face-background 'mode-line "gray13")
-
-(defun ntf/mode-line-format (left right)
-  (let ((available-width (- (window-width) (length left) 1)))
-    (format (format "%%s %%%ds " available-width) left right)))
-
-(defun ntf/get-base16-color (color-key)
-  (let ((theme-colors
-         (and
-          (boundp (intern (format "base16-%s-theme-colors" 
-                                  (replace-regexp-in-string "base16-\\(.*\\)" "\\1" 
-                                                            (symbol-name (car custom-enabled-themes))))))
-          (symbol-value (intern (format "base16-%s-theme-colors" 
-                                        (replace-regexp-in-string "base16-\\(.*\\)" "\\1" 
-                                                                  (symbol-name (car custom-enabled-themes)))))))))
-    (when theme-colors
-      (plist-get theme-colors color-key))))
-
-(defun ntf/get-meow-indicator-colors (indicator)
-  (let ((base00 (ntf/get-base16-color :base00))
-        (base05 (ntf/get-base16-color :base05))
-        (base07 (ntf/get-base16-color :base07))
-        (base08 (ntf/get-base16-color :base08))
-        (base09 (ntf/get-base16-color :base09))
-        (base0B (ntf/get-base16-color :base0B))
-        (base0D (ntf/get-base16-color :base0D))
-        (base0E (ntf/get-base16-color :base0E)))
-    (cond
-     ((string= indicator "I")  ; Insert mode
-      (list (or base05 "#a6e3a1") (or base00 "black")))
-     ((string= indicator "N")  ; Normal mode  
-      (list (or base08 "#cba6f7") (or base00 "black")))
-     ((string= indicator "B")  ; Beacon mode
-      (list (or base09 "#74c7ec") (or base00 "black")))
-     ((string= indicator "M")  ; Motion mode
-      (list (or base08 "#f38ba8") (or base00 "black")))
-     (t  ; Fallback
-      (list (or base0E "#cba6f7") (or base00 "black"))))))
-
-;; Set the global mode-line format
-(setq-default mode-line-format
-              '((:eval (ntf/mode-line-format
-                        (format-mode-line
-                         '(" "
-                           (:eval
-                            (let* ((ind (substring (meow-indicator) 1 2))
-                                   (colors (ntf/get-meow-indicator-colors ind)))
-                              (propertize (concat " " ind " ") 'face `(:background ,(car colors) :foreground ,(cadr colors)))))
-                           " %* " ; Buffer modification status
-                           (:eval (propertize "%b" 'face 'bold)) ; Buffer name (bold)
-                           " %m " ; Major mode
-                           "%l:%c " ; Line and column
-                           mode-line-percent-position
-                           "%%"))
-                        ;; --- Right side of the mode-line ---
-                        (format-mode-line
-                         '(" "
-                           ;; Org clock string, if active
-                           (:eval (when (and (featurep 'org-clock)
-                                             (fboundp 'org-clock-is-active)
-                                             (org-clock-is-active))
-                                    (org-clock-get-clock-string)))
-                           " "
-                           ;; Version control info
-                           (vc-mode vc-mode)))))))
-
-(setq display-time-string-forms
-      '((propertize (format-time-string "%H:%M") 'face 'bold)))
+(setq display-time-string-forms '((propertize (format-time-string "%H:%M") 'face 'bold)))
 (display-time-mode 1)
 
 (message "---> ui.el loaded successfully!")

@@ -30,6 +30,14 @@
         "qt/colors.conf" = "${home}/.config/qt5ct/colors/current.conf";
         "qt/colors.conf_clone_1" = "${home}/.config/qt6ct/colors/current.conf";
         "qt/kdeglobals" = "${home}/.config/kdeglobals";
+        "qt/current.colors" = "${home}/.local/share/color-schemes/current.colors";
+
+        # Browsers
+        "zen/userChrome.css" = "${home}/.config/zen/${config.home.username}/chrome/userChrome.css";
+        "zen/userContent.css" = "${home}/.config/zen/${config.home.username}/chrome/userContent.css";
+
+        # Obsidian
+        "obsidian/theme.css" = "${home}/Documents/Notes/xendak/.obsidian/snippets/material-theme.css";
 
         # Fcitx5
         "fcitx5/theme.conf" = "${home}/.local/share/fcitx5/themes/current/theme.conf";
@@ -67,8 +75,7 @@
         "foot/colors.ini" = "${home}/.config/foot/colors.ini";
 
         # Emacs
-        "emacs/themes/base16-nix-theme.el" = "${home}/.config/emacs/themes/base16-nix-theme.el";
-        # "emacs/themes/current-theme.el" = "${home}/.config/emacs/themes/current-theme.el";
+        "emacs/themes/custom-nix-theme.el" = "${home}/.config/emacs/themes/custom-nix-theme.el";
       };
 
   };

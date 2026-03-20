@@ -140,7 +140,7 @@ let
         height: 32px !important; 
       }
 
-      .c38106a3f0c3ca76-trailing {
+      .trailing_c38106 {
         top: calc(var(--top-bar-height) + var(--border-thickness));
         right: calc(var(--gap) + var(--border-thickness));
         gap: var(--space-xs);

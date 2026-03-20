@@ -267,7 +267,7 @@
       '((?j . round)
         (?k . square)
         (?l . curly)
-        (?; . angle)
+        (?\; . angle)
         (?' . defun)
         (?m . string)
         (?, . paragraph)
@@ -275,7 +275,7 @@
         (?/ . buffer)))
 
 ; if i dont know the command name.. this is useful
-(let ((current-command (global-lookup-key (kbd "C-x C-c"))))
+(let ((current-command (lookup-key (current-global-map) (kbd "C-x C-c"))))
   (when current-command
     (global-set-key (kbd "C-x C-q") current-command)
     (global-unset-key (kbd "C-x C-c"))))

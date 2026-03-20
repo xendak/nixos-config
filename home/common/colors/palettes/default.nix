@@ -63,6 +63,29 @@ let
       shadow = "#000000";
       scrim = "#000000";
       source_color = "#6750A4";
+
+      # default colors for ansi on white
+      white = "#fbf1c7";
+      red = "#cc241d";
+      green = "#98971a";
+      yellow = "#d79921";
+      blue = "#458588";
+      magenta = "#b16286";
+      cyan = "#689d6a";
+      gray = "#7c6f64";
+      orange = "#d65d0e";
+      black = "#3c3836";
+
+      brightwhite = "#928374";
+      brightred = "#9d0006";
+      brightgreen = "#79740e";
+      brightyellow = "#b57614";
+      brightblue = "#076678";
+      brightmagenta = "#8f3f71";
+      brightcyan = "#427b58";
+      brightgray = "#928374";
+      brightorange = "#af3a03";
+      brightblack = "#7c6f64";
     };
 
     dark = {
@@ -123,6 +146,29 @@ let
       shadow = "#000000";
       scrim = "#000000";
       source_color = "#6750A4";
+
+      # default colors for ansi on white
+      white = "#3c3836";
+      red = "#cc241d";
+      green = "#98971a";
+      yellow = "#d79921";
+      blue = "#458588";
+      magenta = "#b16286";
+      cyan = "#689d6a";
+      gray = "#a89984";
+      orange = "#d65d0e";
+      black = "#ebdbb2";
+
+      brightwhite = "#504945";
+      brightred = "#fb4934";
+      brightgreen = "#b8bb26";
+      brightyellow = "#fabd2f";
+      brightblue = "#83a598";
+      brightmagenta = "#d3869b";
+      brightcyan = "#8ec07c";
+      brightgray = "#928374";
+      brightorange = "#fe8019";
+      brightblack = "#fbf1c7";
     };
   };
 
@@ -200,6 +246,35 @@ let
         magenta = extra.magenta or m3.tertiary;
         cyan = extra.cyan or m3.primary_container;
         orange = extra.orange or m3.tertiary;
+        black = extra.black or m3.surface;
+
+        brightwhite = extra.brightwhite or ansi.white;
+        brightgrey = extra.brightgrey or ansi.grey;
+        brightred = extra.brightred or ansi.red;
+        brightgreen = extra.brightgreen or ansi.green;
+        brightyellow = extra.brightyellow or ansi.yellow;
+        brightblue = extra.brightblue or ansi.blue;
+        brightmagenta = extra.brightmagenta or ansi.magenta;
+        brightcyan = extra.brightcyan or ansi.cyan;
+        brightorange = extra.brightorange or ansi.orange;
+        brightblack = extra.brightblack or ansi.black;
+
+        keywords = extra.keywords or ansi.red;
+        labels = extra.labels or ansi.brightred;
+        strings = extra.strings or ansi.green;
+        alt_functions = extra.alt_functions or ansi.brightgreen;
+        builtins = extra.builtins or ansi.yellow;
+        types = extra.types or ansi.brightyellow;
+        functions = extra.functions or ansi.blue;
+        macros = extra.macros or ansi.brightblue;
+        specials = extra.specials or ansi.magenta;
+        constants = extra.constants or ansi.brightmagenta;
+        modules = extra.modules or ansi.cyan;
+        tags = extra.tags or ansi.brightcyan;
+        numeric = extra.numeric or ansi.orange;
+        punctuation = extra.punctuation or ansi.brightorange;
+        comments = extra.comments or ansi.grey;
+        inlay = extra.inlay or ansi.brightgrey;
       };
       base16 = {
         base00 = extra.base00 or m3.background;

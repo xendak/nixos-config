@@ -31,19 +31,19 @@ in
         m.surface_container_high # Light
         m.surface_container # Midlight
         m.surface_container_low # Dark
-        m.outline_variant # Mid
+        m.surface_container # Mid
         m.on_surface # Text
-        m.error # BrightText
+        m.primary # BrightText
         m.on_surface # ButtonText
-        m.surface # Base
+        m.bg # Base
         m.surface_container_low # Window (alt)
-        m.background # Shadow
+        m.surface_container_low # Shadow
         m.primary # Highlight
         m.on_primary # HighlightedText
         m.secondary # Link
-        m.on_secondary_container # LinkVisited
+        m.tertiary # LinkVisited
         m.surface_container_low # AlternateBase
-        m.surface_container_low # NoRole
+        m.surface_container # NoRole
         m.surface_container_high # ToolTipBase
         m.on_surface # ToolTipText
         m.outline # PlaceholderText
@@ -134,6 +134,59 @@ in
     ignored_applications=@Invalid()
   '';
 
+  "qt/current.colors" =
+    # ini
+    ''
+      [General]
+      Name=current
+      Description=Generated Theme
+      Author=xendak
+
+      [Background:Normal]
+      Color=${m.bg}
+
+      [Foreground:Normal]
+      Color=${m.fg}
+
+      [Colors:Window]
+      BackgroundAlternate=${m.surface_container}
+      BackgroundNormal=${m.bg}
+      ForegroundActive=${m.primary}
+      ForegroundInactive=${m.fg}
+      ForegroundNormal=${m.fg}
+
+      [Colors:View]
+      BackgroundAlternate=${m.surface_container}
+      BackgroundNormal=${m.bg}
+      DecorationFocus=${m.primary}
+      DecorationHover=${m.secondary}
+      ForegroundActive=${m.primary}
+      ForegroundInactive=${m.fg}
+      ForegroundNormal=${m.fg}
+
+      [Colors:Button]
+      BackgroundAlternate=${m.surface_container_low}
+      BackgroundNormal=${m.surface_container}
+      ForegroundNormal=${m.fg}
+
+      [Colors:Selection]
+      BackgroundAlternate=${m.secondary}
+      BackgroundNormal=${m.primary}
+      ForegroundActive=${m.bg}
+      ForegroundInactive=${m.bg}
+      ForegroundNormal=${m.bg}
+
+      [Colors:Tooltip]
+      BackgroundNormal=${m.surface_container_low}
+      ForegroundNormal=${m.fg}
+
+      [WM]
+      activeBackground=${m.primary}
+      activeForeground=${m.bg}
+      inactiveBackground=${m.surface_container}
+      inactiveForeground=${m.fg}
+    '';
+
   "qt/kdeglobals" = ''
     [$Version]
     update_info=kded.upd:kde3.0,mouse_cursor_theme.upd:kde3.4.99,kaccel.upd:kde3.3/r1
@@ -207,9 +260,9 @@ in
     ForegroundInactive=${m.on_surface_variant}
     ForegroundLink=${m.secondary}
     ForegroundNegative=${m.error}
-    ForegroundNeutral=${m.tertiary}
+    ForegroundNeutral=${m.on_primary}
     ForegroundNormal=${m.on_surface}
-    ForegroundPositive=${m.primary}
+    ForegroundPositive=${m.on_primary}
     ForegroundVisited=${m.on_secondary_container}
 
     [Colors:Window]
@@ -221,9 +274,9 @@ in
     ForegroundInactive=${m.on_surface_variant}
     ForegroundLink=${m.secondary}
     ForegroundNegative=${m.error}
-    ForegroundNeutral=${m.tertiary}
+    ForegroundNeutral=${m.on_primary}
     ForegroundNormal=${m.on_surface}
-    ForegroundPositive=${m.primary}
+    ForegroundPositive=${m.on_primary}
     ForegroundVisited=${m.on_secondary_container}
 
     [General]

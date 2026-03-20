@@ -421,15 +421,14 @@
         (?, . angle)
         (?i . defun)
         (?g . string)
-        (?; . paragraph)
+        (?\; . paragraph)
         (?_ . line)
         (?z . buffer)))
 
 ; if i dont know the command name.. this is useful
-(let ((current-command (global-key-binding (kbd "C-x C-c"))))
-  (if current-command
-      (progn
-        (global-set-key (kbd "C-x C-q") current-command)
-        (global-unset-key (kbd "C-x C-c")))))
+(let ((current-command (lookup-key (current-global-map) (kbd "C-x C-c"))))
+  (when current-command
+    (global-set-key (kbd "C-x C-q") current-command)
+    (global-unset-key (kbd "C-x C-c"))))
 
 (message "---> binds.el loaded successfully!")

@@ -27,7 +27,7 @@ in
 {
   home.file = {
     ".config/emacs/init.el".text =
-      # lisp
+      # clisp
       ''
         (require 'package)
         (setq inhibit-startup-screen t initial-scratch-message nil)
@@ -75,6 +75,26 @@ in
            (list (completing-read "Load from flake: " ${toElispList allLoadableFiles})))
           (my/internal-load-file file)
           (message "Successfully loaded %s" file))
+
+        (defun my/reload-theme ()
+          "Completely purge and reload the custom-nix theme."
+          (interactive)
+          (let ((theme 'custom-nix)
+                (file "/home/${config.home.username}/.config/emacs/themes/custom-nix-theme.el"))
+            (mapc #'disable-theme custom-enabled-themes)
+
+            (setq custom-known-themes (delq theme custom-known-themes))
+            (put theme 'theme-settings nil)
+            (put theme 'theme-faces nil)
+
+            (if (file-exists-p file)
+                (load-file file)
+              (message "Theme file not found: %s" file))
+
+            (enable-theme theme)
+            (mapc #'frame-set-background-mode (frame-list))
+            (clear-face-cache)
+            (message "Theme %s reloaded and UI repainted!" theme)))
 
         (defun my/reload-config ()
           "Reload Emacs config from flake."

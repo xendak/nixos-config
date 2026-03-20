@@ -2,9 +2,9 @@
 let
   lazy = false;
   must = {
-    primary = "#9b8d7f";
-    secondary = "#888888";
-    tertiary = "#aaaaaa";
+    primary = "#5f8787";
+    secondary = "#9b8d7f";
+    tertiary = "#e3556f";
     error = "#bf616a";
 
     fg = "#c1c1c1";
@@ -27,7 +27,8 @@ let
     yellow = "#aaaaaa";
     magenta = "#999999";
     cyan = "#8fbcbb";
-    selection_fg = "#4A4458";
+    selection_fg = must.bg;
+    selection_bg = overrides.red;
   };
 
 in

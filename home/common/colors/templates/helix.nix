@@ -1,5 +1,4 @@
 { paletteSet, lib, ... }:
-# TODO: fix this to use ANSI COLORS 'text' but MATERIAL on menu/ui
 let
   p = paletteSet.palette;
 
@@ -8,179 +7,110 @@ let
     lib.concatStringsSep "\n" (lib.mapAttrsToList (name: value: ''${name} = "${value}"'') palette);
 in
 {
-  "helix/themes/current.toml" = ''
-    "attributes" = "orange"
-    "constant" = "orange"
-    "constant.character.escape" = "cyan"
-    "constant.numeric" = "orange"
-    "constructor" = "blue"
-    "debug" = "on_surface_variant"
+  "helix/themes/current.toml" =
+    #toml
+    ''
+      # :Syntax
+      "annotation" = "modules"
+      "attribute" = "modules"
 
-    "diff.delta" = "orange"
-    "diff.minus" = "red"
-    "diff.plus" = "green"
-    "error" = "red"
-    "function" = "blue"
-    "hint" = "on_surface_variant"
-    "info" = "blue"
-    "keyword" = "magenta"
-    "label" = "magenta"
-    "namespace" = "magenta"
-    "operator" = "on_surface"
-    "special" = "blue"
-    "string" = "green"
-    "type" = "yellow"
-    "variable" = "red"
-    "variable.other.member" = "red"
-    "warning" = "orange"
+      "comment" = { fg = "comments", modifiers = ["italic"] }
 
-    ["ui.virtual.inlay-hint"]
-    fg = "selection_fg"
+      "constant" = "constants"
+      "constant.character" = "tags"
+      "constant.character.escape" = "punctuation"
+      "constant.numeric" = "numeric"
+      "constant.macro" = "macros"
+      "constructor" = "constants"
 
-    ["ui.virtual.jump-label"]
-    fg = "on_primary"
-    bg = "primary"
+      "definition" = { underline = { color = "modules", style = "line" } }
 
-    [comment]
-    fg = "on_surface_variant"
-    modifiers = ["italic"]
+      # :System / :Diagnostic
+      "error" = "red"
+      "warning" = "orange"
+      "info" = "blue"
+      "hint" = "cyan"
 
-    [diagnostic]
-    modifiers = ["underlined"]
+      "diagnostic" = { underline = { color = "punctuation", style = "curl" } }
+      "diagnostic.error" = { underline = { color = "red", style = "curl" } }
+      "diagnostic.warning" = { underline = { color = "orange", style = "curl" } }
+      "diagnostic.info" = { underline = { color = "blue", style = "curl" } }
+      "diagnostic.hint" = { underline = { color = "cyan", style = "curl" } }
 
-    ["diagnostic.error".underline]
-    style = "curl"
-    color = "red"
+      "diff.delta" = "yellow"
+      "diff.minus" = "red"
+      "diff.plus" = "green"
 
-    ["diagnostic.hint".underline]
-    style = "curl"
-    color = "cyan"
+      # :Programming
+      "function" = "functions"
+      "function.builtin" = "builtins"
+      "function.macro" = "macros"
 
-    ["diagnostic.info".underline]
-    style = "curl"
-    color = "blue"
+      "keyword" = "keywords"
+      "keyword.control.import" = "modules"
+      "label" = "labels"
 
-    ["diagnostic.warning".underline]
-    style = "curl"
-    color = "orange"
+      "module" = "modules"
+      "namespace" = "on_background"
+      "operator" = "constants"
+      "punctuation" = "punctuation"
+      "special" = "specials"
 
-    ["markup.bold"]
-    fg = "yellow"
-    modifiers = ["bold"]
+      "string" = "strings"
+      "string.regexp" = "numeric"
+      "string.special" = "specials"
+      "string.symbol" = "builtins"
 
-    ["markup.italic"]
-    fg = "magenta"
-    modifiers = ["italic"]
+      "tag" = "tags"
+      "type" = "types"
 
-    ["markup.link.text"]
-    fg = "red"
+      "variable" = "on_background"
+      "variable.builtin" = "numeric"
+      "variable.other.member" = "on_background"
+      "variable.parameter" = "functions"
 
-    ["markup.link.url"]
-    fg = "orange"
-    modifiers = ["underlined"]
+      # :UI
+      "ui.background" = { bg = "background" }
+      "ui.text" = { fg = "on_background" }
 
-    ["markup.list"]
-    fg = "red"
-    ["markup.quote"]
-    fg = "cyan"
-    ["markup.raw"]
-    fg = "green"
-    ["markup.strikethrough"]
-    modifiers = ["crossed_out"]
+      "ui.window" = { fg = "outline", bg = "surface_container_low" }
 
-    ["ui.background"]
-    bg = "surface"
+      "ui.linenr" = { fg = "grey", bg = "surface" }
+      "ui.linenr.selected" = { fg = "on_primary_container", bg = "secondary_container", modifiers = ["bold"] }
 
-    ["ui.bufferline"]
-    fg = "on_primary_container"
-    bg = "primary_container"
+      "ui.gutter" = { bg = "background" }
 
-    ["ui.bufferline.active"]
-    fg = "surface"
-    bg = "on_surface_variant"
-    modifiers = ["bold"]
+      "ui.virtual.indent-guide" = { fg = "outline" }
+      "ui.virtual.inlay-hint" = { fg = "inlay", modifiers = ["italic"] }
+      "ui.virtual.jump-label" = { fg = "on_primary", bg = "primary" }
 
-    ["ui.cursor"]
-    fg = "cursor_fg"
-    bg = "cursor_bg"
+      "ui.menu" = { fg = "on_surface", bg = "surface_container" }
+      "ui.menu.selected" = { fg = "on_primary_container", bg = "primary_container", modifiers = ["bold"] }
 
-    ["ui.cursor.insert"]
-    fg = "yellow"
-    modifiers = ["underlined"]
+      "ui.popup" = { bg = "surface_container", fg = "on_surface" }
 
-    ["ui.cursor.match"]
-    fg = "yellow"
-    modifiers = ["underlined"]
+      "ui.statusline" = { fg = "on_surface_variant", bg = "surface_container_low" }
+      "ui.statusline.inactive" = { fg = "outline_variant", bg = "surface_container_lowest" }
 
-    ["ui.cursorline.primary"]
-    fg = "on_secondary_container"
-    bg = "secondary_container"
+      "ui.statusline.normal" = { fg = "on_primary", bg = "primary" }
+      "ui.statusline.insert" = { fg = "on_tertiary", bg = "tertiary" }
+      "ui.statusline.select" = { fg = "on_secondary", bg = "secondary" }
 
-    ["ui.gutter"]
-    bg = "surface"
+      "ui.selection" = { bg = "selection_bg", fg = "selection_fg" }
 
-    ["ui.help"]
-    fg = "on_secondary_container"
-    bg = "secondary_container"
+      "ui.cursor" = { fg = "cursor_fg", bg = "cursor_bg" }
+      "ui.cursor.match" = { fg = "on_primary", bg = "primary", modifiers = ["underlined"] }
 
-    ["ui.linenr"]
-    fg = "on_surface_variant"
-    bg = "surface"
+      # :Markup
+      "markup.bold" = { fg = "builtins", modifiers = ["bold"] }
+      "markup.italic" = { fg = "specials", modifiers = ["italic"] }
+      "markup.link.text" = "labels"
+      "markup.link.url" = { fg = "strings", modifiers = ["underlined"] }
+      "markup.list" = "labels"
+      "markup.quote" = "tags"
+      "markup.raw" = "keywords"
 
-    ["ui.linenr.selected"]
-    fg = "on_primary_container"
-    bg = "secondary_container"
-    modifiers = ["bold"]
-
-    ["ui.menu"]
-    fg = "on_surface"
-    bg = "secondary_container"
-
-    ["ui.menu.selected"]
-    fg = "secondary_container"
-    bg = "on_primary_container"
-
-    ["ui.popup"]
-    bg = "on_surface_low"
-    fg = "on_surface"
-
-    ["ui.selection"]
-    bg = "selection_bg"
-    fg = "selection_fg"
-
-    ["ui.statusline"]
-    fg = "on_surface"
-    bg = "surface_container"
-
-    ["ui.statusline.inactive"]
-    bg = "surface_variant"
-    fg = "on_surface_variant"
-
-    ["ui.statusline.insert"]
-    fg = "on_primary"
-    bg = "primary"
-
-    ["ui.statusline.normal"]
-    fg = "on_primary"
-    bg = "magenta"
-
-    ["ui.statusline.select"]
-    fg = "on_primary"
-    bg = "magenta"
-
-    ["ui.text"]
-    fg = "on_surface"
-
-    ["ui.virtual.indent-guide"]
-    fg = "outline_variant"
-
-    ["ui.virtual.ruler"]
-    bg = "secondary_container"
-
-    ["ui.window"]
-    bg = "secondary_container"
-
-    [palette]
-    ${formatPalette p}
-  '';
+      [palette]
+      ${formatPalette p}
+    '';
 }

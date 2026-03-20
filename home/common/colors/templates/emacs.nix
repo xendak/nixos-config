@@ -4,23 +4,15 @@ let
   name = "nix";
 in
 {
-  #   surface roles       → bg / bg-alt / base0-5
-  #   on_surface*         → fg / fg-alt
-  #   primary             → keywords, accents, links
-  #   secondary           → functions, method names
-  #   tertiary            → types, labels, markup
-  #   on_*_container      → strings (on_primary_container), constants (on_tertiary_container)
-  #   error               → errors / warnings
-  #   outline*            → comments, borders, subtle chrome
-  "emacs/themes/base16-${name}-theme.el" =
-    # elisp
+  "emacs/themes/custom-${name}-theme.el" =
+    # clisp
     ''
-      ;;; base16-${name}-theme.el
-      ;;; Material Design 3 theme for Emacs – auto-generated
-      (deftheme base16-${name}
-        "A Material You themed Emacs theme.")
+      ;;; custom-${name}-theme.el
+      ;;; Base16 override for my material colors
+      (deftheme custom-${name}
+        "A nix Emacs theme.")
 
-      (defvar base16-theme-colors
+      (setq custom-theme-colors
         '(:bg0          "${p.bg}"
           :bg1          "${p.surface_container_low}"
           :bg2          "${p.surface_container}"
@@ -38,60 +30,100 @@ in
           :sec-cont     "${p.secondary_container}"
           :on-sec-cont  "${p.on_secondary_container}"
           :tertiary     "${p.tertiary}"
+          :on-tertiary  "${p.on_tertiary}"
           :ter-cont     "${p.tertiary_container}"
           :on-ter-cont  "${p.on_tertiary_container}"
-          :error        "${p.error}"
-          :on-error     "${p.on_error}"
-          :err-cont     "${p.error_container}"
-          :on-err-cont  "${p.on_error_container}"
           :outline      "${p.outline}"
           :outline-var  "${p.outline_variant}"
           :inv-surf     "${p.inverse_surface}"
           :inv-on-surf  "${p.inverse_on_surface}"
-          :cursor-bg    "${p.palette.cursor_bg or p.primary}"
-          :cursor-fg    "${p.palette.cursor_fg or p.on_primary}"
-          :region-bg    "${p.primary_container}"
-          :region-fg    "${p.on_primary_container}"
-          :search-bg    "${p.secondary_container}"
-          :search-fg    "${p.on_secondary_container}")
-        "Material Design 3 colors for base16-${name} theme.")
+          :cursor-bg    "${p.cursor_bg}"
+          :cursor-fg    "${p.cursor_fg}"
+          :region-bg    "${p.selection_bg}"
+          :region-fg    "${p.selection_fg}"
+          :search-bg    "${p.secondary}"
+          :search-fg    "${p.on_secondary}"
 
-      (let ((bg0         (plist-get base16-theme-colors :bg0))
-            (bg1         (plist-get base16-theme-colors :bg1))
-            (bg2         (plist-get base16-theme-colors :bg2))
-            (bg3         (plist-get base16-theme-colors :bg3))
-            (bg4         (plist-get base16-theme-colors :bg4))
-            (fg0         (plist-get base16-theme-colors :fg0))
-            (fg1         (plist-get base16-theme-colors :fg1))
-            (fg2         (plist-get base16-theme-colors :fg2))
-            (primary     (plist-get base16-theme-colors :primary))
-            (on-primary  (plist-get base16-theme-colors :on-primary))
-            (pri-cont    (plist-get base16-theme-colors :pri-cont))
-            (on-pri-cont (plist-get base16-theme-colors :on-pri-cont))
-            (secondary   (plist-get base16-theme-colors :secondary))
-            (on-secondary (plist-get base16-theme-colors :on-secondary))
-            (sec-cont    (plist-get base16-theme-colors :sec-cont))
-            (on-sec-cont (plist-get base16-theme-colors :on-sec-cont))
-            (tertiary    (plist-get base16-theme-colors :tertiary))
-            (ter-cont    (plist-get base16-theme-colors :ter-cont))
-            (on-ter-cont (plist-get base16-theme-colors :on-ter-cont))
-            (error       (plist-get base16-theme-colors :error))
-            (on-error    (plist-get base16-theme-colors :on-error))
-            (err-cont    (plist-get base16-theme-colors :err-cont))
-            (on-err-cont (plist-get base16-theme-colors :on-err-cont))
-            (outline     (plist-get base16-theme-colors :outline))
-            (outline-var (plist-get base16-theme-colors :outline-var))
-            (inv-surf    (plist-get base16-theme-colors :inv-surf))
-            (inv-on-surf (plist-get base16-theme-colors :inv-on-surf))
-            (cursor-bg   (plist-get base16-theme-colors :cursor-bg))
-            (cursor-fg   (plist-get base16-theme-colors :cursor-fg))
-            (region-bg   (plist-get base16-theme-colors :region-bg))
-            (region-fg   (plist-get base16-theme-colors :region-fg))
-            (search-bg   (plist-get base16-theme-colors :search-bg))
-            (search-fg   (plist-get base16-theme-colors :search-fg)))
+          ;; ── Syntax: Semantic aliases ──────────────────────────────────
+          :keywords     "${p.keywords}"
+          :labels       "${p.labels}"
+          :strings      "${p.strings}"
+          :builtins     "${p.builtins}"
+          :types        "${p.types}"
+          :functions    "${p.functions}"
+          :macros       "${p.macros}"
+          :specials     "${p.specials}"
+          :constants    "${p.constants}"
+          :modules      "${p.modules}"
+          :tags         "${p.tags}"
+          :numeric      "${p.numeric}"
+          :punctuation  "${p.punctuation}"
+          :comments     "${p.comments}"
+          :inlay        "${p.inlay}"
+
+          ;; ── Diagnostics: ANSI semantic names ─────────────────────────
+          :red          "${p.red}"
+          :orange       "${p.orange}"
+          :green        "${p.green}"
+          :blue         "${p.blue}"
+          :cyan         "${p.cyan}"))
+
+      (let (;; UI
+            (bg0         (plist-get custom-theme-colors :bg0))
+            (bg1         (plist-get custom-theme-colors :bg1))
+            (bg2         (plist-get custom-theme-colors :bg2))
+            (bg3         (plist-get custom-theme-colors :bg3))
+            (bg4         (plist-get custom-theme-colors :bg4))
+            (fg0         (plist-get custom-theme-colors :fg0))
+            (fg1         (plist-get custom-theme-colors :fg1))
+            (fg2         (plist-get custom-theme-colors :fg2))
+            (primary     (plist-get custom-theme-colors :primary))
+            (on-primary  (plist-get custom-theme-colors :on-primary))
+            (pri-cont    (plist-get custom-theme-colors :pri-cont))
+            (on-pri-cont (plist-get custom-theme-colors :on-pri-cont))
+            (secondary   (plist-get custom-theme-colors :secondary))
+            (on-secondary (plist-get custom-theme-colors :on-secondary))
+            (sec-cont    (plist-get custom-theme-colors :sec-cont))
+            (on-sec-cont (plist-get custom-theme-colors :on-sec-cont))
+            (tertiary    (plist-get custom-theme-colors :tertiary))
+            (on-tertiary (plist-get custom-theme-colors :on-tertiary))
+            (ter-cont    (plist-get custom-theme-colors :ter-cont))
+            (on-ter-cont (plist-get custom-theme-colors :on-ter-cont))
+            (outline     (plist-get custom-theme-colors :outline))
+            (outline-var (plist-get custom-theme-colors :outline-var))
+            (inv-surf    (plist-get custom-theme-colors :inv-surf))
+            (inv-on-surf (plist-get custom-theme-colors :inv-on-surf))
+            (cursor-bg   (plist-get custom-theme-colors :cursor-bg))
+            (cursor-fg   (plist-get custom-theme-colors :cursor-fg))
+            (region-bg   (plist-get custom-theme-colors :region-bg))
+            (region-fg   (plist-get custom-theme-colors :region-fg))
+            (search-bg   (plist-get custom-theme-colors :search-bg))
+            (search-fg   (plist-get custom-theme-colors :search-fg))
+            ;; Syntax
+            (keywords    (plist-get custom-theme-colors :keywords))
+            (labels      (plist-get custom-theme-colors :labels))
+            (strings     (plist-get custom-theme-colors :strings))
+            (builtins    (plist-get custom-theme-colors :builtins))
+            (types       (plist-get custom-theme-colors :types))
+            (functions   (plist-get custom-theme-colors :functions))
+            (macros      (plist-get custom-theme-colors :macros))
+            (specials    (plist-get custom-theme-colors :specials))
+            (constants   (plist-get custom-theme-colors :constants))
+            (modules     (plist-get custom-theme-colors :modules))
+            (tags        (plist-get custom-theme-colors :tags))
+            (numeric     (plist-get custom-theme-colors :numeric))
+            (punctuation (plist-get custom-theme-colors :punctuation))
+            (comments    (plist-get custom-theme-colors :comments))
+            (inlay       (plist-get custom-theme-colors :inlay))
+            ;; Diagnostics
+            (red         (plist-get custom-theme-colors :red))
+            (orange      (plist-get custom-theme-colors :orange))
+            (green       (plist-get custom-theme-colors :green))
+            (blue        (plist-get custom-theme-colors :blue))
+            (cyan        (plist-get custom-theme-colors :cyan)))
 
         (custom-theme-set-faces
-         'base16-${name}
+         'custom-${name}
 
          ;; ── Built-in ──────────────────────────────────────────────────────
          `(default        ((t (:foreground ,fg0 :background ,bg0))))
@@ -104,7 +136,7 @@ in
          `(highlight      ((t (:background ,bg2))))
          `(region         ((t (:background ,region-bg :distant-foreground ,region-fg))))
          `(secondary-selection ((t (:background ,bg2 :distant-foreground ,fg0))))
-         `(trailing-whitespace ((t (:background ,err-cont))))
+         `(trailing-whitespace ((t (:background ,red))))
 
          `(header-line    ((t (:foreground ,fg1 :background ,bg2 :inherit mode-line))))
          `(mode-line      ((t (:foreground ,fg0 :background ,bg3))))
@@ -120,14 +152,15 @@ in
          `(widget-field   ((t (:background ,bg2 :box (:line-width 1 :color ,outline-var)))))
          `(widget-button  ((t (:underline t))))
 
-         `(error          ((t (:foreground ,error :weight bold))))
-         `(warning        ((t (:foreground ,tertiary :weight bold))))
-         `(success        ((t (:foreground ,primary :weight bold))))
+         ;; ── Diagnostics: ANSI semantic ────────────────────────────────────
+         `(error          ((t (:foreground ,red :weight bold))))
+         `(warning        ((t (:foreground ,orange :weight bold))))
+         `(success        ((t (:foreground ,green :weight bold))))
          `(shadow         ((t (:foreground ,outline))))
 
          ;; ── Line numbers ──────────────────────────────────────────────────
          `(line-number              ((t (:foreground ,outline :background ,bg1))))
-         `(line-number-current-line ((t (:foreground ,primary :background ,bg2 :weight bold))))
+         `(line-number-current-line ((t (:foreground ,on-pri-cont :background ,sec-cont :weight bold))))
 
          ;; ── Tabs ──────────────────────────────────────────────────────────
          `(tab-bar              ((t (:background ,bg1))))
@@ -140,37 +173,34 @@ in
          `(tab-line-highlight    ((t (:foreground ,fg0 :background ,bg2))))
 
          ;; ── Font lock (syntax) ────────────────────────────────────────────
-         ;; comments → outline (muted)
-         `(font-lock-comment-face          ((t (:foreground ,outline :slant italic))))
-         `(font-lock-comment-delimiter-face ((t (:foreground ,outline-var :slant italic))))
-         `(font-lock-doc-face              ((t (:foreground ,fg2 :slant italic))))
-         `(font-lock-doc-string-face       ((t (:foreground ,fg2))))
-         ;; strings → on_primary_container
-         `(font-lock-string-face           ((t (:foreground ,on-pri-cont))))
-         ;; keywords → primary
-         `(font-lock-keyword-face          ((t (:foreground ,primary :weight bold))))
-         `(font-lock-builtin-face          ((t (:foreground ,primary))))
-         `(font-lock-preprocessor-face     ((t (:foreground ,primary))))
-         ;; functions → secondary
-         `(font-lock-function-name-face    ((t (:foreground ,secondary))))
-         ;; variables → on_surface
-         `(font-lock-variable-name-face    ((t (:foreground ,fg0))))
-         ;; types → tertiary
-         `(font-lock-type-face             ((t (:foreground ,tertiary))))
-         ;; constants / numbers → on_tertiary_container
-         `(font-lock-constant-face         ((t (:foreground ,on-ter-cont))))
-         ;; misc
-         `(font-lock-regexp-grouping-backslash  ((t (:foreground ,on-sec-cont))))
-         `(font-lock-regexp-grouping-construct  ((t (:foreground ,on-sec-cont :weight bold))))
-         `(font-lock-negation-char-face         ((t (:foreground ,error))))
-         `(font-lock-warning-face               ((t (:foreground ,error :weight bold))))
+         `(font-lock-comment-face           ((t (:foreground ,comments :slant italic))))
+         `(font-lock-comment-delimiter-face ((t (:foreground ,comments :slant italic))))
+         `(font-lock-doc-face               ((t (:foreground ,inlay :slant italic))))
+         `(font-lock-doc-string-face        ((t (:foreground ,inlay))))
+         `(font-lock-string-face            ((t (:foreground ,strings))))
+         `(font-lock-keyword-face           ((t (:foreground ,keywords :weight bold))))
+         `(font-lock-builtin-face           ((t (:foreground ,builtins))))
+         `(font-lock-preprocessor-face      ((t (:foreground ,macros))))
+         `(font-lock-function-name-face     ((t (:foreground ,functions))))
+         `(font-lock-variable-name-face     ((t (:foreground ,fg0))))
+         `(font-lock-type-face              ((t (:foreground ,types))))
+         `(font-lock-constant-face          ((t (:foreground ,constants))))
+         `(font-lock-number-face            ((t (:foreground ,numeric))))
+         `(font-lock-operator-face          ((t (:foreground ,punctuation))))
+         `(font-lock-punctuation-face       ((t (:foreground ,punctuation))))
+         `(font-lock-bracket-face           ((t (:foreground ,punctuation))))
+         `(font-lock-delimiter-face         ((t (:foreground ,punctuation))))
+         `(font-lock-regexp-grouping-backslash  ((t (:foreground ,specials))))
+         `(font-lock-regexp-grouping-construct  ((t (:foreground ,specials :weight bold))))
+         `(font-lock-negation-char-face         ((t (:foreground ,red))))
+         `(font-lock-warning-face               ((t (:foreground ,red :weight bold))))
 
          ;; ── Search & match ────────────────────────────────────────────────
          `(match           ((t (:foreground ,on-pri-cont :background ,pri-cont))))
          `(isearch         ((t (:foreground ,search-fg :background ,search-bg :inverse-video t))))
          `(lazy-highlight  ((t (:foreground ,on-sec-cont :background ,sec-cont :inverse-video t))))
          `(isearch-lazy-highlight-face ((t (:inherit lazy-highlight))))
-         `(isearch-fail    ((t (:background ,err-cont :foreground ,on-err-cont))))
+         `(isearch-fail    ((t (:background ,red :foreground ,bg0))))
          `(completions-common-part ((t (:foreground ,secondary :weight bold))))
 
          ;; ── Help ─────────────────────────────────────────────────────────
@@ -179,34 +209,34 @@ in
                                  :inherit fixed-pitch))))
 
          ;; ── Dired ─────────────────────────────────────────────────────────
-         `(dired-directory ((t (:foreground ,secondary :weight bold))))
-         `(dired-symlink   ((t (:foreground ,tertiary))))
+         `(dired-directory ((t (:foreground ,modules :weight bold))))
+         `(dired-symlink   ((t (:foreground ,specials))))
 
          ;; ── Compilation ───────────────────────────────────────────────────
-         `(compilation-column-number   ((t (:foreground ,on-ter-cont))))
-         `(compilation-line-number     ((t (:foreground ,on-ter-cont))))
-         `(compilation-message-face    ((t (:foreground ,secondary))))
-         `(compilation-mode-line-exit  ((t (:foreground ,primary))))
-         `(compilation-mode-line-fail  ((t (:foreground ,error))))
-         `(compilation-mode-line-run   ((t (:foreground ,secondary))))
+         `(compilation-column-number   ((t (:foreground ,numeric))))
+         `(compilation-line-number     ((t (:foreground ,numeric))))
+         `(compilation-message-face    ((t (:foreground ,blue))))
+         `(compilation-mode-line-exit  ((t (:foreground ,green))))
+         `(compilation-mode-line-fail  ((t (:foreground ,red))))
+         `(compilation-mode-line-run   ((t (:foreground ,blue))))
 
          ;; ── Diff ─────────────────────────────────────────────────────────
-         `(diff-added      ((t (:foreground ,on-pri-cont :background ,pri-cont))))
-         `(diff-changed    ((t (:foreground ,on-ter-cont :background ,ter-cont))))
-         `(diff-removed    ((t (:foreground ,on-err-cont :background ,err-cont))))
+         `(diff-added      ((t (:foreground ,green :background ,bg1))))
+         `(diff-changed    ((t (:foreground ,orange :background ,bg1))))
+         `(diff-removed    ((t (:foreground ,red :background ,bg1))))
          `(diff-header     ((t (:background ,bg2))))
          `(diff-file-header ((t (:background ,bg3 :weight bold))))
-         `(diff-hunk-header ((t (:foreground ,tertiary :background ,bg2))))
+         `(diff-hunk-header ((t (:foreground ,cyan :background ,bg2))))
 
          ;; ── Diff-hl ───────────────────────────────────────────────────────
-         `(diff-hl-change  ((t (:foreground ,tertiary))))
-         `(diff-hl-delete  ((t (:foreground ,error))))
-         `(diff-hl-insert  ((t (:foreground ,primary))))
+         `(diff-hl-change  ((t (:foreground ,orange))))
+         `(diff-hl-delete  ((t (:foreground ,red))))
+         `(diff-hl-insert  ((t (:foreground ,green))))
 
          ;; ── Git gutter ────────────────────────────────────────────────────
-         `(git-gutter:added    ((t (:foreground ,primary))))
-         `(git-gutter:deleted  ((t (:foreground ,error))))
-         `(git-gutter:modified ((t (:foreground ,tertiary))))
+         `(git-gutter:added    ((t (:foreground ,green))))
+         `(git-gutter:deleted  ((t (:foreground ,red))))
+         `(git-gutter:modified ((t (:foreground ,orange))))
 
          ;; ── Magit ────────────────────────────────────────────────────────
          `(magit-branch                   ((t (:foreground ,outline :weight bold))))
@@ -219,15 +249,19 @@ in
          `(magit-section-highlight        ((t (:background ,bg1))))
 
          ;; ── Flycheck / flymake ────────────────────────────────────────────
-         `(flycheck-error   ((t (:underline (:style wave :color ,error)))))
-         `(flycheck-warning ((t (:underline (:style wave :color ,tertiary)))))
-         `(flycheck-info    ((t (:underline (:style wave :color ,secondary)))))
+         `(flycheck-error   ((t (:underline (:style wave :color ,red)))))
+         `(flycheck-warning ((t (:underline (:style wave :color ,orange)))))
+         `(flycheck-info    ((t (:underline (:style wave :color ,blue)))))
+
+         `(flymake-error    ((t (:underline (:style wave :color ,red)))))
+         `(flymake-warning  ((t (:underline (:style wave :color ,orange)))))
+         `(flymake-note     ((t (:underline (:style wave :color ,blue)))))
 
          ;; ── Company ──────────────────────────────────────────────────────
          `(company-tooltip                ((t (:foreground ,fg0 :background ,bg2))))
          `(company-scrollbar-bg           ((t (:background ,bg3))))
          `(company-scrollbar-fg           ((t (:background ,outline))))
-         `(company-tooltip-annotation     ((t (:foreground ,outline))))
+         `(company-tooltip-annotation     ((t (:foreground ,inlay :slant italic))))
          `(company-tooltip-common         ((t (:foreground ,primary :weight bold))))
          `(company-tooltip-selection      ((t (:background ,pri-cont :foreground ,on-pri-cont))))
          `(company-tooltip-search         ((t (:inherit match))))
@@ -238,65 +272,67 @@ in
          `(corfu-current   ((t (:foreground ,on-pri-cont :background ,pri-cont :weight bold))))
          `(corfu-bar       ((t (:background ,outline))))
          `(corfu-border    ((t (:background ,outline-var))))
+         `(corfu-annotations ((t (:foreground ,inlay :slant italic))))
 
          ;; ── Ivy / Vertico ─────────────────────────────────────────────────
          `(ivy-current-match            ((t (:foreground ,on-pri-cont :background ,pri-cont))))
-         `(ivy-minibuffer-match-face-1  ((t (:foreground ,primary :weight bold))))
-         `(ivy-minibuffer-match-face-2  ((t (:foreground ,secondary))))
-         `(ivy-minibuffer-match-face-3  ((t (:foreground ,tertiary))))
-         `(ivy-minibuffer-match-face-4  ((t (:foreground ,on-ter-cont))))
-         `(ivy-confirm-face             ((t (:foreground ,primary))))
-         `(ivy-match-required-face      ((t (:foreground ,error))))
+         `(ivy-minibuffer-match-face-1  ((t (:foreground ,keywords :weight bold))))
+         `(ivy-minibuffer-match-face-2  ((t (:foreground ,functions))))
+         `(ivy-minibuffer-match-face-3  ((t (:foreground ,types))))
+         `(ivy-minibuffer-match-face-4  ((t (:foreground ,constants))))
+         `(ivy-confirm-face             ((t (:foreground ,green))))
+         `(ivy-match-required-face      ((t (:foreground ,red))))
          `(ivy-virtual                  ((t (:foreground ,fg1))))
-         `(ivy-action                   ((t (:foreground ,secondary))))
+         `(ivy-action                   ((t (:foreground ,functions))))
 
          ;; ── Org mode ─────────────────────────────────────────────────────
          `(org-agenda-structure    ((t (:foreground ,primary :weight bold))))
          `(org-agenda-date         ((t (:foreground ,secondary))))
-         `(org-agenda-done         ((t (:foreground ,primary))))
+         `(org-agenda-done         ((t (:foreground ,green))))
          `(org-agenda-dimmed-todo-face ((t (:foreground ,outline))))
          `(org-block               ((t (:foreground ,fg0 :background ,bg1))))
          `(org-block-begin-line    ((t (:foreground ,outline :background ,bg1))))
-         `(org-code                ((t (:foreground ,on-ter-cont))))
+         `(org-code                ((t (:foreground ,strings))))
          `(org-column              ((t (:background ,bg2))))
-         `(org-date                ((t (:foreground ,tertiary :underline t))))
-         `(org-document-info       ((t (:foreground ,secondary))))
-         `(org-document-info-keyword ((t (:foreground ,primary))))
+         `(org-date                ((t (:foreground ,types :underline t))))
+         `(org-document-info       ((t (:foreground ,modules))))
+         `(org-document-info-keyword ((t (:foreground ,keywords))))
          `(org-document-title      ((t (:foreground ,primary :weight bold :height 1.44))))
-         `(org-done                ((t (:foreground ,primary :background ,bg1))))
+         `(org-done                ((t (:foreground ,green :background ,bg1))))
          `(org-ellipsis            ((t (:foreground ,outline))))
-         `(org-footnote            ((t (:foreground ,on-sec-cont))))
-         `(org-formula             ((t (:foreground ,error))))
+         `(org-footnote            ((t (:foreground ,labels))))
+         `(org-formula             ((t (:foreground ,red))))
          `(org-hide                ((t (:foreground ,bg0))))
          `(org-link                ((t (:foreground ,secondary :underline t))))
          `(org-scheduled           ((t (:foreground ,primary))))
-         `(org-scheduled-previously ((t (:foreground ,tertiary))))
+         `(org-scheduled-previously ((t (:foreground ,orange))))
          `(org-scheduled-today     ((t (:foreground ,primary :weight bold))))
-         `(org-special-keyword     ((t (:foreground ,on-ter-cont))))
+         `(org-special-keyword     ((t (:foreground ,specials))))
          `(org-table               ((t (:foreground ,on-sec-cont))))
-         `(org-todo                ((t (:foreground ,error :background ,bg1))))
-         `(org-upcoming-deadline   ((t (:foreground ,tertiary))))
-         `(org-verbatim            ((t (:foreground ,on-pri-cont))))
-         `(org-warning             ((t (:foreground ,error :weight bold))))
+         `(org-todo                ((t (:foreground ,red :background ,bg1))))
+         `(org-upcoming-deadline   ((t (:foreground ,orange))))
+         `(org-verbatim            ((t (:foreground ,constants))))
+         `(org-warning             ((t (:foreground ,red :weight bold))))
 
          ;; ── Markdown ─────────────────────────────────────────────────────
          `(markdown-url-face   ((t (:inherit link))))
          `(markdown-link-face  ((t (:foreground ,secondary :underline t))))
+         `(markdown-code-face  ((t (:foreground ,strings :background ,bg1))))
 
          ;; ── Rainbow delimiters ────────────────────────────────────────────
-         `(rainbow-delimiters-depth-1-face ((t (:foreground ,primary))))
-         `(rainbow-delimiters-depth-2-face ((t (:foreground ,secondary))))
-         `(rainbow-delimiters-depth-3-face ((t (:foreground ,tertiary))))
-         `(rainbow-delimiters-depth-4-face ((t (:foreground ,on-pri-cont))))
-         `(rainbow-delimiters-depth-5-face ((t (:foreground ,on-sec-cont))))
-         `(rainbow-delimiters-depth-6-face ((t (:foreground ,on-ter-cont))))
-         `(rainbow-delimiters-depth-7-face ((t (:foreground ,error))))
-         `(rainbow-delimiters-depth-8-face ((t (:foreground ,outline))))
+         `(rainbow-delimiters-depth-1-face ((t (:foreground ,keywords))))
+         `(rainbow-delimiters-depth-2-face ((t (:foreground ,functions))))
+         `(rainbow-delimiters-depth-3-face ((t (:foreground ,types))))
+         `(rainbow-delimiters-depth-4-face ((t (:foreground ,constants))))
+         `(rainbow-delimiters-depth-5-face ((t (:foreground ,macros))))
+         `(rainbow-delimiters-depth-6-face ((t (:foreground ,specials))))
+         `(rainbow-delimiters-depth-7-face ((t (:foreground ,tags))))
+         `(rainbow-delimiters-depth-8-face ((t (:foreground ,modules))))
          `(rainbow-delimiters-depth-9-face ((t (:foreground ,fg0))))
 
          ;; ── Show paren ────────────────────────────────────────────────────
          `(show-paren-match    ((t (:foreground ,on-primary :background ,primary :weight bold))))
-         `(show-paren-mismatch ((t (:foreground ,on-error :background ,error))))
+         `(show-paren-mismatch ((t (:foreground ,bg0 :background ,red))))
 
          ;; ── Avy ──────────────────────────────────────────────────────────
          `(avy-lead-face   ((t (:foreground ,on-primary :background ,primary))))
@@ -310,41 +346,41 @@ in
          `(meow-search-highlight ((t (:foreground ,search-fg :background ,search-bg))))
 
          ;; ── Whitespace ───────────────────────────────────────────────────
-         `(whitespace-empty          ((t (:foreground ,error :background ,err-cont))))
+         `(whitespace-empty          ((t (:foreground ,red :background ,bg1))))
          `(whitespace-hspace         ((t (:foreground ,outline :background ,outline))))
          `(whitespace-indentation    ((t (:foreground ,outline :background ,bg1))))
-         `(whitespace-line           ((t (:foreground ,on-err-cont :background ,bg1))))
+         `(whitespace-line           ((t (:foreground ,orange :background ,bg1))))
          `(whitespace-newline        ((t (:foreground ,outline-var))))
          `(whitespace-space          ((t (:foreground ,outline-var :background ,bg1))))
-         `(whitespace-space-after-tab ((t (:foreground ,error :background ,err-cont))))
-         `(whitespace-space-before-tab ((t (:foreground ,error :background ,err-cont))))
+         `(whitespace-space-after-tab ((t (:foreground ,red :background ,bg1))))
+         `(whitespace-space-before-tab ((t (:foreground ,red :background ,bg1))))
          `(whitespace-tab            ((t (:foreground ,outline-var :background ,bg1))))
-         `(whitespace-trailing       ((t (:foreground ,on-err-cont :background ,err-cont))))
+         `(whitespace-trailing       ((t (:foreground ,red :background ,bg1))))
 
-         ;; ── Term ─────────────────────────────────────────────────────────
+         ;; ── Term / ANSI ───────────────────────────────────────────────────
          `(term                   ((t (:foreground ,fg0 :background ,bg0))))
          `(term-color-black       ((t (:foreground ,bg0 :background ,bg0))))
          `(term-color-white       ((t (:foreground ,fg0 :background ,fg0))))
-         `(term-color-red         ((t (:foreground ,error :background ,error))))
-         `(term-color-yellow      ((t (:foreground ,tertiary :background ,tertiary))))
-         `(term-color-green       ((t (:foreground ,primary :background ,primary))))
-         `(term-color-cyan        ((t (:foreground ,on-pri-cont :background ,on-pri-cont))))
-         `(term-color-blue        ((t (:foreground ,secondary :background ,secondary))))
-         `(term-color-magenta     ((t (:foreground ,on-sec-cont :background ,on-sec-cont))))
+         `(term-color-red         ((t (:foreground ,red :background ,red))))
+         `(term-color-yellow      ((t (:foreground ,orange :background ,orange))))
+         `(term-color-green       ((t (:foreground ,green :background ,green))))
+         `(term-color-cyan        ((t (:foreground ,cyan :background ,cyan))))
+         `(term-color-blue        ((t (:foreground ,blue :background ,blue))))
+         `(term-color-magenta     ((t (:foreground ,specials :background ,specials))))
          `(ansi-color-black       ((t (:foreground ,bg0 :background ,bg0))))
          `(ansi-color-white       ((t (:foreground ,fg0 :background ,fg0))))
-         `(ansi-color-red         ((t (:foreground ,error :background ,error))))
-         `(ansi-color-yellow      ((t (:foreground ,tertiary :background ,tertiary))))
-         `(ansi-color-green       ((t (:foreground ,primary :background ,primary))))
-         `(ansi-color-cyan        ((t (:foreground ,on-pri-cont :background ,on-pri-cont))))
-         `(ansi-color-blue        ((t (:foreground ,secondary :background ,secondary))))
-         `(ansi-color-magenta     ((t (:foreground ,on-sec-cont :background ,on-sec-cont))))
+         `(ansi-color-red         ((t (:foreground ,red :background ,red))))
+         `(ansi-color-yellow      ((t (:foreground ,orange :background ,orange))))
+         `(ansi-color-green       ((t (:foreground ,green :background ,green))))
+         `(ansi-color-cyan        ((t (:foreground ,cyan :background ,cyan))))
+         `(ansi-color-blue        ((t (:foreground ,blue :background ,blue))))
+         `(ansi-color-magenta     ((t (:foreground ,specials :background ,specials))))
 
          ;; ── Custom / Eldoc ────────────────────────────────────────────────
-         `(custom-variable-tag    ((t (:foreground ,secondary))))
+         `(custom-variable-tag    ((t (:foreground ,functions))))
          `(custom-group-tag       ((t (:foreground ,primary :weight bold))))
-         `(custom-state           ((t (:foreground ,primary))))
-         `(eldoc-highlight-function-argument ((t (:foreground ,primary :weight bold))))
+         `(custom-state           ((t (:foreground ,green))))
+         `(eldoc-highlight-function-argument ((t (:foreground ,keywords :weight bold))))
 
          ;; ── Tooltip ──────────────────────────────────────────────────────
          `(tooltip ((t (:foreground ,fg0 :background ,bg2))))
@@ -358,17 +394,17 @@ in
          `(ediff-odd-diff-C  ((t (:foreground ,fg1 :background ,bg2)))))
 
         (custom-theme-set-variables
-         'base16-${name}
-         `(ansi-color-names-vector [,bg0 ,error ,primary ,tertiary ,secondary ,on-sec-cont ,on-pri-cont ,fg0])))
+         'custom-${name}
+         `(ansi-color-names-vector [,bg0 ,red ,green ,orange ,blue ,specials ,cyan ,fg0])))
 
       ;;;###autoload
       (when load-file-name
         (add-to-list 'custom-theme-load-path
                      (file-name-as-directory (file-name-directory load-file-name))))
 
-      (provide-theme 'base16-${name})
-      (provide 'base16-${name}-theme)
+      (provide-theme 'custom-${name})
+      (provide 'custom-${name}-theme)
 
-      ;;; base16-${name}-theme.el ends here
+      ;;; custom-${name}-theme.el ends here
     '';
 }

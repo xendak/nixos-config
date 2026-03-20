@@ -214,16 +214,10 @@ def upb [
   let flags = []
   let flags = if $show_trace { $flags | append "--show-trace" } else { $flags }
   let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
+  let flags = if (checkDesktop) { $flags | append ["--option" "max-jobs" "0"] } else { $flags }
 
   let host = sys host | get hostname
 
-  if $host != "Snow" {
-    let snow_up = (nc -z -w 1 Snow 22 | complete | get exit_code) == 0
-      if $snow_up {
-      print "❄️ Snow is online..."
-      let flags = if $snow_up { $flags | append ["--option" "max-jobs" "0"] } else { $flags }
-    } 
-  }
 
   
   if not $nom {
@@ -275,14 +269,7 @@ def upd [
   let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
   let host = sys host | get hostname
 
-  # --- Remote Builder Logic ---
-  if $host != "Snow" {
-    let snow_up = (nc -z -w 1 Snow 22 | complete | get exit_code) == 0
-      if $snow_up {
-      print "❄️ Snow is online..."
-      let flags = if $snow_up { $flags | append ["--option" "max-jobs" "0"] } else { $flags }
-    } 
-  }
+  let flags = if (checkDesktop) { $flags | append ["--option" "max-jobs" "0"] } else { $flags }
   
   if not $nom {
     sudo nixos-rebuild switch --flake $".#($host)" ...$flags --log-format internal-json -v e+o>| nom --json
@@ -440,11 +427,13 @@ def nspl [...search_terms: string@"nu-complete-nix-pkgs-sqlite"] {
 }
 
 def ns [...packages: string@"nu-complete-nix-pkgs-sqlite"] {
-  ^nix-shell -p ...$packages --run nu
+  let flags = if (checkDesktop) {[] | append ["--max-jobs" "0"] } else { [] }
+  ^nix-shell -p ...$packages ...$flags --run nu
 }
 
 def nr [package: string@"nu-complete-nix-pkgs-sqlite"] {
-  ^nix run $"nixpkgs#($package)"
+  let flags = if (checkDesktop) {[] | append ["--max-jobs" "0"] } else { [] }
+  ^nix run $"nixpkgs#($package)" ...$flags
 }
 
 def --env y [...args] {
@@ -455,4 +444,17 @@ def --env y [...args] {
 		cd $cwd
 	}
 	rm -fp $tmp
+}
+
+def checkDesktop [] {
+  let host = sys host | get hostname
+  mut snow_up = false
+  if $host != "Snow" {
+    $snow_up = (nc -z -w 1 Snow 22 | complete | get exit_code) == 0
+    if $snow_up {
+      print "❄️ Snow is online..."
+    }
+  }
+
+  return $snow_up  
 }

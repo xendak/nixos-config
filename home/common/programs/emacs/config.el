@@ -82,17 +82,14 @@
   (setq lsp-signature-render-documentation t)
   (setq lsp-odin-server-command "ols")
   (setq lsp-odin-ols-executable "ols")
-  (setq lsp-idle-delay 0.2))
+  (setq lsp-idle-delay 0.2)
 
-(with-eval-after-load 'lsp-mode
-  ;; Define the Odin Language Server client manually
   (lsp-register-client
    (make-lsp-client
     :new-connection (lsp-stdio-connection "ols")
     :major-modes '(odin-mode)
     :server-id 'ols-nix)) ; Custom ID to avoid conflict with built-in scripts
 
-  ;; Ensure the odin-mode ID matches what the LSP server expects
   (add-to-list 'lsp-language-id-configuration '(odin-mode . "odin")))
 
 (use-package lsp-ui
@@ -136,118 +133,12 @@
 (use-package direnv
   :ensure t
   :config
-  (direnv-mode))
+  (direnv-mode)
+  (defun my/direnv-colorize-buffer ()
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region (point-min) (point-max))))
 
-; (use-package vertico
-;   :ensure t
-;   :config
-;   (vertico-mode +1))
-
-; (use-package vertico
-;   :if (package-installed-p 'vertico)
-;   :demand t
-;   :config
-;   (setopt vertico-cycle t)
-;   (vertico-mode +1))
-
-; (use-package vertico-posframe
-;   :ensure t
-;   :init
-;   (setq vertico-posframe-parameters
-;         '((left-fringe . 8)
-;           (right-fringe . 8)))
-;   :config
-;   (vertico-posframe-mode +1))
-
-; (use-package orderless
-;   :ensure t
-;   :init
-;   (setq completion-styles '(orderless basic partial-completion)
-;         completion-category-defaults nil
-;         completion-category-overrides '((file (styles partial-completion)))))
-
-	
-
-; (use-package marginalia
-;   :custom
-;   (marginalia-max-relative-age 0)
-;   (marginalia-align 'right)
-;   :init
-;   (marginalia-mode))
-
-; (use-package embark
-;   :ensure t
-;   :bind (("C-." . embark-act)
-;          ("M-." . embark-dwim)
-;          ("C-h B" . embark-bindings))
-;   :init
-;   (setq prefix-help-command #'embark-prefix-help-command)
-;   :config
-;   (add-to-list 'display-buffer-alist
-;                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-;                  nil
-;                  (window-parameters (mode-line-format . none)))))
-
-; (use-package consult
-;   :ensure t
-;   :bind (("C-x b" . consult-buffer)
-;          ("C-x p b" . consult-project-buffer)
-;          ("M-y" . consult-yank-pop)
-;          ("M-g g" . consult-goto-line)
-;          ("M-g ," . consult-line)
-;          ("M-g i" . consult-imenu)
-;          ("M-g I" . consult-imenu-multi)
-;          ("M-g m" . consult-mark)
-;          ("M-g o" . consult-outline)
-;          ("M-g e" . consult-compile-error)
-;          ("M-s d" . consult-fd)
-;          ("M-s c" . consult-locate)
-;          ("M-s g" . consult-grep)
-;          ("M-s G" . consult-git-grep)
-;          ("M-s r" . consult-ripgrep)
-;          ("M-s l" . consult-line)
-;          ("M-s L" . consult-line-multi)
-;          ("M-s k" . consult-keep-lines)
-;          ("M-s u" . consult-focus-lines)
-;          ("M-s e" . consult-isearch-history)
-;          :map isearch-mode-map
-;          ("M-e" . consult-isearch-history)
-;          ("M-s e" . consult-isearch-history)
-;          ("M-s l" . consult-line)
-;          ("M-s L" . consult-line-multi)
-;          :map minibuffer-local-map
-;          ("M-s" . consult-history)
-;          ("M-r" . consult-history))
-;   :config
-;   (setq consult-find-args '("-L" . "-type f"))
-;   (setq consult-preview-key 'any)
-;   (consult-customize
-;    consult-ripgrep consult-git-grep consult-grep consult-line
-;    :preview-key '(:debounce 0.2 any))
-;   (consult-customize
-;    consult-find consult-fd consult-locate
-;    :preview-key '(:debounce 0.4 any)
-;    :state (consult--file-preview))
-  
-;   (autoload 'projectile-project-root "projectile")
-;   (setq consult-project-function (lambda (_) (projectile-project-root)))
-  
-;   (defun consult-projectile-find-file ()
-;     (interactive)
-;     (if (projectile-project-p)
-;         (let ((default-directory (projectile-project-root)))
-;           (consult-fd))
-;       (consult-fd))))
-
-; (use-package embark-consult
-;   :ensure t
-;   :hook (embark-collect-mode . consult-preview-at-point-mode))
-
-
-; (use-package marginalia
-;   :ensure t
-;   :config
-;   (marginalia-mode))
+  (add-hook 'direnv-log-mode-hook #'my/direnv-colorize-buffer))
 
 (use-package vertico
   :defer 1

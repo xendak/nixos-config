@@ -90,26 +90,26 @@ let
       ${lib.concatStringsSep "\n" (
         lib.mapAttrsToList (
           generatedPath: targetPath:
-          if lib.hasInfix "emacs/themes/base16-nix" generatedPath then
-            # sh
-            ''
-              EDIR="$(dirname "${targetPath}")"
-              TIMESTAMP=$(date +%s)
-              EMACSFILE="base16-''${TIMESTAMP}-theme.el"
+          # if lib.hasInfix "emacs/themes/base16-nix" generatedPath then
+          #   # sh
+          #   ''
+          #     EDIR="$(dirname "${targetPath}")"
+          #     TIMESTAMP=$(date +%s)
+          #     EMACSFILE="base16-''${TIMESTAMP}-theme.el"
 
-              mkdir -p "''${EDIR}"
+          #     mkdir -p "''${EDIR}"
 
-              rm -f "''${EDIR}"/*
-              sleep 0.001
+          #     rm -f "''${EDIR}"/*
+          #     sleep 0.001
 
-              echo "  emacs: Generating new theme ''${EDIR}/''${EMACSFILE}..."
-              # cat "$SRC_DIR/${generatedPath}" > "''${EDIR}/''${EMACSFILE}"
-              ln -snf "$SRC_DIR/emacs/themes/base16-nix-theme.el"  "''${EDIR}/''${EMACSFILE}"
+          #     echo "  emacs: Generating new theme ''${EDIR}/''${EMACSFILE}..."
+          #     # cat "$SRC_DIR/${generatedPath}" > "''${EDIR}/''${EMACSFILE}"
+          #     ln -snf "$SRC_DIR/emacs/themes/base16-nix-theme.el"  "''${EDIR}/''${EMACSFILE}"
 
-              echo "  emacs: Patching theme name..."
-              sed -i "s,base16-nix,base16-''${TIMESTAMP},g" "''${EDIR}/''${EMACSFILE}"
-            ''
-          else if lib.hasSuffix "yazi/theme.toml" targetPath then
+          #     echo "  emacs: Patching theme name..."
+          #     sed -i "s,base16-nix,base16-''${TIMESTAMP},g" "''${EDIR}/''${EMACSFILE}"
+          #   ''
+          if lib.hasSuffix "yazi/theme.toml" targetPath then
             # sh
             ''
               # Yazi is staticaly generated for UI
@@ -173,9 +173,8 @@ let
       cp -f "$PREVIEW" "$CURRENT"
 
 
-      echo "(load-theme 'base16-$TIMESTAMP t)" > "$EDIR/current-theme.el"
-      emacsclient -e "(load-theme 'base16-''${TIMESTAMP} t)" &> /dev/null || true &
-      emacsclient -e "(load-file \"$EDIR/current-theme.el\")" &> /dev/null || true &
+      emacsclient -e "(my/reload-theme)" &> /dev/null || true &
+
       echo "$(date +"%d/%m/%y | %H:%M >")" "Theme switched to $THEME_NAME." >> /tmp/theme-switcher
       pkill -USR1 hx &> /dev/null || true &
 

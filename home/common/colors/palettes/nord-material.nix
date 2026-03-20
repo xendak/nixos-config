@@ -19,15 +19,47 @@ let
   };
 
   overrides = {
-    red = "#bf616a";
-    orange = "#d08770";
-    yellow = "#ebcb8b";
-    green = "#a3be8c";
-    magenta = "#b48ead";
-    blue = "#81a1c1";
-    cyan = "#8fbcbb";
-    white = "#eceff4";
+    brightwhite = "#191D24";
+    white = "#1E222A";
+    grey = "#4C566A";
+    brightgrey = "#60728A";
+    black = "#E5E9F0";
+    brightblack = "#ECEFF4";
+    blue = "#5E81AC";
+    brightblue = "#81A1C1";
+    cyan = "#8FBCBB";
+    brightcyan = "#9FC6C5";
+    red = "#BF616A";
+    brightred = "#C5727A";
+    orange = "#D08770";
+    brightorange = "#D79784";
+    yellow = "#EBCB8B";
+    brightyellow = "#EFD49F";
+    green = "#A3BE8C";
+    brightgreen = "#B1C89D";
+    magenta = "#B48EAD";
+    brightmagenta = "#BE9DB8";
+
     selection_fg = "#4A4458";
+    outline = "#79747E";
+
+    # REMINDER
+    # keywords = extra.keywords or ansi.red;
+    # labels = extra.labels or ansi.brightred;
+    # strings = extra.strings or ansi.green;
+    # alt_functions = extra.alt_functions or ansi.brightgreen;
+    # builtins = extra.builtins or ansi.yellow;
+    # types = extra.types or ansi.brightyellow;
+    # functions = extra.functions or ansi.blue;
+    # macros = extra.macros or ansi.brightblue;
+    # specials = extra.specials or ansi.magenta;
+    # constants = extra.constants or ansi.brightmagenta;
+    # modules = extra.modules or ansi.cyan;
+    # tags = extra.tags or ansi.brightcyan;
+    # numeric = extra.numeric or ansi.orange;
+    # punctuation = extra.punctuation or ansi.brightorange;
+    # comments = extra.comments or ansi.grey;
+    # inlay = extra.inlay or ansi.brightgrey;
   };
 
 in
