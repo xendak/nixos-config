@@ -1,5 +1,11 @@
+def qsc [] {
+  let qsp = ($env.HOME | path join "Flake" "home" "common" "programs" "quickshell" "niri")
+  ps | where name like "quickshell" | each { kill $in.pid }
+  qs -c $qsp -d
+}
+
 def ll [path: path = .] {
-  ls -al | select name mode user size modified target
+  ls -al | select name size mode modified user target
 }
 
 # Syncs .desktop files from Flake to user application folder

@@ -45,7 +45,7 @@ in
             - '${m.primary}'
             - bold
           inactiveBorderColor:
-            - '${m.selection_fg}'
+            - '${m.dim}'
           searchingActiveBorderColor:
             - '${m.secondary}'
             - bold

@@ -3,30 +3,52 @@ let
   lazy = false;
   must = {
     primary = "#ab4642";
-    secondary = "#194820";
-    tertiary = "#393e51";
-    error = "#bf616a";
+    secondary = "#578d4e";
+    tertiary = "#454138";
+    error = "#ab4642";
 
-    fg = "#000000";
-    bg = "#b1ab92";
+    fg = "#101010";
+    bg = "#bab5a1";
     surface_container = "#c5bfa6";
     surface_container_low = "#948d71";
     surface_container_high = "#cbc5af";
 
+    dim = "#6b656a";
     cursor_bg = "#ab4642";
     cursor_fg = "#101010";
   };
 
   overrides = {
-    white = "#282828";
-    grey = "#817b78";
-    orange = "#CA397C";
-    red = "#9c341f";
-    green = "#795b00";
-    yellow = "#663d52";
-    blue = "#ab4642";
-    magenta = "#ac6561";
-    cyan = "#454320";
+    # default colors for ansi on white
+    white = "#fbf1c7";
+    gray = "#7c6f64";
+    black = "#3c3836";
+    red = "#9d0006";
+    green = "#79740e";
+    yellow = "#b57614"; # change
+    blue = "#076678";
+    magenta = "#8f3f71";
+    cyan = "#427b58";
+    orange = "#af3a03";
+
+    brightwhite = "#928374";
+    brightblack = "#7c6f64";
+
+    strings = "#ab4642";
+    numeric = "#578d4e";
+
+    comments = "#6b656a";
+    keywords = "#252525";
+    labels = "#3a3a3a";
+    punctuation = "#555555";
+    macros = "#333333";
+    functions = "#1e1e1e";
+    builtins = "#4a4a4a";
+    types = "#2e2e2e";
+    specials = "#444444";
+    constants = "#3d3d3d";
+    modules = "#2a2a2a";
+    tags = "#353535";
 
     selection_fg = "#202020";
   };
@@ -36,7 +58,8 @@ in
   isLazy = lazy;
   slug = "nier-material";
   name = "nier-material";
-  type = "dark";
+  # TODO: zen browser disregards this shit apparently ??
+  type = "dark"; # maybe this is bad ? most of programs seem to disable the light zz
   author = "xendak";
   must = must;
   overrides = overrides;

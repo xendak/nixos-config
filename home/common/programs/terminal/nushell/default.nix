@@ -1,5 +1,6 @@
 {
   config,
+  host,
   pkgs,
   lib,
   ...
@@ -40,12 +41,12 @@ in
   ];
 
   programs = {
-    carapace = {
-      enable = true;
-      enableNushellIntegration = true;
-    };
-    starship.enable = true;
-    starship.enableNushellIntegration = true;
+    # carapace = {
+    #   enable = true;
+    #   enableNushellIntegration = true;
+    # };
+    # starship.enable = true;
+    # starship.enableNushellIntegration = true;
     yazi.enableNushellIntegration = true;
     zoxide.enableNushellIntegration = true;
     direnv.enableNushellIntegration = true;
@@ -87,16 +88,14 @@ in
 
           $env.EDITOR = "hx"
           $env.VISUAL = "hx"
-          $env.STARSHIP_SHELL = "nu"
+          $env.HOSTNAME = "${host}"
+          # $env.STARSHIP_SHELL = "nu"
 
           $env.config.buffer_editor = "hx"
           $env.config.cursor_shape.vi_insert = "blink_line"
           $env.config.cursor_shape.vi_normal = "blink_block"
 
           $env.NU_EXPERIMENTAL_OPTIONS = "native-clip"
-          $env.PROMPT_INDICATOR_VI_NORMAL = ""
-          $env.PROMPT_INDICATOR_VI_INSERT = ""
-          $env.PROMPT_MULTILINE_INDICATOR = ""
 
           # AI key setup
           let gemini_key = ($env.HOME | path join '.ssh/gemini')
@@ -125,51 +124,14 @@ in
 
       extraConfig = # nu
         ''
-          let fish_completer = {|spans|
-            fish --command $'complete "--do-complete=($spans | str join " ")"'
-            | from tsv --flexible --noheaders --no-infer
-            | rename value description
-          }
-
-          let carapace_completer = {|spans: list<string>|
-            carapace $spans.0 nushell ...$spans
-            | from json
-            | if ($in | default [] | where value =~ '^-.*ERR$' | is-empty) { $in } else { null }
-          }
-
-          let zoxide_completer = {|spans|
-            $spans | skip 1 | zoxide query -l ...$in | lines | where {|x| $x != $env.PWD}
-          }
-
-          let external_completer = {|spans|
-            let expanded_alias = scope aliases
-            | where name == $spans.0
-            | get -o 0.expansion
-
-            let spans = if $expanded_alias != null {
-              $spans
-              | skip 1
-              | prepend ($expanded_alias | split row ' ' | take 1)
-            } else {
-              $spans
-            }
-
-            match $spans.0 {
-              nu => $fish_completer
-              git => $fish_completer
-              asdf => $fish_completer
-              hx => $fish_completer
-              __zoxide_z | __zoxide_zi => $zoxide_completer
-              _ => $carapace_completer
-            } | do $in $spans
-          } 
-
           const NU_LIB_DIRS = [
             '/home/${config.home.username}/Flake/home/common/programs/terminal/nushell'
           ]
 
           source qmk.nu
           source colors.nu
+          source prompt.nu
+          source completion.nu
           source functions.nu
 
           $env.config = {
@@ -189,11 +151,6 @@ in
               sort: smart,
               case_sensitive: false,
               algorithm: "fuzzy",
-              external: {
-                enable: true,
-                max_results: 100,
-                completer: $external_completer
-              }
             },
             history: {
               file_format: sqlite,

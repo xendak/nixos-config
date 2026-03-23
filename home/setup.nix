@@ -9,7 +9,6 @@
 {
   imports = [
     inputs.impermanence.homeManagerModules.impermanence
-    inputs.nix-colors.homeManagerModule
 
     ./common/colors
   ]

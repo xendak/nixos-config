@@ -1,6 +1,6 @@
 { lib, ... }:
 let
-  lazy = false;
+  lazy = true;
   must = {
     primary = "#8FCFF3";
     secondary = "#B5C9D7";
@@ -11,6 +11,7 @@ let
     bg = "#202020";
     surface_container = "#121212";
     surface_container_high = "#303030";
+    dim = "#434343";
 
     cursor_bg = "#e3556f";
     cursor_fg = "#101010";

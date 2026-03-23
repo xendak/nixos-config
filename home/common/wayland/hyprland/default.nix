@@ -62,8 +62,6 @@
         # swaylock = "${config.programs.swaylock.package}/bin/swaylock";
         playerctl = "${config.services.playerctld.package}/bin/playerctl";
 
-        colorscheme = import ../../colors/palettes/gorgoroth.nix;
-        c = colorscheme.palette;
         wallpaper = "$HOME/Flake/home/common/wallpapers/13.jpg";
       in
       {
@@ -119,8 +117,8 @@
           gaps_in = 5;
           gaps_out = 20;
           border_size = 3;
-          "col.active_border" = "rgba(${c.wm_active_border}ff)";
-          "col.inactive_border" = "rgba(${c.wm_inactive_border}a0)";
+          # "col.active_border" = "rgba(${change.wm_active_border}ff)";
+          # "col.inactive_border" = "rgba(${change.wm_inactive_border}a0)";
           resize_on_border = true;
           hover_icon_on_border = false;
         };
@@ -134,8 +132,8 @@
           shadow = {
             enabled = true;
             range = 30;
-            color = "rgba(${c.wm_active_border}f0)";
-            color_inactive = "rgba(${c.wm_inactive_border}66)";
+            # color = "rgba(${change.wm_active_border}f0)";
+            # color_inactive = "rgba(${change.wm_inactive_border}66)";
           };
 
           blur = {

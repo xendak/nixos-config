@@ -201,7 +201,7 @@ in
   "zen/userContent.css" =
     #css
     ''
-            @media (prefers-color-scheme: dark) {
+      @media (prefers-color-scheme: ${scheme}) {
         @-moz-document url-prefix("about:") {
           :root {
             --in-content-page-color: ${p.fg} !important;

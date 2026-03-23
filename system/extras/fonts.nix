@@ -34,6 +34,7 @@
         "EB Garamond"
         "Source Han Serif"
         "Noto Color Emoji"
+        "JetBrainsMono Nerd Font"
       ];
       sansSerif = [
         "Sofia Pro"
@@ -41,6 +42,7 @@
         "IBM Plex Sans"
         "Source Han Sans"
         "Noto Color Emoji"
+        "JetBrainsMono Nerd Font"
       ];
       monospace = [
         "JetBrainsMono Nerd Font"

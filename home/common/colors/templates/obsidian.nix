@@ -1,12 +1,13 @@
 { paletteSet, ... }:
 let
   p = paletteSet.palette;
+  scheme = if paletteSet.type == "dark" then "dark" else "light";
 in
 {
   "obsidian/theme.css" =
     #css
     ''
-      .theme-dark {
+      .theme-${scheme} {
         --background-primary: ${p.bg} !important;
         --background-primary-alt: ${p.surface_container_low} !important;
         --background-secondary: ${p.surface_container_low} !important;
@@ -62,7 +63,7 @@ in
       .cm-s-obsidian .cm-meta { color: ${p.modules} !important; }
 
       /* Excalidraw */
-      .excalidraw.theme--dark {
+      .excalidraw.theme--${scheme} {
         --color-primary: ${p.primary} !important;
         --color-primary-darker: ${p.primary_container} !important;
         --bg-color: ${p.bg} !important;
@@ -95,7 +96,7 @@ in
       .token.builtin, .cm-builtin { color: ${p.builtins} !important; }
       .token.regex { color: ${p.numeric} !important; }
 
-      .theme-dark .is-active {
+      .theme-${scheme} .is-active {
           --text-normal: ${p.bg};
       }
     '';

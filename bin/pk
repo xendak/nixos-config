@@ -1,2 +1,2 @@
 #!/bin/sh
-hyprpicker | tr -d \n | wl-copy
+hyprpicker | tr -d "\n" | wl-copy

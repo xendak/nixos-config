@@ -45,25 +45,25 @@ let
 
       :root {
         --text-0: var(--bg-4);
-        --text-1: ${p.base04};
-        --text-2: ${p.base05};
-        --text-3: ${p.base05};
-        --text-4: ${p.base04};
-        --text-5: ${p.base04}90;
+        --text-1: ${p.on_surface_variant};
+        --text-2: ${p.on_surface};
+        --text-3: ${p.on_surface};
+        --text-4: ${p.on_surface_variant};
+        --text-5: ${p.on_surface_variant}90;
 
-        --bg-1: ${p.base01};
-        --bg-2: ${p.base02};
-        --bg-3: ${p.base01};
+        --bg-1: ${p.surface_container};
+        --bg-2: ${p.surface_container_high};
+        --bg-3: ${p.surface_container_low};
         --bg-4: ${p.bg};
         --hover: ${p.primary}20;
         --active: ${p.primary}60;
-        --message-hover: ${p.base00};
+        --message-hover: ${p.background};
 
-        --accent-1: ${p.base0D};
-        --accent-2: ${p.base0D};
+        --accent-1: ${p.secondary};
+        --accent-2: ${p.tertiary};
         --accent-3: ${p.primary};
-        --accent-4: ${p.base0C};
-        --accent-5: ${p.base0B};
+        --accent-4: ${p.blue};
+        --accent-5: ${p.green};
         --accent-new: var(--accent-2);
 
         --online: ${p.green};

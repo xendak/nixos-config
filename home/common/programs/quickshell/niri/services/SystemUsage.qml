@@ -96,26 +96,41 @@ Singleton {
     Process {
         id: storage
 
-        running: true
-        command: ["fish", "-c", "df | grep '^/dev/' | awk '{print $3, $4}'"]
-        stdout: SplitParser {
-            splitMarker: ""
-            onRead: data => {
-                let used = 0;
-                let avail = 0;
-                let last_used = 0;
-                let last_avail = 0;
-                for (const line of data.trim().split("\n")) {
-                    const [u, a] = line.split(" ");
-                    if(last_used !== u && last_avail !== a) {
-                        used += parseInt(u, 10);
-                        avail += parseInt(a, 10);
-                        last_used = u;
-                        last_avail = a;
+        command: ["bash", "-c", "df | grep '^/dev/' | awk '{print $1, $3, $4}'"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const deviceMap = new Map();
+
+                for (const line of text.trim().split("\n")) {
+                    if (line.trim() === "")
+                        continue;
+
+                    const parts = line.trim().split(/\s+/);
+                    if (parts.length >= 3) {
+                        const device = parts[0];
+                        const used = parseInt(parts[1], 10) || 0;
+                        const avail = parseInt(parts[2], 10) || 0;
+
+                        // Only keep the entry with the largest total space for each device
+                        if (!deviceMap.has(device) || (used + avail) > (deviceMap.get(device).used + deviceMap.get(device).avail)) {
+                            deviceMap.set(device, {
+                                used: used,
+                                avail: avail
+                            });
+                        }
                     }
                 }
-                root.storageUsed = used;
-                root.storageTotal = used + avail;
+
+                let totalUsed = 0;
+                let totalAvail = 0;
+
+                for (const [device, stats] of deviceMap) {
+                    totalUsed += stats.used;
+                    totalAvail += stats.avail;
+                }
+
+                root.storageUsed = totalUsed;
+                root.storageTotal = totalUsed + totalAvail;
             }
         }
     }

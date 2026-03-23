@@ -17,6 +17,7 @@
         "Sofia Pro"
         "Source Han Sans"
         "Noto Color Emoji"
+        "JetBrainsMono Nerd Font"
       ];
 
       serif = [
@@ -24,6 +25,7 @@
         "EB Garamond"
         "Source Han Serif"
         "Noto Color Emoji"
+        "JetBrainsMono Nerd Font"
       ];
     };
   };

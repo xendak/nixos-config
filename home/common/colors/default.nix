@@ -62,6 +62,9 @@
         # Nvim
         "nvim/colors.vim" = "${home}/.config/nvim/colors.vim";
 
+        # Niri
+        "niri/colors.kdl" = "${home}/.config/niri/colors.kdl";
+
         # Yazi
         "yazi/theme.toml" = "${home}/.config/yazi/theme.toml";
 

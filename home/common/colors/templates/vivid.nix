@@ -23,13 +23,13 @@ in
       green:        '${hex p.green}'
       yellow:       '${hex p.yellow}'
       blue:         '${hex p.blue}'
-      grey:         '${hex p.grey}'
+      gray:         '${hex p.gray}'
       red:          '${hex p.red}'
       magenta:      '${hex p.magenta}'
       cyan:         '${hex p.cyan}'
       orange:       '${hex p.orange}'
 
-      dim:          '${hex p.selection_fg}'
+      dim:          '${hex p.outline}'
 
     core:
       normal_text:
@@ -152,7 +152,7 @@ in
       source:
         foreground: yellow
       tooling:
-        foreground: grey
+        foreground: gray
 
     text:
       foreground: foreground

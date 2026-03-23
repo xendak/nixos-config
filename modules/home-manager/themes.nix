@@ -189,6 +189,16 @@ let
       fi
 
 
+      # NIRI, because the flake is so bad with the "include" command
+      NIRI_CONFIG="/home/${config.home.username}/.config/niri/config.kdl"
+      TMP_CONFIG=$(mktemp)
+      {
+        echo 'include "colors.kdl"'
+        cat "$NIRI_CONFIG"
+      } > "$TMP_CONFIG"
+      mv -f "$TMP_CONFIG" "$NIRI_CONFIG"
+      sed -i '/color "#00000070"/d' "$NIRI_CONFIG"
+
       # custom vivid
       LS_COLORS="$(cat /tmp/current_ls_colors)"
       export LS_COLORS

@@ -13,6 +13,8 @@ let
     surface_container_low = "#171a20";
     surface_container_high = "#171a20";
 
+    dim = "#4C566A";
+
     cursor_bg = "#e3556f";
     cursor_fg = "#171a20";
 
@@ -21,8 +23,8 @@ let
   overrides = {
     brightwhite = "#191D24";
     white = "#1E222A";
-    grey = "#4C566A";
-    brightgrey = "#60728A";
+    gray = "#4C566A";
+    brightgray = "#60728A";
     black = "#E5E9F0";
     brightblack = "#ECEFF4";
     blue = "#5E81AC";
@@ -58,8 +60,8 @@ let
     # tags = extra.tags or ansi.brightcyan;
     # numeric = extra.numeric or ansi.orange;
     # punctuation = extra.punctuation or ansi.brightorange;
-    # comments = extra.comments or ansi.grey;
-    # inlay = extra.inlay or ansi.brightgrey;
+    # comments = extra.comments or ansi.gray;
+    # inlay = extra.inlay or ansi.brightgray;
   };
 
 in

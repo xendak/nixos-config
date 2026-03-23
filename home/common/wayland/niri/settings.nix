@@ -5,10 +5,6 @@
   ...
 }:
 let
-  # TODO: hard code this till niri accepts imports in its files.
-  colorscheme = import ../../colors/palettes/gorgoroth.nix;
-  c = colorscheme.palette;
-
   generateNiriOutput = monitor: {
     name = monitor.name;
     value = {
@@ -37,6 +33,12 @@ in
     enable = true;
     package = pkgs.niri;
     settings = {
+      # includes = lib.mkAfter [
+      #   {
+      #     required = true;
+      #     path = "/persist/home/xendak/Flake/home/common/wayland/niri/colors.kdl";
+      #   }
+      # ];
       workspaces = {
         "1" = { };
         "2" = { };
@@ -62,29 +64,14 @@ in
 
         insert-hint = {
           enable = true;
-          # display.color = "${c.wm_active_border}30";
-          display.gradient = {
-            from = "${c.wm_active_border}50";
-            to = "#ff8c0060";
-            angle = 135;
-            in' = "oklch shorter hue";
-          };
         };
 
         border = {
           width = 1;
-          active.color = c.wm_inactive_border;
-          inactive.color = c.wm_inactive_border;
         };
 
         focus-ring = {
           width = 1;
-          active.gradient = {
-            from = "${c.wm_active_border}50";
-            to = "${c.wm_inactive_border}50";
-            angle = 135;
-            in' = "oklch longer hue";
-          };
         };
 
         tab-indicator = {
@@ -98,13 +85,6 @@ in
             total-proportion = 0.5;
           };
           corner-radius = 12;
-          active.gradient = {
-            from = "${c.wm_active_border}";
-            to = "${c.wm_inactive_border}";
-            angle = 45;
-            in' = "oklch shorter hue";
-          };
-          inactive.color = "${c.base02}";
         };
 
         preset-column-widths = [
@@ -135,8 +115,6 @@ in
             y = 0;
           };
           draw-behind-window = false;
-          color = c.wm_active_border;
-          inactive-color = c.wm_inactive_border;
         };
 
         gaps = 20;
@@ -159,8 +137,6 @@ in
         keyboard = {
           xkb = {
             layout = "mine";
-            # layout = "us";
-            # variant = "altgr-intl";
             options = "ctrl:nocaps";
             rules = "evdev";
           };
@@ -206,13 +182,13 @@ in
       #     duration-ms = 250;
       #   };
       # };
-      animations.window-resize = {
-        custom-shader = builtins.readFile ./shaders/window-resize.glsl;
-        kind.easing = {
-          curve = "ease-out-cubic";
-          duration-ms = 200;
-        };
-      };
+      # animations.window-resize = {
+      #   custom-shader = builtins.readFile ./shaders/window-resize.glsl;
+      #   kind.easing = {
+      #     curve = "ease-out-cubic";
+      #     duration-ms = 200;
+      #   };
+      # };
 
       environment = {
         NIX_AUTO_RUN = "1";

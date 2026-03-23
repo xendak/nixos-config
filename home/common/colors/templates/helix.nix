@@ -75,14 +75,15 @@ in
 
       "ui.window" = { fg = "outline", bg = "surface_container_low" }
 
-      "ui.linenr" = { fg = "grey", bg = "surface" }
+      "ui.linenr" = { fg = "gray", bg = "surface" }
       "ui.linenr.selected" = { fg = "on_primary_container", bg = "secondary_container", modifiers = ["bold"] }
 
       "ui.gutter" = { bg = "background" }
 
-      "ui.virtual.indent-guide" = { fg = "outline" }
+      # :Virtual
+      "ui.virtual.indent-guide" = { fg = "surface_container_high" }
       "ui.virtual.inlay-hint" = { fg = "inlay", modifiers = ["italic"] }
-      "ui.virtual.jump-label" = { fg = "on_primary", bg = "primary" }
+      "ui.virtual.jump-label" = { fg = "cursor_fg", bg = "cursor_bg" }
 
       "ui.menu" = { fg = "on_surface", bg = "surface_container" }
       "ui.menu.selected" = { fg = "on_primary_container", bg = "primary_container", modifiers = ["bold"] }
