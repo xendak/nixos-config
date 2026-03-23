@@ -54,7 +54,7 @@
           vim.lsp.enable("jdtls", {
             cmd = {
               "${lib.getExe pkgs.jdt-language-server}",
-              "--jvm-arg=-javaagent:${pkgs.lombok}/share/java/lombok.jar",
+              "--jvm-arg=-javaagent:${(pkgs.lombok.override { jdk = pkgs.jdk25; })}/share/java/lombok.jar",
               "-configuration",
               "${config.xdg.cacheHome}/.jdt/jdtls_install/config_linux",
               "-data",

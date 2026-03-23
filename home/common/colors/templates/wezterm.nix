@@ -23,6 +23,22 @@ in
         selection_fg  = "${p.selection_fg}",
         selection_bg  = "${p.selection_bg}",
 
+        copy_mode_active_highlight_bg = { Color = '#000000' },
+        copy_mode_active_highlight_fg = { Color = 'Black' },
+        copy_mode_inactive_highlight_bg = { Color = '#52ad70' },
+        copy_mode_inactive_highlight_fg = { Color = 'White' },
+
+        quick_select_label_bg = { Color = '${p.cursor_bg}' },
+        quick_select_label_fg = { Color = '${p.cursor_fg}' },
+        quick_select_match_bg = { Color = '${p.cursor_bg}' },
+        quick_select_match_fg = { Color = '${p.cursor_fg}' },
+
+        input_selector_label_bg = { Color = '${p.cursor_bg}' },
+        input_selector_label_fg = { Color = '${p.cursor_fg}' },
+
+        launcher_label_bg = { Color = '${p.cursor_bg}' },
+        launcher_label_fg = { Color = '${p.cursor_fg}' },
+
         ansi = {
           "${p.white}",
           "${p.red}",

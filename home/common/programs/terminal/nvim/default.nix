@@ -23,7 +23,7 @@
     # };
 
     extraConfig =
-      # vim
+      # vimsc
       ''
         "Use system clipboard
         set clipboard=unnamedplus
@@ -162,6 +162,68 @@
         function add_sign(name, text)
           vim.fn.sign_define(name, { text = text, texthl = name, numhl = name})
         end
+
+        -- Compilation Mode
+        vim.g.compile_mode = {}
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = "compilation",
+            callback = function(args)
+                local buf = args.buf
+
+                -- TODO: expand this based on gobuild
+                local function parse_error_line(line)
+                    local file, lnum, col = line:match("^([^%(\n]+)%((%d+):(%d+)%)")
+                    if file then return file, lnum, col end
+
+                    file, lnum, col = line:match("^([^:\n]+):(%d+):(%d+)")
+                    if file then return file, lnum, col end
+
+                    file, lnum = line:match("^([^:\n]+):(%d+)")
+                    if file then return file, lnum, "1" end
+
+                    file, lnum = line:match('^%s*File "(.-)", line (%d+)')
+                    if file then return file, lnum, "1" end
+
+                    return nil, nil, nil
+                end
+
+                vim.keymap.set('n', '<CR>', function()
+                    local line = vim.api.nvim_get_current_line()
+                    local file, lnum, col = parse_error_line(line)
+
+                    if file and lnum then
+                        vim.cmd('wincmd p')
+                        vim.cmd('edit ' .. vim.fn.fnameescape(file))
+                        vim.api.nvim_win_set_cursor(0, {tonumber(lnum), math.max(0, tonumber(col) - 1)})
+                        vim.cmd('normal! zz')
+                    else
+                        vim.notify("No valid file path found on this line.", vim.log.levels.WARN)
+                    end
+                end, { buffer = buf })
+
+                local function jump_to_error(direction)
+                    local current_line = vim.api.nvim_win_get_cursor(0)[1]
+                    local total_lines = vim.api.nvim_buf_line_count(buf)
+                    local step = (direction == "next") and 1 or -1
+                    local curr = current_line + step
+
+                    while curr >= 1 and curr <= total_lines do
+                        local line = vim.api.nvim_buf_get_lines(buf, curr - 1, curr, false)[1]
+                        local file = parse_error_line(line)
+              
+                        if file then
+                            vim.api.nvim_win_set_cursor(0, {curr, 0})
+                            return
+                        end
+                        curr = curr + step
+                    end
+                    vim.notify("No more errors found in this direction.", vim.log.levels.INFO)
+                end
+
+                vim.keymap.set('n', 'n', function() jump_to_error("next") end, { buffer = buf, silent = true })
+                vim.keymap.set('n', 'N', function() jump_to_error("prev") end, { buffer = buf, silent = true })
+            end
+        })
 
         add_sign("DiagnosticSignError", " ")
         add_sign("DiagnosticSignWarn", " ")

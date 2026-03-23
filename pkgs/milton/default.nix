@@ -8,7 +8,7 @@
   gnumake,
   libGL,
   libGLU,
-  libX11,
+  libx11,
   libXext,
   libXrandr,
   libXinerama,
@@ -54,7 +54,7 @@ clangStdenv.mkDerivation rec {
     libGL
     libGLU
     # Updated names
-    libX11
+    libx11
     libXext
     libXrandr
     libXinerama
@@ -134,7 +134,7 @@ clangStdenv.mkDerivation rec {
         libGL
         libGLU
         # Updated names
-        libX11
+        libx11
         libXext
         libXrandr
         libXinerama

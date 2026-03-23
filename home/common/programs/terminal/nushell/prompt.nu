@@ -17,7 +17,7 @@ def create_left_prompt [] {
 
     # :Directories
     let dir_path = ($env.PWD | str replace $env.HOME "~")
-    let truncated_dir = if ($dir_path | path split | length) > 3 {
+    let truncated_dir = if ($dir_path | path split | length) > 6 {
         $".../($dir_path | path basename)"
     } else {
         $dir_path

@@ -207,13 +207,13 @@ let
       cat > "$HOME/Flake/home/common/programs/terminal/nushell/colors.nu" << NUEOF
       # AUTO GENERATED
       let color_config = {
-          separator: "dark_gray"
+          separator: "light_gray"
           leading_trailing_space_bg: "#ffffff"
           header: "green"
           date: "magenta"
           filesize: "blue"
           row_index: "cyan"
-          hints: "dark_gray"
+          hints: "light_gray"
           string: "white"
           primitive: "white"
           int: "green"
@@ -224,14 +224,14 @@ let
           cellpath: "cyan"
           duration: "yellow"
           range: "yellow"
-          search_result: "bright-yellow"
-          shape_garbage: "bright-red"
-          shape_bool: "bright-cyan"
-          shape_int: "bright-green"
-          shape_float: "bright-green"
-          shape_range: "bright-yellow"
-          shape_string: "bright-blue"
-          shape_string_interpolation: "bright-cyan"
+          search_result: "light_yellow"
+          shape_garbage: "light_red"
+          shape_bool: "light_cyan"
+          shape_int: "light_green"
+          shape_float: "light_green"
+          shape_range: "light_yellow"
+          shape_string: "light_blue"
+          shape_string_interpolation: "light_cyan"
       }
 
       \$env.config.color_config = \$color_config

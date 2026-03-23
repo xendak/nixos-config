@@ -34,7 +34,7 @@
 
     ../common/programs/obsidian
     ../common/programs/quickshell
-    ../common/programs/terminal/wezterm.nix
+    ../common/programs/terminal/wezterm
     ../common/programs/terminal/foot.nix
     ../common/programs/browser/chromium.nix
     ../common/programs/browser/zen.nix

@@ -147,6 +147,8 @@
         sshKey = "/persist/etc/ssh/ssh_host_ed25519_key";
         system = "x86_64-linux";
         protocol = "ssh-ng";
+        maxJobs = 20;
+        speedFactor = 3;
         supportedFeatures = [
           "nixos-test"
           "benchmark"

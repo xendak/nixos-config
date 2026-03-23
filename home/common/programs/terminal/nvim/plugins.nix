@@ -9,6 +9,18 @@ let
       hash = "sha256-ZLokeEA70pdVmKOjK5vB8tRE0zGHicsunIHgW1Px0sw=";
     };
   };
+  compile-mode = pkgs.vimUtils.buildVimPlugin {
+    name = "compile-mode";
+    src = pkgs.fetchFromGitHub {
+      owner = "ej-shafran";
+      repo = "compile-mode.nvim";
+      rev = "6b41499bd782be2c213011072ce0f0eb9f7b78a2";
+      hash = "sha256-AoEuE+BLQwAHgvkanLUU6kd4HhAyn9Y53lRAYnoghz4=";
+    };
+    dependencies = [
+      pkgs.vimPlugins.plenary-nvim
+    ];
+  };
 in
 {
   programs.neovim = {
@@ -24,6 +36,7 @@ in
       pkgs.vimPlugins.telescope-nvim
       pkgs.vimPlugins.vim-sneak
       pkgs.vimPlugins.which-key-nvim
+      compile-mode
       nnn
       {
         plugin = pkgs.vimPlugins.toggleterm-nvim;

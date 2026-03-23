@@ -47,6 +47,21 @@ let
       };
     }
     {
+      name = "go";
+      auto-format = false;
+      language-servers = [ "gopls" ];
+      formatter = {
+        command = lib.getExe' pkgs.gotools "gofmt";
+        args = [ ];
+      };
+      inherit indent;
+    }
+    {
+      name = "qml";
+      language-servers = [ "qmlls" ];
+      inherit indent;
+    }
+    {
       name = "rust";
       auto-format = true;
       language-servers = [ "rust-analyzer" ];
@@ -219,7 +234,32 @@ let
 
 in
 {
+  # :Language :Server
   language-server = {
+    gopls = {
+      command = lib.getExe pkgs.gopls;
+      config.gopls = {
+        hints = {
+          assignVariableTypes = true;
+          compositeLiteralFields = true;
+          constantValues = true;
+          functionTypeParameters = true;
+          parameterNames = true;
+          rangeVariableTypes = true;
+        };
+        analyses = {
+          unusedparams = true;
+          unreachable = true;
+        };
+        staticcheck = true;
+      };
+    };
+
+    qmlls = {
+      command = "${pkgs.kdePackages.qtdeclarative}/bin/qmlls";
+      args = [ "-E" ];
+    };
+
     rust-analyzer.config = {
       assist.importGranularity = "module";
       cargo.extraEnv."CARGO_TARGET_DIR" = "${config.xdg.cacheHome}/rust-analyzer-target-dir";
@@ -279,7 +319,7 @@ in
     jdtls = {
       command = lib.getExe pkgs.jdt-language-server;
       args = [
-        "--jvm-arg=-javaagent:${pkgs.lombok}/share/java/lombok.jar"
+        "--jvm-arg=-javaagent:${(pkgs.lombok.override { jdk = pkgs.jdk25; })}/share/java/lombok.jar"
         "-configuration"
         "${config.xdg.cacheHome}/.jdt/jdtls_install/config_linux"
         "-data"

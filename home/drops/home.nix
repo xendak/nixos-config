@@ -24,7 +24,7 @@
     # ../common/wayland/hyprland/plugins/hyprbars.nix
     # ../common/wayland/hyprland/plugins/hyprexpo.nix
 
-    ../common/programs/terminal/wezterm.nix
+    ../common/programs/terminal/wezterm
     ../common/programs/terminal/foot.nix
 
     ../common/programs/emacs
@@ -43,7 +43,7 @@
   ];
 
   home.packages = [
-    pkgs.obs-studio
+    # pkgs.obs-studio
 
     # disable kanata and leave only external kb
     pkgs.evtest

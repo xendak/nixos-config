@@ -4,6 +4,16 @@
   inputs,
   ...
 }:
+let
+  rustToolchain = pkgs.rust-bin.stable.latest.default.override {
+    extensions = [
+      "rust-src"
+      "rust-analyzer"
+      "clippy"
+      "rustfmt"
+    ];
+  };
+in
 {
   home.packages = with pkgs; [
     libnotify
@@ -37,11 +47,6 @@
     imv
     sxiv
 
-    # DEFAULT LANGUAGES i use mostly?
-    odin
-    ols
-    zig-master
-    zls-overlay
     valgrind
     clang-tools
     llvmPackages_latest.libstdcxxClang
@@ -50,15 +55,33 @@
     cppcheck
     rr
     gdb
-    # gdb front-end
-    gf
+    gf # gdb front-end
+
+    # Programming Languages
+    # Odin
+    odin
+    ols
+    # Zig
+    zig-master
+    zls-overlay
+    # Rust
+    rustToolchain
+    # Go
+    go
+    gopls
+    delve
+    # PUC
+    # javascript
+    nodejs
+    nodePackages.prettier
+    dprint
+    deno
+    # Java
+    jdk25
+    gradle
+    maven
 
     inputs.uwu-colors.packages.${pkgs.stdenv.hostPlatform.system}.default
-
-    # language formatters
-    # nodePackages.prettier
-    # dprint
-    # deno
 
     nixd # Nix LSP
     alejandra

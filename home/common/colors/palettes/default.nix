@@ -151,6 +151,7 @@ let
           m3
           // ansi
           // {
+            dim = must.dim;
             bg = must.bg;
             fg = must.fg;
             cursor_bg = must.cursor_bg or must.primary;
@@ -177,8 +178,9 @@ let
           m3
           // ansi
           // {
-            cursor_bg = raw.palette.cursor_bg or m3.primary;
-            cursor_fg = raw.palette.cursor_fg or m3.on_primary;
+            dim = m3.dim;
+            cursor_bg = m3.cursor_bg or m3.primary;
+            cursor_fg = m3.cursor_fg or m3.on_primary;
             selection_bg = overrides.selection_bg or m3.surface_container_high;
             selection_fg = overrides.selection_fg or m3.on_surface_variant;
           };

@@ -21,8 +21,8 @@ let
   };
 
   overrides = {
-    brightwhite = "#191D24";
-    white = "#1E222A";
+    brightwhite = "#4A4458";
+    white = "#79747E";
     gray = "#4C566A";
     brightgray = "#60728A";
     black = "#E5E9F0";

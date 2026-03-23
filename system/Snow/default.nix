@@ -282,7 +282,9 @@
       "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI="
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     ];
-
+    nix.settings.sandbox = true;
+    # 32gb ram for builds, instead of writing to disk
+    nix.settings.max-free = 32 * 1024 * 1024 * 1024;
   };
 
   home-manager = {

@@ -7,7 +7,7 @@
     pkgs.obsidian
 
     # non closed source
-    pkgs.logseq
+    # pkgs.logseq
   ];
 
   home.persistence = {

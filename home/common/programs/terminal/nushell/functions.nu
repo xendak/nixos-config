@@ -217,14 +217,11 @@ def upb [
 ] {
   cd ($env.HOME | path join "Flake")
 
-  let flags = []
-  let flags = if $show_trace { $flags | append "--show-trace" } else { $flags }
-  let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
-  let flags = if (checkDesktop) { $flags | append ["--option" "max-jobs" "0"] } else { $flags }
+  mut flags = (get-ssh-flags)
+  if $show_trace { $flags | append "--show-trace" } else { $flags }
+  if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
 
   let host = sys host | get hostname
-
-
   
   if not $nom {
     sudo nixos-rebuild boot --flake $".#($host)" ...$flags --log-format internal-json -v e+o>| nom --json
@@ -270,13 +267,11 @@ def upd [
   ]
   $to_del | each {|it| if ($it | path exists) { rm $it } }
 
-  let flags = []
-  let flags = if $show_trace { $flags | append "--show-trace" } else { $flags }
-  let flags = if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
+  mut flags = (get-ssh-flags)
+  if $show_trace { $flags | append "--show-trace" } else { $flags }
+  if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
   let host = sys host | get hostname
 
-  let flags = if (checkDesktop) { $flags | append ["--option" "max-jobs" "0"] } else { $flags }
-  
   if not $nom {
     sudo nixos-rebuild switch --flake $".#($host)" ...$flags --log-format internal-json -v e+o>| nom --json
   } else {
@@ -432,14 +427,24 @@ def nspl [...search_terms: string@"nu-complete-nix-pkgs-sqlite"] {
   } | each {|item| print $item}
 }
 
+def dev [...args] {
+  if ("flake.nix" | path exists) {
+    let flags = (get-ssh-flags)
+    ^nix develop ...$flags ...$args
+  } else if ("shell.nix" | path exists) {
+    let flags = (get-ssh-flags)
+    ^nix-shell ...$flags ...$args --run nu 
+  } else {
+    print $"(ansi red)Error:(ansi reset) failed to find (ansi green)flake.nix(ansi reset) or (ansi green)shell.nix(ansi reset)"
+  }
+}
+
 def ns [...packages: string@"nu-complete-nix-pkgs-sqlite"] {
-  let flags = if (checkDesktop) {[] | append ["--max-jobs" "0"] } else { [] }
-  ^nix-shell -p ...$packages ...$flags --run nu
+  ^nix-shell -p ...$packages ...(get-ssh-flags) --run nu
 }
 
 def nr [package: string@"nu-complete-nix-pkgs-sqlite"] {
-  let flags = if (checkDesktop) {[] | append ["--max-jobs" "0"] } else { [] }
-  ^nix run $"nixpkgs#($package)" ...$flags
+  ^nix run $"nixpkgs#($package)" ...(get-ssh-flags)
 }
 
 def --env y [...args] {
@@ -452,15 +457,18 @@ def --env y [...args] {
 	rm -fp $tmp
 }
 
-def checkDesktop [] {
-  let host = sys host | get hostname
-  mut snow_up = false
-  if $host != "Snow" {
-    $snow_up = (nc -z -w 1 Snow 22 | complete | get exit_code) == 0
-    if $snow_up {
-      print "❄️ Snow is online..."
-    }
-  }
 
-  return $snow_up  
+def get-ssh-flags [] {
+  let host = sys host | get hostname
+  if $host == "Snow" { return [] }
+
+  let snow_up = (nc -z -w 1 Snow 22 | complete | get exit_code) == 0
+  
+  if $snow_up {
+    print $"❄️ Snow is (ansi green)online(ansi reset)..."
+    return ["--option" "max-jobs" "0"]
+  } else {
+    print $"❄️ Snow is (ansi red)offline(ansi reset)..."
+    return ["--option" "builders" ""]
+  }
 }
