@@ -172,9 +172,16 @@ in
       [Colors:Selection]
       BackgroundAlternate=${m.secondary}
       BackgroundNormal=${m.primary}
-      ForegroundActive=${m.bg}
-      ForegroundInactive=${m.bg}
-      ForegroundNormal=${m.bg}
+      DecorationFocus=${m.primary}
+      DecorationHover=${m.primary}
+      ForegroundActive=${m.on_primary}
+      ForegroundInactive=${m.on_surface_variant}
+      ForegroundLink=${m.secondary}
+      ForegroundNegative=${m.error}
+      ForegroundNeutral=${m.tertiary}
+      ForegroundNormal=${m.on_primary}
+      ForegroundPositive=${m.primary}
+      ForegroundVisited=${m.on_secondary_container}
 
       [Colors:Tooltip]
       BackgroundNormal=${m.surface_container_low}
@@ -187,124 +194,125 @@ in
       inactiveForeground=${m.fg}
     '';
 
-  "qt/kdeglobals" = ''
-    [$Version]
-    update_info=kded.upd:kde3.0,mouse_cursor_theme.upd:kde3.4.99,kaccel.upd:kde3.3/r1
+  "qt/kdeglobals" = # ini
+    ''
+      [$Version]
+      update_info=kded.upd:kde3.0,mouse_cursor_theme.upd:kde3.4.99,kaccel.upd:kde3.3/r1
 
-    [ColorEffects:Disabled]
-    Color=${m.outline}
-    ColorAmount=0
-    ColorEffect=0
-    ContrastAmount=0.1
-    ContrastEffect=2
+      [ColorEffects:Disabled]
+      Color=${m.outline}
+      ColorAmount=0
+      ColorEffect=0
+      ContrastAmount=0.1
+      ContrastEffect=2
 
-    [ColorEffects:Inactive]
-    ChangeSelectionColor=false
-    Color=${m.surface_container_low}
-    ColorAmount=0.3
-    ColorEffect=2
-    ContrastAmount=0.4
-    ContrastEffect=2
-    Enable=true
-    IntensityAmount=0
-    IntensityEffect=0
+      [ColorEffects:Inactive]
+      ChangeSelectionColor=false
+      Color=${m.surface_container_low}
+      ColorAmount=0.3
+      ColorEffect=2
+      ContrastAmount=0.4
+      ContrastEffect=2
+      Enable=true
+      IntensityAmount=0
+      IntensityEffect=0
 
-    [Colors:Button]
-    BackgroundAlternate=${m.surface_container_high}
-    BackgroundNormal=${m.surface_container}
-    DecorationFocus=${m.primary}
-    DecorationHover=${m.primary}
-    ForegroundActive=${m.on_surface}
-    ForegroundInactive=${m.on_surface_variant}
-    ForegroundLink=${m.secondary}
-    ForegroundNegative=${m.error}
-    ForegroundNeutral=${m.tertiary}
-    ForegroundNormal=${m.on_surface}
-    ForegroundPositive=${m.primary}
-    ForegroundVisited=${m.on_secondary_container}
+      [Colors:Button]
+      BackgroundAlternate=${m.surface_container_high}
+      BackgroundNormal=${m.surface_container}
+      DecorationFocus=${m.primary}
+      DecorationHover=${m.primary}
+      ForegroundActive=${m.on_surface}
+      ForegroundInactive=${m.on_surface_variant}
+      ForegroundLink=${m.secondary}
+      ForegroundNegative=${m.error}
+      ForegroundNeutral=${m.tertiary}
+      ForegroundNormal=${m.on_surface}
+      ForegroundPositive=${m.primary}
+      ForegroundVisited=${m.on_secondary_container}
 
-    [Colors:Selection]
-    BackgroundAlternate=${m.secondary}
-    BackgroundNormal=${m.primary}
-    DecorationFocus=${m.primary}
-    DecorationHover=${m.primary}
-    ForegroundActive=${m.on_primary_container}
-    ForegroundInactive=${m.on_surface_variant}
-    ForegroundLink=${m.secondary}
-    ForegroundNegative=${m.error}
-    ForegroundNeutral=${m.tertiary}
-    ForegroundNormal=${m.on_primary_container}
-    ForegroundPositive=${m.primary}
-    ForegroundVisited=${m.on_secondary_container}
+      [Colors:Selection]
+      BackgroundAlternate=${m.secondary}
+      BackgroundNormal=${m.primary}
+      DecorationFocus=${m.primary}
+      DecorationHover=${m.primary}
+      ForegroundActive=${m.on_primary}
+      ForegroundInactive=${m.on_surface_variant}
+      ForegroundLink=${m.secondary}
+      ForegroundNegative=${m.error}
+      ForegroundNeutral=${m.tertiary}
+      ForegroundNormal=${m.on_primary}
+      ForegroundPositive=${m.primary}
+      ForegroundVisited=${m.on_secondary_container}
 
-    [Colors:Tooltip]
-    BackgroundAlternate=${m.surface_container_high}
-    BackgroundNormal=${m.surface_container}
-    DecorationFocus=${m.primary}
-    DecorationHover=${m.primary}
-    ForegroundActive=${m.on_surface}
-    ForegroundInactive=${m.on_surface_variant}
-    ForegroundLink=${m.secondary}
-    ForegroundNegative=${m.error}
-    ForegroundNeutral=${m.tertiary}
-    ForegroundNormal=${m.on_surface}
-    ForegroundPositive=${m.primary}
-    ForegroundVisited=${m.on_secondary_container}
+      [Colors:Tooltip]
+      BackgroundAlternate=${m.surface_container_high}
+      BackgroundNormal=${m.surface_container}
+      DecorationFocus=${m.primary}
+      DecorationHover=${m.primary}
+      ForegroundActive=${m.on_surface}
+      ForegroundInactive=${m.on_surface_variant}
+      ForegroundLink=${m.secondary}
+      ForegroundNegative=${m.error}
+      ForegroundNeutral=${m.tertiary}
+      ForegroundNormal=${m.on_surface}
+      ForegroundPositive=${m.primary}
+      ForegroundVisited=${m.on_secondary_container}
 
-    [Colors:View]
-    BackgroundAlternate=${m.surface_container_high}
-    BackgroundNormal=${m.surface}
-    DecorationFocus=${m.primary}
-    DecorationHover=${m.primary}
-    ForegroundActive=${m.on_surface}
-    ForegroundInactive=${m.on_surface_variant}
-    ForegroundLink=${m.secondary}
-    ForegroundNegative=${m.error}
-    ForegroundNeutral=${m.on_primary}
-    ForegroundNormal=${m.on_surface}
-    ForegroundPositive=${m.on_primary}
-    ForegroundVisited=${m.on_secondary_container}
+      [Colors:View]
+      BackgroundAlternate=${m.surface_container_high}
+      BackgroundNormal=${m.surface}
+      DecorationFocus=${m.primary}
+      DecorationHover=${m.primary}
+      ForegroundActive=${m.on_surface}
+      ForegroundInactive=${m.on_surface_variant}
+      ForegroundLink=${m.secondary}
+      ForegroundNegative=${m.error}
+      ForegroundNeutral=${m.on_primary}
+      ForegroundNormal=${m.on_surface}
+      ForegroundPositive=${m.on_primary}
+      ForegroundVisited=${m.on_secondary_container}
 
-    [Colors:Window]
-    BackgroundAlternate=${m.surface_container}
-    BackgroundNormal=${m.surface_container_low}
-    DecorationFocus=${m.primary}
-    DecorationHover=${m.primary}
-    ForegroundActive=${m.on_surface}
-    ForegroundInactive=${m.on_surface_variant}
-    ForegroundLink=${m.secondary}
-    ForegroundNegative=${m.error}
-    ForegroundNeutral=${m.on_primary}
-    ForegroundNormal=${m.on_surface}
-    ForegroundPositive=${m.on_primary}
-    ForegroundVisited=${m.on_secondary_container}
+      [Colors:Window]
+      BackgroundAlternate=${m.surface_container}
+      BackgroundNormal=${m.surface_container_low}
+      DecorationFocus=${m.primary}
+      DecorationHover=${m.primary}
+      ForegroundActive=${m.on_surface}
+      ForegroundInactive=${m.on_surface_variant}
+      ForegroundLink=${m.secondary}
+      ForegroundNegative=${m.error}
+      ForegroundNeutral=${m.on_primary}
+      ForegroundNormal=${m.on_surface}
+      ForegroundPositive=${m.on_primary}
+      ForegroundVisited=${m.on_secondary_container}
 
-    [General]
-    ColorScheme=current
-    desktopFont=${f.regular.family},12,-1,5,50,0,0,0,0,0
-    fixed=${f.monospace.family},12,-1,5,50,0,0,0,0,0
-    font=${f.regular.family},12,-1,5,50,0,0,0,0,0
-    menuFont=${f.regular.family},12,-1,5,50,0,0,0,0,0
-    shadeSortColumn=true
-    smallestReadableFont=${f.regular.family},8,-1,5,50,0,0,0,0,0
-    taskbarFont=${f.regular.family},12,-1,5,50,0,0,0,0,0
-    toolBarFont=${f.regular.family},12,-1,5,50,0,0,0,0,0
+      [General]
+      ColorScheme=current
+      desktopFont=${f.regular.family},12,-1,5,50,0,0,0,0,0
+      fixed=${f.monospace.family},12,-1,5,50,0,0,0,0,0
+      font=${f.regular.family},12,-1,5,50,0,0,0,0,0
+      menuFont=${f.regular.family},12,-1,5,50,0,0,0,0,0
+      shadeSortColumn=true
+      smallestReadableFont=${f.regular.family},8,-1,5,50,0,0,0,0,0
+      taskbarFont=${f.regular.family},12,-1,5,50,0,0,0,0,0
+      toolBarFont=${f.regular.family},12,-1,5,50,0,0,0,0,0
 
-    [Icons]
-    Theme=${
-      if paletteSet.type == "dark" then "${config.gtk.iconTheme.name}-Dark" else config.gtk.iconTheme.name
-    }
+      [Icons]
+      Theme=${
+        if paletteSet.type == "dark" then "${config.gtk.iconTheme.name}-Dark" else config.gtk.iconTheme.name
+      }
 
-    [KDE]
-    contrast=7
+      [KDE]
+      contrast=7
 
-    [WM]
-    activeBackground=${m.primary}
-    activeBlend=${m.secondary}
-    activeFont=${f.regular.family},12,-1,5,75,0,0,0,0,0
-    activeForeground=${m.on_primary}
-    inactiveBackground=${m.surface_container}
-    inactiveBlend=${m.outline_variant}
-    inactiveForeground=${m.on_surface_variant}
-  '';
+      [WM]
+      activeBackground=${m.primary}
+      activeBlend=${m.secondary}
+      activeFont=${f.regular.family},12,-1,5,75,0,0,0,0,0
+      activeForeground=${m.on_primary}
+      inactiveBackground=${m.surface_container}
+      inactiveBlend=${m.outline_variant}
+      inactiveForeground=${m.on_surface_variant}
+    '';
 }

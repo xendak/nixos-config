@@ -27,7 +27,7 @@
     ".ssh/id_ed25519.pub".source = ./common/ssh/id_ed25519.pub;
     ".config/qmk/qmk.ini".source = pkgs.writeText "qmk.ini" ''
       [user]
-      qmk_home = /home/${config.home.username}/Programming/qmk_userspace/qmk_firmware
+      qmk_home = /home/${config.home.username}/Programming/tools/qmk_userspace/qmk_firmware
     '';
     ".ssh/config".source = pkgs.writeText "config" ''
       AddKeysToAgent yes

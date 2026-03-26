@@ -61,7 +61,7 @@ in
         cat = "${pkgs.bat}/bin/bat";
         df = "${pkgs.duf}/bin/duf";
         find = "${pkgs.fd}/bin/fd";
-        grep = "${pkgs.ripgrep}/bin/rg";
+        grep = "${pkgs.ripgrep}/bin/rg --no-heading --line-number";
         tree = "${pkgs.eza}/bin/eza --git --icons --tree";
       };
       extraEnv =

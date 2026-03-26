@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+FILE=$1
+LINE=$2
+COL=$3
+
+if [ -z "$FILE" ]; then exit 1; fi
+
+PANE_ID=$(wezterm cli get-pane-direction Left)
+if [ -z "$PANE_ID" ]; then
+  PANE_ID=$(wezterm cli get-pane-direction Up)
+fi
+
+if [ -n "$PANE_ID" ]; then
+  IS_HELIX=$(wezterm cli list | awk -v id="$PANE_ID" '$3 == id' | grep -iE 'hx|helix')
+
+  if [ -n "$IS_HELIX" ]; then
+    printf "\x1b" | wezterm cli send-text --pane-id "$PANE_ID" --no-paste
+
+    sleep 0.05
+
+    if [ -n "$COL" ] && [ "$COL" != "0" ]; then
+      printf ":open %s:%s:%s\r" "$FILE" "$LINE" "$COL" | wezterm cli send-text --pane-id "$PANE_ID" --no-paste
+    else
+      printf ":open %s:%s\r" "$FILE" "$LINE" | wezterm cli send-text --pane-id "$PANE_ID" --no-paste
+    fi
+
+  else
+    if [ -n "$COL" ] && [ "$COL" != "0" ]; then
+      printf "\x03hx %s:%s:%s\r" "$FILE" "$LINE" "$COL" | wezterm cli send-text --pane-id "$PANE_ID" --no-paste
+    else
+      printf "\x03hx %s:%s\r" "$FILE" "$LINE" | wezterm cli send-text --pane-id "$PANE_ID" --no-paste
+    fi
+  fi
+
+  wezterm cli activate-pane --pane-id "$PANE_ID"
+
+else
+  if [ -n "$COL" ] && [ "$COL" != "0" ]; then
+    PANE_ID=$(wezterm cli split-pane --left hx "$FILE:$LINE:$COL")
+  else
+    PANE_ID=$(wezterm cli split-pane --left hx "$FILE:$LINE")
+  fi
+
+  wezterm cli activate-pane --pane-id "$PANE_ID"
+fi

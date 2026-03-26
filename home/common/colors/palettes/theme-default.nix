@@ -150,27 +150,26 @@
     scrim = "#000000";
     source_color = "#6750A4";
 
-    # default colors for ansi on white
-    white = "#3c3836";
-    red = "#cc241d";
-    green = "#98971a";
-    yellow = "#d79921";
-    blue = "#458588";
-    magenta = "#b16286";
-    cyan = "#689d6a";
+    white = "#0D0C0C";
+    red = "#C4746E";
+    green = "#8A9A7B";
+    yellow = "#C4B28A";
+    blue = "#8BA4B0";
+    magenta = "#A292A3";
+    cyan = "#8EA4A2";
+    black = "#C8C093";
     gray = "#a89984";
     orange = "#d65d0e";
-    black = "#ebdbb2";
 
-    brightwhite = "#504945";
-    brightred = "#fb4934";
-    brightgreen = "#b8bb26";
-    brightyellow = "#fabd2f";
-    brightblue = "#83a598";
-    brightmagenta = "#d3869b";
-    brightcyan = "#8ec07c";
+    brightwhite = "#A6A69C";
+    brightred = "#E46876";
+    brightgreen = "#87A987";
+    brightyellow = "#E6C384";
+    brightblue = "#7FB4CA";
+    brightmagenta = "#938AA9";
+    brightcyan = "#7AA89F";
+    brightblack = "#C5C9C5";
     brightgray = "#928374";
     brightorange = "#fe8019";
-    brightblack = "#fbf1c7";
   };
 }

@@ -20,7 +20,7 @@ let
 
   overrides = {
     comments = "#434343";
-    keywords = "#5f8787";
+    keywords = "#746e61";
     labels = "#538080";
     punctuation = "#9b8d7f";
     macros = "#c0bcaa";
@@ -50,18 +50,6 @@ let
     gray = "#a89984";
     orange = "#d65d0e";
     black = "#ebdbb2";
-
-    brightwhite = "#504945";
-    brightred = "#fb4934";
-    brightgreen = "#b8bb26";
-    brightyellow = "#fabd2f";
-    brightblue = "#83a598";
-    brightmagenta = "#d3869b";
-    brightcyan = "#8ec07c";
-    brightgray = "#928374";
-    brightorange = "#fe8019";
-    brightblack = "#fbf1c7";
-
   };
 
 in
