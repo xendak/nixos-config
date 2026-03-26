@@ -3,10 +3,6 @@ set -euo pipefail
 
 if [ $# -eq 0 ]; then
   echo "Usage: $0 <ai-command> [additional-args...]"
-  echo "Example: $0 'gemini -p'"
-  echo "Example: $0 'gemini -m gemini-2.5-flash -p'"
-  echo "Example: $0 'aichat'"
-  echo "Example: $0 'ollama run llama3.2'"
   exit 1
 fi
 
@@ -14,51 +10,41 @@ AI_COMMAND="$1"
 shift
 
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  echo "This is not a Git repository."
+  echo "Error: Not a Git repository."
   exit 1
 fi
 
 if git diff --cached --quiet; then
-  echo "No staged changes detected. Nothing to commit."
+  echo "No staged changes detected."
   exit 0
 fi
 
-RECENT_COMMITS=$(git log -n 10 --pretty=format:'%h %s')
-
+RECENT_COMMITS=$(git log -n 5 --pretty=format:'%h %s')
 DIFF=$(git --no-pager diff --no-color --no-ext-diff --cached)
 
-PROMPT="IMPORTANT:
-1) Begin immediately with the first commit message—no greetings, no commentary.
-2) Your commit messages must be based on the DIFF alone; recent commits and examples are only for context. DO NOT copy or repeat them.
-3) Generate between 3 and 7 single-type commits based on the DIFF. If MULTIPLE distinct changes are present, add 1 additional multi-type commit (total up to 8). 
-4) Use only these types: feat, fix, docs, style, refactor, perf, test, chore, build, ci, revert.
-5) Separate each commit message ONLY with a line containing exactly three hyphens (---), no other text or spacing.
-6) For single-type commit: 
-   <type>(<optional-scope>): <short description> 
-   <optional-body>
-   <optional-footer>
-7) For a multi-type commit, format it as exactly two lines, each line a conventional commit header, for example:
-  <type>(<optional-scope>): <description>
-  <type>(<optional-scope>/<optional-scope>): <description>
-8) No numbering (e.g., no '1/5'), no extra text, no markdown, no commentary.
-9) Do not hallucinate or create low-quality commit-messages.
-  It is preferable to have less or no commit messages at all than to receive numerous low-quality ones.
+PROMPT="Task: Generate 3-5 Conventional Commit options based on the provided DIFF.
 
-EXAMPLE COMMITS:
-feat(auth): add password reset flow
-Added secure token generation and email delivery system.
-BREAKING CHANGE: Changed password reset API endpoint
----
-fix(db): resolve deadlock in transaction handler
-Protected critical section with mutex to prevent concurrent access issues.
----
-feat(config): add new environment variables
-fix(config): correct variable naming
+STRICT RULES:
+1. Format: 
+   <type>(<scope>): <short summary>
+   Desc: <concise bullet point of what was changed and why>
 
-RECENT COMMITS:
+2. Style: Be technical, concise, and descriptive.
+3. Types: feat, fix, docs, style, refactor, perf, test, chore, build.
+4. Separation: Separate each option with exactly '---' on a new line.
+5. Content: No intro, no markdown blocks, no 'Here are your commits'.
+
+EXAMPLE:
+feat(tui): improved rendering
+Desc: optimized buffer clearing logic to prevent flickering on high-refresh displays
+---
+fix(auth): secure token storage
+Desc: migrated session tokens from localStorage to HttpOnly cookies to mitigate XSS
+
+RECENT CONTEXT:
 $RECENT_COMMITS
 
-ANALYZE THIS DIFF:
+DIFF TO ANALYZE:
 $DIFF"
 
 selected_commit_message=$(
@@ -68,31 +54,27 @@ selected_commit_message=$(
           sub(/[[:space:]]+$/, "");
           printf "%s%c", $0, 0
         }' |
-    fzf --height 20 --border --ansi --read0 --no-sort \
-      --with-nth=1 --delimiter='\n' \
+    fzf --height 40% --border --ansi --read0 --no-sort \
+      --header "Select a commit message (ESC to cancel)" \
       --preview 'echo {}' \
-      --preview-window=up:wrap
+      --preview-window=down:3:wrap
 )
 
 if [ -z "$selected_commit_message" ]; then
-  echo "No commit message selected."
+  echo "Aborted: No message selected."
   exit 0
 fi
 
 COMMIT_MSG_FILE=$(mktemp)
-printf "%s" "$selected_commit_message" >"$COMMIT_MSG_FILE"
+echo "$selected_commit_message" > "$COMMIT_MSG_FILE"
 
-CHECKSUM_BEFORE=$(shasum "$COMMIT_MSG_FILE" | awk '{ print $1 }')
 ${EDITOR:-hx} "$COMMIT_MSG_FILE"
 
-CHECKSUM_AFTER=$(shasum "$COMMIT_MSG_FILE" | awk '{ print $1 }')
-
-if [ "$CHECKSUM_BEFORE" != "$CHECKSUM_AFTER" ]; then
+if [ -s "$COMMIT_MSG_FILE" ]; then
   git commit -F "$COMMIT_MSG_FILE"
   echo "Committed successfully!"
 else
-  echo "Commit message was not saved or modified, commit aborted."
-  exit 0
+  echo "Commit aborted: Message was not saved nor edited."
 fi
 
 rm -f "$COMMIT_MSG_FILE"

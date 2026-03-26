@@ -15,6 +15,8 @@
     ../extras/sync-browser.nix
     ../extras/greetd.nix
 
+    ../extras/llm.nix
+
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
