@@ -218,8 +218,14 @@ def upb [
   cd ($env.HOME | path join "Flake")
 
   mut flags = (get-ssh-flags)
-  if $show_trace { $flags | append "--show-trace" } else { $flags }
-  if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
+
+  if $no_cache { 
+    $flags = ($flags | append ["--option" "eval-cache" "false"]) 
+  }
+
+  if $show_trace { 
+    $flags = ($flags | append "--show-trace") 
+  }
 
   let host = sys host | get hostname
   
@@ -228,7 +234,6 @@ def upb [
   } else {
     sudo nixos-rebuild boot --flake $".#($host)" ...$flags
   }
-
 
   if $env.LAST_EXIT_CODE == 0 {
     if $delete_old {
@@ -268,14 +273,21 @@ def upd [
   $to_del | each {|it| if ($it | path exists) { rm $it } }
 
   mut flags = (get-ssh-flags)
-  if $show_trace { $flags | append "--show-trace" } else { $flags }
-  if $no_cache { $flags | append ["--option" "eval-cache" "false"] } else { $flags }
-  let host = sys host | get hostname
 
+  if $no_cache { 
+    $flags = ($flags | append ["--option" "eval-cache" "false"]) 
+  }
+
+  if $show_trace { 
+    $flags = ($flags | append "--show-trace") 
+  }
+
+  let host = sys host | get hostname
+  
   if not $nom {
-    sudo nixos-rebuild switch --flake $".#($host)" ...$flags --log-format internal-json -v e+o>| nom --json
+    sudo nixos-rebuild boot --flake $".#($host)" ...$flags --log-format internal-json -v e+o>| nom --json
   } else {
-    sudo nixos-rebuild switch --flake $".#($host)" ...$flags
+    sudo nixos-rebuild boot --flake $".#($host)" ...$flags
   }
 
   if $env.LAST_EXIT_CODE == 0 {
@@ -311,47 +323,6 @@ def history_delete [term: string] {
     open $nu.history-path | query db $"DELETE FROM history WHERE command_line LIKE '%($term)%'"
 }
 
-# JSON VERSION
-def "nu-complete-nix-pkgs" [] {
-  let cache_file = ($env.HOME | path join "Flake" "bin" "nixpkgs.json")
-
-  if not ($cache_file | path exists) {
-    return [{ value: "", description: "Cache not found. Run `update-nix-cache` first." }]
-  }
-
-  open $cache_file
-  | each {
-    |pkg|
-      {
-        value: $pkg.pname,
-        description: $pkg.description
-      }
-    }
-}
-
-def update-nix-cache [] {
-  print "Updating Nix package cache... (This might take a minute)"
-  let cache_file = ($env.HOME | path join "Flake" "bin" "nixpkgs.json")
-  ^nix search nixpkgs ^ --json
-    | from json
-    | items {|name, value| {
-        pname: ($name | str replace "legacyPackages.x86_64-linux." ""),
-        description: $value.description
-      }
-    }
-    | where not ($it.pname | str downcase |str starts-with "linuxkernel")
-    | where not ($it.pname | str downcase |str starts-with "androidenv")
-    | where ($it.pname | str length) <= 50
-    | where not ($it.pname | str downcase | str contains "plugin")
-    | where not ($it.description | str downcase | str contains "kernel module")
-    | where not ($it.description | str downcase | str contains "kernel driver")
-    | where not ($it.description | str downcase | str contains "plugin")
-    | save --force $cache_file
-
-  print "Nix package cache is up to date."
-}
-
-# TESTING NUSHELL SQLITE
 def "nu-complete-nix-pkgs-sqlite" [] {
   let db_file = ($env.HOME | path join "Flake" "bin" "nixpkgs.db")
 

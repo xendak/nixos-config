@@ -1,9 +1,9 @@
-{ ... }:
+{ pkgs, ... }:
 {
 
   services.ollama = {
     enable = true;
-    acceleration = "rocm";
+    package = pkgs.ollama-rocm;
 
     home = "/local/nixos/data/AI/models";
 
