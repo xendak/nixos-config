@@ -212,6 +212,7 @@
         "input"
         "wheel"
         "networkmanager"
+        "ollama"
       ];
       hashedPasswordFile = "/persist/home/secrets/passwd-xendak";
       packages = [ pkgs.home-manager ];

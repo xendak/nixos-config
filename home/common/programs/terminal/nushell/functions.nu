@@ -5,7 +5,7 @@ def qsc [] {
 }
 
 def ll [path: path = .] {
-  ls -al | select name size mode modified user target
+  ls -al $path | select name size mode modified user target
 }
 
 # Syncs .desktop files from Flake to user application folder

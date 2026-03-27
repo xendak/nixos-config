@@ -132,6 +132,7 @@ in
           source colors.nu
           source prompt.nu
           source completion.nu
+          source keys.nu
           source functions.nu
 
           $env.config = {
