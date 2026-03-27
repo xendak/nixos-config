@@ -30,8 +30,17 @@ def create_left_prompt [] {
         $"(ansi white)─[(ansi yellow) ($git_info.stdout | str trim)(ansi white)]"
     } else { "" }
 
+    # :Nixshell :Venv
+    let env_prompt = if "VIRTUAL_ENV" in $env {
+        $"(ansi white)─[(ansi green_bold) venv(ansi white)]"
+    } else if "IN_NIX_SHELL" in $env  {
+        $"(ansi white)─[(ansi green_bold)  (ansi white)]"
+    } else {
+        ""
+    }
+
     # :Character
-    let line1 = $"(ansi white)┌─($face)─($identity)($dir)($git_branch)"
+    let line1 = $"(ansi white)┌─($face)─($identity)($dir)($git_branch)($env_prompt)"
     let line2 = $"\n(ansi white)└─(ansi reset)"
 
     $line1 + $line2

@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# =======================================================
+# Default Configurations
+# =======================================================
+MODEL_CHANGES="${GIT_GEN_CHANGES_MODEL:-tavernari/git-commit-message:sp_change_mini}"
+MODEL_COMMIT="${GIT_GEN_COMMIT_MODEL:-tavernari/git-commit-message:sp_commit_mini}"
+EDITOR_CMD="${EDITOR:-hx}"
+
+# =======================================================
+# Flag Parsing
+# =======================================================
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -ch) MODEL_CHANGES="$2"; shift 2 ;;
+    -cm) MODEL_COMMIT="$2"; shift 2 ;;
+    -h|--help)
+      echo "Usage: git-cc-pro [-ch change_model] [-cm commit_model]"
+      exit 0
+      ;;
+    *) shift ;;
+  esac
+done
+
+# =======================================================
+# Git Context Checks
+# =======================================================
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo -e "\033[31m[ERROR]\033[0m Not a Git repository." >&2
+  exit 1
+fi
+
+DIFF="$(git diff --staged -U5 --no-color)"
+if [ -z "$DIFF" ]; then
+  echo -e "\033[33m[WARN]\033[0m No staged changes. Run 'git add' first." >&2
+  exit 1
+fi
+
+# Fetch context of recent commits (like Tavernari does)
+PREV_COMMITS="$(git log --pretty=format:%s -n 10 2>/dev/null || echo "(no previous commits)")"
+
+# =======================================================
+# Step 1: Deep Analysis (Per-File)
+# =======================================================
+echo -e "\033[34m[1/3] Deep Analysis (\033[36m$MODEL_CHANGES\033[34m)...\033[0m" >&2
+
+split_diff() {
+  local diff_content="$1" chunk=""; 
+  while IFS= read -r line; do
+    if [[ "$line" =~ ^diff\ --git\  ]]; then
+      if [ -n "$chunk" ]; then echo "$chunk"; echo "---FILE_BOUNDARY---"; fi
+      chunk="$line"$'\n'
+    else chunk+="$line"$'\n'; fi
+  done <<< "$diff_content"
+  echo "$chunk"
+}
+
+ACCUMULATED_CHANGES=""
+while IFS= read -r chunk; do
+  [ -z "$chunk" ] && continue
+  FILE_NAME=$(echo "$chunk" | head -n 1 | sed -e 's#.* b/##')
+  
+  echo -ne "    \033[90m→ $FILE_NAME... \033[0m" >&2
+  
+  # Tavernari-style input wrapping
+  INPUT_CHUNK="<diff>\n$chunk\n</diff>"
+  
+  SUMMARY=$(ollama run "$MODEL_CHANGES" "$INPUT_CHUNK" 2>/dev/null || echo "Changed $FILE_NAME")
+  echo -e "\033[32mDone\033[0m" >&2
+  
+  ACCUMULATED_CHANGES+="<file name=\"$FILE_NAME\">\n$SUMMARY\n</file>\n"
+done < <(split_diff "$DIFF")
+
+# =======================================================
+# Step 2: Title Generation (Conventional)
+# =======================================================
+echo -e "\033[34m[2/3] Synthesizing Titles (\033[36m$MODEL_COMMIT\033[34m)...\033[0m" >&2
+
+# We ask for Conventional Titles specifically
+TITLES_PROMPT="<previous_context>\n$PREV_COMMITS\n</previous_context>\n<all_changes>\n$ACCUMULATED_CHANGES\n</all_changes>
+
+Task: Generate 5 distinct Conventional Commit titles.
+Format: <type>(<scope>): <subject>
+Types: feat, fix, docs, style, refactor, perf, test, chore, build.
+Output ONLY the 5 lines."
+
+TITLE_OPTIONS=$(ollama run "$MODEL_COMMIT" "$TITLES_PROMPT" 2>/dev/null)
+
+# =======================================================
+# Step 3: Pick & Stitch
+# =======================================================
+# We create a clean "Desc" from the accumulated changes
+CLEAN_DESC=$(echo -e "$ACCUMULATED_CHANGES" | sed -e 's/<[^>]*>//g' | sed '/^[[:space:]]*$/d' | sed 's/^[[:space:]]*/- /')
+
+SELECTED_TITLE=$(echo "$TITLE_OPTIONS" | fzf --height 40% --border --ansi \
+    --header "Select Title (Full Analysis will be appended below)" \
+    --preview "echo -e 'Detailed Technical Analysis:\n$CLEAN_DESC'")
+
+if [ -z "$SELECTED_TITLE" ]; then
+  echo "Aborted: No title selected."
+  exit 0
+fi
+
+# Final file assembly
+COMMIT_MSG_FILE=$(mktemp)
+echo "$SELECTED_TITLE" > "$COMMIT_MSG_FILE"
+echo "" >> "$COMMIT_MSG_FILE"
+echo "Desc:" >> "$COMMIT_MSG_FILE"
+echo "$CLEAN_DESC" >> "$COMMIT_MSG_FILE"
+
+# Open in Helix for final review
+$EDITOR_CMD "$COMMIT_MSG_FILE"
+
+if [ -s "$COMMIT_MSG_FILE" ]; then
+  git commit -F "$COMMIT_MSG_FILE"
+  echo -e "\033[32m[OK] Successfully committed!\033[0m"
+else
+  echo "Commit aborted: Message was cleared."
+fi
+
+rm -f "$COMMIT_MSG_FILE"
