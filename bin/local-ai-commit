@@ -1,16 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# =======================================================
-# Default Configurations
-# =======================================================
 MODEL_CHANGES="${GIT_GEN_CHANGES_MODEL:-tavernari/git-commit-message:sp_change_mini}"
 MODEL_COMMIT="${GIT_GEN_COMMIT_MODEL:-tavernari/git-commit-message:sp_commit_mini}"
 EDITOR_CMD="${EDITOR:-hx}"
 
-# =======================================================
-# Flag Parsing
-# =======================================================
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -ch) MODEL_CHANGES="$2"; shift 2 ;;
@@ -23,9 +17,6 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# =======================================================
-# Git Context Checks
-# =======================================================
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   echo -e "\033[31m[ERROR]\033[0m Not a Git repository." >&2
   exit 1
@@ -37,12 +28,8 @@ if [ -z "$DIFF" ]; then
   exit 1
 fi
 
-# Fetch context of recent commits (like Tavernari does)
 PREV_COMMITS="$(git log --pretty=format:%s -n 10 2>/dev/null || echo "(no previous commits)")"
 
-# =======================================================
-# Step 1: Deep Analysis (Per-File)
-# =======================================================
 echo -e "\033[34m[1/3] Deep Analysis (\033[36m$MODEL_CHANGES\033[34m)...\033[0m" >&2
 
 split_diff() {
@@ -62,8 +49,7 @@ while IFS= read -r chunk; do
   FILE_NAME=$(echo "$chunk" | head -n 1 | sed -e 's#.* b/##')
   
   echo -ne "    \033[90m→ $FILE_NAME... \033[0m" >&2
-  
-  # Tavernari-style input wrapping
+ 
   INPUT_CHUNK="<diff>\n$chunk\n</diff>"
   
   SUMMARY=$(ollama run "$MODEL_CHANGES" "$INPUT_CHUNK" 2>/dev/null || echo "Changed $FILE_NAME")
@@ -72,44 +58,33 @@ while IFS= read -r chunk; do
   ACCUMULATED_CHANGES+="<file name=\"$FILE_NAME\">\n$SUMMARY\n</file>\n"
 done < <(split_diff "$DIFF")
 
-# =======================================================
-# Step 2: Title Generation (Conventional)
-# =======================================================
 echo -e "\033[34m[2/3] Synthesizing Titles (\033[36m$MODEL_COMMIT\033[34m)...\033[0m" >&2
 
-# We ask for Conventional Titles specifically
 TITLES_PROMPT="<previous_context>\n$PREV_COMMITS\n</previous_context>\n<all_changes>\n$ACCUMULATED_CHANGES\n</all_changes>
-
-Task: Generate 5 distinct Conventional Commit titles.
-Format: <type>(<scope>): <subject>
-Types: feat, fix, docs, style, refactor, perf, test, chore, build.
-Output ONLY the 5 lines."
+You are an expert developer. Generate a git commit subject and an extended description for these changes.
+The subject MUST follow \"Conventional Commits\" format (e.g., 'feat: add login', 'fix: resolve crash').
+Keep the subject <= 72 characters and do not wrap it in quotes.
+The body should be 2-4 short lines explaining what changed and why (no code blocks).
+Return STRICT only the lines.:
+"
 
 TITLE_OPTIONS=$(ollama run "$MODEL_COMMIT" "$TITLES_PROMPT" 2>/dev/null)
 
-# =======================================================
-# Step 3: Pick & Stitch
-# =======================================================
-# We create a clean "Desc" from the accumulated changes
 CLEAN_DESC=$(echo -e "$ACCUMULATED_CHANGES" | sed -e 's/<[^>]*>//g' | sed '/^[[:space:]]*$/d' | sed 's/^[[:space:]]*/- /')
-
+PREVIEW_FILE=$(mktemp)
+printf "Detailed Technical Analysis:\n%s\n" "$CLEAN_DESC" > "$PREVIEW_FILE"
 SELECTED_TITLE=$(echo "$TITLE_OPTIONS" | fzf --height 40% --border --ansi \
-    --header "Select Title (Full Analysis will be appended below)" \
-    --preview "echo -e 'Detailed Technical Analysis:\n$CLEAN_DESC'")
+  --header "Select Title (Full Analysis will be appended below)" \
+  --preview "cat $PREVIEW_FILE")
+rm -f "$PREVIEW_FILE"
 
-if [ -z "$SELECTED_TITLE" ]; then
-  echo "Aborted: No title selected."
-  exit 0
-fi
-
-# Final file assembly
 COMMIT_MSG_FILE=$(mktemp)
-echo "$SELECTED_TITLE" > "$COMMIT_MSG_FILE"
-echo "" >> "$COMMIT_MSG_FILE"
-echo "Desc:" >> "$COMMIT_MSG_FILE"
-echo "$CLEAN_DESC" >> "$COMMIT_MSG_FILE"
+{
+  echo "$SELECTED_TITLE"
+  echo ""
+  echo "$CLEAN_DESC"
+} > "$COMMIT_MSG_FILE"
 
-# Open in Helix for final review
 $EDITOR_CMD "$COMMIT_MSG_FILE"
 
 if [ -s "$COMMIT_MSG_FILE" ]; then

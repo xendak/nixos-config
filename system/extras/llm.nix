@@ -87,6 +87,15 @@
     extraOptions = [ "--network=host" ];
   };
 
+  systemd.services."podman-open-webui-pipelines" = {
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Restart = "on-failure";
+      RestartSec = "10s";
+    };
+  };
+
   systemd.services.open-webui = {
     serviceConfig = {
       # Disable the sandbox "lottery"

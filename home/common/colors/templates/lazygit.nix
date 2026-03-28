@@ -21,10 +21,15 @@ in
         context: commitFiles
         description: Compare (difftool) with local copy
         key: f
-      - command: lazygit-ai-commit gemini -m gemini-2.5-flash -p "AI Prompt"
+      - command: sh lazygit-ai-commit gemini -m gemini-2.5-flash -p "AI Prompt"
         context: files
         description: Pick AI commit
         key: <c-a>
+        output: terminal
+      - command: local-ai-commit
+        context: files
+        description: Pick Local AI for generating commits.
+        key: <c-l>
         output: terminal
       disableStartupPopups: true
       git:

@@ -213,6 +213,8 @@
         "wheel"
         "networkmanager"
         "ollama"
+        "open-webui"
+        "podman"
       ];
       hashedPasswordFile = "/persist/home/secrets/passwd-xendak";
       packages = [ pkgs.home-manager ];
