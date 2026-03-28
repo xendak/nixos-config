@@ -4,5 +4,7 @@
 /bin/nixpkgs_list
 /home/common/desktop
 /home/common/programs/terminal/nushell/colors.nu
+result/
+result
 .theme
 .wallpaper

@@ -177,6 +177,12 @@
           };
           modules = [ ./system/Dew ];
         };
+        Rain = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs outputs;
+          };
+          modules = [ ./system/Rain ];
+        };
         wsl = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
@@ -255,6 +261,14 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             host = "Dew";
+          };
+          modules = [ ./home/xendak.nix ];
+        };
+        "xendak@Rain" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            host = "Rain";
           };
           modules = [ ./home/xendak.nix ];
         };

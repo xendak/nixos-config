@@ -5,7 +5,7 @@
       if host == "Dew" then
         ./drops/home.nix
       else if host == "Rain" then
-        ./drops/home.nix
+        ./mac/home.nix
       else if host == "Snow" then
         ./flakes/home.nix
       else if host == "wsl" then

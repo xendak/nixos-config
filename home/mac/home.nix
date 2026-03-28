@@ -1,0 +1,145 @@
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
+  imports = [
+    inputs.nix-index-db.homeModules.nix-index
+
+    ../setup.nix
+
+    ../common
+    ../common/wayland
+    # ../common/wayland/hyprland
+    ../common/wayland/niri
+    ../common/programs/terminal/nushell
+
+    ../common/programs/hexecute.nix
+    ../common/programs/vesktop
+
+    # ../common/wayland/swayfx
+    # ../common/wayland/hyprland/plugins/hyprbars.nix
+    # ../common/wayland/hyprland/plugins/hyprexpo.nix
+
+    ../common/programs/terminal/wezterm
+    ../common/programs/terminal/foot.nix
+
+    ../common/programs/emacs
+
+    ../common/programs/quickshell
+    ../common/programs/obsidian
+
+    ../common/games/wine.nix
+    ../common/games/launchers/steam.nix
+    ../common/games/emulators/retroarch.nix
+    # ../common/programs/pass.nix
+    # ../common/programs/browser/chromium.nix
+
+    ../common/programs/browser/zen.nix
+    # ../common/programs/rustdesk.nix
+  ];
+
+  home.packages = [
+    # pkgs.obs-studio
+
+    # disable kanata and leave only external kb
+    pkgs.evtest
+
+    pkgs.eb-garamond
+    # pkgs.blender
+
+    pkgs.deluge
+
+    # try
+    # pkgs.fuzzel
+    pkgs.xdg-desktop-portal-termfilechooser
+    # pkgs.matugen
+
+    # inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+    # keyboard
+    pkgs.qmk
+    pkgs.wally-cli
+  ];
+
+  programs = {
+    home-manager.enable = true;
+  };
+
+  services.udiskie.enable = true;
+  services.playerctld.enable = true;
+  systemd.user.startServices = "sd-switch";
+
+  # Home --------------------
+  home = {
+    username = lib.mkDefault "xendak";
+    homeDirectory = lib.mkDefault "/home/xendak/";
+    stateVersion = lib.mkDefault "25.05";
+    sessionPath = [ "$HOME/Flake/bin" ];
+    persistence = {
+      "/persist" = {
+        directories = [
+          "Flake"
+          "Downloads"
+          "Music"
+          "Videos"
+          "Programming"
+          "Pictures"
+          "Documents"
+          ".config/fcitx5"
+          ".config/dconf"
+          # ".local/share/anime-game-launcher"
+          # ".local/share/honkers-railway-launcher"
+          # ".nixops"
+          ".local/share/direnv"
+          # ".local/share/keyrings"
+          ".local/share/Terraria"
+          ".local/share/fonts"
+          ".local/state/wireplumber"
+          ".local/share/ssh"
+        ];
+        files = [ ".local/share/fish/fish_history" ];
+      };
+
+    };
+    sessionVariables = {
+      UserKnownHostsFile = "$HOME/.local/share/ssh";
+      SCREENSHOT_DIR = "$HOME/Pictures/Screenshots";
+      XCURSOR_PATH = "${config.gtk.cursorTheme.package}/share/icons/:$XCURSOR_PATH";
+      FULLSCREEN_SAVE_FILE = "$(date +%Y-%m-%d_%M).png";
+      AREA_SAVE_FILE = "$(date +%Y-%m-%d_%M)_snip.png";
+      AREA_CONFIG_DIR = "Snips";
+      NNN_BMS = "p:$HOME/Programming;f:$HOME/Flake;c:$HOME/.config;w:/mnt/Windows";
+      SPLIT = "v";
+      # GTK_THEME = "${config.gtk.theme.name}:dark";
+      EDITOR = "hx";
+      # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
+      BROWSER = "zen";
+      FILEBROWSER = "dolphin";
+      TERMBROWSER = "yazi";
+      WINEPREFIX = "/home/xendak/Games/Wine-Prefix";
+    };
+  };
+
+  monitors = [
+    {
+      name = "eDP-1";
+      width = 1366;
+      height = 768;
+      refreshRate = 60.01;
+      x = 0;
+      y = 0;
+      workspace = "1";
+      bind = [
+        1
+        2
+        3
+        4
+        5
+      ];
+    }
+  ];
+}
