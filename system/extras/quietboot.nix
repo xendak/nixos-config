@@ -1,10 +1,7 @@
+{ lib, ... }:
 {
-  pkgs,
-  config,
-  ...
-}: {
   boot = {
-    loader.timeout = 5;
+    loader.timeout = lib.mkDefault 5;
     kernelParams = [
       "quiet"
       "splash"

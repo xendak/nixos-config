@@ -1,16 +1,20 @@
 let
   snow = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFbcunaQdK1AAI/Yre6HIKOtLQcJRzzuEINSkpH1eCj/ root@Snow";
   dew = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOeSiZ3xn1RH1JURg3zmq2qEOspQOewGIwfQ8QGGETdY root@Dew";
+  rain = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC+1PiaDEtgvd1DsfinQKu842zMagJOeQfWkOQm2blMJ root@Rain";
 
   user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINWQXNYT4TSaRMLFfc+V99dEC0DeoW6ed1e/cfi5g3Th xendak@nixos";
   # recovery = "";
   systems = [
     snow
     dew
+    rain
   ];
+
   users = [
     user
   ];
+
   all = users ++ systems;
 in
 {

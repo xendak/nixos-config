@@ -186,6 +186,59 @@
             ./system/wsl
           ];
         };
+
+        iso = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+            ./system/global.nix
+            (
+              {
+                pkgs,
+                config,
+                lib,
+                ...
+              }:
+              {
+                system.stateVersion = lib.mkForce "25.05";
+
+                networking.networkmanager.enable = true;
+                hardware.enableRedistributableFirmware = true;
+                services.openssh.settings.PermitRootLogin = lib.mkForce "yes";
+
+                nixpkgs.config.allowUnfree = true;
+                boot.kernelModules = [ "wl" ];
+                boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+                nixpkgs.config.permittedInsecurePackages = [
+                  "broadcom-sta-6.30.223.271-59-6.18.19"
+                ];
+
+                users.users.root.openssh.authorizedKeys.keys = [
+                  (builtins.readFile ./home/common/ssh/id_ed25519.pub)
+                  (builtins.readFile ./system/Snow/ssh_host_ed25519_key.pub)
+                  (builtins.readFile ./system/Dew/ssh_host_ed25519_key.pub)
+                ];
+
+                users.users.xendak = {
+                  isNormalUser = true;
+                  group = "users";
+                };
+
+                # users.users.xendak.extraGroups = [ "wheel" ];
+
+                programs.ssh.knownHostsFiles = [
+                  ./home/common/ssh/known_hosts
+                ];
+                environment.systemPackages = [
+                  pkgs.git
+                  pkgs.helix
+                  pkgs.openssh
+                  pkgs.neovim
+                ];
+              }
+            )
+          ];
+        };
       };
 
       homeConfigurations = {

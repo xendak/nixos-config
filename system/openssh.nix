@@ -6,7 +6,8 @@
 }:
 let
   inherit (config.networking) hostName;
-  hosts = outputs.nixosConfigurations;
+  # hosts = outputs.nixosConfigurations;
+  hosts = lib.attrsets.filterAttrs (name: _: name != "iso") outputs.nixosConfigurations;
   pubKey = host: ./${host}/ssh_host_ed25519_key.pub;
 
   hasOptinPersistence =

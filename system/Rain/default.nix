@@ -1,4 +1,4 @@
-# my laptop
+# macbook(2012) air a1
 {
   config,
   lib,
@@ -11,9 +11,6 @@
   imports = [
     ../global.nix
     ./btrfs-optin-persistence.nix
-    ./hardware-configuration.nix
-    # ../extras/powersave.nix
-    ../extras/kanata.nix
 
     ../extras/sync-browser.nix
     ../extras/greetd.nix
@@ -23,33 +20,44 @@
     inputs.auto-cpufreq.nixosModules.default
   ];
 
-  boot.initrd.availableKernelModules = [
-    "xhci_pci"
-    "ahci"
-    "nvme"
-    "usbhid"
-    "usb_storage"
-    "sd_mod"
+  # old macbook broadcom i guess
+  nixpkgs.config.permittedInsecurePackages = [
+    "broadcom-sta-6.30.223.271-59-6.18.19"
   ];
-  boot.kernelModules = [
-    "kvm-intel"
-    "i2c-dev"
-    "i2c-i801"
-    "coretemp"
-  ];
-  boot.loader.systemd-boot.enable = true;
+
   boot = {
+
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
-    # kernelPackages = pkgs.linuxPackages_xanmod_latest;
+    extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+    # https://forum.manjaro.org/t/kworker-kacpid-over-70-of-cpu-dual-boot-mac-manjaro/61981
     kernelParams = [
-      "amd_pstate=active"
-      "ideapad_laptop.allow_v4_dytc=Y"
-      ''acpi_osi="Windows 2020"''
+      "acpi_osi=Darwin"
+      "atmel_mxt_ts.enable_multitouch=1"
+      "hid_apple.swap_opt_cmd=1"
+      "hid_apple.iso_layout=0"
+      "acpi_backlight=vendor"
+      "acpi_mask_gpe=0x15"
     ];
     supportedFilesystems = [
       "btrfs"
-      "ntfs"
     ];
+
+    initrd.availableKernelModules = [
+      "uhci_hcd"
+      "ehci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
+    kernelModules = [
+      "kvm-intel"
+      "i2c-dev"
+      "i2c-i801"
+      "coretemp"
+      "wl"
+    ];
+    loader.systemd-boot.enable = true;
   };
 
   age.secrets.gemini-api-key = {
@@ -167,16 +175,12 @@
       substituters = [
         "ssh-ng://xendak@Snow"
         "https://cache.nixos.org/"
-        "https://hyprland.cachix.org"
-        "https://ezkea.cachix.org"
         "https://nix-community.cachix.org"
       ];
       trusted-public-keys = [
         "Snow-1:ePOd1J2YyhEQZjXK3t/yA5Nt3aWFo4Bdp3ibjtW6Lpo="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI="
       ];
     };
   };
@@ -208,7 +212,7 @@
     "8.8.8.8"
     "8.8.4.4"
   ];
-  networking.hostName = "Dew";
+  networking.hostName = "Rain";
   environment.persistence."/persist" = {
     hideMounts = true;
     directories = [
@@ -246,14 +250,25 @@
     useGlobalPkgs = true;
     extraSpecialArgs = {
       inherit inputs outputs;
-      host = "Dew";
+      host = "Rain";
     };
     backupFileExtension = "hm-backup";
     overwriteBackup = true;
   };
 
   # laptop power management
+  powerManagement.enable = true;
+  powerManagement.cpuFreqGovernor = "schedutil";
+  hardware.opengl.extraPackages = with pkgs; [
+    vaapiIntel
+    vaapiVdpau
+    libvdpau-va-gl
+    intel-media-driver
+  ];
+
   services = {
+    mbpfan.enable = true;
+    thermald.enable = true;
     acpid.enable = true;
     upower.enable = true;
     avahi = {
@@ -286,7 +301,9 @@
     blueman.enable = true;
   };
 
+  console.font = "Lat2-Terminus16";
   environment.etc."/bluetooth/main.conf".text = ''
+
     [General]
     ControllerMode=dual
     Enable=Source,Sink,Media,Socket
@@ -313,5 +330,5 @@
 
   systemd.user.services.telephony_client.enable = false;
 
-  system.stateVersion = "25.05";
+  system.stateVersion = lib.mkDefault "25.05";
 }

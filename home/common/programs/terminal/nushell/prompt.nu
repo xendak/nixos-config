@@ -34,7 +34,7 @@ def create_left_prompt [] {
     let env_prompt = if "VIRTUAL_ENV" in $env {
         $"(ansi white)─[(ansi green_bold) venv(ansi white)]"
     } else if "IN_NIX_SHELL" in $env  {
-        $"(ansi white)─[(ansi green_bold)  (ansi white)]"
+        $"(ansi white)─[(ansi green_bold) nix(ansi white)]"
     } else {
         ""
     }
