@@ -38,27 +38,39 @@ let
     selection_fg = must.bg;
     selection_bg = must.primary;
 
-    white = "#3c3836";
-    red = "#ab4642";
-    green = "#98971a";
-    yellow = "#AF7C54";
-    blue = "#556677";
-    magenta = "#b16286";
-    cyan = "#689d6a";
+    black = "#353535";
+    red = "#C4746E";
+    green = "#8A9A7B";
+    yellow = "#C4B28A";
+    blue = "#8BA4B0";
+    magenta = "#A292A3";
+    cyan = "#8EA4A2";
+    white = "#C8C093";
+
     gray = "#a89984";
     orange = "#d65d0e";
-    black = "#ebdbb2";
 
-    brightwhite = "#504945";
-    brightred = "#fb4934";
-    brightgreen = "#b8bb26";
-    brightyellow = "#fabd2f";
-    brightblue = "#83a598";
-    brightmagenta = "#d3869b";
-    brightcyan = "#8ec07c";
-    brightgray = "#928374";
-    brightorange = "#fe8019";
-    brightblack = "#fbf1c7";
+    # white = "#3c3836";
+    # red = "#ab4642";
+    # green = "#98971a";
+    # yellow = "#AF7C54";
+    # blue = "#556677";
+    # magenta = "#b16286";
+    # cyan = "#689d6a";
+    # gray = "#a89984";
+    # orange = "#d65d0e";
+    # black = "#ebdbb2";
+
+    # brightwhite = "#504945";
+    # brightred = "#fb4934";
+    # brightgreen = "#b8bb26";
+    # brightyellow = "#fabd2f";
+    # brightblue = "#83a598";
+    # brightmagenta = "#d3869b";
+    # brightcyan = "#8ec07c";
+    # brightgray = "#928374";
+    # brightorange = "#fe8019";
+    # brightblack = "#fbf1c7";
 
   };
 

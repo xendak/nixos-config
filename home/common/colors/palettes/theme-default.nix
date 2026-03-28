@@ -150,25 +150,25 @@
     scrim = "#000000";
     source_color = "#6750A4";
 
-    white = "#0D0C0C";
+    black = "#353535";
     red = "#C4746E";
     green = "#8A9A7B";
     yellow = "#C4B28A";
     blue = "#8BA4B0";
     magenta = "#A292A3";
     cyan = "#8EA4A2";
-    black = "#C8C093";
+    white = "#C8C093";
     gray = "#a89984";
     orange = "#d65d0e";
 
-    brightwhite = "#A6A69C";
+    brightblack = "#454545";
     brightred = "#E46876";
     brightgreen = "#87A987";
     brightyellow = "#E6C384";
     brightblue = "#7FB4CA";
     brightmagenta = "#938AA9";
     brightcyan = "#7AA89F";
-    brightblack = "#C5C9C5";
+    brightwhite = "#A6A69C";
     brightgray = "#928374";
     brightorange = "#fe8019";
   };

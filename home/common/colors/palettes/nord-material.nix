@@ -21,31 +21,45 @@ let
   };
 
   overrides = {
-    brightwhite = "#4A4458";
-    white = "#79747E";
-    gray = "#4C566A";
-    brightgray = "#60728A";
-    black = "#E5E9F0";
-    brightblack = "#ECEFF4";
-    blue = "#5E81AC";
-    brightblue = "#81A1C1";
-    cyan = "#8FBCBB";
-    brightcyan = "#9FC6C5";
+    black = "#3B4252";
     red = "#BF616A";
-    brightred = "#C5727A";
-    orange = "#D08770";
-    brightorange = "#D79784";
-    yellow = "#EBCB8B";
-    brightyellow = "#EFD49F";
     green = "#A3BE8C";
-    brightgreen = "#B1C89D";
+    yellow = "#EBCB8B";
+    blue = "#5E81AC";
     magenta = "#B48EAD";
+    cyan = "#8FBCBB";
+    white = "#E5E9F0";
+
+    gray = "#4C566A";
+    orange = "#D08770";
+
+    brigthblack = "#4C566A";
+    brightred = "#C5727A";
+    brightgreen = "#B1C89D";
+    brightyellow = "#EFD49F";
+    brightblue = "#81A1C1";
     brightmagenta = "#BE9DB8";
+    brightcyan = "#9FC6C5";
+    brightwhite = "#E5E9F0";
+
+    brightorange = "#D79784";
+    brightgray = "#60728A";
 
     selection_fg = "#4A4458";
     outline = "#79747E";
 
     # REMINDER
+    # Normal      Bright
+    # --------    -------
+    # 0 Black      8 Black
+    # 1 Red        9 Red
+    # 2 Yellow    10 Yellow
+    # 3 Green     11 Green
+    # 4 Blue      12 Blue
+    # 5 Magenta   13 Magenta
+    # 6 Cyan      14 Cyan
+    # 7 White     15 White
+
     # keywords = extra.keywords or ansi.red;
     # labels = extra.labels or ansi.brightred;
     # strings = extra.strings or ansi.green;

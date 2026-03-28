@@ -25,11 +25,11 @@ let
     punctuation = "#9b8d7f";
     macros = "#c0bcaa";
     functions = "#777777";
-    strings = "#626B67";
+    strings = "#8a9a7b";
     builtins = "#edbbb2";
     types = "#ebdbb2";
     specials = "#cecbbd";
-    numeric = "#90A999";
+    numeric = "#c4746e";
     constants = "#8C7F70";
     modules = "#556677";
     tags = "#506070";
@@ -40,16 +40,18 @@ let
     selection_fg = must.bg;
     selection_bg = must.primary;
 
-    white = "#3c3836";
-    red = "#cc241d";
-    green = "#98971a";
-    yellow = "#d79921";
-    blue = "#458588";
-    magenta = "#b16286";
-    cyan = "#689d6a";
+    black = "#353535";
+    red = "#C4746E";
+    green = "#8A9A7B";
+    yellow = "#C4B28A";
+    blue = "#8BA4B0";
+    magenta = "#A292A3";
+    cyan = "#8EA4A2";
+    white = "#C8C093";
+
     gray = "#a89984";
     orange = "#d65d0e";
-    black = "#ebdbb2";
+
   };
 
 in
