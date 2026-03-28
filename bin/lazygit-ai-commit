@@ -1,4 +1,4 @@
-#!/usr/bin/env/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 if [ $# -eq 0 ]; then
@@ -48,7 +48,7 @@ DIFF TO ANALYZE:
 $DIFF"
 
 selected_commit_message=$(
-  echo "$PROMPT" | $AI_COMMAND "$@" |
+  echo "$PROMPT" | "$AI_COMMAND" "$@" |
     awk 'BEGIN {RS="---"} NF {
           sub(/^[[:space:]-]+/, "");
           sub(/[[:space:]]+$/, "");
@@ -57,8 +57,7 @@ selected_commit_message=$(
     fzf --height 40% --border --ansi --read0 --no-sort \
       --header "Select a commit message (ESC to cancel)" \
       --preview 'echo {}' \
-      --preview-window=down:3:wrap
-)
+      --preview-window=down:3:wrap)
 
 if [ -z "$selected_commit_message" ]; then
   echo "Aborted: No message selected."
