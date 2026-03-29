@@ -24,6 +24,7 @@ let
     "E" = 14;
     "F" = 15;
   };
+
   decToHexList = [
     "0"
     "1"
@@ -42,8 +43,11 @@ let
     "e"
     "f"
   ];
+
+  # Math helpers
   mod = base: int: base - (int * (base / int));
-  abs = x: if x < 0 then -x else x;
+  fmod = x: y: x - (y * builtins.floor (x / y)); # Float modulo for hue wrapping
+  abs = x: if x < 0.0 then 0.0 - x else x;
   max = a: b: if a > b then a else b;
   min = a: b: if a < b then a else b;
 
@@ -67,31 +71,34 @@ let
       b,
     }:
     let
-      maxC = max r (max g b);
-      minC = min r (min g b);
+      # Normalize RGB to 0.0 - 1.0 floats to avoid integer truncation
+      rF = r / 255.0;
+      gF = g / 255.0;
+      bF = b / 255.0;
+
+      maxC = max rF (max gF bF);
+      minC = min rF (min gF bF);
       delta = maxC - minC;
-      l = (maxC + minC) / 2;
 
-      s = if delta == 0 then 0 else (delta * 100) / (255 - abs (2 * l - 255));
+      l = (maxC + minC) / 2.0;
 
-      h100 =
-        if delta == 0 then
-          0
-        else if maxC == r then
-          let
-            raw = ((g - b) * 10000) / delta;
-            wrapped = mod raw 600;
-          in
-          if wrapped < 0 then wrapped + 600 else wrapped
-        else if maxC == g then
-          (((b - r) * 10000) / delta) + 20000
+      s = if delta == 0.0 then 0.0 else delta / (1.0 - abs (2.0 * l - 1.0));
+
+      # Standard 0-6 hue scaling
+      hRaw =
+        if delta == 0.0 then
+          0.0
+        else if maxC == rF then
+          fmod (((gF - bF) / delta) + 6.0) 6.0
+        else if maxC == gF then
+          ((bF - rF) / delta) + 2.0
         else
-          (((r - g) * 10000) / delta) + 40000;
+          ((rF - gF) / delta) + 4.0;
     in
     {
-      h = h100 / 100;
-      s = s;
-      l = (l * 100) / 255;
+      h = hRaw * 60.0; # Convert to 0-360 degrees
+      s = s * 100.0;
+      l = l * 100.0;
     };
 
   hslToRgb =
@@ -101,52 +108,56 @@ let
       l,
     }:
     let
-      c = ((100 - abs (2 * l - 100)) * s) / 100;
-      h60 = (h * 100) / 60;
-      x = (c * (100 - abs (mod h60 200 - 100))) / 100;
-      m = l - (c / 2);
+      sF = s / 100.0;
+      lF = l / 100.0;
+
+      c = (1.0 - abs (2.0 * lF - 1.0)) * sF;
+      x = c * (1.0 - abs (fmod (h / 60.0) 2.0 - 1.0));
+      m = lF - c / 2.0;
+
       res =
-        if h < 60 then
+        if h < 60.0 then
           {
             r = c;
             g = x;
-            b = 0;
+            b = 0.0;
           }
-        else if h < 120 then
+        else if h < 120.0 then
           {
             r = x;
             g = c;
-            b = 0;
+            b = 0.0;
           }
-        else if h < 180 then
+        else if h < 180.0 then
           {
-            r = 0;
+            r = 0.0;
             g = c;
             b = x;
           }
-        else if h < 240 then
+        else if h < 240.0 then
           {
-            r = 0;
+            r = 0.0;
             g = x;
             b = c;
           }
-        else if h < 300 then
+        else if h < 300.0 then
           {
             r = x;
-            g = 0;
+            g = 0.0;
             b = c;
           }
         else
           {
             r = c;
-            g = 0;
+            g = 0.0;
             b = x;
           };
     in
     {
-      r = builtins.floor ((res.r + m) * 255 / 100);
-      g = builtins.floor ((res.g + m) * 255 / 100);
-      b = builtins.floor ((res.b + m) * 255 / 100);
+      # Re-scale to 0-255 and floor back to integers
+      r = builtins.floor ((res.r + m) * 255.0);
+      g = builtins.floor ((res.g + m) * 255.0);
+      b = builtins.floor ((res.b + m) * 255.0);
     };
 
 in
@@ -161,13 +172,6 @@ rec {
       g = (hexToDecMap.${builtins.substring 2 1 h} * 16) + hexToDecMap.${builtins.substring 3 1 h};
       b = (hexToDecMap.${builtins.substring 4 1 h} * 16) + hexToDecMap.${builtins.substring 5 1 h};
     };
-
-  toKdeRgb =
-    hex:
-    let
-      c = toRGB hex;
-    in
-    "${toString c.r},${toString c.g},${toString c.b}";
 
   toHex = rgb: "#" + (toHexPair rgb.r) + (toHexPair rgb.g) + (toHexPair rgb.b);
 
@@ -192,10 +196,10 @@ rec {
         let
           s = hsl.s + amount;
         in
-        if s > 100 then
-          100
-        else if s < 0 then
-          0
+        if s > 100.0 then
+          100.0
+        else if s < 0.0 then
+          0.0
         else
           s;
     in
@@ -209,24 +213,15 @@ rec {
         let
           l = hsl.l + amount;
         in
-        if l > 100 then
-          100
-        else if l < 0 then
-          0
+        if l > 100.0 then
+          100.0
+        else if l < 0.0 then
+          0.0
         else
           l;
     in
     toHex (hslToRgb (hsl // { l = newL; }));
 
-  # Produce a tonal set for Material-style roles.
-  # Returns: { fixed, fixed_dim, bright }
-  #
-  # `type` is "light" or "dark" — controls which direction "bright" goes.
-  # `baseColor` is any hex string, e.g. "#bf616a"
-  # `output` is
-  # fixed:     #f4d0d2
-  # fixed_dim: #ebb5b8
-  # bright:    #d0707a
   toneSet =
     type: baseColor:
     let
