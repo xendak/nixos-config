@@ -29,6 +29,8 @@ in
   programs.yazi = {
     enable = true;
     package = pkgs.yazi;
+    shellWrapperName = "yy";
+
     extraPackages = [
       pkgs.jq
       pkgs.duckdb

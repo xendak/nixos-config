@@ -11,6 +11,7 @@
   imports = [
     ../global.nix
     ./btrfs-optin-persistence.nix
+    ./hardware-configuration.nix
 
     ../extras/sync-browser.nix
     ../extras/greetd.nix
@@ -21,8 +22,15 @@
   ];
 
   # old macbook broadcom i guess
+  nixpkgs.config.allowInsecurePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "broadcom-sta"
+    ];
+
   nixpkgs.config.permittedInsecurePackages = [
     "broadcom-sta-6.30.223.271-59-6.18.19"
+    "broadcom-sta-6.30.223.271-59-6.18.13"
   ];
 
   boot = {
@@ -34,8 +42,9 @@
       "acpi_osi=Darwin"
       "atmel_mxt_ts.enable_multitouch=1"
       "hid_apple.swap_opt_cmd=1"
+      "hid_apple.swap_fn_leftctrl=1"
       "hid_apple.iso_layout=0"
-      "acpi_backlight=vendor"
+      "acpi_backlight=video"
       "acpi_mask_gpe=0x15"
     ];
     supportedFilesystems = [
@@ -80,9 +89,17 @@
     file = ../../secrets/pw.age;
     symlink = false;
     name = "id_ed25519";
-    owner = "xendak";
-    group = "users";
-    mode = "600";
+    owner = "root";
+    group = "nixbld";
+    mode = "0440";
+  };
+  age.secrets.nix-builder = {
+    file = ../../secrets/nix-builder.age;
+    symlink = false;
+    name = "nix_ed25519";
+    owner = "root";
+    group = "nixbld";
+    mode = "0440";
   };
 
   systemd.services = {
@@ -110,10 +127,6 @@
               cat ${config.age.secrets.steamgriddb.path} > "/home/xendak/.ssh/steam"
               chown xendak:users /home/xendak/.ssh/steam
               chmod 600 /home/xendak/.ssh/steam
-              rm -f /run/agenix/gemini
-              rm -f /run/agenix/id_ed25519
-              rm -f /run/agenix.d/1/gemini
-              rm -f /run/agenix.d/1/id_ed25519
             '';
           in
           "${script}";
@@ -152,7 +165,6 @@
       {
         hostName = "Snow";
         sshUser = "xendak";
-        # sshKey = "/persist/etc/ssh/ssh_host_ed25519_key";
         sshKey = config.age.secrets.pw.path;
         system = "x86_64-linux";
         protocol = "ssh-ng";
@@ -260,10 +272,10 @@
   powerManagement.enable = true;
   powerManagement.cpuFreqGovernor = "schedutil";
   hardware.opengl.extraPackages = with pkgs; [
-    vaapiIntel
-    vaapiVdpau
     libvdpau-va-gl
     intel-media-driver
+    intel-vaapi-driver
+    libva-vdpau-driver
   ];
 
   services = {

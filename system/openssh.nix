@@ -21,6 +21,7 @@ in
     # );
     openssh.authorizedKeys.keys =
       (lib.splitString "\n" (builtins.readFile ../home/common/ssh/id_ed25519.pub))
+      ++ (lib.splitString "\n" (builtins.readFile ../home/common/ssh/nix_builder_key.pub))
       ++ (map (name: builtins.readFile ./${name}/ssh_host_ed25519_key.pub) (
         builtins.filter (name: builtins.pathExists ./${name}/ssh_host_ed25519_key.pub) (
           builtins.attrNames hosts
@@ -37,7 +38,10 @@ in
       StreamLocalBindUnlink = "yes";
       # Allow forwarding ports to everywhere
       GatewayPorts = "clientspecified";
-      AcceptEnv = [ "WAYLAND_DISPLAY" ];
+      AcceptEnv = [
+        "COLORTERM"
+        "WAYLAND_DISPLAY"
+      ];
       X11Forwarding = true;
     };
 
@@ -51,6 +55,11 @@ in
 
   programs.ssh = {
     startAgent = true;
+    extraConfig = ''
+      Host *
+        SendEnv COLORTERM WAYLAND_DISPLAY
+    '';
+
     # Each hosts public key
     knownHosts = builtins.mapAttrs (name: _: {
       publicKeyFile = pubKey name;

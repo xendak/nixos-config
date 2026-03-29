@@ -47,6 +47,7 @@
 
     # disable kanata and leave only external kb
     pkgs.evtest
+    pkgs.fastfetchMinimal
 
     pkgs.eb-garamond
     # pkgs.blender
@@ -91,11 +92,7 @@
           "Documents"
           ".config/fcitx5"
           ".config/dconf"
-          # ".local/share/anime-game-launcher"
-          # ".local/share/honkers-railway-launcher"
-          # ".nixops"
           ".local/share/direnv"
-          # ".local/share/keyrings"
           ".local/share/Terraria"
           ".local/share/fonts"
           ".local/state/wireplumber"
@@ -119,6 +116,7 @@
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
       BROWSER = "zen";
       FILEBROWSER = "dolphin";
+      TERMINAL = lib.mkForce "foot";
       TERMBROWSER = "yazi";
       WINEPREFIX = "/home/xendak/Games/Wine-Prefix";
     };

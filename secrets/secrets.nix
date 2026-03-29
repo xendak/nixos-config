@@ -19,6 +19,7 @@ let
 in
 {
   "pw.age".publicKeys = systems;
+  "nix-builder.age".publicKeys = systems;
   "nix-cache.age".publicKeys = systems;
   "github-token.age".publicKeys = all;
   "steamgriddb.age".publicKeys = all;

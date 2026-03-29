@@ -49,7 +49,7 @@ in
   # home.sessionVariables = { GTK_USE_PORTAL = "1"; };
   home.sessionVariables = {
     GTK2_RC_FILES = lib.mkDefault "${config.xdg.configHome}/gtk-2.0/gtkrc";
-    XCURSOR_SIZE = lib.mkForce (builtins.toString cursorTheme.size);
+    XCURSOR_SIZE = lib.mkForce (toString cursorTheme.size);
     XCURSOR_THEME = lib.mkDefault cursorTheme.name;
     XCURSOR_PATH = lib.mkDefault "${config.gtk.cursorTheme.package}/share/icons/:$XCURSOR_PATH";
   };
@@ -77,6 +77,7 @@ in
   gtk = {
     enable = true;
     font.name = "Sofia Pro 12";
+    gtk4.theme = config.gtk.theme;
 
     theme = {
       name = "adw-gtk3";

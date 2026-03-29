@@ -13,7 +13,7 @@ let
 in
 
 {
-  home.sessionVariables.TERMINAL = lib.mkForce "wezterm";
+  home.sessionVariables.TERMINAL = lib.mkDefault "wezterm";
   home.sessionPath = [ "$HOME/Flake/bin" ];
 
   home.persistence = {

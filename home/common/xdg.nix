@@ -63,6 +63,7 @@ in
     };
 
     userDirs = {
+      setSessionVariables = true;
       enable = true;
       createDirectories = true;
       extraConfig = {
