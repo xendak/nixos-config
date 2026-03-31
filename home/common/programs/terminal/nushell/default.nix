@@ -89,6 +89,7 @@ in
           $env.EDITOR = "hx"
           $env.VISUAL = "hx"
           $env.HOSTNAME = "${host}"
+          $env.COLORTERM = "truecolor"
           # $env.STARSHIP_SHELL = "nu"
 
           $env.config.buffer_editor = "hx"
