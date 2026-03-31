@@ -14,6 +14,7 @@
     pfetch
     ydotool
     wl-ocr
+    swayidle
   ];
   xdg.mimeApps.enable = true;
   xdg.mimeApps.defaultApplications = {
@@ -23,6 +24,21 @@
   imports = [
     ./fcitx5.nix
   ];
+
+  services.swayidle = {
+    enable = true;
+    timeouts = [
+      {
+        timeout = 300;
+        command = "niri msg action monitors-power-off";
+        resumeCommand = "niri msg action monitors-power-on";
+      }
+      {
+        timeout = 900;
+        command = "qs -p ~/Programming/xendak/nierlock";
+      }
+    ];
+  };
 
   home.sessionVariables = {
     NIX_AUTO_RUN = "1";

@@ -443,3 +443,18 @@ def get-ssh-flags [] {
     return ["--option" "builders" ""]
   }
 }
+
+def "nu-complete nix-themes" [] {
+  let output = (nix-theme-switcher | complete | get stdout)
+  
+  $output 
+  | lines 
+  | skip until {|it| $it =~ "Available themes:"} 
+  | skip 1 
+  | str join " " 
+  | split row -r '\s+' 
+  | where ($it | str length) > 0
+}
+export extern "nix-theme-switcher" [
+    theme?: string@"nu-complete nix-themes"
+]
