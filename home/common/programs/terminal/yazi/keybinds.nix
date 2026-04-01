@@ -3,6 +3,14 @@
   programs.yazi.keymap = {
     mgr.prepend_keymap = [
       {
+        on = [
+          "m"
+          "d"
+        ];
+        run = "linemode my_default";
+        desc = "Linemode: custom";
+      }
+      {
         desc = "Select directory(ies), file(s)";
         on = "<C-o>";
         run = "open";

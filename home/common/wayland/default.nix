@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   home.packages = with pkgs; [
     polkit_gnome
@@ -25,19 +25,35 @@
     ./fcitx5.nix
   ];
 
-  services.swayidle = {
+  # services.swayidle = {
+  #   enable = true;
+  #   timeouts = [
+  #     {
+  #       timeout = 300;
+  #       command = "niri msg action power-off-monitors";
+  #       resumeCommand = "niri msg action power-on-monitors";
+  #     }
+  #     {
+  #       timeout = 900;
+  #       command = "qs -p ~/Programming/xendak/nierlock/shell.qml";
+  #     }
+  #   ];
+  # };
+  services.hypridle = {
     enable = true;
-    timeouts = [
-      {
-        timeout = 300;
-        command = "niri msg action monitors-power-off";
-        resumeCommand = "niri msg action monitors-power-on";
-      }
-      {
-        timeout = 900;
-        command = "qs -p ~/Programming/xendak/nierlock";
-      }
-    ];
+    settings = {
+      listener = [
+        {
+          timeout = 300;
+          on-timeout = "niri msg action power-off-monitors";
+          on-resume = "niri msg action power-on-monitors";
+        }
+        {
+          timeout = 900;
+          on-timeout = "quickshell -p /home/${config.home.username}/Programming/xendak/nierlock/shell.qml";
+        }
+      ];
+    };
   };
 
   home.sessionVariables = {

@@ -18,7 +18,13 @@ let
     rev = "8b794bfa3bc9c780e3f03b6f5a0ccde7744e54bb";
     hash = "sha256-m6ZiwA36lcdZORK3KIz4Xq3bs7mmtC6j62B/+BuDGAQ=";
   };
-
+  epub-thumb = pkgs.fetchFromGitHub {
+    # https://github.com/kirasok/epub-preview.yazi
+    owner = "kirasok";
+    repo = "epub-preview.yazi";
+    rev = "2e8079e4a7f6315de99a5b968ed5fda479f1f39c";
+    hash = "sha256-00000000000000000000000000000000000000000000";
+  };
 in
 {
   imports = [
@@ -26,6 +32,7 @@ in
     ./settings.nix
   ];
 
+  # TODO: Implement a TAG system later.. no plugins exist that satisfy my needs
   programs.yazi = {
     enable = true;
     package = pkgs.yazi;
@@ -51,6 +58,7 @@ in
       pkgs.resvg
       pkgs.imagemagick
       pkgs.wl-clipboard
+      pkgs.epub-thumbnailer
       (pkgs._7zz.override { enableUnfree = true; })
     ];
 
@@ -61,6 +69,7 @@ in
       smart-filter = pkgs.yaziPlugins.smart-filter;
       mediainfo = pkgs.yaziPlugins.mediainfo;
       duckdb = pkgs.yaziPlugins.duckdb;
+      epub = epub-thumb;
     };
 
   };
