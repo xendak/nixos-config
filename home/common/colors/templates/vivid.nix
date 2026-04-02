@@ -13,9 +13,9 @@ in
       surface_low:  '${hex p.surface_container_low}'
       surface_high: '${hex p.surface_container_high}'
 
-      primary:      '${hex p.primary}'   # green 
-      secondary:    '${hex p.secondary}' # yellow
-      tertiary:     '${hex p.tertiary}'  # blue
+      primary:      '${hex p.primary}'
+      secondary:    '${hex p.secondary}'
+      tertiary:     '${hex p.tertiary}'
       on_primary:   '${hex p.on_primary}'
       on_secondary: '${hex p.on_secondary}'
       on_tertiary:  '${hex p.on_tertiary}'

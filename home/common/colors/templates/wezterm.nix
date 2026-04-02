@@ -40,25 +40,25 @@ in
         launcher_label_fg = { Color = '${p.cursor_fg}' },
 
         ansi = {
-          "${p.white}",
+          "${p.black}",
           "${p.red}",
           "${p.green}",
           "${p.yellow}",
           "${p.blue}",
           "${p.magenta}",
           "${p.cyan}",
-          "${p.gray}",
+          "${p.white}",
         },
 
         brights = {
-          "${p.brightwhite}",
+          "${p.brightblack}",
           "${p.brightred}",
           "${p.brightgreen}",
           "${p.brightyellow}",
           "${p.brightblue}",
           "${p.brightmagenta}",
           "${p.brightcyan}",
-          "${p.brightgray}",
+          "${p.brightwhite}",
         },
 
         tab_bar = {

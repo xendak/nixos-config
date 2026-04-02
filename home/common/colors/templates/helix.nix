@@ -80,6 +80,13 @@ in
 
       "ui.gutter" = { bg = "background" }
 
+      # :Picker
+      "ui.text.focus" = { bg = "surface_container_high" }
+      "ui.picker.header" = { bg = "surface_container_low", fg = "on_surface" }
+      "ui.picker.header.column" = "primary"
+      # keeping vivid theme similar
+      "ui.text.directory" = "blue"
+
       # :Virtual
       "ui.virtual.indent-guide" = { fg = "surface_container_high" }
       "ui.virtual.inlay-hint" = { fg = "inlay", modifiers = ["italic"] }
@@ -90,7 +97,7 @@ in
 
       "ui.popup" = { bg = "surface_container", fg = "on_surface" }
 
-      "ui.statusline" = { fg = "on_surface_variant", bg = "surface_container_low" }
+      "ui.statusline" = { fg = "on_surface", bg = "surface_container_low" }
       "ui.statusline.inactive" = { fg = "outline_variant", bg = "surface_container_lowest" }
 
       "ui.statusline.normal" = { fg = "on_primary", bg = "primary" }
@@ -98,8 +105,11 @@ in
       "ui.statusline.select" = { fg = "on_secondary", bg = "secondary" }
 
       "ui.selection" = { bg = "selection_bg", fg = "selection_fg" }
+      "ui.highlight" = { bg = "surface_container_low", fg = "selection_fg" }
 
-      "ui.cursor" = { fg = "cursor_fg", bg = "cursor_bg" }
+      "ui.cursorline" = { bg = "surface_container_low" }
+      "ui.cursor" = { fg = "cursor_fg", bg = "blue" }
+      "ui.cursor.primary" = { fg = "cursor_fg", bg = "cursor_bg" }
       "ui.cursor.match" = { fg = "on_primary", bg = "primary", modifiers = ["underlined"] }
 
       # :Markup

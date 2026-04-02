@@ -1,6 +1,7 @@
 { paletteSet, ... }:
 let
   m = paletteSet.palette;
+  type = if paletteSet.name == "nier-material" then "light" else paletteSet.type;
 in
 {
   "lazygit/config.yml" =
@@ -34,7 +35,7 @@ in
       disableStartupPopups: true
       git:
         pagers:
-          - pager: delta --${paletteSet.type} --paging=never --side-by-side --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}" --syntax-theme=base16
+          - pager: delta --${type} --paging=never --side-by-side --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}" --syntax-theme=base16
           - externalDiffCommand: difft --color=always --syntax-highlight=on --tab-width=2
       gui:
         filterMode: fuzzy

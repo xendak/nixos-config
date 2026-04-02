@@ -63,7 +63,7 @@ let
         numeric = extra.numeric or ansi.orange;
         punctuation = extra.punctuation or ansi.brightorange;
         comments = extra.comments or ansi.gray;
-        inlay = extra.inlay or ansi.brightgray;
+        inlay = extra.inlay or ansi.comments;
       };
     in
     ansi;

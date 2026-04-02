@@ -20,22 +20,33 @@ let
 
   overrides = {
     # default colors for ansi on white
-    white = "#fbf1c7";
-    gray = "#7c6f64";
-    black = "#3c3836";
+    black = "#948d71";
+    gray = "#746e61";
+    white = "#3c3836";
     red = "#9d0006";
-    green = "#79740e";
-    yellow = "#b57614"; # change
+    green = "#225d18";
+    yellow = "#854600";
     blue = "#076678";
-    magenta = "#8f3f71";
-    cyan = "#427b58";
+    magenta = "#6a2f53";
+    cyan = "#305a4b";
     orange = "#af3a03";
 
-    brightwhite = "#928374";
-    brightblack = "#7c6f64";
+    brightblack = "#948d71";
+    brightgray = "#746e61";
+    brightwhite = "#3c3836";
+    brightred = "#9d0006";
+    brightgreen = "#225d18";
+    brightyellow = "#854600";
+    brightblue = "#076678";
+    brightmagenta = "#6a2f53";
+    brightcyan = "#305a4b";
+    brightorange = "#af3a03";
 
-    strings = "#ab4642";
-    numeric = "#578d4e";
+    # brightwhite = "#928374";
+    # brightblack = "#7c6f64";
+
+    strings = overrides.red;
+    numeric = "#225d18";
 
     comments = "#6b656a";
     keywords = "#252525";
@@ -51,6 +62,7 @@ let
     tags = "#353535";
 
     selection_fg = "#202020";
+    selection_bg = "#DEB887";
   };
 
 in
