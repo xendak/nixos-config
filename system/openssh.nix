@@ -56,6 +56,7 @@ in
   programs.ssh = {
     startAgent = true;
     extraConfig = ''
+      AddKeysToAgent yes
       Host *
         SendEnv COLORTERM WAYLAND_DISPLAY
     '';

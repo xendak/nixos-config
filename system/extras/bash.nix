@@ -18,7 +18,13 @@
       find = "${pkgs.fd}/bin/fd";
       grep = "${pkgs.ripgrep}/bin/rg --no-heading --line-number";
       tree = "${pkgs.eza}/bin/eza --git --icons --tree";
+      "7z" = "7zz";
     };
+
+    interactiveShellInit = ''
+      shopt -s histappend
+      PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+    '';
 
     promptInit =
       # sh

@@ -1,27 +1,30 @@
-# my laptop
 {
-  config,
   lib,
   pkgs,
   inputs,
-  outputs,
   ...
 }:
 {
   imports = [
-    ../global.nix
-    ./btrfs-optin-persistence.nix
     ./hardware-configuration.nix
-    # ../extras/powersave.nix
-    ../extras/kanata.nix
+
+    ../global.nix
+
+    ../extras/btrfs-optin-persistence.nix
+    ../extras/xendak.nix
+    ../extras/remote-builder.nix
+    ../extras/bluetooth.nix
 
     ../extras/sync-browser.nix
     ../extras/greetd.nix
+    ../extras/kanata.nix
 
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
     inputs.auto-cpufreq.nixosModules.default
   ];
+
+  networking.hostName = "Dew";
 
   boot.initrd.availableKernelModules = [
     "xhci_pci"
@@ -52,67 +55,6 @@
     ];
   };
 
-  age.secrets.gemini-api-key = {
-    file = ../../secrets/gemini-api-key.age;
-    symlink = false;
-    name = "gemini";
-    owner = "xendak";
-    group = "users";
-    mode = "600";
-  };
-  age.secrets.steamgriddb = {
-    file = ../../secrets/steamgriddb.age;
-    symlink = false;
-    name = "steam";
-    owner = "xendak";
-    group = "users";
-    mode = "600";
-  };
-  age.secrets.pw = {
-    file = ../../secrets/pw.age;
-    symlink = false;
-    name = "id_ed25519";
-    owner = "xendak";
-    group = "users";
-    mode = "600";
-  };
-
-  systemd.services = {
-    "agenix-secrets" = {
-      wantedBy = [ "default.target" ];
-      wants = [ "agenix.service" ];
-      after = [
-        "agenix.service"
-        "home-manager-xendak.service"
-        "kanata-laptop.service"
-      ];
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart =
-          let
-            script = pkgs.writeScript "myuser-start" ''
-              #!${pkgs.runtimeShell}
-              mkdir -p /home/xendak/.ssh
-              cat ${config.age.secrets.pw.path} > "/home/xendak/.ssh/id_ed25519"
-              chown xendak:users /home/xendak/.ssh/id_ed25519
-              chmod 600 /home/xendak/.ssh/id_ed25519
-              cat ${config.age.secrets.gemini-api-key.path} > "/home/xendak/.ssh/gemini"
-              chown xendak:users /home/xendak/.ssh/gemini
-              chmod 600 /home/xendak/.ssh/gemini
-              cat ${config.age.secrets.steamgriddb.path} > "/home/xendak/.ssh/steam"
-              chown xendak:users /home/xendak/.ssh/steam
-              chmod 600 /home/xendak/.ssh/steam
-              rm -f /run/agenix/gemini
-              rm -f /run/agenix/id_ed25519
-              rm -f /run/agenix.d/1/gemini
-              rm -f /run/agenix.d/1/id_ed25519
-            '';
-          in
-          "${script}";
-      };
-    };
-  };
-
   services.greetd = {
     settings = {
       initial_session = {
@@ -124,83 +66,9 @@
 
   # NTFS-3G for Windows Partititions
   environment.systemPackages = [
-    pkgs.ntfs3g
-    pkgs.i2c-tools
-    pkgs.networkmanager_dmenu
-    pkgs.networkmanagerapplet
     pkgs.brightnessctl
     pkgs.acpi
-    pkgs.qogir-icon-theme
-    pkgs.morewaita-icon-theme
-    pkgs.adwaita-icon-theme
-    config.boot.kernelPackages.cpupower
   ];
-
-  location.provider = "geoclue2";
-
-  # User & Host -----------------------------
-  nix = {
-    buildMachines = [
-      {
-        hostName = "Snow";
-        sshUser = "xendak";
-        # sshKey = "/persist/etc/ssh/ssh_host_ed25519_key";
-        sshKey = config.age.secrets.pw.path;
-        system = "x86_64-linux";
-        protocol = "ssh-ng";
-        maxJobs = 20;
-        speedFactor = 3;
-        supportedFeatures = [
-          "nixos-test"
-          "benchmark"
-          "big-parallel"
-          "kvm"
-        ];
-      }
-    ];
-    distributedBuilds = true;
-    settings = {
-      builders-use-substitutes = true;
-      fallback = true;
-      warn-dirty = false;
-      connect-timeout = 10;
-      substituters = [
-        "ssh-ng://xendak@Snow"
-        "https://cache.nixos.org/"
-        "https://hyprland.cachix.org"
-        "https://ezkea.cachix.org"
-        "https://nix-community.cachix.org"
-      ];
-      trusted-public-keys = [
-        "Snow-1:ePOd1J2YyhEQZjXK3t/yA5Nt3aWFo4Bdp3ibjtW6Lpo="
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "ezkea.cachix.org-1:ioBmUbJTZIKsHmWWXPe1FSFbeVe+afhfgqgTSNd34eI="
-      ];
-    };
-  };
-
-  users = {
-    mutableUsers = false;
-    users.root = {
-      hashedPasswordFile = "/persist/home/secrets/passwd-root";
-    };
-    users.xendak = {
-      uid = 1000;
-      isNormalUser = true;
-      shell = pkgs.nushell;
-      extraGroups = [
-        "audio"
-        "video"
-        "input"
-        "wheel"
-        "networkmanager"
-      ];
-      hashedPasswordFile = "/persist/home/secrets/passwd-xendak";
-      packages = [ pkgs.home-manager ];
-    };
-  };
 
   networking.networkmanager.enable = true;
   networking.useDHCP = lib.mkDefault true;
@@ -208,14 +76,6 @@
     "8.8.8.8"
     "8.8.4.4"
   ];
-  networking.hostName = "Dew";
-  environment.persistence."/persist" = {
-    hideMounts = true;
-    directories = [
-      "/etc/NetworkManager"
-      "/var/lib/NetworkManager"
-    ];
-  };
 
   # GENSHIN PATCH ---------------------------
   networking.hosts = {
@@ -240,27 +100,10 @@
     ];
   };
 
-  home-manager = {
-    users.xendak = import ../../home/xendak.nix;
-    useUserPackages = true;
-    useGlobalPkgs = true;
-    extraSpecialArgs = {
-      inherit inputs outputs;
-      host = "Dew";
-    };
-    backupFileExtension = "hm-backup";
-    overwriteBackup = true;
-  };
-
   # laptop power management
   services = {
     acpid.enable = true;
     upower.enable = true;
-    avahi = {
-      enable = true;
-      openFirewall = true;
-      nssmdns4 = true;
-    };
 
     tlp = {
       enable = true;
@@ -282,25 +125,9 @@
         STOP_CHARGE_THRESH_BAT1 = 80;
       };
     };
-
-    blueman.enable = true;
   };
 
-  environment.etc."/bluetooth/main.conf".text = ''
-    [General]
-    ControllerMode=dual
-    Enable=Source,Sink,Media,Socket
-
-    [Policy]
-    AutoEnable=false
-  '';
   hardware = {
-    bluetooth.enable = true;
-    bluetooth.settings = {
-      General = {
-        Enable = "Source,Sink,Media,Socket";
-      };
-    };
     i2c.enable = true;
 
     cpu.intel.updateMicrocode = true;
@@ -310,8 +137,6 @@
     };
     opentabletdriver.enable = true;
   };
-
-  systemd.user.services.telephony_client.enable = false;
 
   system.stateVersion = "25.05";
 }

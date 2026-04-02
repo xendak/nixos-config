@@ -410,12 +410,35 @@ def dev [...args] {
   }
 }
 
-def ns [...packages: string@"nu-complete-nix-pkgs-sqlite"] {
-  ^nix-shell -p ...$packages ...(get-ssh-flags) --run nu
+def ns [
+  ...packages: string@"nu-complete-nix-pkgs-sqlite"
+  --unfree (-f)
+] {
+  let env_vars = { NIXPKGS_ALLOW_UNFREE: "1" }
+  let pkg_refs = $packages | each { |it| $"nixpkgs#($it)" }
+
+  with-env $env_vars {
+    if $unfree {
+      ^nix shell --impure ...$pkg_refs ...(get-ssh-flags) --command nu
+    } else {
+      ^nix shell ...$pkg_refs ...(get-ssh-flags) --command nu
+    }
+  }
 }
 
-def nr [package: string@"nu-complete-nix-pkgs-sqlite"] {
-  ^nix run $"nixpkgs#($package)" ...(get-ssh-flags)
+def nr [
+  package: string@"nu-complete-nix-pkgs-sqlite"
+  --unfree (-f)
+] {
+
+  let env_vars = { NIXPKGS_ALLOW_UNFREE: "1" }
+  with-env $env_vars {
+    if $unfree {
+      ^nix run --impure $"nixpkgs#($package)" ...(get-ssh-flags) 
+    } else {
+      ^nix run $"nixpkgs#($package)" ...(get-ssh-flags) 
+    }
+  }
 }
 
 def --env y [...args] {
@@ -437,10 +460,18 @@ def get-ssh-flags [] {
   
   if $snow_up {
     print $"❄️ Snow is (ansi green)online(ansi reset)..."
-    return ["--option" "max-jobs" "0"]
+    return [
+      "--option" "extra-substituters" "ssh-ng://xendak@Snow?ssh-key=/etc/ssh/ssh_host_ed25519_key"
+      "--option" "extra-trusted-public-keys" "Snow-1:ePOd1J2YyhEQZjXK3t/yA5Nt3aWFo4Bdp3ibjtW6Lpo="
+      "--option" "max-jobs" "0"
+    ]
   } else {
     print $"❄️ Snow is (ansi red)offline(ansi reset)..."
-    return ["--option" "builders" ""]
+    return [
+      "--option" "builders" ""
+      "--option" "max-jobs" "auto"
+      "--option" "substituters" "https://cache.nixos.org https://nix-community.cachix.org"
+    ]
   }
 }
 

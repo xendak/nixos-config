@@ -23,7 +23,7 @@ let
     owner = "kirasok";
     repo = "epub-preview.yazi";
     rev = "2e8079e4a7f6315de99a5b968ed5fda479f1f39c";
-    hash = "sha256-00000000000000000000000000000000000000000000";
+    hash = "sha256-wHTR8frrFL3cUD8fvSTO+m/77wQ7auVjTZ1uCTB/UzU=";
   };
 in
 {

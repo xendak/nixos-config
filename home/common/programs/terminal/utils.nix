@@ -30,7 +30,9 @@ in
     jq # JSON pretty printer and manipulator
     unzip
     unrar
-    p7zip-rar
+    (_7zz.override { enableUnfree = true; })
+
+    # p7zip-rar
 
     bat
     lazygit

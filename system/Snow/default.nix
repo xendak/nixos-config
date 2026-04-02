@@ -3,19 +3,19 @@
   config,
   pkgs,
   inputs,
-  outputs,
   ...
 }:
 {
   imports = [
-    ../global.nix
-    ./btrfs-optin-persistence.nix
     ./hardware-configuration.nix
 
+    ../global.nix
+
+    ../extras/btrfs-optin-persistence.nix
     ../extras/sync-browser.nix
     ../extras/greetd.nix
-
     ../extras/llm.nix
+    ../extras/xendak.nix
 
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-gpu-amd
@@ -23,6 +23,8 @@
 
     inputs.aagl.nixosModules.default
   ];
+
+  networking.hostName = "Snow";
 
   boot.initrd.availableKernelModules = [
     "xhci_pci"
@@ -63,10 +65,8 @@
       };
     };
   };
-  # boot.extraModulePackages = [pkgs.linuxKernel.packages.linux_zen.v4l2loopback];
+
   boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
-  # sudo modprobe v4l2loopback video_nr=2 card_label="VirtualCamera" exclusive_caps=1
-  # modprobe v4l2loopback exclusive_caps=1 card_label='OBS Virtual Camera'
   boot.extraModprobeConfig = ''
     options v4l2loopback video_nr=2 card_label="OBS Virtual Camera"
   '';
@@ -79,40 +79,6 @@
     ];
   };
 
-  age.secrets.nix-cache = {
-    file = ../../secrets/nix-cache.age;
-    symlink = false;
-    name = "cache-key.priv";
-    owner = "root";
-    group = "root";
-    mode = "600";
-  };
-
-  age.secrets.pw = {
-    file = ../../secrets/pw.age;
-    symlink = false;
-    name = "id_ed25519";
-    owner = "xendak";
-    group = "users";
-    mode = "600";
-  };
-  age.secrets.gemini-api-key = {
-    file = ../../secrets/gemini-api-key.age;
-    symlink = false;
-    name = "gemini";
-    owner = "xendak";
-    group = "users";
-    mode = "600";
-  };
-  age.secrets.steamgriddb = {
-    file = ../../secrets/steamgriddb.age;
-    symlink = false;
-    name = "steam";
-    owner = "xendak";
-    group = "users";
-    mode = "600";
-  };
-
   services.greetd = {
     settings = {
       initial_session = {
@@ -122,40 +88,6 @@
     };
   };
 
-  systemd.services = {
-    "agenix-secrets" = {
-      wantedBy = [ "default.target" ];
-      wants = [ "agenix.service" ];
-      after = [
-        "agenix.service"
-        "home-manager-xendak.service"
-      ];
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart =
-          let
-            script = pkgs.writeScript "myuser-start" ''
-              #!${pkgs.runtimeShell}
-              mkdir -p /home/xendak/.ssh
-              cat ${config.age.secrets.pw.path} > "/home/xendak/.ssh/id_ed25519"
-              chown xendak:users /home/xendak/.ssh/id_ed25519
-              chmod 600 /home/xendak/.ssh/id_ed25519
-              cat ${config.age.secrets.gemini-api-key.path} > "/home/xendak/.ssh/gemini"
-              chown xendak:users /home/xendak/.ssh/gemini
-              chmod 600 /home/xendak/.ssh/gemini
-              cat ${config.age.secrets.steamgriddb.path} > "/home/xendak/.ssh/steam"
-              chown xendak:users /home/xendak/.ssh/steam
-              chmod 600 /home/xendak/.ssh/steam
-              rm -f /run/agenix/gemini
-              rm -f /run/agenix/id_ed25519
-              rm -f /run/agenix.d/1/gemini
-              rm -f /run/agenix.d/1/id_ed25519
-            '';
-          in
-          "${script}";
-      };
-    };
-  };
   systemd.services.lact = {
     description = "AMDGPU Control Daemon";
     after = [ "multi-user.target" ];
@@ -171,55 +103,13 @@
   # hsr
   programs.honkers-railway-launcher.enable = true;
 
-  programs.steam = {
-    remotePlay.openFirewall = true;
-    gamescopeSession.enable = true;
-    dedicatedServer.openFirewall = true;
-  };
-
   environment.systemPackages = [
-    pkgs.ntfs3g
-    pkgs.openrgb-with-all-plugins
-    pkgs.i2c-tools
-    pkgs.qogir-icon-theme
-    pkgs.morewaita-icon-theme
-    pkgs.adwaita-icon-theme
-    config.boot.kernelPackages.cpupower
     pkgs.linuxKernel.packages.linux_zen.v4l2loopback # uncertain if still needed here..?
     pkgs.v4l-utils
 
-    # lact
     pkgs.lact
-
-    # trying
-    pkgs.networkmanager_dmenu
-    pkgs.networkmanagerapplet
+    pkgs.openrgb-with-all-plugins
   ];
-
-  # User & Host -----------------------------
-  users = {
-    mutableUsers = false;
-    users.root = {
-      hashedPasswordFile = "/persist/home/secrets/passwd-root";
-    };
-    users.xendak = {
-      uid = 1000;
-      isNormalUser = true;
-      shell = pkgs.nushell;
-      extraGroups = [
-        "audio"
-        "video"
-        "input"
-        "wheel"
-        "networkmanager"
-        "ollama"
-        "open-webui"
-        "podman"
-      ];
-      hashedPasswordFile = "/persist/home/secrets/passwd-xendak";
-      packages = [ pkgs.home-manager ];
-    };
-  };
 
   boot.initrd.systemd.network.wait-online.enable = false;
   systemd.services.NetworkManager-wait-online.enable = false;
@@ -243,12 +133,8 @@
     hideMounts = true;
     directories = [
       "/etc/lact"
-      "/etc/NetworkManager"
-      "/var/lib/NetworkManager"
     ];
   };
-
-  networking.hostName = "Snow";
 
   # GENSHIN PATCH ---------------------------
   networking.hosts = {
@@ -292,29 +178,12 @@
     max-free = 32 * 1024 * 1024 * 1024;
   };
 
-  home-manager = {
-    users.xendak = import ../../home/xendak.nix;
-    useUserPackages = true;
-    useGlobalPkgs = true;
-    extraSpecialArgs = {
-      inherit inputs outputs;
-      host = "Snow";
-    };
-    backupFileExtension = "hm-backup";
-    overwriteBackup = true;
-  };
-
   services = {
     hardware = {
       openrgb.enable = true;
       openrgb.motherboard = "intel";
     };
-
-    blueman.enable = true;
     avahi = {
-      enable = true;
-      openFirewall = true;
-      nssmdns4 = true;
       publish = {
         enable = true;
         addresses = true;
@@ -332,6 +201,7 @@
     [Policy]
     AutoEnable=true
   '';
+
   hardware = {
     bluetooth.enable = true;
     bluetooth.settings = {
@@ -344,14 +214,10 @@
     cpu.intel.updateMicrocode = true;
     graphics = {
       enable = true;
-      # extraPackages = with pkgs; [ amdvlk ];
-      # driSupport = true;
       enable32Bit = true;
     };
     opentabletdriver.enable = true;
   };
-
-  systemd.user.services.telephony_client.enable = false;
 
   system.stateVersion = "24.05";
 }

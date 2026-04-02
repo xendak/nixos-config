@@ -40,7 +40,7 @@ def create_left_prompt [] {
     }
 
     # :Character
-    let line1 = $"(ansi white)┌─($face)─($identity)($dir)($git_branch)($env_prompt)"
+    let line1 = $"(ansi white)┌─($face)(ansi white)─(ansi reset)($identity)($dir)($git_branch)($env_prompt)"
     let line2 = $"\n(ansi white)└─(ansi reset)"
 
     $line1 + $line2

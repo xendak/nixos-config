@@ -17,21 +17,17 @@ in
     inputs.home-manager.nixosModules.home-manager
     inputs.agenix.nixosModules.default
 
-    #inputs.hardware.nixosModules.common-gpu-amd
-    #inputs.hardware.nixosModules.common-cpu-intel
-    #inputs.hardware.nixosModules.common-pc-ssd
-
     ./extras/postMountFiles.nix
     ./extras/tailscale.nix
     ./extras/bash.nix
     ./extras/fish.nix
     ./extras/fonts.nix
-    ./openssh.nix
-    #./extras/openssh.nix
+
     ./extras/pipewire.nix
     ./extras/quietboot.nix
 
     ./hardware-configuration.nix
+    ./openssh.nix
   ];
 
   nixpkgs = {
@@ -66,13 +62,94 @@ in
     };
   };
 
-  age.secrets.github-token = {
-    file = ../secrets/github-token.age;
-    owner = "root";
-    group = "root";
+  #:Agenix :Keys
+  age = {
+    identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
+
+    secrets = {
+      github-token = {
+        file = ../secrets/github-token.age;
+        owner = "root";
+        group = "root";
+      };
+
+      nix-cache = {
+        file = ../secrets/nix-cache.age;
+        symlink = false;
+        name = "cache-key.priv";
+        owner = "root";
+        group = "root";
+        mode = "600";
+      };
+
+      pw = {
+        file = ../secrets/pw.age;
+        symlink = false;
+        name = "id_ed25519";
+        owner = "root";
+        group = "nixbld";
+        mode = "600";
+      };
+
+      nix-builder = {
+        file = ../secrets/nix-builder.age;
+        symlink = false;
+        name = "nix_ed25519";
+        owner = "root";
+        group = "nixbld";
+        mode = "0440";
+      };
+
+      gemini-api-key = {
+        file = ../secrets/gemini-api-key.age;
+        symlink = false;
+        name = "gemini";
+        owner = "xendak";
+        group = "users";
+        mode = "600";
+      };
+
+      steamgriddb = {
+        file = ../secrets/steamgriddb.age;
+        symlink = false;
+        name = "steam";
+        owner = "xendak";
+        group = "users";
+        mode = "600";
+      };
+    };
   };
 
-  age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
+  systemd.services = {
+    "agenix-secrets" = {
+      wantedBy = [ "default.target" ];
+      wants = [ "agenix.service" ];
+      after = [
+        "agenix.service"
+        "home-manager-xendak.service"
+      ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart =
+          let
+            script = pkgs.writeScript "myuser-start" ''
+              #!${pkgs.runtimeShell}
+              mkdir -p /home/xendak/.ssh
+              cat ${config.age.secrets.pw.path} > "/home/xendak/.ssh/id_ed25519"
+              chown xendak:users /home/xendak/.ssh/id_ed25519
+              chmod 600 /home/xendak/.ssh/id_ed25519
+              cat ${config.age.secrets.gemini-api-key.path} > "/home/xendak/.ssh/gemini"
+              chown xendak:users /home/xendak/.ssh/gemini
+              chmod 600 /home/xendak/.ssh/gemini
+              cat ${config.age.secrets.steamgriddb.path} > "/home/xendak/.ssh/steam"
+              chown xendak:users /home/xendak/.ssh/steam
+              chmod 600 /home/xendak/.ssh/steam
+            '';
+          in
+          "${script}";
+      };
+    };
+  };
 
   nix = {
     # extraOptions = ''access-tokens = github.com=${config.age.secrets.github-token.path}'';
@@ -139,35 +216,42 @@ in
     SUDO_EDITOR = "vi";
   };
 
-  # XDG - PORTAL
-  environment.systemPackages = with pkgs; [
-    ripgrep
-    fd
-    eza
-    bat
+  programs.steam = {
+    remotePlay.openFirewall = true;
+    gamescopeSession.enable = true;
+    dedicatedServer.openFirewall = true;
+  };
 
-    helix
+  environment.systemPackages = [
+    pkgs.ntfs3g
+    pkgs.i2c-tools
+    config.boot.kernelPackages.cpupower
+    pkgs.networkmanagerapplet
 
-    busybox
-    lm_sensors
-    agenix
-    # libsForQt5.qtstyleplugins
-    # qt5.qtwayland
-    # qt6.qtwayland
-    # xdg-desktop-portal-gtk
-    # kdePackages.xdg-desktop-portal-kde
-    xdg-desktop-portal-wlr
-    xdg-desktop-portal-hyprland
-    # pkgs.custom-xdg-desktop-portal-termfilechooser
-    xdg-desktop-portal-termfilechooser
+    pkgs.ripgrep
+    pkgs.fd
+    pkgs.eza
+    pkgs.bat
+
+    pkgs.helix
+
+    pkgs.busybox
+    pkgs.lm_sensors
+    pkgs.agenix
+
+    pkgs.xdg-desktop-portal-wlr
+    pkgs.xdg-desktop-portal-hyprland
+
+    pkgs.xdg-desktop-portal-termfilechooser
     pkgs.papirus-icon-theme
     pkgs.papirus-folders
     pkgs.adwaita-icon-theme
+    pkgs.qogir-icon-theme
+    pkgs.morewaita-icon-theme
   ];
 
   xdg.portal = {
     enable = true;
-    # xdgOpenUsePortal = true;
     config = {
       common = {
         default = [ "gnome" ];
@@ -230,15 +314,16 @@ in
     hideMounts = true;
     directories = [
       "/etc/nixos"
+      "/etc/NetworkManager"
       "/var/lib/systemd"
       "/var/lib/bluetooth"
       "/var/lib/nixos"
-      # "/etc/bluetooth"
+      "/var/lib/NetworkManager"
     ];
     files = [
-      # "/etc/adjtime"
       "/etc/machine-id"
       "/etc/ssh/ssh_host_ed25519_key.pub"
+      "/etc/ssh/ssh_host_ed25519_key"
       "/etc/ssh/ssa_host_rsa_key.pub"
       "/etc/ssh/ssh_host_ecdsa_key.pub"
     ];
@@ -248,43 +333,41 @@ in
   services.dbus.packages = [
     pkgs.gcr
   ];
+  services = {
 
-  services.udev.packages = with pkgs; [ gnome-settings-daemon ];
+    blueman.enable = true;
+    avahi = {
+      enable = true;
+      openFirewall = true;
+      nssmdns4 = true;
+    };
+    udev.packages = with pkgs; [ gnome-settings-daemon ];
 
-  services.udisks2.enable = true;
-  services.fstrim.enable = true;
-  services.speechd.enable = false;
+    udisks2.enable = true;
+    fstrim.enable = true;
+    speechd.enable = false;
 
-  services.xserver.desktopManager.runXdgAutostartIfNone = true;
-  services.xserver.xkb = {
-    layout = "mine";
-    extraLayouts = {
-      mine = {
-        description = "My custom xkb layout.";
-        languages = [ "eng" ];
-        symbolsFile = ./extras/custom_layout.xkb;
+    xserver.desktopManager.runXdgAutostartIfNone = true;
+    xserver.xkb = {
+      layout = "mine";
+      extraLayouts = {
+        mine = {
+          description = "My custom xkb layout.";
+          languages = [ "eng" ];
+          symbolsFile = ./extras/custom_layout.xkb;
+        };
       };
     };
   };
 
-  # services.xserver = {
-  #   enable = true;
-  #   dpi = 96;
-  #   desktopManager.gnome.enable = false;
-  #   displayManager = {
-  #     gdm.enable = false;
-  #     sddm.enable = false;
-  #     lightdm.enable = false;
-  #   };
-  # };
-
   # localtime specific
   time.timeZone = lib.mkDefault "America/Sao_Paulo";
-  time.hardwareClockInLocalTime = false; # Lets use proper UTC.
+  time.hardwareClockInLocalTime = false;
   # services.localtimed.enable = true;
   services.automatic-timezoned.enable = true;
   services.geoclue2.enable = true;
   services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
+  location.provider = "geoclue2";
 
   # locale configs
   i18n.supportedLocales = [
@@ -327,6 +410,8 @@ in
       };
     };
   };
+
+  systemd.user.services.telephony_client.enable = false;
 
   system.stateVersion = lib.mkDefault "25.05";
 }

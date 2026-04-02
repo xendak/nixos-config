@@ -4,14 +4,18 @@
   lib,
   pkgs,
   inputs,
-  outputs,
   ...
 }:
 {
   imports = [
-    ../global.nix
-    ./btrfs-optin-persistence.nix
     ./hardware-configuration.nix
+
+    ../global.nix
+
+    ../extras/btrfs-optin-persistence.nix
+    ../extras/xendak.nix
+    ../extras/remote-builder.nix
+    ../extras/bluetooth.nix
 
     ../extras/sync-browser.nix
     ../extras/greetd.nix
@@ -20,6 +24,8 @@
     inputs.hardware.nixosModules.common-pc-ssd
     inputs.auto-cpufreq.nixosModules.default
   ];
+
+  networking.hostName = "Rain";
 
   # old macbook broadcom i guess
   nixpkgs.config.allowInsecurePredicate =
@@ -69,71 +75,6 @@
     loader.systemd-boot.enable = true;
   };
 
-  age.secrets.gemini-api-key = {
-    file = ../../secrets/gemini-api-key.age;
-    symlink = false;
-    name = "gemini";
-    owner = "xendak";
-    group = "users";
-    mode = "600";
-  };
-  age.secrets.steamgriddb = {
-    file = ../../secrets/steamgriddb.age;
-    symlink = false;
-    name = "steam";
-    owner = "xendak";
-    group = "users";
-    mode = "600";
-  };
-  age.secrets.pw = {
-    file = ../../secrets/pw.age;
-    symlink = false;
-    name = "id_ed25519";
-    owner = "root";
-    group = "nixbld";
-    mode = "0440";
-  };
-  age.secrets.nix-builder = {
-    file = ../../secrets/nix-builder.age;
-    symlink = false;
-    name = "nix_ed25519";
-    owner = "root";
-    group = "nixbld";
-    mode = "0440";
-  };
-
-  systemd.services = {
-    "agenix-secrets" = {
-      wantedBy = [ "default.target" ];
-      wants = [ "agenix.service" ];
-      after = [
-        "agenix.service"
-        "home-manager-xendak.service"
-        "kanata-laptop.service"
-      ];
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart =
-          let
-            script = pkgs.writeScript "myuser-start" ''
-              #!${pkgs.runtimeShell}
-              mkdir -p /home/xendak/.ssh
-              cat ${config.age.secrets.pw.path} > "/home/xendak/.ssh/id_ed25519"
-              chown xendak:users /home/xendak/.ssh/id_ed25519
-              chmod 600 /home/xendak/.ssh/id_ed25519
-              cat ${config.age.secrets.gemini-api-key.path} > "/home/xendak/.ssh/gemini"
-              chown xendak:users /home/xendak/.ssh/gemini
-              chmod 600 /home/xendak/.ssh/gemini
-              cat ${config.age.secrets.steamgriddb.path} > "/home/xendak/.ssh/steam"
-              chown xendak:users /home/xendak/.ssh/steam
-              chmod 600 /home/xendak/.ssh/steam
-            '';
-          in
-          "${script}";
-      };
-    };
-  };
-
   services.greetd = {
     settings = {
       initial_session = {
@@ -165,7 +106,7 @@
       {
         hostName = "Snow";
         sshUser = "xendak";
-        sshKey = config.age.secrets.pw.path;
+        sshKey = "/etc/ssh/ssh_host_ed25519_key";
         system = "x86_64-linux";
         protocol = "ssh-ng";
         maxJobs = 20;
@@ -185,109 +126,35 @@
       warn-dirty = false;
       connect-timeout = 10;
       substituters = [
-        "ssh-ng://xendak@Snow"
+        # "ssh-ng://xendak@Snow"
         "https://cache.nixos.org/"
         "https://nix-community.cachix.org"
       ];
       trusted-public-keys = [
-        "Snow-1:ePOd1J2YyhEQZjXK3t/yA5Nt3aWFo4Bdp3ibjtW6Lpo="
+        # "Snow-1:ePOd1J2YyhEQZjXK3t/yA5Nt3aWFo4Bdp3ibjtW6Lpo="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
   };
 
-  users = {
-    mutableUsers = false;
-    users.root = {
-      hashedPasswordFile = "/persist/home/secrets/passwd-root";
-    };
-    users.xendak = {
-      uid = 1000;
-      isNormalUser = true;
-      shell = pkgs.nushell;
-      extraGroups = [
-        "audio"
-        "video"
-        "input"
-        "wheel"
-        "networkmanager"
-      ];
-      hashedPasswordFile = "/persist/home/secrets/passwd-xendak";
-      packages = [ pkgs.home-manager ];
-    };
-  };
-
+  # TODO: maybe use the same as desktop
   networking.networkmanager.enable = true;
   networking.useDHCP = lib.mkDefault true;
   networking.nameservers = [
     "8.8.8.8"
     "8.8.4.4"
   ];
-  networking.hostName = "Rain";
-  environment.persistence."/persist" = {
-    hideMounts = true;
-    directories = [
-      "/etc/NetworkManager"
-      "/var/lib/NetworkManager"
-    ];
-  };
-
-  # GENSHIN PATCH ---------------------------
-  networking.hosts = {
-    "0.0.0.0" = [
-      "overseauspider.yuanshen.com"
-      "log-upload-os.hoyoverse.com"
-      "log-upload-os.mihoyo.com"
-
-      "public-data-api.mihoyo.com"
-      "sg-public-data-api.hoyoverse.com"
-
-      "log-upload.mihoyo.com"
-      "devlog-upload.mihoyo.com"
-      "uspider.yuanshen.com"
-      "sg-public-data-api.hoyoverse.com"
-
-      "prd-lender.cdp.internal.unity3d.com"
-      "thind-prd-knob.data.ie.unity3d.com"
-      "thind-gke-usc.prd.data.corp.unity3d.com"
-      "cdp.cloud.unity3d.com"
-      "remote-config-proxy-prd.uca.cloud.unity3d.com"
-    ];
-  };
-
-  home-manager = {
-    users.xendak = import ../../home/xendak.nix;
-    useUserPackages = true;
-    useGlobalPkgs = true;
-    extraSpecialArgs = {
-      inherit inputs outputs;
-      host = "Rain";
-    };
-    backupFileExtension = "hm-backup";
-    overwriteBackup = true;
-  };
 
   # laptop power management
   powerManagement.enable = true;
   powerManagement.cpuFreqGovernor = "schedutil";
-  hardware.opengl.extraPackages = with pkgs; [
-    libvdpau-va-gl
-    intel-media-driver
-    intel-vaapi-driver
-    libva-vdpau-driver
-  ];
 
   services = {
     mbpfan.enable = true;
     thermald.enable = true;
     acpid.enable = true;
     upower.enable = true;
-    avahi = {
-      enable = true;
-      openFirewall = true;
-      nssmdns4 = true;
-    };
 
     tlp = {
       enable = true;
@@ -310,37 +177,26 @@
       };
     };
 
-    blueman.enable = true;
   };
 
   console.font = "Lat2-Terminus16";
-  environment.etc."/bluetooth/main.conf".text = ''
 
-    [General]
-    ControllerMode=dual
-    Enable=Source,Sink,Media,Socket
-
-    [Policy]
-    AutoEnable=false
-  '';
   hardware = {
-    bluetooth.enable = true;
-    bluetooth.settings = {
-      General = {
-        Enable = "Source,Sink,Media,Socket";
-      };
-    };
     i2c.enable = true;
 
     cpu.intel.updateMicrocode = true;
     graphics = {
+      extraPackages = with pkgs; [
+        libvdpau-va-gl
+        intel-media-driver
+        intel-vaapi-driver
+        libva-vdpau-driver
+      ];
       enable = true;
       enable32Bit = true;
     };
     opentabletdriver.enable = true;
   };
-
-  systemd.user.services.telephony_client.enable = false;
 
   system.stateVersion = lib.mkDefault "25.05";
 }

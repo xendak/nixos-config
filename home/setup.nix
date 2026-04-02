@@ -29,9 +29,9 @@
       [user]
       qmk_home = /home/${config.home.username}/Programming/tools/qmk_userspace/qmk_firmware
     '';
-    ".ssh/config".source = pkgs.writeText "config" ''
-      AddKeysToAgent yes
-    '';
+    # ".ssh/config".source = pkgs.writeText "config" ''
+    #   AddKeysToAgent yes
+    # '';
     #https://github.com/hunkyburrito/xdg-desktop-portal-termfilechooser?tab=readme-ov-file#installation
     ".config/xdg-desktop-portal-termfilechooser/config".source = pkgs.writeText "config" ''
       [filechooser]
