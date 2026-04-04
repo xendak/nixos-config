@@ -22,7 +22,7 @@ in
         
         --interactive-accent: ${p.primary} !important;
         --interactive-accent-hover: ${p.primary}60 !important;
-        --background-modifier-hover: ${p.surface_container} !important;
+        --background-modifier-hover: ${p.primary}60 !important;
         --background-modifier-active-hover: ${p.primary_container} !important;
         
         --code-background: ${p.surface_container_low} !important;
@@ -35,8 +35,8 @@ in
         --code-important: ${p.specials} !important;
 
         --nav-item-color: ${p.fg} !important;
-        --nav-item-color-active: ${p.primary} !important;
-        --nav-item-background-active: ${p.surface_variant} !important;
+        --nav-item-color-active: ${p.on_primary} !important;
+        --nav-item-background-active: ${p.primary} !important;
         
         --tab-background-active: ${p.bg} !important;
         --tab-text-active: ${p.primary} !important;
