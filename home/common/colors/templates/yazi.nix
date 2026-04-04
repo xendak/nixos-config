@@ -88,11 +88,11 @@ in
 
       [status]
       # Permissions
-      perm_type  = { fg = "${m.secondary}" }
-      perm_write = { fg = "${m.tertiary}" }
-      perm_read  = { fg = "${m.error}" }
-      perm_exec  = { fg = "${m.tertiary_fixed}" }
-      perm_sep   = { fg = "${m.primary_fixed}" }
+      perm_type  = { fg = "${m.yellow}" }
+      perm_write = { fg = "${m.green}" }
+      perm_read  = { fg = "${m.blue}" }
+      perm_exec  = { fg = "${m.red}" }
+      perm_sep   = { fg = "${m.magenta}" }
 
       # Progress
       progress_label  = { bold = true }

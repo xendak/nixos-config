@@ -90,6 +90,8 @@ in
           $env.EDITOR = "hx"
           $env.VISUAL = "hx"
           $env.HOSTNAME = "${host}"
+          $env.FZF_DEFAULT_OPTS_FILE = "/home/${config.home.username}/.config/fzf/colors"
+
           $env.COLORTERM = "truecolor"
           # $env.STARSHIP_SHELL = "nu"
 

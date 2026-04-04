@@ -15,28 +15,28 @@ in
         --background-modifier-border: ${p.surface_container_high} !important;
         
         --text-normal: ${p.fg} !important;
-        --text-muted: ${p.on_surface_variant} !important;
+        --text-muted: ${p.comments} !important;
         --text-faint: ${p.outline} !important;
         --text-accent: ${p.secondary} !important;
-        --text-on-accent: ${p.bg} !important;
+        --text-on-accent: ${p.on_secondary} !important;
         
         --interactive-accent: ${p.primary} !important;
-        --interactive-accent-hover: ${p.primary_fixed_dim} !important;
+        --interactive-accent-hover: ${p.primary}60 !important;
         --background-modifier-hover: ${p.surface_container} !important;
         --background-modifier-active-hover: ${p.primary_container} !important;
         
         --code-background: ${p.surface_container_low} !important;
         --code-normal: ${p.fg} !important;
-        --code-comment: ${p.outline} !important;
-        --code-function: ${p.blue} !important;
-        --code-keyword: ${p.magenta} !important;
-        --code-string: ${p.green} !important;
-        --code-value: ${p.orange} !important;
-        --code-important: ${p.red} !important;
+        --code-comment: ${p.comments} !important;
+        --code-function: ${p.functions} !important;
+        --code-keyword: ${p.keywords} !important;
+        --code-string: ${p.strings} !important;
+        --code-value: ${p.numeric} !important;
+        --code-important: ${p.specials} !important;
 
         --nav-item-color: ${p.fg} !important;
         --nav-item-color-active: ${p.primary} !important;
-        --nav-item-background-active: ${p.primary_container} !important;
+        --nav-item-background-active: ${p.surface_variant} !important;
         
         --tab-background-active: ${p.bg} !important;
         --tab-text-active: ${p.primary} !important;

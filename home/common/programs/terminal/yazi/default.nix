@@ -58,7 +58,7 @@ in
       pkgs.resvg
       pkgs.imagemagick
       pkgs.wl-clipboard
-      pkgs.epub-thumbnailer
+      pkgs.gnome-epub-thumbnailer
       (pkgs._7zz.override { enableUnfree = true; })
     ];
 
@@ -69,6 +69,7 @@ in
       smart-filter = pkgs.yaziPlugins.smart-filter;
       mediainfo = pkgs.yaziPlugins.mediainfo;
       duckdb = pkgs.yaziPlugins.duckdb;
+      # FIXME: this doesnt work..
       epub = epub-thumb;
     };
 

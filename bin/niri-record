@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+## wf-record-niri: simple recording helper for niri
+## Requirements: wf-recorder, slurp, niri, jq
+
+SUBJECT=${1:-area}
+OUTPUT=${2:-"$HOME/Videos/$(date +'%Y-%m-%d-%H-%M-%S')_${SUBJECT}.mp4"}
+
+if [ -z "$NIRI_SOCKET" ]; then
+  echo "Error: NIRI_SOCKET not set! (is niri running?)"
+  exit 1
+fi
+
+case "$SUBJECT" in
+active)
+  FOCUSED=$(niri msg --json windows | jq '.[] | select(.is_focused)')
+  X=$(echo "$FOCUSED" | jq -r '.layout.tile_pos_in_workspace_view[0] | floor')
+  Y=$(echo "$FOCUSED" | jq -r '.layout.tile_pos_in_workspace_view[1] | floor')
+  W=$(echo "$FOCUSED" | jq -r '.layout.tile_size[0] | floor')
+  H=$(echo "$FOCUSED" | jq -r '.layout.tile_size[1] | floor')
+
+  if [ "$X" = "null" ] || [ "$Y" = "null" ]; then
+    echo "Window is tiled, falling back to slurp..."
+    GEOM=$(slurp)
+    [ -z "$GEOM" ] && exit 1
+  else
+    GEOM="${X},${Y} ${W}x${H}"
+  fi
+  ;;
+area)
+  GEOM=$(slurp)
+  [ -z "$GEOM" ] && exit 1
+  ;;
+screen)
+  GEOM=""
+  ;;
+*)
+  echo "Usage: $0 [active|area|screen] [output.mp4]"
+  exit 1
+  ;;
+esac
+
+echo "Recording to $OUTPUT (ctrl+c to stop)..."
+
+if [ -n "$GEOM" ]; then
+  wf-recorder -g "$GEOM" -f "$OUTPUT"
+else
+  wf-recorder -f "$OUTPUT"
+fi

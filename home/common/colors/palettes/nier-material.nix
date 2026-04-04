@@ -10,8 +10,8 @@ let
     fg = "#101010";
     bg = "#bab5a1";
     surface_container = "#c5bfa6";
-    surface_container_low = "#948d71";
-    surface_container_high = "#cbc5af";
+    surface_container_low = "#aea996";
+    surface_container_high = "#c6c1ac";
 
     dim = "#6b656a";
     cursor_bg = "#ab4642";
@@ -19,6 +19,12 @@ let
   };
 
   overrides = {
+    on_primary = must.fg;
+    on_secondary = must.fg;
+    on_tertiary = must.bg;
+    surface_variant = must.tertiary;
+    on_surface_variant = must.bg;
+
     # default colors for ansi on white
     black = "#948d71";
     gray = "#746e61";
@@ -71,7 +77,7 @@ in
   slug = "nier-material";
   name = "nier-material";
   # TODO: zen browser disregards this shit apparently ??
-  type = "dark"; # maybe this is bad ? most of programs seem to disable the light zz
+  type = "light"; # maybe this is bad ? most of programs seem to disable the light zz
   author = "xendak";
   must = must;
   overrides = overrides;

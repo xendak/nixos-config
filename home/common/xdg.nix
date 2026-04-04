@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  browser = [ "zen.desktop" ];
+  browser = [ "zen-beta.desktop" ];
   terminal = [ "foot.desktop" ];
 
   # XDG MIME types

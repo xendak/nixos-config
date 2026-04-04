@@ -118,9 +118,9 @@
       SPLIT = "v";
       GTK_THEME = "${config.gtk.theme.name}:dark";
       EDITOR = "hx";
-      SUDO_EDITOR = "vi";
+      SUDO_EDITOR = "hx";
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
-      BROWSER = "zen";
+      BROWSER = "zen-beta";
       FILEBROWSER = "dolphin";
       TERMBROWSER = "yazi";
       WINEPREFIX = "/home/xendak/Games/Wine-Prefix";

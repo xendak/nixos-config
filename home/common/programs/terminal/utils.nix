@@ -132,7 +132,11 @@ in
 
   programs.fzf = {
     enable = true;
-    defaultOptions = [ "--color 16" ];
+    # defaultOptions = [ "--color=base16" ];
+  };
+
+  home.sessionVariables = {
+    FZF_DEFAULT_OPTS_FILE = "/home/${config.home.username}/.config/fzf/colors";
   };
 
   # enable dir-env integration

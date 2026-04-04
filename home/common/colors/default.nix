@@ -36,8 +36,12 @@
         "zen/userChrome.css" = "${home}/.config/zen/${config.home.username}/chrome/userChrome.css";
         "zen/userContent.css" = "${home}/.config/zen/${config.home.username}/chrome/userContent.css";
 
+        # FZF
+        "fzf/colors" = "${home}/.config/fzf/colors";
+
         # Obsidian
         "obsidian/theme.css" = "${home}/Documents/Notes/xendak/.obsidian/snippets/material-theme.css";
+        "obsidian/shiki.json" = "${home}/Documents/Notes/xendak/.obsidian/themes/shiki.json";
 
         # Fcitx5
         "fcitx5/theme.conf" = "${home}/.local/share/fcitx5/themes/current/theme.conf";
@@ -55,6 +59,10 @@
         "vesktop/quickCss.css" = "${home}/.config/vesktop/settings/quickCss.css";
         "discord/settings.json" = "${home}/.config/discord/settings.json";
         "discord/settings.json_clone_1" = "${home}/.config/discordcanary/settings.json";
+
+        # Rofi
+        "rofi/config.rasi" = "${home}/.config/rofi/config.rasi";
+        "rofi/powermenu.rasi" = "${home}/.config/rofi/powermenu.rasi";
 
         # Helix
         "helix/themes/current.toml" = "${home}/.config/helix/themes/current.toml";

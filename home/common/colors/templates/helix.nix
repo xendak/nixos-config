@@ -110,7 +110,7 @@ in
       "ui.cursorline" = { bg = "surface_container_low" }
       "ui.cursor" = { fg = "cursor_fg", bg = "blue" }
       "ui.cursor.primary" = { fg = "cursor_fg", bg = "cursor_bg" }
-      "ui.cursor.match" = { fg = "on_primary", bg = "primary", modifiers = ["underlined"] }
+      "ui.cursor.match" = { fg = "cursor_fg", bg = "blue", modifiers = ["underlined"] }
 
       # :Markup
       "markup.bold" = { fg = "builtins", modifiers = ["bold"] }

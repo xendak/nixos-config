@@ -32,6 +32,9 @@ in
           --zen-themed-toolbar-bg: ${p.surface_container_low} !important;
           --zen-main-browser-background: ${p.surface_container_low} !important;
           --toolbox-bgcolor-inactive: ${p.surface_container_low} !important;
+          --toolbox-textcolor: ${p.fg} !important;
+          --toolbar-color: ${p.fg} !important;
+
         }
 
         .zen-view-splitter-header {
@@ -51,6 +54,10 @@ in
 
         .sidebar-placesTree {
           background-color: ${p.bg} !important;
+        }
+
+        .zen-current-workspace-indicator {
+          color: ${p.on_surface} !important;
         }
 
         #zen-workspaces-button {
@@ -74,6 +81,10 @@ in
           color: ${p.primary} !important;
         }
 
+        .urlbarView-row {
+          color: ${p.fg} !important;
+        }
+
         #zenEditBookmarkPanelFaviconContainer {
           background: ${p.surface_container_low} !important;
         }
@@ -95,6 +106,7 @@ in
                 .toolbarbutton-badge-stack
               ) {
               fill: ${p.surface_container_low};
+              color: ${p.fg} !important;
             }
           }
         }
@@ -167,6 +179,10 @@ in
         #main-window {
           background: ${p.surface_container_low} !important;
           background-color: ${p.surface_container_low} !important;
+        }
+
+        #tabbrowser-tabs {
+          --tab-selected-bgcolor: ${p.selection_bg} !important
         }
 
         #sidebar-splitter {
@@ -298,6 +314,7 @@ in
         @-moz-document url-prefix("about:addons") {
           :root {
             --zen-dark-color-mix-base: ${p.surface_container_low} !important;
+            --zen-light-color-mix-base: ${p.surface_container_low} !important;
             --background-color-box: ${p.bg} !important;
           }
         }

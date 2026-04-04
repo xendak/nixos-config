@@ -81,6 +81,8 @@ in
           { app-id = "firefox"; }
           { app-id = "zen-browser"; }
           { app-id = "zen-beta"; }
+          { app-id = "zen-browser"; }
+          { app-id = "zen"; }
           { app-id = "chromium"; }
         ];
         open-on-workspace = "2";

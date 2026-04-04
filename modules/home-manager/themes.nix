@@ -179,6 +179,7 @@ let
       pkill -USR1 hx &> /dev/null || true &
 
       # TODO: fix this, its doing two tmes for now reason
+      # :custom vivid
       VIVID_THEME_FILE="$SRC_DIR/vivid/themes/current.yml"
       if [[ -f "$VIVID_THEME_FILE" ]]; then
         vivid generate "$VIVID_THEME_FILE" > /tmp/current_ls_colors
@@ -188,8 +189,10 @@ let
         vivid generate rose-pine-dawn > /tmp/current_ls_colors
       fi
 
+      LS_COLORS="$(cat /tmp/current_ls_colors)"
+      export LS_COLORS
 
-      # NIRI, because the flake is so bad with the "include" command
+      # :NIRI, because the flake is so bad with the "include" command
       NIRI_CONFIG="/home/${config.home.username}/.config/niri/config.kdl"
       TMP_CONFIG=$(mktemp)
       {
@@ -199,11 +202,8 @@ let
       mv -f "$TMP_CONFIG" "$NIRI_CONFIG"
       sed -i '/color "#00000070"/d' "$NIRI_CONFIG"
 
-      # custom vivid
-      LS_COLORS="$(cat /tmp/current_ls_colors)"
-      export LS_COLORS
 
-      # Nushell
+      # :Nushell
       cat > "$HOME/Flake/home/common/programs/terminal/nushell/colors.nu" << NUEOF
       # AUTO GENERATED
       let color_config = {
@@ -233,7 +233,6 @@ let
           shape_string: "light_blue"
           shape_string_interpolation: "light_cyan"
       }
-
       \$env.config.color_config = \$color_config
       \$env.LS_COLORS = "$LS_COLORS"
       NUEOF
