@@ -138,17 +138,17 @@ in
       spaces = {
         "Default" = {
           id = "de710000-0000-4000-a000-000000000000";
-          icon = "󰐱";
+          icon = "🎮";
           position = 1000;
         };
         "Language" = {
           id = "1a1a0000-0000-4000-a000-000000000000";
-          icon = "";
+          icon = "🌐";
           position = 2000;
         };
         "Study" = {
           id = "574d1000-0000-4000-a000-000000000000";
-          icon = "󰑴";
+          icon = "🎓";
           position = 3000;
         };
       };
