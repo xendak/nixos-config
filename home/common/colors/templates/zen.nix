@@ -18,7 +18,7 @@ in
           --toolbarbutton-icon-fill: ${p.primary} !important;
           --lwt-text-color: ${p.fg} !important;
           --toolbar-field-color: ${p.fg} !important;
-          --tab-selected-textcolor: ${p.primary} !important;
+          --tab-selected-textcolor: ${p.on_primary} !important;
           --toolbar-field-focus-color: ${p.fg} !important;
           --toolbar-color: ${p.fg} !important;
           --newtab-text-primary-color: ${p.fg} !important;

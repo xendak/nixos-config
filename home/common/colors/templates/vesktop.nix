@@ -45,11 +45,11 @@ let
 
       :root {
         --text-0: var(--bg-4);
-        --text-1: ${p.on_surface_variant};
+        --text-1: ${p.on_surface};
         --text-2: ${p.on_surface};
         --text-3: ${p.on_surface};
-        --text-4: ${p.on_surface_variant};
-        --text-5: ${p.on_surface_variant}90;
+        --text-4: ${p.on_surface};
+        --text-5: ${p.comments};
 
         --bg-1: ${p.surface_container};
         --bg-2: ${p.surface_container_high};

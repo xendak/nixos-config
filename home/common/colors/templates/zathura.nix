@@ -12,14 +12,14 @@ in
     set default-bg       "${m.background}"
     set default-fg       "${m.on_surface}"
     set statusbar-bg     "${m.surface_container_high}"
-    set statusbar-fg     "${m.on_surface_variant}"
+    set statusbar-fg     "${m.fg}"
     set inputbar-bg      "${m.surface_container}"
     set inputbar-fg      "${m.on_surface}"
 
     ; Highlight (search results) → primary container
-    set highlight-color         "${m.primary_container}"
-    set highlight-active-color  "${m.primary}"
-    set highlight-fg            "${m.on_primary_container}"
+    set highlight-color         "${m.blue}"
+    set highlight-active-color  "${m.selection_bg}"
+    set highlight-fg            "${m.selection_fg}"
 
     ; Recolor (for document pages)
     set recolor-lightcolor  "${m.background}"
