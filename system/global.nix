@@ -167,6 +167,10 @@ in
         "root"
         "@wheel"
       ];
+      allowed-users = [
+        "root"
+        "@wheel"
+      ];
       # was getting a warning
       download-buffer-size = 524288000;
       experimental-features = "nix-command flakes";
@@ -413,5 +417,5 @@ in
 
   systemd.user.services.telephony_client.enable = false;
 
-  system.stateVersion = lib.mkDefault "25.05";
+  system.stateVersion = lib.mkDefault "25.11";
 }

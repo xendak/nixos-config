@@ -234,7 +234,7 @@ in
           };
           "Canvas" = {
             id = "defa9012-3456-4789-c012-3abcdef12345";
-            url = "https://canvas.pucminas.br/";
+            url = "https://pucminas.instructure.com/?login_success=1";
             workspace = spaces."Study".id;
             position = 20;
           };

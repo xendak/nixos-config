@@ -15,85 +15,86 @@ let
   };
 in
 {
-  home.packages = with pkgs; [
-    libnotify
-    gsettings-desktop-schemas
-    gsettings-qt
+  home.packages = [
+    pkgs.libnotify
+    pkgs.gsettings-desktop-schemas
+    pkgs.gsettings-qt
 
-    bc # Calculator
-    bottom # System viewer
-    ncdu # TUI disk usage
-    eza # Better ls
-    ripgrep # Better grep
-    fd # Better find
-    httpie # Better curl
-    jq # JSON pretty printer and manipulator
-    unzip
-    unrar
-    (_7zz.override { enableUnfree = true; })
+    pkgs.bc # Calculator
+    pkgs.bottom # System viewer
+    pkgs.ncdu # TUI disk usage
+    pkgs.eza # Better ls
+    pkgs.ripgrep # Better grep
+    pkgs.fd # Better find
+    pkgs.httpie # Better curl
+    pkgs.jq # JSON pretty printer and manipulator
+    pkgs.unzip
+    pkgs.unrar
+    (pkgs._7zz.override { enableUnfree = true; })
 
-    # p7zip-rar
+    pkgs.bat
+    pkgs.lazygit
+    pkgs.tree
+    pkgs.ffmpeg
 
-    bat
-    lazygit
-    tree
-    ffmpeg
+    pkgs.imhex
+    pkgs.hexyl
+    pkgs.difftastic
+    pkgs.bitwise
 
-    imhex
-    hexyl
-    difftastic
-    bitwise
+    pkgs.duckdb
+    pkgs.glow
+    pkgs.imv
+    pkgs.sxiv
 
-    duckdb
-    glow
-    imv
-    sxiv
+    # :c :cpp
+    pkgs.valgrind
+    pkgs.clang-tools
+    pkgs.llvmPackages_latest.libstdcxxClang
+    pkgs.llvmPackages_latest.libcxx
+    pkgs.llvmPackages_latest.lldb
+    pkgs.cppcheck
+    pkgs.rr
+    pkgs.gdb
+    pkgs.gf # gdb front-end
 
-    valgrind
-    clang-tools
-    llvmPackages_latest.libstdcxxClang
-    llvmPackages_latest.libcxx
-    llvmPackages_latest.lldb
-    cppcheck
-    rr
-    gdb
-    gf # gdb front-end
-
-    # Programming Languages
-    # Odin
-    odin
-    ols
-    # Zig
-    zig-master
-    zls-overlay
-    # Rust
+    # :Odin
+    pkgs.odin
+    pkgs.ols
+    # :Zig
+    pkgs.zig-master
+    pkgs.zls-overlay
+    # :Rust
     rustToolchain
-    # Go
-    go
-    gopls
-    delve
-    # PUC
-    # javascript
-    nodejs
-    nodePackages.prettier
-    dprint
-    deno
-    # Java
-    jdk25
-    gradle
-    maven
+    # :Go
+    pkgs.go
+    pkgs.gopls
+    pkgs.delve
+    # :PUC
+    # :javascript
+    pkgs.nodejs
+    pkgs.prettier
+    pkgs.dprint
+    pkgs.deno
+    # :Java
+    pkgs.jdk25
+    pkgs.gradle
+    pkgs.maven
+
+    # TUI emacs-like compilation mode
+    inputs.gobuild.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     inputs.uwu-colors.packages.${pkgs.stdenv.hostPlatform.system}.default
 
-    nixd # Nix LSP
-    alejandra
-    nixfmt # Nix formatter
-    nvd # Differ
-    nix-output-monitor
-    nix-tree
-    nh # Nice wrapper for NixOS and HM
+    pkgs.nixd # Nix LSP
+    pkgs.alejandra
+    pkgs.nixfmt # Nix formatter
+    pkgs.nvd # Differ
+    pkgs.nix-output-monitor
+    pkgs.nix-tree
+    pkgs.nh # Nice wrapper for NixOS and HM
 
-    ltex-ls # Spell checking LSP
+    pkgs.ltex-ls # Spell checking LSP
   ];
 
   # icon entry for bottom

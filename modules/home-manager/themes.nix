@@ -44,7 +44,7 @@ let
       [ -d "$HOME/tmp/Screenshots" ] || mkdir -p "$HOME/tmp/Screenshots" 2>/dev/null
 
       pkill -x "quickshell" || true
-      sleep 0.1
+      sleep 0.2
       qs -d -c "/home/${config.home.username}/Flake/home/common/programs/quickshell/niri/"
     '';
   };

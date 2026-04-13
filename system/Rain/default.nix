@@ -198,5 +198,4 @@
     opentabletdriver.enable = true;
   };
 
-  system.stateVersion = lib.mkDefault "25.05";
 }

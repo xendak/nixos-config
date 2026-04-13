@@ -19,9 +19,9 @@
       # pkgs.nil
       pkgs.shellcheck
       pkgs.clang-tools
-      pkgs.nodePackages.vscode-langservers-extracted
+      pkgs.vscode-langservers-extracted
       pkgs.vscode-extensions.llvm-org.lldb-vscode
-      # pkgs.nodePackages.prettier
+      # pkgs.prettier
     ];
 
     settings = {

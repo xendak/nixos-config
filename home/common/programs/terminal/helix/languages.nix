@@ -29,7 +29,7 @@ let
   };
 
   prettier = lang: {
-    command = lib.getExe pkgs.nodePackages.prettier;
+    command = lib.getExe pkgs.prettier;
     args = [
       "--parser"
       lang
@@ -328,7 +328,7 @@ in
     };
 
     typescript-language-server = {
-      command = lib.getExe pkgs.nodePackages.typescript-language-server;
+      command = lib.getExe pkgs.typescript-language-server;
       args = [ "--stdio" ];
       config.typescript-language-server.source = {
         addMissingImports.ts = true;
@@ -370,7 +370,7 @@ in
       inputs.uwu-colors.packages.${pkgs.stdenv.hostPlatform.system}.default
     }/bin/uwu_colors";
     vscode-css-language-server = {
-      command = "${pkgs.nodePackages.vscode-langservers-extracted}/bin/vscode-css-language-server";
+      command = "${pkgs.vscode-langservers-extracted}/bin/vscode-css-language-server";
       args = [ "--stdio" ];
       config = {
         provideFormatter = true;

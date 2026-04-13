@@ -1,3 +1,47 @@
+
+warning: Git tree '/home/xendak/Flake' is dirty
+evaluation warning: The default value of `programs.neovim.withRuby` has changed from `true` to `false`.
+                    You are currently using the legacy default (`true`) because `home.stateVersion` is less than "26.05".
+                    To silence this warning and keep legacy behavior, set:
+                      programs.neovim.withRuby = true;
+                    To adopt the new default behavior, set:
+                      programs.neovim.withRuby = false;
+evaluation warning: The default value of `programs.neovim.withPython3` has changed from `true` to `false`.
+                    You are currently using the legacy default (`true`) because `home.stateVersion` is less than "26.05".
+                    To silence this warning and keep legacy behavior, set:
+                      programs.neovim.withPython3 = true;
+                    To adopt the new default behavior, set:
+                      programs.neovim.withPython3 = false;
+copying path '/nix/store/j68m788zvrjj69vd4w3kpqq6qw9gxlfs-source' from 'https://cache.nixos.org'
+copying path '/nix/store/rwsgvz41nkj1ixghp4wx7ld5jz2z537h-source' from 'https://nix-community.cachix.org'
+unpacking 'github:mitchellh/zig-overlay/e9ed260913d18b2973a86eabc8e46642c4e04c75?narHash=sha256-Vin1%2BHI1TJvBXS4d3rcflfCWL9MmJJjjoZ2ATsPHAqg%3D' into the Git cache
+evaluation warning: 'swww' has been renamed to 'awww'
+evaluation warning: The xorg package set has been deprecated, 'xorg.libX11' has been renamed to 'libx11'
+evaluation warning: The default value of `programs.git.signing.format` has changed from `"openpgp"` to `null`.
+                    You are currently using the legacy default (`"openpgp"`) because `home.stateVersion` is less than "25.05".
+                    To silence this warning and keep legacy behavior, set:
+                      programs.git.signing.format = "openpgp";
+                    To adopt the new default behavior, set:
+                      programs.git.signing.format = null;
+evaluation warning: 'swww' has been renamed to 'awww'
+unpacking 'github:oxalica/rust-overlay/ec6a3d5cdf14bb5a1dd03652bd3f6351004d2188?narHash=sha256-CjymNrJZWBtpavyuTkfPVPaZkwzIzGaf0E/3WgcwM14%3D' into the Git cache
+evaluation warning: xendak profile: The default value of `programs.neovim.plugins.PLUGIN.type` has changed from `"viml"` to `"lua"`.
+                    You are currently using the legacy default (`"viml"`) because `home.stateVersion` is less than "26.05".
+                    To silence this warning and keep legacy behavior, set:
+                      programs.neovim.plugins.PLUGIN.type = "viml";
+                    To adopt the new default behavior, set:
+                      programs.neovim.plugins.PLUGIN.type = "lua";
+                    Triggered by plugin `toggleterm.nvim` defined in `plugins.nix` at list index 10.
+                    Set `type = "viml"` or `type = "lua"` on that plugin entry to make the config language explicit.
+evaluation warning: xendak profile: The default value of `programs.neovim.plugins.PLUGIN.type` has changed from `"viml"` to `"lua"`.
+                    You are currently using the legacy default (`"viml"`) because `home.stateVersion` is less than "26.05".
+                    To silence this warning and keep legacy behavior, set:
+                      programs.neovim.plugins.PLUGIN.type = "viml";
+                    To adopt the new default behavior, set:
+                      programs.neovim.plugins.PLUGIN.type = "lua";
+                    Triggered by plugin `vimtex` defined in `syntaxes.nix` at list index 13.
+                    Set `type = "viml"` or `type = "lua"` on that plugin entry to make the config language explicit.
+
 gamescope -W 3840 -H 2160 -w 3840 -h 2160 -r 144 -f --force-grab-cursor -- gamemoderun mangohud PROTON_ENABLE_NVAPI=1 DXVK_ASYNC=1 %command%
 
 

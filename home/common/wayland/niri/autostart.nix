@@ -5,7 +5,7 @@
 }:
 let
   home = config.home.username;
-  bin_path = "/home/${home}/Flake/bin/";
+  bin_path = "/home/${home}/Flake/bin";
 
   baseCommands = [
     {
