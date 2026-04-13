@@ -67,7 +67,7 @@
       {
         exec-shutdown = [ "all-sync live-to-persist" ];
         exec-once = [
-          "swww-daemon"
+          "awww-daemon"
           "fish $HOME/Flake/home/common/programs/quickshell/hyprland/wallpaper.fish -f ${wallpaper}"
           "/home/${config.home.username}/Flake/bin/nix-theme-starter gorgoroth"
           "mkdir -p $HOME/tmp/Screenshots"

@@ -124,5 +124,5 @@ else
     echo $chosen_wallpaper >$last_wallpaper_path
     echo $chosen_wallpaper >$persistent_wallpaper_path
     ln -sf $chosen_wallpaper "$state_dir/current"
-    swww img "$state_dir/current"
+    awww img "$state_dir/current"
 end

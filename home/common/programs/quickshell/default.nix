@@ -15,7 +15,7 @@ in
     pkgs.kdePackages.qt5compat
     pkgs.qt6.qt5compat
     pkgs.imagemagick
-    pkgs.swww
+    pkgs.awww
     pkgs.ddcutil
     pkgs.python3
     pkgs.python3Packages.numpy

@@ -11,7 +11,7 @@
   home.packages = [
     inputs.matugen.packages.${pkgs.stdenv.hostPlatform.system}.default
 
-    pkgs.swww
+    pkgs.awww
     pkgs.glib
     pkgs.bun
     pkgs.dart-sass

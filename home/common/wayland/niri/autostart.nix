@@ -16,7 +16,7 @@ let
         "hyprpolkitagent"
       ];
     }
-    { command = [ "swww-daemon" ]; }
+    { command = [ "awww-daemon" ]; }
     { command = [ "nix-theme-starter" ]; }
     { command = [ "xwayland-satellite" ]; }
     {
