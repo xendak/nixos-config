@@ -178,6 +178,12 @@ in
             isEssential = true;
             position = 3;
           };
+          "YouTube Music" = {
+            id = "34d1b8e6-78fa-4a25-b91c-8e435a9d21f0";
+            url = "https://music.youtube.com/";
+            isEssential = true;
+            position = 4;
+          };
 
           # :Default
           "Gemini" = {
@@ -206,37 +212,49 @@ in
             workspace = spaces."Language".id;
             position = 11;
           };
-          "Translate" = {
-            id = "fabc5678-9012-4345-e678-90abcdef1234";
-            url = "https://translate.google.com/?sl=ja&tl=en";
+          "Jisho" = {
+            id = "81c3f9a2-b47d-4e91-8f52-1d6e8a0c3b25";
+            url = "https://jisho.org/";
             workspace = spaces."Language".id;
             position = 20;
           };
-          "DeepL" = {
-            id = "abcd6789-0123-4456-f789-0abcdef12345";
-            url = "https://www.deepl.com/translator#ja/en/";
+          "Translate" = {
+            id = "fabc5678-9012-4345-e678-90abcdef123";
+            url = "https://translate.google.com/?sl=ja&tl=en";
             workspace = spaces."Language".id;
             position = 21;
+          };
+          "DeepL" = {
+            id = "abcd6789-0123-4456-f789-0abcdef123";
+            url = "https://www.deepl.com/translator#ja/en/";
+            workspace = spaces."Language".id;
+            position = 30;
           };
 
           # :Study
           "Gemini-Study" = {
-            id = "bcde7890-1234-4567-a890-1abcdef12345";
+            id = "bcde7890-1234-4567-a890-1abcdef123";
             url = "https://gemini.google.com/app";
             workspace = spaces."Study".id;
             position = 10;
           };
           "Claude-Study" = {
-            id = "cdef8901-2345-4678-b901-2abcdef12345";
+            id = "cdef8901-2345-4678-b901-2abcdef123";
             url = "https://claude.ai/chat";
             workspace = spaces."Study".id;
             position = 11;
           };
           "Canvas" = {
-            id = "defa9012-3456-4789-c012-3abcdef12345";
-            url = "https://pucminas.instructure.com/?login_success=1";
+            id = "defa9012-3456-4789-c012-3abcdef123";
+            url = "https://canvas.pucminas.br/";
             workspace = spaces."Study".id;
             position = 20;
+          };
+          "SGA" = {
+            id = "81c3f9a2-b47d-4e91-8f52-1d6e8a0c3b25";
+            url = "www.sistemas.pucminas.br/sgaaluno4/SilverStream/Pages/pgAln_LoginSSL.html";
+            workspace = spaces."Study".id;
+            position = 21;
           };
         };
 

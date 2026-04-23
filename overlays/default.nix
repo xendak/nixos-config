@@ -37,33 +37,33 @@
     #   patches = (oldAttrs.patches or [ ]) ++ [ ./rbw-list-raw.patch ];
     # });
 
-    ols = prev.ols.overrideAttrs (oldAttrs: {
-      src = prev.fetchFromGitHub {
-        owner = "DanielGavin";
-        repo = "ols";
-        rev = "dev-2026-03";
-        hash = "sha256-QjkzR9Wnc+Poq7dxDlik9k1maEs8xiFuNbwRdv8nqyo=";
-      };
-      nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.makeBinaryWrapper ];
+    # ols = prev.ols.overrideAttrs (oldAttrs: {
+    #   src = prev.fetchFromGitHub {
+    #     owner = "DanielGavin";
+    #     repo = "ols";
+    #     rev = "dev-2026-03";
+    #     hash = "sha256-QjkzR9Wnc+Poq7dxDlik9k1maEs8xiFuNbwRdv8nqyo=";
+    #   };
+    #   nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.makeBinaryWrapper ];
 
-      postPatch = ''
-        sed -i 's/-microarch:native//g' build.sh
-        patchShebangs build.sh odinfmt.sh
-      '';
+    #   postPatch = ''
+    #     sed -i 's/-microarch:native//g' build.sh
+    #     patchShebangs build.sh odinfmt.sh
+    #   '';
 
-      installPhase = ''
-        runHook preInstall
+    #   installPhase = ''
+    #     runHook preInstall
 
-        install -Dm755 ols odinfmt -t $out/bin/
-        wrapProgram $out/bin/ols \
-          --prefix PATH : ${prev.odin}/bin \
-          --set-default ODIN_ROOT ${prev.odin}/share \
-          --set-default OLS_BUILTIN_FOLDER ${prev.odin}/share/base/builtin
+    #     install -Dm755 ols odinfmt -t $out/bin/
+    #     wrapProgram $out/bin/ols \
+    #       --prefix PATH : ${prev.odin}/bin \
+    #       --set-default ODIN_ROOT ${prev.odin}/share \
+    #       --set-default OLS_BUILTIN_FOLDER ${prev.odin}/share/base/builtin
 
-        runHook postInstall
-      '';
+    #     runHook postInstall
+    #   '';
 
-    });
+    # });
 
     avrdude = prev.avrdude.override {
       docSupport = false;

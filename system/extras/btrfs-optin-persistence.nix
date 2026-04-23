@@ -1,10 +1,8 @@
 {
   pkgs,
-  inputs,
-  config,
   ...
-}: let
-  host = config.home;
+}:
+let
 
   wipeScript = ''
     mkdir -p /mnt
@@ -44,7 +42,22 @@
     # we can unmount /mnt and continue on the boot process.
     umount /mnt
   '';
-in {
-  boot.initrd.supportedFilesystems = ["btrfs"];
-  boot.initrd.postDeviceCommands = pkgs.lib.mkBefore wipeScript;
+in
+{
+  boot.initrd.supportedFilesystems = [ "btrfs" ];
+  # boot.initrd.postDeviceCommands = pkgs.lib.mkBefore wipeScript;
+  boot.initrd.systemd.services.restore-root = {
+    description = "Rollback BTRFS root to root-blank";
+    path = [
+      pkgs.btrfs-progs
+      pkgs.coreutils
+      pkgs.util-linux
+    ];
+    wantedBy = [ "initrd.target" ];
+    after = [ "initrd-root-device.target" ];
+    before = [ "sysroot.mount" ];
+    unitConfig.DefaultDependencies = "no";
+    serviceConfig.Type = "oneshot";
+    script = wipeScript;
+  };
 }
