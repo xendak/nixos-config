@@ -75,10 +75,10 @@
           doCheck = false;
           doInstallCheck = false;
           nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [
-            inputs.zig.packages.${final.stdenv.hostPlatform.system}.master
+            inputs.zig.packages.${final.stdenv.hostPlatform.system}."0.16.0"
           ];
         });
-    zig-master = inputs.zig.packages.${final.stdenv.hostPlatform.system}."0.15.1";
+    zig-master = inputs.zig.packages.${final.stdenv.hostPlatform.system}."0.16.0";
   };
 
   stable = final: _: {
