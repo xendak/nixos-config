@@ -62,15 +62,15 @@ in
       width:                         20%;
       height:                        80%;
       border:                        2px;
-      border-color:                  #${p.primary};
+      border-color:                  ${p.primary};
       border-radius:                 10px;
-      background-color:              #${p.surface_container};
+      background-color:              ${p.surface_container};
     }
 
     entry {
-      background-color:              #${p.bg};
-      text-color:                    #${p.fg};
-      placeholder-color:             #${p.primary};
+      background-color:              ${p.bg};
+      text-color:                    ${p.fg};
+      placeholder-color:             ${p.primary};
       expand:                        true;
       horizontal-align:              0.5;
       placeholder:                   " › Type here to search...";
@@ -79,7 +79,7 @@ in
       blink:                         true;
       border:                        0px 0px 2px 0px;
       border-radius:                 6px;
-      border-color:                  #${p.primary};
+      border-color:                  ${p.primary};
     }
 
     inputbar {
@@ -87,29 +87,28 @@ in
       background-image:		           url("${wallpaper}", width);
       border-radius:		             10px;
       border:                        0px 0px 2px 0px;
-      border-color:                  #${p.primary};
-      text-color:                    #${p.secondary}; // maybe not this?
+      border-color:                  ${p.primary};
+      text-color:                    ${p.primary}; // maybe not this?
       expand:                        false;
       margin:                        5px 5px 6px 5px;
       padding:                       4%;
     }
 
     listview {
-      background-color:              #${p.bg};
+      background-color:              ${p.bg};
       border-radius:                 10px;
       padding:                       10px;
       columns:                       1;
-      // lines:                         4;
-      spacing:                       0%;
+      spacing:                       8px;
       cycle:                         true;
       dynamic:                       true;
       layout:                        vertical;
     }
 
     mainbox {
-      background-color:              #${p.bg};
+      background-color:              ${p.bg};
       border:                        0px;
-      border-color:                  #${p.primary};
+      border-color:                  ${p.primary};
       children:                      [ inputbar, listview ];
       spacing:                       0%;
       padding:                       8px;
@@ -117,10 +116,20 @@ in
 
     element {
       orientation:                   horizontal;
-      background-color:              #${p.bg};
-      text-color:                    #${p.fg};
-      border-radius:                 0%;
+      background-color:              ${p.bg};
+      text-color:                    ${p.fg};
+      border-radius:                 10px;
       padding:                       0px;
+    }
+
+    element normal.normal {
+      background-color: ${p.surface_container};
+      text-color: ${p.fg};
+    }
+
+    element alternate.normal {
+      background-color: ${p.surface_container_high};
+      text-color: ${p.fg};
     }
 
     element-icon, element-text {
@@ -144,10 +153,10 @@ in
     }
 
     element selected {
-      background-color:              #${p.surface_container};
-      text-color:                    #${p.primary};
+      background-color:              ${p.surface_container};
+      text-color:                    ${p.primary};
       border:                        0px 0px 2px 0px;
-      border-color:                  #${p.primary};
+      border-color:                  ${p.primary};
       border-radius:                 10px;
     }
   '';
@@ -171,12 +180,12 @@ in
 
     * {
         font:                        "Sans 16";
-        background:                  #${p.bg};
-        background-alt:              #${p.surface_container};
-        foreground:                  #${p.fg};
-        selected:                    #${p.primary};
-        active:                      #${p.primary};
-        urgent:                      #${p.primary};
+        background:                  ${p.bg};
+        background-alt:              ${p.surface_container};
+        foreground:                  ${p.fg};
+        selected:                    ${p.primary};
+        active:                      ${p.primary};
+        urgent:                      ${p.primary};
         button-style:                15px;
         border-style:                0px 0px 5px 0px;
     }
@@ -193,7 +202,7 @@ in
         border-radius:               10px;
         border-color:                @selected;
         cursor:                      "default";
-        background-color:            #${p.surface_container}60; // dim color
+        background-color:            ${p.surface_container}60; // dim color
     }
 
     mainbox {
