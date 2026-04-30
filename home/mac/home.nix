@@ -117,7 +117,7 @@
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
       BROWSER = "zen-beta";
       FILEBROWSER = "dolphin";
-      TERMINAL = lib.mkForce "foot";
+      TERMINAL = lib.mkForce "footclient";
       TERMBROWSER = "yazi";
       WINEPREFIX = "/home/xendak/Games/Wine-Prefix";
     };

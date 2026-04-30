@@ -23,6 +23,7 @@
 
     interactiveShellInit = ''
       shopt -s histappend
+      eval "$(fzf --bash)"
       PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
     '';
 

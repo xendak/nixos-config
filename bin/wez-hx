@@ -1,46 +1,25 @@
 #!/usr/bin/env bash
 
-FILE=$1
-LINE=$2
-COL=$3
+LOC=$1
 
-if [ -z "$FILE" ]; then exit 1; fi
+TARGET_PANE_ID=$(zellij action list-panes | grep "Editor" | awk '{print $1}' | cut -d '_' -f 2)
 
-PANE_ID=$(wezterm cli get-pane-direction Left)
-if [ -z "$PANE_ID" ]; then
-  PANE_ID=$(wezterm cli get-pane-direction Up)
+if [ -z "$TARGET_PANE_ID" ]; then
+    zellij action new-pane --direction left -- hx "$LOC"
+    exit 0
 fi
 
-if [ -n "$PANE_ID" ]; then
-  IS_HELIX=$(wezterm cli list | awk -v id="$PANE_ID" '$3 == id' | grep -iE 'hx|helix')
+PANE_COMMAND=$(zellij action list-panes --json | jq -r ".. | objects | select(.id? == $TARGET_PANE_ID) | .pane_command?" 2>/dev/null)
 
-  if [ -n "$IS_HELIX" ]; then
-    printf "\x1b" | wezterm cli send-text --pane-id "$PANE_ID" --no-paste
 
+zellij action focus-pane-id "$TARGET_PANE_ID"
+
+if [[ "$PANE_COMMAND" == *"hx"* ]] || [[ "$PANE_COMMAND" == *"helix"* ]]; then
+    zellij action write 27 --pane-id "$TARGET_PANE_ID"
     sleep 0.05
-
-    if [ -n "$COL" ] && [ "$COL" != "0" ]; then
-      printf ":open %s:%s:%s\r" "$FILE" "$LINE" "$COL" | wezterm cli send-text --pane-id "$PANE_ID" --no-paste
-    else
-      printf ":open %s:%s\r" "$FILE" "$LINE" | wezterm cli send-text --pane-id "$PANE_ID" --no-paste
-    fi
-
-  else
-    if [ -n "$COL" ] && [ "$COL" != "0" ]; then
-      printf "\x03hx %s:%s:%s\r" "$FILE" "$LINE" "$COL" | wezterm cli send-text --pane-id "$PANE_ID" --no-paste
-    else
-      printf "\x03hx %s:%s\r" "$FILE" "$LINE" | wezterm cli send-text --pane-id "$PANE_ID" --no-paste
-    fi
-  fi
-
-  wezterm cli activate-pane --pane-id "$PANE_ID"
-
+    zellij action write-chars ":open $LOC" --pane-id "$TARGET_PANE_ID"
+    zellij action write 13 --pane-id "$TARGET_PANE_ID"
 else
-  if [ -n "$COL" ] && [ "$COL" != "0" ]; then
-    PANE_ID=$(wezterm cli split-pane --left hx "$FILE:$LINE:$COL")
-  else
-    PANE_ID=$(wezterm cli split-pane --left hx "$FILE:$LINE")
-  fi
-
-  wezterm cli activate-pane --pane-id "$PANE_ID"
+    zellij action write-chars "hx $LOC" --pane-id "$TARGET_PANE_ID"
+    zellij action write 13 --pane-id "$TARGET_PANE_ID"
 fi

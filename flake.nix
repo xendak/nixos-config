@@ -22,10 +22,14 @@
     };
 
     # :mine
+    zellij-pane-toggle = {
+      url = "path:./pkgs/zellij-pane-toggle";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     gobuild = {
       url = "github:xendak/gobuild";
-      inputs.nixpkgs.follows = "nixpkgs"; # reuse your nixpkgs
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # others
