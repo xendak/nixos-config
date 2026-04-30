@@ -1,9 +1,10 @@
 {
-  pkgs,
+  config,
+  lib,
   ...
 }:
 let
-
+  root = config.fileSystems."/";
   wipeScript = ''
     mkdir -p /mnt
 
@@ -42,22 +43,46 @@ let
     # we can unmount /mnt and continue on the boot process.
     umount /mnt
   '';
+  toSystemdDevice =
+    device:
+    lib.concatStringsSep "-" (
+      lib.tail (map (lib.replaceString "-" "\\x2d") (lib.splitString "/" device))
+    )
+    + ".device";
+  phase1Systemd = config.boot.initrd.systemd.enable;
 in
+# {
+#   boot.initrd.supportedFilesystems = [ "btrfs" ];
+#   # boot.initrd.postDeviceCommands = pkgs.lib.mkBefore wipeScript;
+#   boot.initrd.systemd.services.restore-root = {
+#     description = "Rollback BTRFS root to root-blank";
+#     path = [
+#       pkgs.btrfs-progs
+#       pkgs.coreutils
+#       pkgs.util-linux
+#     ];
+#     wantedBy = [ "initrd.target" ];
+#     after = [ "initrd-root-device.target" ];
+#     before = [ "sysroot.mount" ];
+#     unitConfig.DefaultDependencies = "no";
+#     serviceConfig.Type = "oneshot";
+#     script = wipeScript;
+#   };
 {
-  boot.initrd.supportedFilesystems = [ "btrfs" ];
-  # boot.initrd.postDeviceCommands = pkgs.lib.mkBefore wipeScript;
-  boot.initrd.systemd.services.restore-root = {
-    description = "Rollback BTRFS root to root-blank";
-    path = [
-      pkgs.btrfs-progs
-      pkgs.coreutils
-      pkgs.util-linux
-    ];
-    wantedBy = [ "initrd.target" ];
-    after = [ "initrd-root-device.target" ];
-    before = [ "sysroot.mount" ];
-    unitConfig.DefaultDependencies = "no";
-    serviceConfig.Type = "oneshot";
-    script = wipeScript;
+  boot.initrd = {
+    supportedFilesystems = [ "btrfs" ];
+    postDeviceCommands = lib.mkIf (!phase1Systemd) (lib.mkBefore wipeScript);
+    systemd.services.restore-root = lib.mkIf phase1Systemd {
+      description = "Rollback btrfs rootfs";
+      wantedBy = [ "initrd.target" ];
+      requires = [ (toSystemdDevice root.device) ];
+      after = [ (toSystemdDevice root.device) ];
+      before = [ "sysroot.mount" ];
+      unitConfig.DefaultDependencies = "no";
+      serviceConfig.Type = "oneshot";
+      script = wipeScript;
+    };
   };
+
+  fileSystems."/persist".neededForBoot = lib.mkDefault true;
 }

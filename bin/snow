@@ -1,0 +1,7 @@
+#!/bin/sh
+if nc -z -w 1 Snow 22; then
+  notify-send -i distributor-logo-nixos "SSH" "Launching : $*"
+  waypipe ssh snow "$@"
+else
+  notify-send -i distributor-logo-nixos "SSH" "Snow is currently offline."
+fi
