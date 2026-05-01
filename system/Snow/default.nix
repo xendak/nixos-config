@@ -20,8 +20,6 @@
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
-
-    inputs.aagl.nixosModules.default
   ];
 
   networking.hostName = "Snow";
@@ -97,11 +95,6 @@
     };
     enable = true;
   };
-
-  # genshin
-  programs.anime-game-launcher.enable = true;
-  # hsr
-  programs.honkers-railway-launcher.enable = true;
 
   environment.systemPackages = [
     pkgs.linuxKernel.packages.linux_zen.v4l2loopback # uncertain if still needed here..?

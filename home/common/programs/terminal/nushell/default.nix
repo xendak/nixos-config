@@ -71,6 +71,7 @@ in
             "WINEPREFIX"
             "EDITOR"
             "TERMBROWSER"
+            "TERMINAL"
             "FILEBROWSER"
             "HOSTNAME"
           ];
@@ -138,6 +139,15 @@ in
           source completion.nu
           source keys.nu
           source functions.nu
+
+          # if ($nu.is-interactive) and ($env.ZELLIJ? == null) {
+          #   let is_wezterm = ($env.TERMINAL? == "wezterm" or $env.TERM_PROGRAM? == "WezTerm")
+          #   let is_vscode = ($env.TERM_PROGRAM? == "vscode")
+          #   let is_emacs = ($env.INSIDE_EMACS? != null or $env.VTERM_VERSION? != null)
+          #   if not $is_wezterm and not $is_vscode and not $is_emacs{
+          #     exec zellij
+          #   }
+          # }
 
           $env.config = {
             edit_mode: vi,

@@ -33,7 +33,7 @@
             strider location="zellij:strider"
             tab-bar location="zellij:tab-bar"
             welcome-screen location="zellij:session-manager" {
-                welcome_screen true
+                welcome_screen false
             }
         }
 
@@ -49,13 +49,26 @@
             font "monospace"
         }
          
-        keybinds clear-defaults=true {
-            shared_except "locked" {
+        keybinds {
+            tmux clear-defaults=true {
+                bind "Ctrl f" { Write 2; SwitchToMode "Normal"; }
+                bind "Esc" { SwitchToMode "Normal"; }
+                bind "g" { SwitchToMode "Locked"; }
+                bind "p" { SwitchToMode "Pane"; }
+                bind "t" { SwitchToMode "Tab"; }
+                bind "n" { SwitchToMode "Resize"; }
+                bind "h" { SwitchToMode "Move"; }
+                bind "s" { SwitchToMode "Scroll"; }
+                bind "o" { SwitchToMode "Session"; }
+                bind "q" { Quit; }
+            }
+            normal clear-defaults=true {
+                bind "Ctrl f" { SwitchToMode "Tmux"; }
+                bind "Ctrl s" { SwitchToMode "Search"; }
                 bind "Alt w" { MoveFocus "Up"; }
                 bind "Alt a" { MoveFocus "Left"; }
                 bind "Alt s" { MoveFocus "Down"; }
                 bind "Alt d" { MoveFocus "Right"; }
-
                 bind "Alt j" {
                     MessagePlugin "file:${
                       inputs.zellij-pane-toggle.packages.${pkgs.stdenv.hostPlatform.system}.default

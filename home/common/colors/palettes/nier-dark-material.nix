@@ -13,13 +13,13 @@ let
     surface_container_low = "#121212";
     surface_container_high = "#333333";
 
-    dim = "#434343";
+    dim = "#636363";
     cursor_bg = "#6b8e23";
     cursor_fg = "#171a20";
   };
 
   overrides = {
-    comments = "#434343";
+    comments = "#636363";
     keywords = "#746e61";
     labels = "#538080";
     punctuation = "#9b8d7f";
@@ -34,8 +34,8 @@ let
     modules = "#556677";
     tags = "#506070";
 
-    surface_variant = "#bab5a1";
-    on_surface_variant = "#282828";
+    on_surface_variant = "#bab5a1";
+    surface_variant = "#1f1f27";
 
     selection_fg = must.bg;
     selection_bg = must.primary;

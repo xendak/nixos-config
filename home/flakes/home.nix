@@ -18,7 +18,6 @@
 
     ../common
     ../common/wayland
-    ../common/wayland/hyprland
     ../common/wayland/niri
     ../common/programs/terminal/nushell
     # ../common/wayland/swayfx
@@ -119,7 +118,10 @@
       GTK_THEME = "${config.gtk.theme.name}:dark";
       EDITOR = "hx";
       SUDO_EDITOR = "hx";
+
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
+      TERMINAL = lib.mkForce "foot";
+
       BROWSER = "zen-beta";
       FILEBROWSER = "dolphin";
       TERMBROWSER = "yazi";

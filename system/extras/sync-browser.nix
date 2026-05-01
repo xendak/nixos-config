@@ -139,7 +139,7 @@ in
   systemd.user.services."browser-sync-login" = {
     enable = true;
     description = "Restore browser data from persistent storage";
-    after = [ "hyprland-session.target" ];
+    after = [ "graphical.target" ];
     wantedBy = [ "default.target" ];
     serviceConfig = {
       Type = "oneshot";

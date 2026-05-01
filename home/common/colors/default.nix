@@ -39,6 +39,9 @@
         # FZF
         "fzf/colors" = "${home}/.config/fzf/colors";
 
+        # Zellij
+        "zellij/default.kdl" = "${home}/.config/zellij/themes/default.kdl";
+
         # Obsidian
         "obsidian/theme.css" = "${home}/Documents/Notes/xendak/.obsidian/snippets/material-theme.css";
         "obsidian/shiki.json" = "${home}/Documents/Notes/xendak/.obsidian/themes/shiki.json";

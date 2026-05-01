@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   ...
 }:
 {
@@ -20,6 +21,7 @@
       main = {
         font = "${config.fontProfiles.monospace.family}:size=12";
         pad = "15x15";
+        shell = "${pkgs.zellij}/bin/zellij attach -c main";
         term = "xterm-256color";
         include = "/home/${config.home.username}/.config/foot/colors.ini";
       };
