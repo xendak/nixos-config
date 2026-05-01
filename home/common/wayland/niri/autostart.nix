@@ -35,21 +35,21 @@ let
   ];
 
   desktopCommands = [
-    {
-      command = [
-        "sh"
-        "${bin_path}/bt-once.sh"
-      ];
-    }
-    {
-      command = [
-        "openrgb"
-        "-d"
-        "XPG Spectrix S40G"
-        "-m"
-        "Off"
-      ];
-    }
+    # {
+    #   command = [
+    #     "sh"
+    #     "${bin_path}/bt-once.sh"
+    #   ];
+    # }
+    # {
+    #   command = [
+    #     "openrgb"
+    #     "-d"
+    #     "XPG Spectrix S40G"
+    #     "-m"
+    #     "Off"
+    #   ];
+    # }
   ];
 in
 {
