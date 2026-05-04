@@ -61,6 +61,8 @@ in
         matches = [
           { app-id = "pavucontrol"; }
           { app-id = "f_terminal"; }
+          { app-id = "f_foot"; }
+          { app-id = "f_wez"; }
           { app-id = "f_yazi"; }
           { app-id = "Winetricks"; }
           { app-id = "deluge"; }

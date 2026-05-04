@@ -5,23 +5,64 @@
 }:
 let
   grimblast = "/home/${config.home.username}/Flake/bin/grimniri";
-  hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
+  # hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
   wpctl = "${pkgs.wireplumber}/bin/wpctl";
   brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
-  swaylock = "${config.programs.swaylock.package}/bin/swaylock";
+  # swaylock = "${config.programs.swaylock.package}/bin/swaylock";
   playerctl = "${config.services.playerctld.package}/bin/playerctl";
   wl-ocr-freeze = "/home/${config.home.username}/Flake/bin/wl-ocr-freeze";
 
   baseterminal = config.home.sessionVariables.TERMINAL;
   terminal =
-    if baseterminal == "wezterm" then
-      [
+    {
+      "wezterm" = [
         "wezterm"
         "start"
-      ]
-    else
-      baseterminal;
+      ];
+      "footclient" = [
+        "footclient"
+        "nu"
+        "-l"
+        "-c"
+        "zellij; nu"
+      ];
+    }
+    .${baseterminal} or [ baseterminal ];
+
+  fterminal =
+    {
+      "wezterm" = [
+        "wezterm"
+        "start"
+        "--class"
+        "f_wez"
+      ];
+      "footclient" = [
+        "footclient"
+        "-a"
+        "f_foot"
+      ];
+    }
+    .${baseterminal} or [ baseterminal ];
+
+  fyazi =
+    {
+      "wezterm" = [
+        "wezterm"
+        "start"
+        "--class"
+        "f_yazi"
+      ];
+      "footclient" = [
+        "footclient"
+        "-a"
+        "f_yazi"
+      ];
+    }
+    .${baseterminal} or [ baseterminal ];
+
   browser = config.home.sessionVariables.BROWSER;
+
   # editor = config.home.sessionVariables.EDITOR;
   filebrowser = config.home.sessionVariables.FILEBROWSER;
   termbrowser =
@@ -82,15 +123,8 @@ in
       "super+q".action = close-window;
       "super+w".action = spawn browser;
       "super+Return".action = spawn terminal;
-      "super+Shift+Return".action = spawn terminal [
-        "--class"
-        "f_terminal"
-      ];
-
-      "super+Shift+e".action = spawn terminal [
-        "--class"
-        "f_yazi"
-      ] termbrowser;
+      "super+Shift+Return".action = spawn fterminal;
+      "super+Shift+e".action = spawn fyazi termbrowser;
 
       "super+e".action = spawn filebrowser;
 

@@ -107,6 +107,8 @@ Singleton {
         "zen": "zen-browser",
         "zen-beta": "zen-browser",
         "f_terminal": "org.wezfurlong.wezterm",
+        "f_wez": "org.wezfurlong.wezterm",
+        "f_foot": "foot",
         "f_yazi": "yazi",
         "nu": "org.wezfurlong.wezterm",
         "btm": "utilities-system-monitor",

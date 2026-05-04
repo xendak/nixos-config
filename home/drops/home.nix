@@ -118,7 +118,7 @@
       EDITOR = "hx";
       SUDO_EDITOR = "hx";
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
-      TERMINAL = lib.mkForce "foot";
+      TERMINAL = lib.mkForce "footclient";
 
       BROWSER = "zen-beta";
       FILEBROWSER = "dolphin";

@@ -127,6 +127,11 @@ in
             urls = [ { template = "https://duckduckgo.com/?q={searchTerms}"; } ];
             definedAliases = [ "d" ];
           };
+          "applem" = {
+            name = "Apple Music";
+            urls = [ { template = "https://music.apple.com/us/search?term={searchTerms}"; } ];
+            definedAliases = [ "m" ];
+          };
           "perplexity".metaData.hidden = true;
           "bing".metaData.hidden = true;
           "ebay".metaData.hidden = true;

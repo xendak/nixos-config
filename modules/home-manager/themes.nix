@@ -46,6 +46,7 @@ let
       pkill -x "quickshell" || true
       sleep 0.2
       qs -d -c "/home/${config.home.username}/Flake/home/common/programs/quickshell/niri/"
+      foot --server
     '';
   };
 
