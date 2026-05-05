@@ -20,6 +20,7 @@
     pkgs.writeText "config.kdl"
       # kdl
       ''
+        show_startup_tips false
         plugins {
             about location="zellij:about"
             compact-bar location="zellij:compact-bar"
