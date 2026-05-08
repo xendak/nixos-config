@@ -129,7 +129,7 @@ impl State {
         for _ in 0..2 {
             resize_pane_with_id(
                 ResizeStrategy::new(Resize::Decrease, Some(Direction::Left)),
-                PaneID::Terminal(id),
+                PaneId::Terminal(id),
             );
         }
         rename_terminal_pane(id, "Command");

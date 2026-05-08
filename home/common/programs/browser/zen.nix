@@ -257,7 +257,7 @@ in
           };
           "SGA" = {
             id = "81c3f9a2-b47d-4e91-8f52-1d6e8a0c3baa";
-            url = "www.sistemas.pucminas.br/sgaaluno4/SilverStream/Pages/pgAln_LoginSSL.html";
+            url = "https://www.sistemas.pucminas.br/sgaaluno4/SilverStream/Pages/pgAln_LoginSSL.html";
             workspace = spaces."Study".id;
             position = 21;
           };
