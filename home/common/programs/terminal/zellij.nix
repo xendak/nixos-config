@@ -9,9 +9,26 @@
       # kdl
       ''
         layout {
-            pane name="Editor" focus=true
+            pane split_direction="vertical" {
+                pane name="Editor"
+            }
             pane size=1 borderless=true {
                 plugin location="zellij:status-bar"
+            }
+
+            swap_tiled_layout name="quake" {
+                tab exact_panes=2 {
+                    pane split_direction="vertical" {
+                        pane size="60%"
+                        pane size="40%"
+                    }
+                }
+            }
+
+            swap_floating_layout name="single_float" {
+                floating_panes exact_panes=1 {
+                    pane x="5%" y="5%" width="90%" height="90%"
+                }
             }
         }
       '';

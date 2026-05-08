@@ -3,7 +3,7 @@ use zellij_tile::prelude::*;
 
 #[derive(Default)]
 struct State {
-    managed: BTreeMap<String, u32>,
+    managed: BTreeMap<String, (u32, bool)>,
     pane_manifest: PaneManifest,
 }
 
@@ -45,32 +45,46 @@ impl State {
             .panes
             .values()
             .flat_map(|v| v.iter())
-            .find(|p| p.title == "Editor") // Matches the name in your default.kdl
+            .find(|p| p.title == "Editor")
             .and_then(|p| {
                 let pane_id = if p.is_plugin {
                     PaneId::Plugin(p.id)
                 } else {
                     PaneId::Terminal(p.id)
                 };
-
                 get_pane_cwd(pane_id).ok()
             })
             .map(|path| path.to_string_lossy().into_owned())
-            .unwrap_or_else(|| ".".into()) // Fallback to server root if not found
+            .unwrap_or_else(|| ".".into())
     }
 
     fn handle_toggle(&mut self, kind: &str) {
-        if let Some(&pane_id) = self.managed.get(kind) {
+        let destroy_on_toggle = kind == "horizontal";
+        let floating: bool = kind == "float";
+
+        if let Some(&(pane_id, is_hidden)) = self.managed.get(kind) {
             if self.pane_exists(pane_id) {
-                close_terminal_pane(pane_id);
-                self.managed.remove(kind);
+                let pid = PaneId::Terminal(pane_id);
+
+                if destroy_on_toggle {
+                    close_terminal_pane(pane_id);
+                    self.managed.remove(kind);
+                } else {
+                    if is_hidden {
+                        show_pane_with_id(pid, floating, true);
+                        self.managed.insert(kind.to_string(), (pane_id, false));
+                    } else {
+                        hide_pane_with_id(pid);
+                        self.managed.insert(kind.to_string(), (pane_id, true));
+                    }
+                }
                 return;
             } else {
                 self.managed.remove(kind);
             }
         }
-        let cwd = self.get_editor_cwd();
 
+        let cwd = self.get_editor_cwd();
         let new_id = match kind {
             "float" => self.open_float(&cwd),
             "vertical" => self.open_vertical(&cwd),
@@ -79,7 +93,7 @@ impl State {
         };
 
         if let Some(id) = new_id {
-            self.managed.insert(kind.to_string(), id);
+            self.managed.insert(kind.to_string(), (id, false));
         }
     }
 
@@ -114,12 +128,7 @@ impl State {
             _ => None,
         })?;
         rename_terminal_pane(id, "Quake");
-        for _ in 0..4 {
-            resize_pane_with_id(
-                ResizeStrategy::new(Resize::Decrease, Some(Direction::Left)),
-                PaneId::Terminal(id),
-            );
-        }
+
         Some(id)
     }
 
@@ -128,7 +137,7 @@ impl State {
             Some("0%".into()),
             Some("60%".into()),
             Some("100%".into()),
-            Some("45%".into()),
+            Some("40%".into()),
             None,
             None,
         );
