@@ -11,7 +11,6 @@ register_plugin!(State);
 
 impl ZellijPlugin for State {
     fn load(&mut self, _config: BTreeMap<String, String>) {
-        set_selectable(false);
         request_permission(&[
             PermissionType::OpenTerminalsOrPlugins,
             PermissionType::ReadApplicationState,
@@ -127,7 +126,13 @@ impl State {
             PaneId::Terminal(id) => Some(id),
             _ => None,
         })?;
-        rename_terminal_pane(id, "Quake");
+        for _ in 0..2 {
+            resize_pane_with_id(
+                ResizeStrategy::new(Resize::Decrease, Some(Direction::Left)),
+                PaneID::Terminal(id),
+            );
+        }
+        rename_terminal_pane(id, "Command");
 
         Some(id)
     }
