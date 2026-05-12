@@ -14,7 +14,7 @@ let
     "org.el"
   ];
 
-  keyboardLayout = if host == "Dew" then "qwerty.el" else "rain.el";
+  keyboardLayout = if host == "wsl" then "rain.el" else "qwerty.el";
 
   startupFiles = baseFiles ++ [ keyboardLayout ];
 

@@ -144,6 +144,8 @@
   :defer 1
   :bind (("C-c v" . vertico-repeat)
          (:map vertico-map
+               ("TAB" . vertico-next)
+               ("<backtab>" . vertico-previous)
                ("<return>" . vertico-directory-enter)
                ("<backspace>" . vertico-directory-delete-char)
                ("M-<backspace>" . vertico-directory-delete-word)
@@ -219,8 +221,7 @@
 (use-package embark-consult
   :defer 1
   :hook
-  (embark-collect-mode . consult-preview-at-point-mode)
-  :config (consult-preview-at-point-mode)) 
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (setq read-file-name-function #'consult-find-file-with-preview)
 

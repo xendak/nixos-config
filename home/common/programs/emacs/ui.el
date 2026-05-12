@@ -80,7 +80,10 @@
             (format-mode-line
              '(" "
                (:eval
-                (let* ((ind (substring (meow-indicator) 1 2))
+                (let* ((raw (and (fboundp 'meow-indicator) (meow-indicator)))
+                       (ind (if (and raw (> (length raw) 1))
+                                (substring raw 1 2)
+                              "?"))
                        (colors (ntf/get-meow-indicator-colors ind)))
                   (propertize (concat " " ind " ") 'face `(:background ,(car colors) :foreground ,(cadr colors) :weight bold))))
                " %* "

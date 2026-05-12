@@ -200,6 +200,16 @@
         (meow--make-selection '(expand . transient) m p t)
         (meow--select t)))))
 
+(defun my/maybe-enable-meow-normal ()
+  (when (and (not (minibufferp))
+             (not buffer-read-only))
+    (meow-normal-mode 1)))
+(dolist (hook '(warnings-mode-hook
+                messages-buffer-mode-hook
+                lisp-interaction-mode-hook
+                ))
+  (add-hook hook #'my/maybe-enable-meow-normal))
+
 (message "---> functions.el loaded successfully!")
 
 (provide 'functions)
