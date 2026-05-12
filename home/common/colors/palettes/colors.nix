@@ -162,6 +162,8 @@ let
 
 in
 rec {
+  hexToHsl = hex: rgbToHsl (toRGB hex);
+
   toRGB =
     hex:
     let

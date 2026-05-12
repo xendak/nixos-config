@@ -14,11 +14,11 @@
     (setq meow-selection-command-fallback
           '((meow-change . meow-change-char)
             (meow-kill . meow-delete)
+            (meow-replace . my-replace)
             (meow-cancel-selection . keyboard-quit)
             (meow-pop-selection . meow-pop-grab)
             (meow-beacon-change . meow-beacon-change-char)))
     (meow-leader-define-key
-     ;; Digit arguments
      '("1" . meow-digit-argument)
      '("2" . meow-digit-argument)
      '("3" . meow-digit-argument)
@@ -30,55 +30,26 @@
      '("9" . meow-digit-argument)
      '("0" . meow-digit-argument)
      
-     ;; General commands
      '("SPC" . meow-M-x)
      '("<SPC>" . meow-M-x)
-     ; '("I" . execute-extended-command)
-     
-     ;; FIGURE THIS OUT,TIS NOT GOOD ATM
-     '("o" . (lambda () (interactive)
-	       (if (project-current nil)
-		   (call-interactively #'project-eshell)
-		 (call-interactively #'eshell))))
 
-     '("d" . (lambda () (interactive)
-	       (if (project-current nil)
-		   (call-interactively #'project-find-file)
-		 (call-interactively #'find-file))))
+     '("o" . my-smart-eshell)
+     '("d" . my-smart-find-file)
+     '(";" . my-smart-compile)
+     '("a" . my-smart-dired)
+     '("n" . my-compile-and-run)
+     '("," . my-smart-switch-buffer)
+
      '("D" . find-file)
-
-     '("a" . (lambda () (interactive)
-	       (if (project-current nil)
-		   (call-interactively #'project-dired)
-		 (call-interactively #'dired))))
      '("O" . dired)
-
-     '("," . (lambda ()
-	       (interactive)
-	       (if (eq major-mode 'erc-mode)
-		   (call-interactively #'erc-switch-to-buffer)
-		 (if (project-current nil)
-		     (call-interactively #'project-switch-to-buffer)
-		   (call-interactively #'switch-to-buffer)))))
-     '("," . switch-to-buffer)
-
      '("h" . kill-buffer)
      '("H" . project-kill-buffers)
      '("b" . project-switch-project)
-
-     '("n" . my-prefix-key)
-
      '("f" . other-window)
      '("F" . delete-window)
      '("I" . previous-buffer)
      '("A" . next-buffer)
      '("`" . vterm-other-window)
-     '(";" . (lambda ()
-           (interactive)
-           (if (project-current nil)
-               (call-interactively #'project-compile)
-             (call-interactively #'compile))))
-     ; '(";" . compile)
      '("l" . imenu)
      '("P" . meow-keypad-describe-key)
      '("?" . meow-cheatsheet))
@@ -112,8 +83,9 @@
      '("A" . meow-left-expand)
      '("D" . meow-right-expand)
 
-     '("q" . meow-back-word)
-     '("Q" . meow-back-symbol)
+     '("q" . meow-reverse)
+     '("f" . meow-back-word)
+     '("F" . meow-back-symbol)
      '("e" . meow-next-word)
      '("E" . meow-next-symbol)
 
@@ -131,24 +103,22 @@
      '("B" . meow-pop-selection)
 
      '("." . meow-till)
-     '("r" . meow-find)
+     '("," . meow-find)
 
      '("c" . meow-beginning-of-thing)
      '("v" . meow-end-of-thing)
      '("C" . meow-inner-of-thing)
      '("V" . meow-bounds-of-thing)
 
-     '("{" . indent-rigidly-left-to-tab-stop)
-     '("}" . indent-rigidly-right-to-tab-stop)
-
      ; editing
      ; '("q" . open-line)
      ; '("Q" . split-line)
 
-     '("j" . meow-kill)
+     '("j" . meow-backward-delete)
+     '("J" . meow-kill-to-eol)
      '("k" . meow-change)
      '("K" . meow-change-line)
-     '("m" . meow-delete)
+     '("m" . meow-kill)
      '("n" . meow-save)
      '("N" . meow-save-clipboard)
      '("g" . meow-yank)
@@ -164,100 +134,54 @@
      '("u" . undo-only)
      '("U" . undo-redo)
 
+     '("r" . meow-replace)
+
      '("y" . meow-kmacro)
      '("Y" . kmacro-call-macro)
 
      ; hard paragraph movement
      '("[" . backward-paragraph)
      '("]" . forward-paragraph)
+     '("{" . meow-backward-paragraph-expand)
+     '("}" . meow-forward-paragraph-expand)
+     '("<" . indent-rigidly-left-to-tab-stop)
+     '(">" . indent-rigidly-right-to-tab-stop)
+
 
      ; prefixed keys?
-     '("' r" . meow-replace)
-     '("' ," . meow-reverse)
-     '("' '" . negative-argument)
-     '("' u" . meow-undo-in-selection)
-     '("' c" . meow-comment)
-     '("' W" . delete-window)
-     '("' q" . kill-current-buffer)
-     '("' s" . save-buffer)
-     '("' <SPC> s" . save-some-buffers)
-     '("' <SPC> q" . save-buffers-kill-terminal)
-
+     '("'" . my-prefix-key)
      '("<escape>" . ignore)))
 
   :config
   (meow-setup)
   (meow-global-mode))
 
-(defun goto-match-paren (arg)
-  "Go to the matching paren/bracket, similar to vi's %."
-  (interactive "p")
-  (cond ((looking-at "\\s(") (forward-list 1) (backward-char 1))
-        ((looking-at "\\s)") (forward-char 1) (backward-list 1))))
-
-(defun my/dired-setup ()
-  (define-key dired-mode-map (kbd "Z") 'my/dired-zoxide-jump))
-
-(add-hook 'dired-mode-hook 'my/dired-setup)
-
-(defun my/dired-zoxide-jump ()
-  (interactive)
-  (let* ((zoxide-output (shell-command-to-string "zoxide query -l"))
-         (dirs (split-string zoxide-output "\n" t))
-         (selected-dir (completing-read "Jump to: " dirs)))
-    (when selected-dir
-      (dired selected-dir))))
-
-(defun vterm-other-window ()
-  (interactive)
-  (let ((buf (generate-new-buffer "*vterm*")))
-    (switch-to-buffer-other-window buf)
-    (vterm-mode)))
-
-;; -------------------- ;;
-;;         UTILS        ;;
-;; -------------------- ;;
-
 (defvar my-prefix-key
   (let ((keymap (make-keymap)))
-	(define-key keymap "b" #'meow-undo-in-selection)
-	(define-key keymap "u" #'next-buffer)
-	(define-key keymap "o" #'previous-buffer)
-    (define-key keymap "m" #'kmacro-edit-macro)
-    (define-key keymap "y" #'meow-comment)
-	(define-key keymap "q" #'kill-current-buffer)
-	(define-key keymap "w" #'delete-window)
+	(define-key keymap "d" #'next-buffer)
+	(define-key keymap "a" #'previous-buffer)
+    (define-key keymap "q" #'kmacro-edit-macro)
+	(define-key keymap "w" #'kill-current-buffer)
+    (define-key keymap "W" #'delete-window)
+    (define-key keymap "," #'meow-reverse)
+    (define-key keymap "'" #'negative-argument)
+    (define-key keymap "u" #'meow-undo-in-selection)
+    (define-key keymap "c" #'meow-comment)
+    (define-key keymap "s" #'save-buffer)
+    (define-key keymap "<SPC> s" #'save-some-buffers)
+    (define-key keymap "<SPC> q" #'save-buffers-kill-terminal)
     keymap))
 (defalias 'my-prefix-key my-prefix-key)
-(global-set-key (kbd "C-c n") 'my-prefix-key)
 
-(defun meow-change-line ()
-  "Kill till end of line and switch to INSERT state."
-  (interactive)
-  (let ((beg (point)))
-    (end-of-line)
-    (delete-region beg (point))
-    (meow-insert-mode)))
-
-(defun meow-save-clipboard ()
-  "Copy in clipboard."
-  (interactive)
-  (let ((meow-use-clipboard t))
-    (meow-save)))
-
-(defun meow-smart-reverse ()
-  "Reverse selection or begin negative argument."
-  (interactive)
-  (if (use-region-p)
-      (meow-reverse)
-    (negative-argument nil)))
-
-(defun meow-kmacro ()
-  "Toggle recording of kmacro."
-  (interactive)
-  (if defining-kbd-macro
-      (kmacro-end-macro)
-    (kmacro-start-macro)))
+(defvar my-compile-and-run
+  (let ((keymap (make-sparse-keymap)))
+    (define-key keymap "c" #'compile)
+    (define-key keymap "r" #'my-run-program)
+    (define-key keymap "e" #'my-eshell-run-program)
+    (define-key keymap "i" #'my-vterm-run-program)
+    (define-key keymap "a" #'previous-error)
+    (define-key keymap "d" #'next-error)
+    keymap))
 
 (meow-thing-register 'angle
                      '(pair ("<") (">"))
@@ -266,18 +190,12 @@
 (setq meow-char-thing-table
       '((?j . round)
         (?k . square)
-        (?l . curly)
+        (?l . line)
         (?\; . angle)
         (?' . defun)
         (?m . string)
         (?, . paragraph)
-        (?. . line)
+        (?. . curly)
         (?/ . buffer)))
-
-; if i dont know the command name.. this is useful
-(let ((current-command (lookup-key (current-global-map) (kbd "C-x C-c"))))
-  (when current-command
-    (global-set-key (kbd "C-x C-q") current-command)
-    (global-unset-key (kbd "C-x C-c"))))
 
 (message "---> binds.el loaded successfully!")

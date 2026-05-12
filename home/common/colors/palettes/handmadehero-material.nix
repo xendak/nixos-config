@@ -14,14 +14,15 @@ let
     surface_container_low = "#101010";
     surface_container_high = "#262626";
 
-    dim = "#686868";
+    dim = "#909090";
 
     cursor_bg = "#00ee00";
     cursor_fg = "#0c0c0c";
   };
 
+  # testing comment
   overrides = {
-    comments = "#686868";
+    comments = "#787878";
     keywords = "#ac7b0b";
     labels = "#dab98f";
     punctuation = "#907553";

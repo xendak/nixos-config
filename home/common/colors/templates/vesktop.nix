@@ -1,10 +1,41 @@
 { lib, paletteSet, ... }:
+# @import url('https://refact0r.github.io/system24/build/system24.css');
+# .content_f75fb0 {
+#   gap: var(--gap);
+# }
+
+# .interactive_bf202d {
+#   color: var(--interactive-text-default) !important;
+# }
+
+# .title_c38106 {
+# 	opacity: 0 !important;
+# 	display: none;
+# }
+
+# .c38106a3f0c3ca76-title {
+#   display: none;
+# }
+
+# .c38106a3f0c3ca76-winButton {
+#   width: 32px !important;
+#   height: 32px !important;
+# }
+
+# .trailing_c38106 {
+#   top: calc(var(--top-bar-height) + var(--border-thickness));
+#   right: calc(var(--gap) + var(--border-thickness));
+#   gap: var(--space-xs);
+#   z-index: 1000;
+#   height: 32px;
+#   position: relative !important;
+# }
 let
   p = paletteSet.palette;
   rawCss =
     # css
     ''
-      @import url('https://refact0r.github.io/midnight-discord/build/midnight.css');
+      @import url('https://refact0r.github.io/system24/build/system24.css');
       body {
       	--font: 'Sofia Pro';
 
@@ -18,8 +49,8 @@ let
         --move-top-bar-buttons: on;
         --custom-app-top-bar-height: 12px;
 
-        --custom-window-controls: on;
-        --window-control-size: 36px;
+        --custom-window-controls: false;
+        --window-control-size: 18px;
 
         --dms-icon: on;
         --dms-icon-svg-size: 90%;
@@ -48,7 +79,7 @@ let
         --text-1: ${p.on_surface};
         --text-2: ${p.on_surface};
         --text-3: ${p.on_surface};
-        --text-4: ${p.on_surface};
+        --text-4: ${p.dim};
         --text-5: ${p.comments};
 
         --bg-1: ${p.surface_container};
@@ -117,38 +148,6 @@ let
         --purple-4: oklch(58% 0.11 310);
         --purple-5: oklch(52% 0.11 310);
       }
-
-      .content_f75fb0 {
-        gap: var(--gap);
-      }
-
-      .interactive_bf202d {
-        color: var(--interactive-text-default) !important;
-      }
-
-      .title_c38106 {
-      	opacity: 0 !important;
-      	display: none;
-      }
-
-      .c38106a3f0c3ca76-title {
-        display: none;
-      }
-
-      .c38106a3f0c3ca76-winButton {
-        width: 32px !important;
-        height: 32px !important; 
-      }
-
-      .trailing_c38106 {
-        top: calc(var(--top-bar-height) + var(--border-thickness));
-        right: calc(var(--gap) + var(--border-thickness));
-        gap: var(--space-xs);
-        z-index: 1000;
-        height: 32px;
-        position: relative !important;
-      }
-
     '';
   escapedCss = lib.concatStringsSep "\n" (lib.splitString "\n" rawCss);
 
@@ -171,3 +170,151 @@ in
   "vesktop/quickCss.css" = rawCss;
   "discord/settings.json" = builtins.toJSON jsonStructure;
 }
+
+# {
+#   lib,
+#   config,
+#   paletteSet,
+#   ...
+# }:
+# let
+#   p = paletteSet.palette;
+#   f = config.fontProfiles;
+
+#   colorUtils = import ../palettes/colors.nix { inherit lib; };
+#   accentHsl = colorUtils.hexToHsl p.primary;
+#   alertHsl = colorUtils.hexToHsl p.error;
+#   warningHsl = colorUtils.hexToHsl p.yellow;
+
+#   rawCss =
+#     # css
+#     ''
+#       /* Import Material Discord and the Material You Addon */
+#       @import url("https://capnkitten.github.io/BetterDiscord/Themes/Material-Discord/css/source.css");
+#       @import url("https://capnkitten.github.io/BetterDiscord/Themes/Material-Discord/css/addons/material-you/source.css");
+
+#       .theme-dark {
+#         --saturation-modifier: 0.31;
+#         --lightness-modifier: 0.225;
+#         --text-lightness-modifier: 1;
+#         --ui-darkness-modifier: 1;
+#       }
+
+#       .theme-light {
+#         --saturation-modifier: 0.74;
+#         --lightness-modifier: 2.125;
+#         --text-lightness-modifier: 1;
+#       }
+
+#       :root {
+#         --app-font: "${f.regular.family}";
+#         --app-font-width: 100;
+#         --app-font-roundness: 100;
+
+#         --app-bg: ${p.bg};
+#         --main-color: ${p.surface_container};
+#         --main-alt: ${p.surface_container_low};
+#         --server-color: transparent;
+#         --status-picker-color: ${p.surface_container_high};
+#         --sidebar-panel-color: ${p.surface_container_high};
+#         --chat-color: ${p.bg};
+#         --avatar-radius: 24px;
+
+#         --accent-hue: ${toString accentHsl.h};
+#         --accent-saturation: ${toString accentHsl.s}%;
+#         --accent-lightness: ${toString accentHsl.l}%;
+#         --accent-text-color: ${p.on_primary};
+#         --accent-button-action: ${p.primary};
+
+#         --alert-hue: ${toString alertHsl.h};
+#         --alert-saturation: ${toString alertHsl.s}%;
+#         --alert-lightness: ${toString alertHsl.l}%;
+#         --alert-text-color: ${p.on_error};
+
+#         --warning-hue: ${toString warningHsl.h};
+#         --warning-saturation: ${toString warningHsl.s}%;
+#         --warning-lightness: ${toString warningHsl.l}%;
+#         --warning-text-color: ${p.on_surface};
+
+#         --message-color: ${p.surface_container};
+#         --message-color-hover: ${p.surface_container_high};
+#         --message-color-alt: ${p.surface_container_highest};
+#         --message-radius: 18px;
+#         --message-padding-top: 8px;
+#         --message-padding-side: 12px;
+
+#         --media-radius: 10px;
+#         --attachment-color: ${p.surface_variant};
+
+#         --main-textarea-color: ${p.surface_container_high};
+#         --main-textarea-color-alt: ${p.surface_container_highest};
+#         --main-textarea-border: ${p.outline_variant};
+#         --main-textarea-radius: 24px;
+
+#         --input-color: ${p.surface_variant};
+#         --input-color-alt: ${p.surface_container_high};
+#         --input-border-color: ${p.outline};
+#         --input-text-color: ${p.on_surface};
+#         --input-placeholder-color: ${p.on_surface_variant};
+#         --input-height: 40px;
+#         --input-padding: 12px;
+
+#         --popout-color: ${p.surface_container};
+#         --popout-color-alt: ${p.surface_container_high};
+#         --popout-header-border: ${p.outline_variant};
+#         --separator-color: ${p.outline_variant};
+#         --popout-radius: 8px;
+#         --popout-radius-big: 18px;
+
+#         --card-color-filled: ${p.surface_variant};
+#         --card-color-hover: ${p.surface_container_highest};
+#         --card-color-active: ${p.surface_container_high};
+#         --card-color-alt: ${p.surface};
+#         --card-color-alt-hover: ${p.surface_container};
+#         --card-border-color: ${p.outline_variant};
+#         --card-header-text-color: ${p.on_surface};
+#         --card-radius: 8px;
+#         --card-radius-big: 18px;
+
+#         --button-height: 40px;
+#         --button-padding: 0 24px;
+#         --button-radius: 18px;
+#         --button-link-color: transparent;
+#         --button-link-text-color: ${p.on_surface};
+
+#         --switch-knob-color: ${p.outline};
+#         --switch-slider-color: ${p.surface_variant};
+
+#         --tooltip-color: ${p.inverse_surface};
+#         --tooltip-text-color: ${p.inverse_on_surface};
+#         --tooltip-font-size: 12px;
+#         --tooltip-padding: 8px;
+#         --tooltip-radius: 8px;
+
+#         --scrollbar-color: ${p.surface_variant};
+#         --scrollbar-width: 10px;
+#         --scrollbar-thin-width: 6px;
+#       }
+#     '';
+
+#   escapedCss = lib.concatStringsSep "\n" (lib.splitString "\n" rawCss);
+
+#   jsonStructure = {
+#     SKIP_HOST_UPDATE = true;
+#     openasar = {
+#       setup = true;
+#       quickstart = true;
+#       css = escapedCss;
+#     };
+#     BACKGROUND_COLOR = "${p.bg}";
+#     offloadAdmControls = false;
+#     enableHardwareAcceleration = true;
+#     chromiumSwitches = { };
+#     MINIMIZE_TO_TRAY = false;
+#     OPEN_ON_STARTUP = false;
+#   };
+# in
+# {
+#   "vesktop/quickCss.css" = rawCss;
+#   "discord/settings.json" = builtins.toJSON jsonStructure;
+# }

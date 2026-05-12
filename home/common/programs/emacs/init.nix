@@ -9,6 +9,7 @@ let
 
   baseFiles = [
     "config.el"
+    "functions.el"
     "ui.el"
     "org.el"
   ];

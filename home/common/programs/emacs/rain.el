@@ -117,50 +117,26 @@
      '("<SPC>" . meow-M-x)
      ; '("I" . execute-extended-command)
      
-     ;; FIGURE THIS OUT,TIS NOT GOOD ATM
-     '("o" . (lambda () (interactive)
-	       (if (project-current nil)
-		   (call-interactively #'project-eshell)
-		 (call-interactively #'eshell))))
-
-     '("d" . (lambda () (interactive)
-	       (if (project-current nil)
-		   (call-interactively #'project-find-file)
-		 (call-interactively #'find-file))))
+     '("o" . my-smart-eshell)
+     '("d" . my-smart-find-file)
+     '(";" . my-smart-compile)
+     '("a" . my-smart-dired)
+     '("n" . my-compile-and-run)
+     '("," . my-smart-switch-buffer)
+     
      '("D" . find-file)
-
-     '("a" . (lambda () (interactive)
-	       (if (project-current nil)
-		   (call-interactively #'project-dired)
-		 (call-interactively #'dired))))
      '("O" . dired)
-
-     '("," . (lambda ()
-	       (interactive)
-	       (if (eq major-mode 'erc-mode)
-		   (call-interactively #'erc-switch-to-buffer)
-		 (if (project-current nil)
-		     (call-interactively #'project-switch-to-buffer)
-		   (call-interactively #'switch-to-buffer)))))
      '("," . switch-to-buffer)
 
      '("h" . kill-buffer)
      '("H" . project-kill-buffers)
      '("b" . project-switch-project)
 
-     '("n" . compile-and-run)
-
      '("f" . other-window)
      '("F" . delete-window)
      '("I" . previous-buffer)
      '("A" . next-buffer)
      '("`" . vterm-other-window)
-     '(";" . (lambda ()
-           (interactive)
-           (if (project-current nil)
-               (call-interactively #'project-compile)
-             (call-interactively #'compile))))
-     ; '(";" . compile)
      '("l" . imenu)
      '("P" . meow-keypad-describe-key)
      '("?" . meow-cheatsheet))
@@ -251,15 +227,7 @@
      '("'" . forward-paragraph)
 
      ; prefixed keys?
-     '("r r" . meow-replace)
-     '("r ," . meow-reverse)
-     '("r '" . negative-argument)
-     '("r u" . meow-undo-in-selection)
-     '("r c" . meow-comment)
-     '("r W" . delete-window)
-     '("r q" . kill-current-buffer)
-     '("r s" . save-buffer)
-     '("r <SPC> s" . save-some-buffers)
+     '("r" . my-prefix-key)
 
      '("<escape>" . ignore)))
 
@@ -267,110 +235,23 @@
   (meow-setup)
   (meow-global-mode))
 
-(defun goto-match-paren (arg)
-  "Go to the matching paren/bracket, similar to vi's %."
-  (interactive "p")
-  (cond ((looking-at "\\s(") (forward-list 1) (backward-char 1))
-        ((looking-at "\\s)") (forward-char 1) (backward-list 1))))
+(defvar my-prefix-key
+  (let ((keymap (make-keymap)))
+	(define-key keymap "t" #'next-buffer)
+	(define-key keymap "s" #'previous-buffer)
+    (define-key keymap "k" #'kmacro-edit-macro)
+    (define-key keymap "y" #'meow-comment)
+	(define-key keymap "w" #'kill-current-buffer)
+    (define-key keymap "q" #'delete-window)
+    (define-key keymap "," #'meow-reverse)
+    (define-key keymap "'" #'negative-argument)
+    (define-key keymap "u" #'meow-undo-in-selection)
+    (define-key keymap "<SPC> s" #'save-buffer)
+    (define-key keymap "<SPC> q" #'save-buffers-kill-terminal)
+    keymap))
 
-(defun my/dired-setup ()
-  (define-key dired-mode-map (kbd "Z") 'my/dired-zoxide-jump))
 
-(add-hook 'dired-mode-hook 'my/dired-setup)
-
-(defun my/dired-zoxide-jump ()
-  (interactive)
-  (let* ((zoxide-output (shell-command-to-string "zoxide query -l"))
-         (dirs (split-string zoxide-output "\n" t))
-         (selected-dir (completing-read "Jump to: " dirs)))
-    (when selected-dir
-      (dired selected-dir))))
-
-(defun vterm-other-window ()
-  (interactive)
-  (let ((buf (generate-new-buffer "*vterm*")))
-    (switch-to-buffer-other-window buf)
-    (vterm-mode)))
-
-;; Compile and Run
-(defvar my-run-command nil
-  "The last command used to *run* the compiled program.")
-(defvar my-run-command-history nil
-  "History for `my-run-command`.")
-
-(defun my-run-program (command)
-  "Run COMMAND as a compilation job."
-  (interactive
-   (let ((command (read-shell-command "Run command: " my-run-command 'my-run-command-history)))
-     (list command)))
-  (setq my-run-command command)
-  (add-to-history 'my-run-command-history my-run-command)
-  (compile command))
-
-(defun my-vterm-run-program (command)
-  "Run COMMAND in an interactive VTerm."
-  (interactive
-   (let ((command (read-shell-command "Run command: " my-run-command 'my-run-command-history)))
-     (list command)))
-  (setq my-run-command command)
-  (add-to-history 'my-run-command-history my-run-command)
-  
-  (let ((project-dir (or (and (fboundp 'project-root) (project-root (project-current t)))
-                         default-directory)))
-    
-    (cond
-     ((and (fboundp 'projectile-project-root)
-           (projectile-project-root)
-           (fboundp 'projectile-run-vterm-other-window))
-      (projectile-run-vterm-other-window))
-     (t
-      (require 'vterm)
-      (vterm-other-window)))
-    
-    (let ((vterm-buffer (current-buffer)))
-      (while (not (get-buffer-process vterm-buffer))
-        (sleep-for 0.1))
-      
-      (let ((current-dir (with-current-buffer vterm-buffer default-directory)))
-        (unless (string-equal (file-truename current-dir) (file-truename project-dir))
-          (vterm-send-string (format "cd %s\n" (shell-quote-argument project-dir)))
-          (sleep-for 0.1)))
-      
-      (vterm-send-string "clear\n")
-      (sleep-for 0.1)
-      (vterm-send-string (format "%s; exit\n" command))
-      
-      (set-process-sentinel
-       (get-buffer-process vterm-buffer)
-       (lambda (proc event)
-         (when (memq (process-status proc) '(exit signal))
-           (when (buffer-live-p (process-buffer proc))
-             (kill-buffer (process-buffer proc)))))))))
-
-(defun my-eshell-run-program (command)
-  "Run COMMAND in an interactive Eshell"
-  (interactive
-   (let ((command (read-shell-command "Run command: " my-run-command 'my-run-command-history)))
-     (list command)))
-
-  (setq my-run-command command)
-  (add-to-history 'my-run-command-history my-run-command)
-
-  (let ((project-dir (or (and (fboundp 'project-root) (project-root (project-current t)))
-                         default-directory)))
-
-    (if (fboundp 'project-eshell)
-        (call-interactively #'project-eshell)
-      (let ((default-directory project-dir))
-        (call-interactively #'eshell)))
-
-    (with-current-buffer (current-buffer)
-      (goto-char (point-max))
-      (insert command)
-      (eshell-send-input))
-    ))
-
-(defvar compile-and-run
+(defvar my-compile-and-run
   (let ((keymap (make-sparse-keymap)))
     (define-key keymap "c" #'compile)
     (define-key keymap "r" #'my-run-program)
@@ -379,36 +260,6 @@
     (define-key keymap "," #'previous-error)
     (define-key keymap "'" #'next-error)
     keymap))
-
-(global-set-key (kbd "C-c n") compile-and-run)
-
-(defun meow-change-line ()
-  "Kill till end of line and switch to INSERT state."
-  (interactive)
-  (let ((beg (point)))
-    (end-of-line)
-    (delete-region beg (point))
-    (meow-insert-mode)))
-
-(defun meow-save-clipboard ()
-  "Copy in clipboard."
-  (interactive)
-  (let ((meow-use-clipboard t))
-    (meow-save)))
-
-(defun meow-smart-reverse ()
-  "Reverse selection or begin negative argument."
-  (interactive)
-  (if (use-region-p)
-      (meow-reverse)
-    (negative-argument nil)))
-
-(defun meow-kmacro ()
-  "Toggle recording of kmacro."
-  (interactive)
-  (if defining-kbd-macro
-      (kmacro-end-macro)
-    (kmacro-start-macro)))
 
 (meow-thing-register 'angle
                      '(pair ("<") (">"))
@@ -424,11 +275,5 @@
         (?\; . paragraph)
         (?_ . line)
         (?z . buffer)))
-
-; if i dont know the command name.. this is useful
-(let ((current-command (lookup-key (current-global-map) (kbd "C-x C-c"))))
-  (when current-command
-    (global-set-key (kbd "C-x C-q") current-command)
-    (global-unset-key (kbd "C-x C-c"))))
 
 (message "---> binds.el loaded successfully!")
