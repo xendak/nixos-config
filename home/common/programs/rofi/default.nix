@@ -5,20 +5,45 @@
 }:
 let
   m = builtins.elemAt config.monitors 0;
-  fm_height =
-    if m.height == 1440 then
-      "398"
-    else if m.height == 1080 then
-      "247"
-    else
-      "200";
-  fm_width =
-    if m.height == 1440 then
-      "600"
-    else if m.height == 1080 then
-      "350"
-    else
-      "200";
+  hStr = toString m.height;
+
+  # Resolution-to-Size Mapping
+  resSettings = {
+    "1440" = {
+      fm = {
+        h = "398";
+        w = "600";
+      };
+    };
+    "1080" = {
+      fm = {
+        h = "247";
+        w = "350";
+      };
+    };
+    "720" = {
+      fm = {
+        h = "140";
+        w = "240";
+      };
+    };
+  };
+
+  # Fallback settings for unknown resolutions
+  fallback = {
+    fm = {
+      h = "100";
+      w = "200";
+    };
+    im = {
+      h = "80";
+      w = "20";
+    };
+  };
+
+  cfg = resSettings.${hStr} or fallback;
+
+  fm = cfg.fm;
 in
 {
   home.packages = with pkgs; [ rofi ];
@@ -44,7 +69,7 @@ in
         confirm_cmd() {
           rofi -dmenu -p 'Confirmation' -mesg 'Are you Sure?' -theme "$theme" \
             -theme-str 'window {location: center; anchor: center; fullscreen: true;}' \
-            -theme-str 'mainbox {children: [ "message", "listview" ]; margin: ${fm_height}px ${fm_width}px;}'
+            -theme-str 'mainbox {children: [ "message", "listview" ]; margin: ${fm.h}px ${fm.w}px;}'
         }
 
         selected="$(echo -e "$lock\n$suspend\n$logout\n$reboot\n$shutdown" | rofi_cmd)"

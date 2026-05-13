@@ -250,15 +250,15 @@ let
       "${config.xdg.configHome}/rofi/config.rasi"
     ];
 
-    "super+,".action = spawn [
+    "super+n".action = spawn [
       "dunstctl"
       "close-all"
     ];
-    "super+Shift+,".action = spawn [
+    "super+Shift+n".action = spawn [
       "dunstctl"
       "close"
     ];
-    "super+Control+,".action = spawn [
+    "super+Control+n".action = spawn [
       "dunstctl"
       "context"
     ];

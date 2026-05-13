@@ -7,34 +7,75 @@ let
   p = paletteSet.palette;
 
   m = builtins.elemAt config.monitors 0;
-  fm_height =
-    if m.height == 1440 then
-      "398"
-    else if m.height == 1080 then
-      "247"
-    else
-      "200";
-  fm_width =
-    if m.height == 1440 then
-      "600"
-    else if m.height == 1080 then
-      "350"
-    else
-      "200";
-  im_height =
-    if m.height == 1440 then
-      "150"
-    else if m.height == 1080 then
-      "150"
-    else
-      "200";
-  im_width =
-    if m.height == 1440 then
-      "40"
-    else if m.height == 1080 then
-      "40"
-    else
-      "200";
+  hStr = toString m.height;
+
+  # Resolution-to-Size Mapping
+  resSettings = {
+    "1440" = {
+      fm = {
+        h = "398";
+        w = "600";
+      };
+      im = {
+        h = "150";
+        w = "40";
+      };
+      fs = {
+        n = "12";
+        h = "16";
+        i = "56";
+      };
+    };
+    "1080" = {
+      fm = {
+        h = "247";
+        w = "350";
+      };
+      im = {
+        h = "150";
+        w = "40";
+      };
+      fs = {
+        n = "12";
+        h = "16";
+        i = "56";
+      };
+    };
+    "720" = {
+      fm = {
+        h = "140";
+        w = "240";
+      };
+      im = {
+        h = "90";
+        w = "30";
+      };
+      fs = {
+        n = "10";
+        h = "12";
+        i = "36";
+      };
+    };
+  };
+
+  fallback = {
+    fm = {
+      h = "100";
+      w = "200";
+    };
+    im = {
+      h = "80";
+      w = "20";
+    };
+  };
+
+  # Select the current config based on monitor height
+  cfg = resSettings.${hStr} or fallback;
+
+  # Extract for easier use in the RASI strings
+  fm = cfg.fm;
+  im = cfg.im;
+  font = cfg.fs;
 
   wallpaper = "/home/${config.home.username}/.local/state/caelestia/wallpaper/current";
 in
@@ -50,7 +91,7 @@ in
       disable-history:               false;
       hide-scrollbar:                false;
       sidebar-mode:                  false;
-      font: "Sans 12";
+      font:                          "Sans ${font.n}";
     }
 
     window {
@@ -179,7 +220,7 @@ in
     }
 
     * {
-        font:                        "Sans 16";
+        font:                        "Sans ${font.t}";
         background:                  ${p.bg};
         background-alt:              ${p.surface_container};
         foreground:                  ${p.fg};
@@ -208,7 +249,7 @@ in
     mainbox {
         enabled:                     true;
         spacing:                     0px;
-        margin:                      ${fm_height}px ${fm_width}px;
+        margin:                      ${fm.h}px ${fm.w}px;
         padding:                     0px;
         border:                      2px solid;
         border-radius:               16px;
@@ -221,7 +262,7 @@ in
     inputbar {
         enabled:                     true;
         spacing:                     0px;
-        padding:                     ${im_height}px ${im_width}px;
+        padding:                     ${im.h}px ${im.w}px;
         background-color:            transparent;
         background-image:            url("${wallpaper}", width);
         children:                    [ "textbox-prompt-colon", "dummy","prompt"];
@@ -280,7 +321,7 @@ in
     }
 
     element-text {
-        font:                        "Font Awesome 6 Pro 54";
+        font:                        "Font Awesome 6 Pro ${font.i}";
         background-color:            transparent;
         text-color:                  inherit;
         cursor:                      inherit;

@@ -22,7 +22,6 @@
 
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
-    inputs.auto-cpufreq.nixosModules.default
   ];
 
   networking.hostName = "Rain";
@@ -145,8 +144,6 @@
 
   # TODO: maybe use the same as desktop
   networking.networkmanager.enable = true;
-  networking.wireless.iwd.enable = true;
-  networking.networkmanager.wifi.backend = "iwd";
   networking.useDHCP = lib.mkDefault true;
   networking.nameservers = [
     "8.8.8.8"
@@ -165,13 +162,19 @@
     acpid.enable = true;
     upower.enable = true;
 
-    services.tlp = {
+    tlp = {
       enable = true;
       settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = lib.mkForce null;
-        CPU_SCALING_GOVERNOR_ON_BAT = lib.mkForce null;
-        CPU_ENERGY_PERF_POLICY_ON_AC = lib.mkForce null;
-        CPU_ENERGY_PERF_POLICY_ON_BAT = lib.mkForce null;
+        CPU_SCALING_GOVERNOR_ON_AC = "powersave";
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+        CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+        CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
+
+        CPU_MIN_PERF_ON_AC = 0;
+        CPU_MAX_PERF_ON_AC = 80;
+        CPU_MIN_PERF_ON_BAT = 0;
+        CPU_MAX_PERF_ON_BAT = 60;
 
         USB_AUTOSUSPEND_ON_BAT = 1;
         DEVICES_TO_DISABLE_ON_STARTUP = "bluetooth";

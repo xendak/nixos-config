@@ -16,6 +16,8 @@ let
 
   keyboardLayout = if host == "wsl" then "rain.el" else "qwerty.el";
 
+  fontSize = if host == "Rain" then "10" else "12";
+
   startupFiles = baseFiles ++ [ keyboardLayout ];
 
   allLoadableFiles = baseFiles ++ [
@@ -32,7 +34,7 @@ in
       ''
         (require 'package)
         (setq inhibit-startup-screen t initial-scratch-message nil)
-        (add-to-list 'default-frame-alist '(font . "${config.fontProfiles.monospace.family}-12"))
+        (add-to-list 'default-frame-alist '(font . "${config.fontProfiles.monospace.family}-${fontSize}"))
         (set-face-attribute 'default nil :height 120)
 
         (setq use-y-or-n-p t)

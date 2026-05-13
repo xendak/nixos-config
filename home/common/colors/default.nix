@@ -94,8 +94,9 @@
         "emacs/themes/custom-nix-theme.el" = "${home}/.config/emacs/themes/custom-nix-theme.el";
       }
       // lib.optionalAttrs (host == "Rain") {
-        # Dunst
+        # Macbook Air only
         "dunst/dunstrc" = "${home}/.config/dunst/dunstrc";
+        "eww/colors.scss" = "${home}/Flake/home/mac/eww/colors.scss";
       };
 
   };

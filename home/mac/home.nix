@@ -53,7 +53,7 @@
     # pkgs.blender
 
     pkgs.deluge
-    pkgs.eww-wayland
+    pkgs.eww
 
     # try
     # pkgs.fuzzel
