@@ -145,6 +145,8 @@
 
   # TODO: maybe use the same as desktop
   networking.networkmanager.enable = true;
+  networking.wireless.iwd.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
   networking.useDHCP = lib.mkDefault true;
   networking.nameservers = [
     "8.8.8.8"

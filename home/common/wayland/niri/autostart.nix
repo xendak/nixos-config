@@ -17,12 +17,6 @@ let
       ];
     }
     { command = [ "awww-daemon" ]; }
-    # {
-    #   command = [
-    #     "foot"
-    #     "--server"
-    #   ];
-    # }
     { command = [ "nix-theme-starter" ]; }
     { command = [ "xwayland-satellite" ]; }
     {

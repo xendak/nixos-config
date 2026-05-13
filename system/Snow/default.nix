@@ -114,6 +114,8 @@
   systemd.network.wait-online.enable = false;
 
   networking.networkmanager.enable = true;
+  networking.wireless.iwd.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
   networking.networkmanager.dns = "none";
   networking.dhcpcd.enable = false;
   networking.useDHCP = false;

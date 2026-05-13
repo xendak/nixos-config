@@ -1,5 +1,7 @@
 {
   config,
+  host,
+  lib,
   ...
 }:
 {
@@ -90,6 +92,10 @@
 
         # Emacs
         "emacs/themes/custom-nix-theme.el" = "${home}/.config/emacs/themes/custom-nix-theme.el";
+      }
+      // lib.optionalAttrs (host == "Rain") {
+        # Dunst
+        "dunst/dunstrc" = "${home}/.config/dunst/dunstrc";
       };
 
   };

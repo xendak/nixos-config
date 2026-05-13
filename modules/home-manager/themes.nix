@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  host,
   ...
 }:
 let
@@ -43,9 +44,19 @@ let
       [ -d "$HOME/Desktop" ] && rmdir "$HOME/Desktop" 2>/dev/null
       [ -d "$HOME/tmp/Screenshots" ] || mkdir -p "$HOME/tmp/Screenshots" 2>/dev/null
 
-      pkill -x "quickshell" || true
-      sleep 0.2
-      qs -d -c "/home/${config.home.username}/Flake/home/common/programs/quickshell/niri/"
+      ${
+        if host == "Rain" then
+          ''
+            cp -r "/persist/home/${config.home.username}/Flake/home/mac/eww" "/home/${config.home.username}/.config/eww"
+            sh "/home/${config.home.username}/.config/eww/scripts/init" &
+          ''
+        else
+          ''
+            pkill -x "quickshell" || true
+            sleep 0.2
+            qs -d -c "/home/${config.home.username}/Flake/home/common/programs/quickshell/niri/"
+          ''
+      }
       foot --server
     '';
   };
