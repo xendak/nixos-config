@@ -1,4 +1,4 @@
-# macbook(2012) air a1
+# macbook(2011) air a1
 {
   config,
   lib,
@@ -46,6 +46,7 @@
     # https://forum.manjaro.org/t/kworker-kacpid-over-70-of-cpu-dual-boot-mac-manjaro/61981
     kernelParams = [
       "acpi_osi=Darwin"
+      "i915.fastboot=1"
       "atmel_mxt_ts.enable_multitouch=1"
       "hid_apple.swap_opt_cmd=1"
       "hid_apple.swap_fn_leftctrl=1"
@@ -57,14 +58,18 @@
       "btrfs"
     ];
 
-    initrd.availableKernelModules = [
-      "uhci_hcd"
-      "ehci_pci"
-      "ahci"
-      "usbhid"
-      "usb_storage"
-      "sd_mod"
-    ];
+    initrd = {
+      kernelModules = [ "i915" ];
+      availableKernelModules = [
+        "uhci_hcd"
+        "ehci_pci"
+        "ahci"
+        "usbhid"
+        "usb_storage"
+        "sd_mod"
+      ];
+    };
+
     kernelModules = [
       "kvm-intel"
       "i2c-dev"
@@ -158,30 +163,29 @@
     acpid.enable = true;
     upower.enable = true;
 
-    tlp = {
+    services.tlp = {
       enable = true;
       settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "powersave";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+        CPU_SCALING_GOVERNOR_ON_AC = lib.mkForce null;
+        CPU_SCALING_GOVERNOR_ON_BAT = lib.mkForce null;
+        CPU_ENERGY_PERF_POLICY_ON_AC = lib.mkForce null;
+        CPU_ENERGY_PERF_POLICY_ON_BAT = lib.mkForce null;
+
         USB_AUTOSUSPEND_ON_BAT = 1;
+        DEVICES_TO_DISABLE_ON_STARTUP = "bluetooth";
 
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-
-        CPU_MIN_PERF_ON_AC = 0;
-        CPU_MAX_PERF_ON_AC = 80;
-        CPU_MIN_PERF_ON_BAT = 0;
-        CPU_MAX_PERF_ON_BAT = 60;
-
-        STOP_CHARGE_THRESH_BAT0 = 1;
-        START_CHARGE_THRESH_BAT1 = 45;
-        STOP_CHARGE_THRESH_BAT1 = 80;
+        START_CHARGE_THRESH_BAT0 = 40;
+        STOP_CHARGE_THRESH_BAT0 = 90;
       };
     };
 
   };
 
-  console.font = "Lat2-Terminus16";
+  console = {
+    enable = true;
+    earlySetup = true;
+    font = "Lat2-Terminus16";
+  };
 
   hardware = {
     i2c.enable = true;
