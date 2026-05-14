@@ -97,6 +97,7 @@
         # Macbook Air only
         "dunst/dunstrc" = "${home}/.config/dunst/dunstrc";
         "eww/colors.scss" = "${home}/Flake/home/mac/eww/colors.scss";
+        "eww/colors.yuck" = "${home}/Flake/home/mac/eww/colors.yuck";
       };
 
   };

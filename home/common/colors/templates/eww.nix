@@ -1,9 +1,29 @@
 {
   paletteSet,
+  lib,
   ...
 }:
 let
   p = paletteSet.palette;
+  colorList = [
+    (p.surface_container) # x0
+    (p.error) # x1
+    (p.primary) # x2
+    (p.secondary) # x3
+    (p.blue) # x4
+    (p.magenta) # x5
+    (p.cyan) # x6
+    (p.on_background) # x7
+    (p.outline) # x8
+    (p.error_container) # x9
+    (p.primary_container) # x10
+    (p.secondary_container) # x11
+    (p.blue) # x12
+    (p.tertiary_container) # x13
+    (p.primary_fixed) # x14
+    (p.on_surface_variant) # x15
+  ];
+  yuckColorArray = "[${lib.concatMapStringsSep ", " (c: ''\"${c}\"'') colorList}]";
 in
 {
   "eww/colors.scss" = ''
@@ -28,6 +48,11 @@ in
     $x13: ${p.tertiary_container};
     $x14: ${p.primary_fixed};
   '';
+
+  "eww/colors.yuck" = ''
+    (defvar colors "${yuckColorArray}")
+  '';
+
 }
 
 # x1->x6

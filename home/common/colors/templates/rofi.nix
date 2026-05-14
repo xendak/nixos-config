@@ -67,6 +67,11 @@ let
       h = "80";
       w = "20";
     };
+    fs = {
+      n = "10";
+      h = "12";
+      i = "36";
+    };
   };
 
   # Select the current config based on monitor height
@@ -220,7 +225,7 @@ in
     }
 
     * {
-        font:                        "Sans ${font.t}";
+        font:                        "Sans ${font.h}";
         background:                  ${p.bg};
         background-alt:              ${p.surface_container};
         foreground:                  ${p.fg};
