@@ -42,6 +42,7 @@ let
       fish "/home/${config.home.username}/Flake/home/common/programs/quickshell/niri/wallpaper.fish" -f "$TARGET_WALL"
 
       [ -d "$HOME/Desktop" ] && rmdir "$HOME/Desktop" 2>/dev/null
+      [ -d "$HOME/Projects" ] && rmdir "$HOME/Projects" 2>/dev/null
       [ -d "$HOME/tmp/Screenshots" ] || mkdir -p "$HOME/tmp/Screenshots" 2>/dev/null
 
       ${
@@ -214,6 +215,22 @@ let
       } > "$TMP_CONFIG"
       mv -f "$TMP_CONFIG" "$NIRI_CONFIG"
       sed -i '/color "#00000070"/d' "$NIRI_CONFIG"
+
+      # :TerminalSequences
+      SEQUENCES_FILE="$SRC_DIR/terminal/sequences.txt"
+      if [[ -f "$SEQUENCES_FILE" ]]; then
+        OSC_SEQUENCES=$(cat "$SEQUENCES_FILE")
+        for pts in /dev/pts/[0-9]*; do
+          if [[ -w "$pts" ]]; then
+             printf "%b" "$OSC_SEQUENCES" > "$pts" &
+          fi
+        done
+        printf "%b" "$OSC_SEQUENCES"
+        echo "Sent OSC color sequences to all open terminals."
+      else
+        echo "Warning: Sequences file not found at $SEQUENCES_FILE"
+      fi
+      pkill -USR1 foot &> /dev/null || true &
 
 
       # :Nushell

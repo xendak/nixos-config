@@ -87,6 +87,7 @@
       epkgs.embark-consult
       epkgs.expand-region
       epkgs.nerd-icons-completion
+      epkgs.eldoc-box
 
       epkgs.treesit-auto
       epkgs.projectile

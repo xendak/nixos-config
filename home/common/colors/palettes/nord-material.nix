@@ -33,7 +33,7 @@ let
     gray = "#4C566A";
     orange = "#D08770";
 
-    brigthblack = "#4C566A";
+    brightblack = "#4C566A";
     brightred = "#C5727A";
     brightgreen = "#B1C89D";
     brightyellow = "#EFD49F";

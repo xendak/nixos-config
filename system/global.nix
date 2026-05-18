@@ -323,6 +323,7 @@ in
       "/var/lib/bluetooth"
       "/var/lib/nixos"
       "/var/lib/NetworkManager"
+      "/var/lib/iwd"
     ];
     files = [
       "/etc/machine-id"

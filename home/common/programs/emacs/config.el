@@ -92,19 +92,29 @@
 
   (add-to-list 'lsp-language-id-configuration '(odin-mode . "odin")))
 
-(use-package lsp-ui
-  :ensure t
-  :after lsp-mode
-  :commands lsp-ui-mode
-  :hook (lsp-mode . lsp-ui-mode)
-  :config
-  (setq lsp-ui-doc-use-childframe t)
-  ; (setq lsp-ui-doc-show-with 'childframe)
-  (setq lsp-ui-doc-position 'at-point)
-  (setq lsp-ui-sideline-enable t)
-  (setq lsp-ui-sideline-show-diagnostics t)
-  (setq lsp-ui-sideline-show-hover nil)
-  (setq lsp-ui-sideline-show-code-actions t))
+; (use-package lsp-ui
+;   :ensure t
+;   :after lsp-mode
+;   :commands lsp-ui-mode
+;   :hook (lsp-mode . lsp-ui-mode)
+;   :config
+;   (setq lsp-ui-doc-use-childframe t)
+;   ; (setq lsp-ui-doc-show-with 'childframe)
+;   (setq lsp-ui-doc-position 'at-point)
+;   (setq lsp-ui-sideline-enable t)
+;   (setq lsp-ui-sideline-show-diagnostics t)
+;   (setq lsp-ui-sideline-show-hover nil)
+;   (setq lsp-ui-sideline-show-code-actions t))
+
+(use-package eldoc-box
+  ;; Track the text cursor (point) instead of the mouse!
+  ; :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode)
+  :hook (lsp-mode . eldoc-box-hover-at-point-mode)
+  ;; A manual keybind to summon the box if you turn off the automatic hook
+  :bind ("C-c h" . eldoc-box-help-at-point)
+  :custom
+  (eldoc-box-clear-with-C-g t))
+(advice-add 'keyboard-quit :before #'eldoc-box-quit-frame)
 
 (use-package treesit-auto
   :ensure t

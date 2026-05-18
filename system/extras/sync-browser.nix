@@ -135,17 +135,19 @@ in
     allSyncScript
   ];
 
-  # Systemd service to restore data on login
-  systemd.user.services."browser-sync-login" = {
+  systemd.user.services."browser-sync" = {
     enable = true;
-    description = "Restore browser data from persistent storage";
-    after = [ "graphical.target" ];
-    wantedBy = [ "default.target" ];
+    description = "Sync browser data to and from persistent storage";
+    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+    before = [ "graphical-session.target" ];
     serviceConfig = {
       Type = "oneshot";
+      RemainAfterExit = true;
+      # Login
+      ExecStart = "${allSyncScript}/bin/all-sync persist-to-live";
+      # Logout
+      ExecStop = "${allSyncScript}/bin/all-sync live-to-persist";
     };
-    script = ''
-      ${allSyncScript}/bin/all-sync persist-to-live
-    '';
   };
 }
