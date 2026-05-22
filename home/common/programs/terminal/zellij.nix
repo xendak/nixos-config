@@ -4,6 +4,22 @@
     pkgs.zellij
   ];
 
+  # TODO(xendak): find a better way.
+  systemd.user.services."zellij-kill-on-logout" = {
+    Unit = {
+      Description = "Kill zellij sessions on logout";
+      Before = [ "shutdown.target" ];
+    };
+    Install = {
+      WantedBy = [ "shutdown.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStop = "${pkgs.zellij}/bin/zellij kill-all-sessions --yes";
+    };
+  };
+
   xdg.configFile."zellij/layouts/default.kdl".source =
     pkgs.writeText "default.kdl"
       # kdl
@@ -38,6 +54,7 @@
       # kdl
       ''
         show_startup_tips false
+        on_force_close "quit"
         plugins {
             about location="zellij:about"
             compact-bar location="zellij:compact-bar"

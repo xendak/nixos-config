@@ -50,7 +50,7 @@ let
           ''
             cp -r "/persist/home/${config.home.username}/Flake/home/mac/eww/elena-fonts" "/home/${config.home.username}/.local/share/fonts"
             cp -r "/persist/home/${config.home.username}/Flake/home/mac/eww" "/home/${config.home.username}/.config/eww"
-            sh "/home/${config.home.username}/.config/eww/scripts/init" &
+            # sh "/home/${config.home.username}/.config/eww/scripts/init" &
           ''
         else
           ''

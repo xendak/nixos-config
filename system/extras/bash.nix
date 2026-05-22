@@ -2,13 +2,13 @@
 {
   environment.shells = [
     pkgs.nushell
-    pkgs.nnn
   ];
 
   programs.bash = {
     shellAliases = {
       nd = "nix develop -c $SHELL";
       y = "${pkgs.yazi}/bin/yazi";
+      n = "${pkgs.nnn}/bin/nnn";
       ls = "${pkgs.eza}/bin/eza";
       ll = "${pkgs.eza}/bin/eza -lah";
       lg = "${pkgs.lazygit}lazygit";

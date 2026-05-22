@@ -1,9 +1,15 @@
-{ lib, pkgs, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 let
   llama-cpp-rocm = pkgs.llama-cpp.override { rocmSupport = true; };
   llama-server-bin = "${llama-cpp-rocm}/bin/llama-server";
   modelPath = "/local/nixos/data/AI/models";
 
+  ctx_size = "32768";
   llamaSwapYaml = pkgs.writeText "llama-swap.yaml" ''
     includeAliasesInList: true
 
@@ -16,11 +22,13 @@ let
           --port ''${PORT}
           --host 0.0.0.0
           --model ${modelPath}/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf
-          -ngl auto
-          --ctx-size 131072
+          --mmproj /local/nixos/data/AI/models/mmproj-BF16.gguf \
+          -ngl 99
+          --n-cpu-moe 18
           --fit on
           --fit-target 3072
-          --fit-ctx 131072
+          --ctx-size ${ctx_size}
+          --fit-ctx ${ctx_size}
           --flash-attn on
           --no-mmap
           --parallel 1
@@ -111,7 +119,15 @@ in
 
   services.open-webui = {
     enable = true;
-    package = pkgs.open-webui;
+    # FIX(xendak): openwebui 0.9.5 is broken ;)
+    package =
+      let
+        pkgs-owui = import inputs.nixpkgs-owui {
+          system = pkgs.stdenv.hostPlatform.system;
+          config.allowUnfree = true;
+        };
+      in
+      pkgs-owui.open-webui;
     host = "0.0.0.0";
     port = 8080;
     stateDir = "/local/nixos/data/AI/open-webui";

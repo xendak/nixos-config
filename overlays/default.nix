@@ -25,13 +25,16 @@
           nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.makeWrapper ];
           postInstall = (oldAttrs.postInstall or "") + ''
             wrapProgram $out/bin/dolphin \
-                --set XDG_CONFIG_DIRS "${prev.libsForQt5.kservice}/etc/xdg:$XDG_CONFIG_DIRS" \
-                --run "${kprev.kservice}/bin/kbuildsycoca6 --noincremental ${prev.libsForQt5.kservice}/etc/xdg/menus/applications.menu"
+                --set XDG_CONFIG_DIRS "${prev.kdePackages.kservice}/etc/xdg:$XDG_CONFIG_DIRS" \
+                --run "${kprev.kservice}/bin/kbuildsycoca6 --noincremental ${prev.kdePackages.kservice}/etc/xdg/menus/applications.menu"
           '';
         });
       }
     );
 
+    openldap = prev.openldap.overrideAttrs {
+      doCheck = !prev.stdenv.hostPlatform.isi686;
+    };
     # TODO: fix this patch
     # rbw = prev.rbw.overrideAttrs (oldAttrs: {
     #   patches = (oldAttrs.patches or [ ]) ++ [ ./rbw-list-raw.patch ];
