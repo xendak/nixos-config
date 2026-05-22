@@ -17,7 +17,6 @@
     pkgs.dart-sass
     pkgs.fd
 
-    pkgs.ollama
     pkgs.pywal
     pkgs.sassc
     (pkgs.python311.withPackages (p: [
@@ -42,7 +41,6 @@
     extraPackages = with pkgs; [
       gtksourceview
       gtksourceview4
-      ollama
       python311Packages.material-color-utilities
       python311Packages.pywayland
       pywal

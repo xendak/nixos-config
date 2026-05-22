@@ -2,17 +2,17 @@
 {
   environment.shells = [
     pkgs.nushell
+    pkgs.nnn
   ];
 
   programs.bash = {
     shellAliases = {
-      y = "yazi";
-      ls = "eza";
       nd = "nix develop -c $SHELL";
-      ll = "eza -lah";
-      fg = "job unfreeze";
-      lg = "lazygit";
-      fz = "fzf --bind 'enter:become(hx {})'";
+      y = "${pkgs.yazi}/bin/yazi";
+      ls = "${pkgs.eza}/bin/eza";
+      ll = "${pkgs.eza}/bin/eza -lah";
+      lg = "${pkgs.lazygit}lazygit";
+      fz = "${pkgs.fzf}/bin/fzf --bind 'enter:become(hx {})'";
       cat = "${pkgs.bat}/bin/bat";
       df = "${pkgs.duf}/bin/duf";
       find = "${pkgs.fd}/bin/fd";
@@ -23,7 +23,7 @@
 
     interactiveShellInit = ''
       shopt -s histappend
-      eval "$(fzf --bash)"
+      eval "$(${pkgs.fzf}/bin/fzf --bash)"
       PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
     '';
 

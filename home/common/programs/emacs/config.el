@@ -8,6 +8,15 @@
 (setq scroll-step 1)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
+; Compilation Stuff is annoying sometimes?
+(setq compilation-environment '("NO_COLOR=1"))
+
+(defun ar/colorize-compilation-buffer ()
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+
+(add-hook 'compilation-filter-hook 'ar/colorize-compilation-buffer)
+
 (add-hook 'prog-mode-hook (lambda ()
                             (electric-pair-mode)))
 

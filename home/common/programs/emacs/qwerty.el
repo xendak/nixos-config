@@ -182,6 +182,7 @@
     (define-key keymap "a" #'previous-error)
     (define-key keymap "d" #'next-error)
     keymap))
+(defalias 'my-compile-and-run my-compile-and-run)
 
 (meow-thing-register 'angle
                      '(pair ("<") (">"))

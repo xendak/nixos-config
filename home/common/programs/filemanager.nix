@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   ...
 }:
@@ -25,7 +24,10 @@
 
   home.persistence = {
     "/persist" = {
-      directories = [ ".local/share/dolphin" ];
+      directories = [
+        ".local/share/dolphin"
+        ".local/share/kxmlgui5"
+      ];
       files = [
         ".config/dolphinrc"
         ".local/state/dolphinstaterc"

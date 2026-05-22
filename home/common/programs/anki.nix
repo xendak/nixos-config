@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   ...
 }:
@@ -12,7 +11,6 @@
   home.persistence = {
     "/persist" = {
       directories = [
-        ".local/share/Anki"
         ".local/share/Anki2"
       ];
     };

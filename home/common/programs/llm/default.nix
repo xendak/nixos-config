@@ -54,8 +54,9 @@ in
 
   home.persistence."/persist" = {
     directories = [
-      ".config/alpaca"
-      ".local/share/alpaca"
+      ".config/com.jeffser.Alpaca"
+      ".local/share/com.jeffser.Alpaca"
+      ".local/cache/com.jeffser.Alpaca"
 
       ".config/opencode"
       ".local/share/opencode"
