@@ -33,6 +33,15 @@
         wraparound_file_navigation = true,
       })
 
+      Status:children_add(function(self)
+      	local h = self._current.hovered
+      	if h and h.link_to then
+      		return " -> " .. tostring(h.link_to)
+      	else
+      		return ""
+      	end
+      end, 3300, Status.LEFT)
+
       local function format_smart_time(timestamp)
       	if not timestamp or timestamp == 0 then return "" end
 
@@ -114,35 +123,35 @@
     plugin = {
       prepend_previewers = [
         {
-          name = "*/";
-          run = ''faster-piper -- eza -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'';
+          url = "*/";
+          run = ''piper -- eza -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'';
         }
         {
-          name = "*.csv";
+          url = "*.csv";
           run = "duckdb";
         }
         {
-          name = "*.tsv";
+          url = "*.tsv";
           run = "duckdb";
         }
         {
-          name = "*.json";
+          url = "*.json";
           run = "duckdb";
         }
         {
-          name = "*.parquet";
+          url = "*.parquet";
           run = "duckdb";
         }
         {
-          name = "*.xlsx";
+          url = "*.xlsx";
           run = "duckdb";
         }
         {
-          name = "*.db";
+          url = "*.db";
           run = "duckdb";
         }
         {
-          name = "*.duckdb";
+          url = "*.duckdb";
           run = "duckdb";
         }
         {
@@ -155,7 +164,7 @@
         }
         {
           url = "*.md";
-          run = ''faster-piper -- CLICOLOR_FORCE=1 glow -w=$w "$1"'';
+          run = "rich-preview";
         }
         {
           mime = "application/bittorrent";
@@ -163,14 +172,14 @@
         }
         {
           mime = "application/epub+zip";
-          run = "epub-preview";
+          run = "preview-epub";
         }
         {
           url = "*.torrent";
           run = ''faster-piper -- transmission-show "$1"'';
         }
         {
-          name = "*.mpk";
+          url = "*.mpk";
           run = "noop";
         }
 
@@ -184,27 +193,27 @@
 
       prepend_preloaders = [
         {
-          name = "*.csv";
+          url = "*.csv";
           run = "duckdb";
           multi = false;
         }
         {
-          name = "*.tsv";
+          url = "*.tsv";
           run = "duckdb";
           multi = false;
         }
         {
-          name = "*.json";
+          url = "*.json";
           run = "duckdb";
           multi = false;
         }
         {
-          name = "*.parquet";
+          url = "*.parquet";
           run = "duckdb";
           multi = false;
         }
         {
-          name = "*.xlsx";
+          url = "*.xlsx";
           run = "duckdb";
           multi = false;
         }
@@ -213,7 +222,7 @@
           run = "mediainfo";
         }
         {
-          name = "*.mpk";
+          url = "*.mpk";
           run = "noop";
         }
       ];

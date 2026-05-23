@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   programs.yazi.keymap = {
     mgr.prepend_keymap = [
@@ -9,6 +9,11 @@
         ];
         run = "linemode my_default";
         desc = "Linemode: custom";
+      }
+      {
+        desc = "Rofi Filebrowser (Grid View)";
+        run = ''shell -- ${pkgs.rofi}/bin/rofi -show-icons -theme fullscreen-preview -show filebrowser -preview-cmd "${pkgs.ffmpeg}/bin/ffmpeg -y -ss 00:00:05 -i \"{input}\" -vf \"scale={size}:-1\" -frames:v 1 \"{output}\"" -filebrowser-command "ya emit reveal" -filebrowser-directory "$(pwd)"'';
+        on = "<C-g>";
       }
       {
         desc = "Select directory(ies), file(s)";
@@ -97,6 +102,17 @@
         on = "f";
         run = "plugin smart-filter";
         desc = "Iteractively go to directory";
+      }
+      {
+        on = [
+          "Y"
+          "c"
+        ];
+        run = [
+          ''shell -- for path in "$@"; do echo "file://$path"; done | ${pkgs.wl-clipboard}/bin/wl-copy -t text/uri-list''
+          "yank"
+        ];
+        desc = "Yank files to Wayland clipboard and internal memory";
       }
       {
         on = [

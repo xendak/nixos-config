@@ -41,6 +41,7 @@ in
     extraPackages = [
       pkgs.jq
       pkgs.duckdb
+      pkgs.rich-cli
       pkgs.fd
       pkgs.zoxide
       pkgs.resvg
@@ -64,13 +65,12 @@ in
 
     plugins = {
       faster-piper = faster-piper;
+      piper = pkgs.yaziPlugins.piper;
       augment-command = augment-command;
       sudo = pkgs.yaziPlugins.sudo;
       smart-filter = pkgs.yaziPlugins.smart-filter;
       mediainfo = pkgs.yaziPlugins.mediainfo;
       duckdb = pkgs.yaziPlugins.duckdb;
-      # FIXME: this doesnt work..
-      epub = epub-thumb;
     };
 
   };

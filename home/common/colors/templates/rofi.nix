@@ -207,6 +207,183 @@ in
     }
   '';
 
+  "rofi/fullscreen-preview.rasi" = ''
+        configuration {
+            modi:                       "filebrowser";
+            show-icons:                 true;
+        
+        }
+
+        * {
+            background:                  ${p.background}70;
+            background-alt:              ${p.surface_container};
+            foreground:                  ${p.foreground};
+            selected:                    ${p.primary};
+            active:                      ${p.primary};
+            urgent:                      ${p.primary};
+
+            font:                        "Sans 12";
+            element-padding:             6px;
+            element-spacing:             10px;
+
+          	box-spacing:                 40px;
+            background-color:            transparent;
+            text-color:                  @foreground;
+        }
+
+        mainbox {
+            enabled:                     true;
+            spacing:                     @box-spacing;
+            background-color:            transparent;
+            children:                    [ wrap, listview-split ];
+
+            margin:                      10% 5% 10% 5%;
+            padding:                     0px;
+        }
+
+        window {
+            transparency:                "real";
+            fullscreen:                  true;
+            background-color:            @background;
+            padding:                     3em;
+            children:                    [ wrap, listview-split ];
+            spacing:                     2em;
+    	
+        }
+
+        icon-current-entry {
+            expand:                      true;
+            size:                        100%;
+        }
+
+        listview-split {
+            orientation:                 horizontal;
+            spacing:                     1.5em;
+            children:                    [ listview ];
+        	expand: 					 true;
+        }
+
+        wrap {
+            expand:                      false;
+            orientation:                 vertical;
+            children:                    [ inputbar ];
+            background-color:            @selected;
+            border-color:                @selected;
+            border:                      2px;
+            border-radius:               100px;
+        }
+
+        icon-ib {
+            expand:                      false;
+            filename:                    "system-search";
+            vertical-align:              0.5;
+            horizontal-align:            0.5;
+            size:                        1.2em;
+            text-color:                  @selected;
+        	vertical-align:              0.5;
+            horizontal-align:            0.5;
+        
+            margin:                      0px 0px 0px 20px;
+        }
+
+        inputbar {
+            spacing:                     0.5em;
+            padding:                     0.6em;
+            children:                    [ icon-ib, entry ];
+        }
+
+        entry {
+            placeholder:                 "";
+            placeholder-color:           @background;
+            text-color:                  @background;
+        	  vertical-align:              0.7;
+            horizontal-align:            0.0;
+        
+            padding:                     0px 20px 0px 0px;
+          	cursor:                      text;
+        }
+
+        message {
+            background-color:            #ff000020;
+            border-color:                #ffa07a;
+            border:                      2px 0px 0px 0px;
+            padding:                     0.4em;
+            spacing:                     0.4em;
+        }
+
+        listview {
+            flow:                        horizontal;
+            fixed-columns:               true;
+            columns:                     8;
+            lines:                       5;
+            spacing:                     1.2em;
+            fixed-height:                false;
+          	expand: 					 true;
+
+        }
+
+        element {
+            orientation:                 vertical;
+            padding:                     @element-padding;
+            spacing:                     @element-spacing;
+            background-color:            @background-alt;
+            border-color:                @background-alt;
+            border:                      2px;
+            border-radius:               20px;
+        }
+
+        element normal.normal,
+        element alternate.normal {
+            background-color:            @background-alt;
+            text-color:                  @foreground;
+        }
+
+        element-icon {
+            size:                        16em;
+            horizontal-align:            0.5;
+            vertical-align:              0.5;
+            background-color:            transparent;
+        }
+
+        element-text {
+            horizontal-align:            0.5;
+            vertical-align:              0.5;
+            padding:                     0.1em 0.2em;
+            text-color:                  inherit;
+        }
+
+        element selected.normal,
+        element selected {
+            background-color:            @background-alt;
+            border-color:                @selected;
+            border:                      0px 0px 5px 0px;
+            text-color:                  @selected;
+        }
+
+        @media ( enabled: env(PREVIEW, false)) {
+            listview-split {
+                children:                [ listview, icon-current-entry ];
+            }
+            listview {
+                columns:                 4;
+            }
+        }
+
+        @media ( enabled: env(NO_IMAGE, false)) {
+            listview {
+                columns:                 1;
+                spacing:                 0.4em;
+            }
+            element {
+                children:                [ element-text ];
+            }
+            element-text {
+                horizontal-align:        0.0;
+            }
+        }
+
+  '';
+
   "rofi/powermenu.rasi" = ''
      /**
        *
