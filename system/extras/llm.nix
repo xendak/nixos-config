@@ -22,8 +22,8 @@ let
           --port ''${PORT}
           --host 0.0.0.0
           --model ${modelPath}/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf
-          --mmproj /local/nixos/data/AI/models/mmproj-BF16.gguf \
-          -ngl 99
+          --mmproj /local/nixos/data/AI/models/mmproj-BF16.gguf
+          -ngl 999
           --n-cpu-moe 18
           --fit on
           --fit-target 3072

@@ -118,6 +118,7 @@
       GTK_THEME = "${config.gtk.theme.name}:dark";
       EDITOR = "hx";
       SUDO_EDITOR = "hx";
+      PAGER = "ov";
 
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
       TERMINAL = lib.mkForce "footclient";

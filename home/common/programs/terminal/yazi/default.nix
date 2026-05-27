@@ -71,6 +71,7 @@ in
       smart-filter = pkgs.yaziPlugins.smart-filter;
       mediainfo = pkgs.yaziPlugins.mediainfo;
       duckdb = pkgs.yaziPlugins.duckdb;
+      rich-preview = pkgs.yaziPlugins.rich-preview;
     };
 
   };

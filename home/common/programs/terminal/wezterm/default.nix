@@ -6,7 +6,7 @@
   ...
 }:
 let
-  historyPath = "/home/${config.home.username}/.cache/gobuild/history.json";
+  historyPath = "/home/${config.home.username}/.local/cache/gobuild/history.json";
   functionsLua = lib.replaceStrings [ "@HISTORY_PATH@" ] [ historyPath ] (
     builtins.readFile ./functions.lua
   );
@@ -19,7 +19,7 @@ in
   home.persistence = {
     "/persist" = {
       directories = [
-        ".cache/gobuild/"
+        ".local/cache/gobuild/"
       ];
     };
   };

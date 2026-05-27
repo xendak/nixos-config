@@ -42,6 +42,9 @@ let
       fish "/home/${config.home.username}/Flake/home/common/programs/quickshell/niri/wallpaper.fish" -f "$TARGET_WALL"
 
       [ -d "$HOME/Desktop" ] && rmdir "$HOME/Desktop" 2>/dev/null
+      [ -d "$HOME/Templates" ] && rmdir "$HOME/Templates" 2>/dev/null
+      [ -d "$HOME/Public" ] && rmdir "$HOME/Public" 2>/dev/null
+      [ -d "$HOME/.cache" ] && rm -rf "$HOME/.cache" 2>/dev/null
       [ -d "$HOME/Projects" ] && rmdir "$HOME/Projects" 2>/dev/null
       [ -d "$HOME/tmp/Screenshots" ] || mkdir -p "$HOME/tmp/Screenshots" 2>/dev/null
 

@@ -63,6 +63,7 @@
       FILEBROWSER = "dolphin";
       TERMBROWSER = "yazi";
       WINEPREFIX = "$HOME/Games/Wine-Prefix";
+      PAGER = "ov";
     };
   };
 

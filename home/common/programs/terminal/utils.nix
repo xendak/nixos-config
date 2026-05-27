@@ -20,14 +20,16 @@ in
     pkgs.gsettings-desktop-schemas
     pkgs.gsettings-qt
 
-    pkgs.bc # Calculator
-    pkgs.bottom # System viewer
+    pkgs.bc
+    pkgs.bottom
+    pkgs.btop-rocm
+    pkgs.htop
     pkgs.ncdu # TUI disk usage
-    pkgs.eza # Better ls
-    pkgs.ripgrep # Better grep
-    pkgs.fd # Better find
-    pkgs.httpie # Better curl
-    pkgs.jq # JSON pretty printer and manipulator
+    pkgs.eza
+    pkgs.ripgrep
+    pkgs.fd
+    pkgs.httpie
+    pkgs.jq
     pkgs.unzip
     pkgs.unrar
     (pkgs._7zz.override { enableUnfree = true; })
@@ -44,7 +46,10 @@ in
 
     pkgs.duckdb
     pkgs.glow
+    pkgs.rich-cli
     pkgs.imv
+    pkgs.ov
+    pkgs.moar
     pkgs.sxiv
 
     # :c :cpp
@@ -127,6 +132,7 @@ in
 
   home.persistence."/persist".directories = [
     ".local/cache/nix"
+    ".local/cache/nix-index"
     ".config/imhex"
     ".local/share/imhex"
   ];

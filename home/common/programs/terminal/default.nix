@@ -9,6 +9,7 @@
     ./nnn
     ./yazi
     ./helix
+    ./kakoune
     ./bitwarden.nix
     ./utils.nix
     ./zellij.nix

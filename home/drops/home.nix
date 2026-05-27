@@ -120,6 +120,7 @@
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
       TERMINAL = lib.mkForce "footclient";
 
+      PAGER = "ov";
       BROWSER = "zen-beta";
       FILEBROWSER = "dolphin";
       TERMBROWSER = "yazi";

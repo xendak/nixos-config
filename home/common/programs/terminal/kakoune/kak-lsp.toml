@@ -1,0 +1,184 @@
+# kak-lsp configuration
+# Mirrors the language servers defined in helix/languages.nix
+# Paths are left as bare commands — Nix puts everything on $PATH via extraPackages.
+# For servers that need absolute paths, override per-machine via ~/.config/kak-lsp/kak-lsp.toml.
+
+[language_server]
+
+# ── Nix ────────────────────────────────────────────────────────────────────────
+[language_server.nixd]
+filetypes = ["nix"]
+roots = ["flake.nix", ".git"]
+command = "nixd"
+
+# ── Rust ───────────────────────────────────────────────────────────────────────
+[language_server.rust-analyzer]
+filetypes = ["rust"]
+roots = ["Cargo.toml"]
+command = "rust-analyzer"
+
+[language_server.rust-analyzer.settings.rust-analyzer]
+assist.importGranularity = "module"
+check.command = "clippy"
+completion.fullFunctionSignatures.enable = true
+hover.actions.references.enable = true
+lruCapacity = 256
+diagnostics.disabled = ["inactive-code", "inactive_code", "unresolved-proc-macro", "unresolved_proc_macro"]
+
+[language_server.rust-analyzer.settings.rust-analyzer.cargo]
+extraEnv = { CARGO_TARGET_DIR = "/tmp/rust-analyzer-target" }
+
+[language_server.rust-analyzer.settings.rust-analyzer.lens.references]
+adt.enable = true
+enumVariant.enable = true
+method.enable = true
+trait.enable = true
+
+[language_server.rust-analyzer.settings.rust-analyzer.inlayHints]
+closingBraceHints.minLines = 10
+closureReturnTypeHints.enable = "with_block"
+discriminantHints.enable = "fieldless"
+lifetimeElisionHints.enable = "skip_trivial"
+typeHints.hideClosureInitialization = false
+expressionAdjustmentHints.enable = "never"
+expressionAdjustmentHints.hideOutsideUnsafe = false
+expressionAdjustmentHints.mode = "prefer_prefix"
+
+[language_server.rust-analyzer.settings.rust-analyzer.workspace.symbol.search]
+limit = 128
+kind = "all_symbols"
+scope = "workspace"
+
+# ── Go ─────────────────────────────────────────────────────────────────────────
+[language_server.gopls]
+filetypes = ["go"]
+roots = ["go.mod", "go.sum", ".git"]
+command = "gopls"
+
+[language_server.gopls.settings.gopls]
+staticcheck = true
+
+[language_server.gopls.settings.gopls.analyses]
+unusedparams = true
+unreachable = true
+
+[language_server.gopls.settings.gopls.hints]
+assignVariableTypes = true
+compositeLiteralFields = true
+constantValues = true
+functionTypeParameters = true
+parameterNames = true
+rangeVariableTypes = true
+
+# ── Zig ────────────────────────────────────────────────────────────────────────
+[language_server.zls]
+filetypes = ["zig"]
+roots = ["build.zig", ".git"]
+command = "zls"
+
+# ── Odin ───────────────────────────────────────────────────────────────────────
+[language_server.ols]
+filetypes = ["odin"]
+roots = ["ols.json", ".git"]
+command = "ols"
+
+# ── C / C++ ────────────────────────────────────────────────────────────────────
+[language_server.clangd]
+filetypes = ["c", "cpp"]
+roots = ["compile_commands.json", "compile_flags.txt", "CMakeLists.txt", ".git"]
+command = "clangd"
+args = [
+  "--inlay-hints",
+  "--background-index",
+  "--offset-encoding=utf-16",
+  "--compile-commands-dir=build",
+  "--completion-style=detailed",
+  "--all-scopes-completion=true",
+  "--recovery-ast",
+  "--suggest-missing-includes",
+  "--clang-tidy",
+  "--cross-file-rename",
+  "--function-arg-placeholders=false",
+  "--header-insertion=never",
+  "--pch-storage=memory",
+]
+
+# ── Python ─────────────────────────────────────────────────────────────────────
+[language_server.pyright]
+filetypes = ["python"]
+roots = ["pyproject.toml", "setup.py", "setup.cfg", ".git"]
+command = "pyright-langserver"
+args = ["--stdio"]
+
+# ── Java ───────────────────────────────────────────────────────────────────────
+[language_server.jdtls]
+filetypes = ["java"]
+roots = ["pom.xml", "build.gradle", ".git"]
+command = "jdt-language-server"
+# jvm-arg for lombok injected in wrapper — set via extraPackages or shell wrapper
+
+# ── Lua ────────────────────────────────────────────────────────────────────────
+[language_server.lua-language-server]
+filetypes = ["lua"]
+roots = [".luarc.json", ".git"]
+command = "lua-language-server"
+
+# ── Bash ───────────────────────────────────────────────────────────────────────
+[language_server.bash-language-server]
+filetypes = ["sh"]
+roots = [".git"]
+command = "bash-language-server"
+args = ["start"]
+
+# ── Fish ───────────────────────────────────────────────────────────────────────
+[language_server.fish-lsp]
+filetypes = ["fish"]
+roots = [".git"]
+command = "fish-lsp"
+args = ["start"]
+
+# ── TypeScript / JavaScript ────────────────────────────────────────────────────
+[language_server.typescript-language-server]
+filetypes = ["javascript", "javascriptreact", "typescript", "typescriptreact"]
+roots = ["package.json", "tsconfig.json", ".git"]
+command = "typescript-language-server"
+args = ["--stdio"]
+
+[language_server.typescript-language-server.settings.typescript-language-server.source]
+addMissingImports.ts = true
+fixAll.ts = true
+organizeImports.ts = true
+removeUnusedImports.ts = true
+sortImports.ts = true
+
+# ── Markdown (markdown-oxide) ──────────────────────────────────────────────────
+[language_server.markdown-oxide]
+filetypes = ["markdown"]
+roots = [".git", ".obsidian"]
+command = "markdown-oxide"
+
+# ── CSS / SCSS / HTML ──────────────────────────────────────────────────────────
+[language_server.vscode-css-language-server]
+filetypes = ["css", "scss"]
+roots = [".git"]
+command = "vscode-css-language-server"
+args = ["--stdio"]
+
+[language_server.vscode-css-language-server.settings]
+provideFormatter = true
+css.validate.enable = true
+scss.validate.enable = true
+
+# ── Dart ───────────────────────────────────────────────────────────────────────
+[language_server.dart-lsp]
+filetypes = ["dart"]
+roots = ["pubspec.yaml", ".git"]
+command = "dart"
+args = ["language-server"]
+
+# ── QML ────────────────────────────────────────────────────────────────────────
+[language_server.qmlls]
+filetypes = ["qml"]
+roots = ["CMakeLists.txt", ".git"]
+command = "qmlls"
+args = ["-E"]

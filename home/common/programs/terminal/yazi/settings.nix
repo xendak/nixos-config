@@ -50,17 +50,13 @@
 
       	if now.year ~= f.year then
       		return os.date("%y年%m月", timestamp)
-      	end
-
-      	if now.month == f.month and now.day == f.day then
+      	elseif now.month ~= f.month then
+      		return os.date("%m月%d日", timestamp)
+      	elseif now.month == f.month and now.day ~= f.day then
+      		return os.date("%d日", timestamp)
+      	else
       		return os.date("%H:%M", timestamp)
       	end
-
-      	if now.month ~= f.month then
-      		return os.date("%B%d日", timestamp)
-      	end
-
-      	return os.date("%x %H:%M", timestamp)
       end
 
       function Linemode:size_and_mtime()

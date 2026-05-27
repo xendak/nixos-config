@@ -69,6 +69,7 @@ in
         let
           varsToImport = [
             "WINEPREFIX"
+            "PAGER"
             "EDITOR"
             "TERMBROWSER"
             "TERMINAL"

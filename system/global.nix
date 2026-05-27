@@ -217,7 +217,7 @@ in
 
   environment.variables = {
     EDITOR = "hx";
-    SUDO_EDITOR = "vi";
+    SUDO_EDITOR = "hx";
   };
 
   programs.steam = {
@@ -232,10 +232,19 @@ in
     config.boot.kernelPackages.cpupower
     pkgs.networkmanagerapplet
 
-    pkgs.ripgrep
-    pkgs.fd
+    pkgs.yazi
+    pkgs.nnn
     pkgs.eza
+    pkgs.lazygit
+    pkgs.fzf
     pkgs.bat
+    pkgs.duf
+    pkgs.fd
+    pkgs.rich-cli
+    pkgs.ov
+    pkgs.btop
+    pkgs.htop
+    pkgs.kakoune
 
     pkgs.helix
 

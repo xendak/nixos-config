@@ -16,13 +16,13 @@
       cat = "${pkgs.bat}/bin/bat";
       df = "${pkgs.duf}/bin/duf";
       find = "${pkgs.fd}/bin/fd";
-      grep = "${pkgs.ripgrep}/bin/rg --no-heading --line-number";
       tree = "${pkgs.eza}/bin/eza --git --icons --tree";
       "7z" = "7zz";
     };
 
     interactiveShellInit = ''
       shopt -s histappend
+      export PAGER=ov
       eval "$(${pkgs.fzf}/bin/fzf --bash)"
       PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
     '';

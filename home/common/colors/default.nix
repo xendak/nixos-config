@@ -72,6 +72,9 @@
         # Helix
         "helix/themes/current.toml" = "${home}/.config/helix/themes/current.toml";
 
+        # Kakoune
+        "kak/colors/current.kak" = "${home}/.config/kak/colors/current.kak";
+
         # Nvim
         "nvim/colors.vim" = "${home}/.config/nvim/colors.vim";
 
