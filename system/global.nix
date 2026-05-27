@@ -233,6 +233,7 @@ in
     pkgs.networkmanagerapplet
 
     pkgs.yazi
+    pkgs.sshfs
     pkgs.nnn
     pkgs.eza
     pkgs.lazygit

@@ -5,6 +5,7 @@
     ''
       require("zoxide"):setup({ update_db = true })      
       require("duckdb"):setup()
+      require("sshfs"):setup()
       require("augment-command"):setup({
         prompt = false,
         default_item_group_for_prompt = "hovered",

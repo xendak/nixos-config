@@ -57,6 +57,7 @@ in
       pkgs.zip
       pkgs.ripgrep
       pkgs.resvg
+      pkgs.sshfs
       pkgs.imagemagick
       pkgs.wl-clipboard
       pkgs.gnome-epub-thumbnailer
@@ -64,6 +65,7 @@ in
     ];
 
     plugins = {
+      sshfs = pkgs.yaziPlugins.sshfs;
       faster-piper = faster-piper;
       piper = pkgs.yaziPlugins.piper;
       augment-command = augment-command;
