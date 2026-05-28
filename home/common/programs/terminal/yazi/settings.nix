@@ -5,7 +5,13 @@
     ''
       require("zoxide"):setup({ update_db = true })      
       require("duckdb"):setup()
-      require("sshfs"):setup()
+      require("sshfs"):setup({
+         host_paths = {
+          -- Optionally define default mount paths for specific hosts
+          -- These are shown in addition to global_paths
+          snow = "/local",
+        },
+      })
       require("augment-command"):setup({
         prompt = false,
         default_item_group_for_prompt = "hovered",

@@ -3,6 +3,11 @@
   programs.yazi.keymap = {
     mgr.prepend_keymap = [
       {
+        on = "M";
+        run = "plugin sshfs -- menu";
+        desc = "Open SSHFS options";
+      }
+      {
         on = [
           "m"
           "d"

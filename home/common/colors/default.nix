@@ -67,6 +67,7 @@
 
         # Rofi
         "rofi/config.rasi" = "${home}/.config/rofi/config.rasi";
+        "rofi/fullscreen-preview.rasi" = "${home}/.config/rofi/fullscreen-preview.rasi";
         "rofi/powermenu.rasi" = "${home}/.config/rofi/powermenu.rasi";
 
         # Helix

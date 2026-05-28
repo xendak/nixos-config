@@ -88,6 +88,7 @@
       epkgs.expand-region
       epkgs.nerd-icons-completion
       epkgs.eldoc-box
+      epkgs.multiple-cursors
 
       epkgs.treesit-auto
       epkgs.projectile
