@@ -60,7 +60,7 @@
     pkgs.xdg-desktop-portal-termfilechooser
     # pkgs.matugen
 
-    # inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+    pkgs.dunst
 
     # keyboard
     pkgs.qmk

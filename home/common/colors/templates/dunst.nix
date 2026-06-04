@@ -2,11 +2,12 @@
   paletteSet,
   config,
   pkgs,
-  lib,
   ...
 }:
 let
   p = paletteSet.palette;
+  f = config.fontProfiles;
+
 in
 {
   "dunst/dunstrc" = ''
@@ -36,20 +37,20 @@ in
         padding = 22
         horizontal_padding = 22
         text_icon_padding = 0
-        frame_width = 8
+        frame_width = 2
         
         # Using palette outline/surface for the frame
-        frame_color = "${p.outline}"
+        frame_color = "${p.primary}"
         separator_color = foreground
         sort = yes
 
         ### Text ###
-        font = Kyok Medium 18
+        font = ${f.regular.family} 10
         line_height = 10
         markup = full
 
         # The format string with palette-aware spans
-        format = "<span rise='-4000' font_desc='icomoon 21' foreground='${p.primary}'></span>  <span foreground='${p.on_surface}'>%s</span>\n<span foreground='${p.outline}' rise='-4000' font_desc='icomoon 21'></span>  <span foreground='${p.on_surface_variant}'>%b</span>"
+        format = "<span rise='-4000' font_desc='icomoon 13' foreground='${p.primary}'></span>  <span foreground='${p.on_surface}'>%s</span>\n<span foreground='${p.outline}' rise='-4000' font_desc='icomoon 13'></span>  <span foreground='${p.on_surface}'>%b</span>"
 
         alignment = left
         vertical_alignment = center
@@ -62,8 +63,8 @@ in
 
         ### Icons ###
         icon_position = off
-        min_icon_size = 60
-        max_icon_size = 60
+        min_icon_size = 36
+        max_icon_size = 36
         icon_path = "${config.gtk.iconTheme.package}/share/icons/${config.gtk.iconTheme.name}/48x48/actions:${config.gtk.iconTheme.package}/share/icons/${config.gtk.iconTheme.name}/48x48/apps:${config.gtk.iconTheme.package}/share/icons/${config.gtk.iconTheme.name}/48x48/devices:${config.gtk.iconTheme.package}/share/icons/${config.gtk.iconTheme.name}/48x48/emblems:${config.gtk.iconTheme.package}/share/icons/${config.gtk.iconTheme.name}/48x48/emotes:${config.gtk.iconTheme.package}/share/icons/${config.gtk.iconTheme.name}/48x48/mimetypes:${config.gtk.iconTheme.package}/share/icons/${config.gtk.iconTheme.name}/48x48/places:${config.gtk.iconTheme.package}/share/icons/${config.gtk.iconTheme.name}/48x48/status"
         ### History ###
         sticky_history = yes
@@ -75,7 +76,7 @@ in
         always_run_script = true
         title = Dunst
         class = Dunst
-        corner_radius = 18
+        corner_radius = 12
         ignore_dbusclose = false
 
         ### mouse ###
@@ -85,20 +86,20 @@ in
 
     [urgency_low]
         background = "${p.surface_container_low}"
-        foreground = "${p.blue}"
+        foreground = "${p.on_surface}"
         frame_color = "${p.surface_container_high}"
-        timeout = 3
+        timeout = 2
 
     [urgency_normal]
         background = "${p.surface_container_low}"
-        foreground = "${p.primary}"
-        frame_color = "${p.outline}"
-        timeout = 8
+        foreground = "${p.on_surface}"
+        frame_color = "${p.primary}"
+        timeout = 3
 
     [urgency_critical]
-        background = "${p.surface_container_low}"
-        foreground = "${p.error}"
-        frame_color = "${p.error}"
+        background = "${p.error}"
+        foreground = "${p.on_error}"
+        frame_color = "${p.surface_container_high}"
         timeout = 0
   '';
 }
