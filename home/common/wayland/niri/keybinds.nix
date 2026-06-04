@@ -263,25 +263,16 @@ let
       "context"
     ];
 
-    "super+grave".action = spawn [
-      "${eww-cmd}/manage"
-      "toggle"
-      "sidebar"
+    "super+bracketleft".action = spawn [
+      "/home/${config.home.username}/Flake/bin/notify.sh"
+      "time"
     ];
-    "super+Shift+a".action = spawn [
-      "${eww-cmd}/manage"
-      "toggle"
-      "alarms"
-    ];
-    "super+Shift+w".action = spawn [
-      "${eww-cmd}/manage"
-      "toggle"
-      "networks"
+    "super+bracketright".action = spawn [
+      "/home/${config.home.username}/Flake/bin/notify.sh"
+      "bat"
     ];
     "super+x".action = spawn [
-      "${eww-cmd}/manage"
-      "toggle"
-      "powermenu"
+      "/home/${config.home.username}/.config/rofi/powermenu.sh"
     ];
   };
 

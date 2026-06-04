@@ -45,7 +45,7 @@ in
         sort = yes
 
         ### Text ###
-        font = ${f.regular.family} 10
+        font = ${f.regular.family} 14
         line_height = 10
         markup = full
 
