@@ -83,7 +83,7 @@ in
       # :Search Engines
       search = {
         force = true;
-        default = "google";
+        default = "ddg";
         engines = {
           "nix-pkgs" = {
             name = "Nix Packages";
