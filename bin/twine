@@ -1,0 +1,2 @@
+#!/bin/sh
+WINEPREFIX="$HOME/tmp/tmpWine" wine "$@"
