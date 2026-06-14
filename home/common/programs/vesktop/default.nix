@@ -10,10 +10,10 @@
 
   home.packages = [
     (pkgs.vesktop.overrideAttrs (old: {
-      # patches = (old.patches or []) ++ [./__readonlyFix.patch];
-      postFixup = old.postFixup + ''
+      postFixup = (old.postFixup or "") + ''
         wrapProgram $out/bin/vesktop \
-          --add-flags "--enable-features=UseOzonePlatform --ozone-platform=wayland --enable-accelerated-mjpeg-decode --enable-accelerated-video --ignore-gpu-blacklist --enable-native-gpu-memory-buffers --enable-gpu-rasterization --enable-gpu --enable-features=WebRTCPipeWireCapturer --enable-wayland-ime --wayland-text-input-version=3"
+          --add-flags "--enable-features=UseOzonePlatform --ozone-platform=wayland --enable-accelerated-mjpeg-decode --enable-accelerated-video --ignore-gpu-blacklist --enable-native-gpu-memory-buffers --enable-gpu-rasterization --enable-gpu --enable-features=WebRTCPipeWireCapturer --enable-wayland-ime --wayland-text-input-version=3" \
+          --suffix VK_ADD_DRIVER_FILES : "${pkgs.addDriverRunpath.driverLink}/share/vulkan/icd.d"
       '';
     }))
   ];

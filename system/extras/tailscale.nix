@@ -1,20 +1,10 @@
-{ host, ... }:
-let
-  exitNodeHost = "Snow";
-in
+{ ... }:
 {
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "both";
 
-    extraUpFlags =
-      if host == exitNodeHost then
-        [ "--advertise-exit-node" ]
-      else
-        [
-          "--exit-node=${exitNodeHost}"
-          "--exit-node-allow-lan-access"
-        ];
+    extraUpFlags = "--advertise-exit-node";
   };
 
   # Standard port for Tailscale's WireGuard traffic

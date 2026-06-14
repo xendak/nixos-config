@@ -109,6 +109,15 @@ in
         mode = "600";
       };
 
+      syncthing = {
+        file = ../secrets/syncthing.age;
+        symlink = false;
+        name = "syncthing";
+        owner = "xendak";
+        group = "users";
+        mode = "600";
+      };
+
       steamgriddb = {
         file = ../secrets/steamgriddb.age;
         symlink = false;

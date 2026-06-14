@@ -1,10 +1,17 @@
 {
   pkgs,
+  inputs,
   ...
 }:
+let
+  pkgs-pr = import inputs.discord-pr {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    config.allowUnfree = true;
+  };
+in
 {
   home.packages = [
-    (pkgs.discord-canary.override {
+    (pkgs-pr.discord-canary.override {
       nss = pkgs.nss_latest;
       withOpenASAR = true;
     })

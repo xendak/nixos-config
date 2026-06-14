@@ -91,6 +91,9 @@ in
 
           $env.EDITOR = "hx"
           $env.VISUAL = "hx"
+          $env.SYSTEMD_PAGER = $env.PAGER
+          $env.SYSTEMD_PAGERSECURE = "true"
+
           $env.HOSTNAME = "${host}"
           $env.FZF_DEFAULT_OPTS_FILE = "/home/${config.home.username}/.config/fzf/colors"
 

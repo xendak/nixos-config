@@ -120,6 +120,22 @@
         "type": "github"
       }
     },
+    "discord-pr": {
+      "locked": {
+        "lastModified": 1781205785,
+        "narHash": "sha256-ZsqGzg2hD8e40wwc1kgJGt2qgI8dsp7uDR9OiTGGPbc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "36e2217e8c30e59f1708e44df9bf00c31565e476",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "pull/530836/head",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "firefox-addons": {
       "inputs": {
         "nixpkgs": [
@@ -1480,6 +1496,7 @@
         "agenix": "agenix",
         "ags": "ags",
         "auto-cpufreq": "auto-cpufreq",
+        "discord-pr": "discord-pr",
         "firefox-addons": "firefox-addons",
         "gobuild": "gobuild",
         "hardware": "hardware",

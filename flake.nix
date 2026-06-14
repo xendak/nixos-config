@@ -24,6 +24,9 @@
     # FIX(xendak): broken as 0.9.5
     nixpkgs-owui.url = "github:NixOS/nixpkgs/d99b013d5d1931ad77fe3912ed218170dec5d9a4";
 
+    # FIX(xendak): discord
+    discord-pr.url = "github:NixOS/nixpkgs/pull/530836/head";
+
     # :mine
     zellij-pane-toggle = {
       url = "path:./pkgs/zellij-pane-toggle";

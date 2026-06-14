@@ -20,6 +20,8 @@ in
     pkgs.gsettings-desktop-schemas
     pkgs.gsettings-qt
 
+    pkgs.w3m
+
     pkgs.bc
     pkgs.bottom
     pkgs.btop-rocm
@@ -104,17 +106,17 @@ in
 
   # icon entry for bottom
   home.file = {
-    ".local/share/applications/bottom.desktop".source =
-      pkgs.writeText "bottom.desktop"
+    ".local/share/applications/btop.desktop".source =
+      pkgs.writeText "btop.desktop"
         # ini
         ''
           [Desktop Entry]
-          Name=bottom
+          Name=btop
           Version=1.5
           GenericName=System Monitor
           Comment=A customizable cross-platform graphical process/system monitor for the terminal.
-          Exec=btm
-          Icon=/home/${config.home.username}/Flake/home/common/icons/bottom.svg
+          Exec=${pkgs.btop}/bin/btop
+          Icon=/home/${config.home.username}/Flake/home/common/icons/btop.svg
           Terminal=true
           Type=Application
           Categories=System;ConsoleOnly;Monitor;

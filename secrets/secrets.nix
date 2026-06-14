@@ -24,6 +24,8 @@ in
   "github-token.age".publicKeys = all;
   "steamgriddb.age".publicKeys = all;
   "gemini-api-key.age".publicKeys = all;
+  "syncthing.age".publicKeys = all;
+  "tailscale.age".publicKeys = all;
 }
 
 # ssh-keyscan localhost

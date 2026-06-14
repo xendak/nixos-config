@@ -12,62 +12,48 @@
     # ...
     # });
 
-    # xdg-utils-spawn-terminal = prev.xdg-utils.overrideAttrs (oldAttrs: {
-    #   patches = (oldAttrs.patches or [ ]) ++ [ ./xdg-open-spawn-terminal.diff ];
-    # });
-
-    # https://github.com/rumboon/dolphin-overlay/blob/main/default.nix
-    # hopefully this fixes dolphin for me.
-    # https://discourse.nixos.org/t/dolphin-does-not-have-mime-associations/48985/7
+    # Fixes missing mime associations/Open With menus in Dolphin on KDE 6 updates
     kdePackages = prev.kdePackages.overrideScope (
-      kfinal: kprev: {
-        dolphin = kprev.dolphin.overrideAttrs (oldAttrs: {
-          nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.makeWrapper ];
-          postInstall = (oldAttrs.postInstall or "") + ''
-            wrapProgram $out/bin/dolphin \
-                --set XDG_CONFIG_DIRS "${prev.kdePackages.kservice}/etc/xdg:$XDG_CONFIG_DIRS" \
-                --run "${kprev.kservice}/bin/kbuildsycoca6 --noincremental ${prev.kdePackages.kservice}/etc/xdg/menus/applications.menu"
+      kfinal: kprev:
+      let
+        kservice5Menu = prev.stdenv.mkDerivation {
+          name = "kservice5-applications-menu";
+          version = "5.116.0";
+
+          src = prev.fetchFromGitLab {
+            domain = "invent.kde.org";
+            owner = "frameworks";
+            repo = "kservice";
+            tag = "v5.116.0";
+            sparseCheckout = [ "src/applications.menu" ];
+            hash = "sha256-28ueuJiI34o1wayiq85KPNkUCwjdhPMYtU2nJTQ84V4=";
+          };
+
+          installPhase = ''
+            mkdir -p $out/etc/xdg/menus
+            cp ./src/applications.menu $out/etc/xdg/menus/applications.menu
           '';
-        });
+        };
+      in
+      {
+        dolphin = prev.symlinkJoin {
+          name = "dolphin-wrapped";
+          paths = [ kprev.dolphin ];
+          nativeBuildInputs = [ prev.makeWrapper ];
+
+          postBuild = ''
+            rm $out/bin/dolphin
+            makeWrapper ${kprev.dolphin}/bin/dolphin $out/bin/dolphin \
+              --prefix XDG_CONFIG_DIRS : "${kservice5Menu}/etc/xdg" \
+              --run "${kprev.kservice}/bin/kbuildsycoca6 --noincremental ${kservice5Menu}/etc/xdg/menus/applications.menu"
+          '';
+        };
       }
     );
 
     openldap = prev.openldap.overrideAttrs {
       doCheck = !prev.stdenv.hostPlatform.isi686;
     };
-    # TODO: fix this patch
-    # rbw = prev.rbw.overrideAttrs (oldAttrs: {
-    #   patches = (oldAttrs.patches or [ ]) ++ [ ./rbw-list-raw.patch ];
-    # });
-
-    # ols = prev.ols.overrideAttrs (oldAttrs: {
-    #   src = prev.fetchFromGitHub {
-    #     owner = "DanielGavin";
-    #     repo = "ols";
-    #     rev = "dev-2026-03";
-    #     hash = "sha256-QjkzR9Wnc+Poq7dxDlik9k1maEs8xiFuNbwRdv8nqyo=";
-    #   };
-    #   nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.makeBinaryWrapper ];
-
-    #   postPatch = ''
-    #     sed -i 's/-microarch:native//g' build.sh
-    #     patchShebangs build.sh odinfmt.sh
-    #   '';
-
-    #   installPhase = ''
-    #     runHook preInstall
-
-    #     install -Dm755 ols odinfmt -t $out/bin/
-    #     wrapProgram $out/bin/ols \
-    #       --prefix PATH : ${prev.odin}/bin \
-    #       --set-default ODIN_ROOT ${prev.odin}/share \
-    #       --set-default OLS_BUILTIN_FOLDER ${prev.odin}/share/base/builtin
-
-    #     runHook postInstall
-    #   '';
-
-    # });
-
     avrdude = prev.avrdude.override {
       docSupport = false;
     };

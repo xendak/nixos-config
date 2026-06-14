@@ -22,7 +22,9 @@
 
     interactiveShellInit = ''
       shopt -s histappend
-      export PAGER=ov
+      export PAGER="${pkgs.ov}/bin/ov"
+      export SYSTEMD_PAGER="${pkgs.ov}/bin/ov"
+      export SYSTEMD_PAGERSECURE=true
       eval "$(${pkgs.fzf}/bin/fzf --bash)"
       PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
     '';
