@@ -29,6 +29,34 @@ $env.config.keybindings = [
       cmd: "commandline | wl-copy"
     }
   }
+  # {
+  #   name: fuzzy_history
+  #   modifier: control
+  #   keycode: char_r
+  #   mode: [emacs, vi_normal, vi_insert]
+  #   event: [
+  #     {
+  #       send: ExecuteHostCommand
+  #       cmd: "commandline edit --insert (
+  #         history
+  #           | get command
+  #           | reverse
+  #           | uniq
+  #           | str join (char -i 0)
+  #           | fzf
+  #             --preview '{}'
+  #             --preview-window 'right:30%'
+  #             --scheme history
+  #             --read0
+  #             --layout reverse
+  #             --height 40%
+  #             --query (commandline)
+  #           | decode utf-8
+  #           | str trim
+  #       )"
+  #     }
+  #   ]
+  # }
   {
     name: fuzzy_history
     modifier: control
@@ -37,23 +65,25 @@ $env.config.keybindings = [
     event: [
       {
         send: ExecuteHostCommand
-        cmd: "commandline edit --insert (
-          history
+        cmd: "do {
+          commandline edit --insert (
+            history
             | get command
             | reverse
             | uniq
             | str join (char -i 0)
-            | fzf
-              --preview '{}'
-              --preview-window 'right:30%'
-              --scheme history
-              --read0
-              --layout reverse
-              --height 40%
-              --query (commandline)
+            | fzf --scheme=history 
+                --read0
+                --layout=reverse
+                --height=40%
+                --bind 'ctrl-/:change-preview-window(right,70%|right)'
+                --preview {}
+                # Run without existing commandline query for now to test composability
+                # -q (commandline)
             | decode utf-8
             | str trim
-        )"
+          )
+        }"
       }
     ]
   }
