@@ -74,8 +74,8 @@ let
 in
 {
   isLazy = lazy;
-  slug = "nier-material";
-  name = "nier-material";
+  slug = "nier";
+  name = "nier";
   # TODO: zen browser disregards this shit apparently ??
   type = "light"; # maybe this is bad ? most of programs seem to disable the light zz
   author = "xendak";

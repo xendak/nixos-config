@@ -13,8 +13,6 @@ let
   playerctl = "${config.services.playerctld.package}/bin/playerctl";
   wl-ocr-freeze = "/home/${config.home.username}/Flake/bin/wl-ocr-freeze";
 
-  eww-cmd = "${config.xdg.configHome}/eww/scripts";
-
   baseterminal = config.home.sessionVariables.TERMINAL;
   terminal =
     {
@@ -22,8 +20,8 @@ let
         "wezterm"
         "start"
       ];
-      "footclient" = [
-        "footclient"
+      "foot" = [
+        "foot"
         "nu"
         "-l"
         "-c"
@@ -40,8 +38,8 @@ let
         "--class"
         "f_wez"
       ];
-      "footclient" = [
-        "footclient"
+      "foot" = [
+        "foot"
         "-a"
         "f_foot"
       ];
@@ -56,8 +54,8 @@ let
         "--class"
         "f_yazi"
       ];
-      "footclient" = [
-        "footclient"
+      "foot" = [
+        "foot"
         "-a"
         "f_yazi"
       ];

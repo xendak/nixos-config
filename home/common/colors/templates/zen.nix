@@ -35,6 +35,14 @@ in
           --toolbox-textcolor: ${p.fg} !important;
           --toolbar-color: ${p.fg} !important;
 
+          --zen-branding-dark: ${p.surface_container_low} !important;
+          --zen-branding-paper: ${p.fg} !important;
+          --arrowpanel-border-color: ${p.primary} !important;
+          
+          --zen-themed-toolbar-bg-transparent: ${p.surface_container_low} !important;
+          --zen-main-browser-background-toolbar: ${p.surface_container_low} !important;
+          --zen-navigator-toolbox-background: ${p.surface_container_low} !important;
+
         }
 
         .zen-view-splitter-header {
@@ -174,6 +182,8 @@ in
         #zen-browser-background,
         .zen-browser-generic-background,
         .zen-toolbar-background,
+        .zen-browser-generic-background::before,
+        .zen-browser-generic-background::after,
         #navigator-toolbox,
         #tabbrowser-tabbox,
         #main-window {
@@ -204,11 +214,8 @@ in
 
         @media (-moz-platform: macos) {
           :root {
-            --zen-themed-toolbar-bg-transparent: ${p.surface_container_low} !important;
-            --zen-main-browser-background-toolbar: ${p.surface_container_low} !important;
             --zen-main-browser-background-old: ${p.surface_container_low} !important;
             --zen-main-browser-background-toolbar-old: ${p.surface_container_low} !important;
-            --zen-navigator-toolbox-background: ${p.surface_container_low} !important;
           }
         }
       }

@@ -5,8 +5,12 @@
   ...
 }:
 let
-  llama-cpp-rocm = pkgs.llama-cpp.override { rocmSupport = true; };
-  llama-server-bin = "${llama-cpp-rocm}/bin/llama-server";
+  llama-cpp-custom = pkgs.llama-cpp.override {
+    vulkanSupport = true;
+    rocmSupport = false;
+  };
+
+  llama-server-bin = "${llama-cpp-custom}/bin/llama-server";
   modelPath = "/local/nixos/data/AI/models";
 
   ctx_size = "32768";
@@ -14,6 +18,33 @@ let
     includeAliasesInList: true
 
     models:
+      "Gemma4":
+        ttl: 300
+        cmd: >
+          ${llama-server-bin}
+          --port ''${PORT}
+          --host 0.0.0.0
+          --model ${modelPath}/gemma4-coding-Q8_0.gguf
+          -ngl 999
+          --ctx-size 16384
+          --flash-attn on
+          --no-mmap
+          --parallel 1
+          --jinja
+          --batch-size 2048
+          --ubatch-size 1024
+          --cache-type-k q8_0
+          --cache-type-v q8_0
+        filters:
+          stripParams: "temperature, top_p, top_k"
+          setParamsByID:
+            "Gemma4":
+              chat_template_kwargs:
+                enable_thinking: false
+              temperature: 1.0
+              top_p: 0.95
+              top_k: 64
+
       "Qwen":
         ttl: 300
         cmd: >
@@ -22,7 +53,7 @@ let
           --port ''${PORT}
           --host 0.0.0.0
           --model ${modelPath}/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf
-          --mmproj /local/nixos/data/AI/models/mmproj-BF16.gguf
+          --mmproj ${modelPath}/qwen-mmproj-BF16.gguf
           -ngl 999
           --n-cpu-moe 18
           --fit on
@@ -93,7 +124,7 @@ in
 
   environment.systemPackages = [
     pkgs.llama-swap
-    llama-cpp-rocm
+    llama-cpp-custom
   ];
 
   networking.firewall.interfaces."tailscale0".allowedTCPPorts = [

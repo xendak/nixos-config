@@ -22,6 +22,10 @@ in
   home.packages = [
     pkgs.alpaca
     pkgs.opencode
+
+    # trying out
+    pkgs.pi-coding-agent
+    pkgs.jan
   ];
 
   xdg.configFile."opencode/config.json".text = builtins.toJSON {

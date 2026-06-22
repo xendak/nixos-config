@@ -77,8 +77,8 @@ let
 in
 {
   isLazy = lazy;
-  slug = "gorgoroth-material";
-  name = "gorgoroth-material";
+  slug = "gorgoroth";
+  name = "gorgoroth";
   type = "dark";
   author = "xendak";
   must = must;

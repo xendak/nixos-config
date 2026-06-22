@@ -44,7 +44,10 @@
     obs-studio
     mangohud
 
-    # mkxp-z
+    # fr some games
+    nwjs
+    mkxp-z
+
     xdg-desktop-portal-termfilechooser
 
     eb-garamond
@@ -121,7 +124,7 @@
       PAGER = "ov";
 
       # TERMINAL = "kitty -1 --listen-on=unix:@mykitty";
-      TERMINAL = lib.mkForce "footclient";
+      TERMINAL = lib.mkForce "foot";
 
       BROWSER = "zen-beta";
       FILEBROWSER = "dolphin";

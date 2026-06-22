@@ -1,0 +1,2 @@
+#!/bin/sh
+steam-run "$HOME/.local/share/umu/steamrt3/pressure-vessel/bin/steam-runtime-launch-client" --bus-name=:$1 -- bash

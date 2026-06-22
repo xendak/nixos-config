@@ -89,13 +89,13 @@ in
             name = "Nix Packages";
             urls = [ { template = "https://search.nixos.org/packages?channel=25.11&query={searchTerms}"; } ];
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-            definedAliases = [ "np" ];
+            definedAliases = [ "@np" ];
           };
           "nix-opts" = {
             name = "Nix Options";
             urls = [ { template = "https://search.nixos.org/options?channel=25.11&query={searchTerms}"; } ];
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-            definedAliases = [ "no" ];
+            definedAliases = [ "@no" ];
           };
           "hm-opts" = {
             name = "Home Manager";
@@ -103,34 +103,34 @@ in
               { template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=master"; }
             ];
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-            definedAliases = [ "hm" ];
+            definedAliases = [ "@hm" ];
           };
           "gmaps" = {
             name = "Google Maps";
             urls = [ { template = "https://www.google.com/maps/search/{searchTerms}"; } ];
-            definedAliases = [ "mp" ];
+            definedAliases = [ "@mp" ];
             icon = getIcon "https://www.svgrepo.com/show/452221/google-maps.svg" "sha256-Oo40W2RCHluP8Fbhdf7ver9HuvLFtnJ7InNn5zH8Ufg=";
           };
           "zig-std" = {
             name = "Zig Standard Library";
             urls = [ { template = "https://ziglang.org/documentation/master/std/#?q={searchTerms}"; } ];
             icon = getIcon "https://codeberg.org/ziglang/logo/raw/branch/master/zig-mark.svg" "sha256-7MCjT6X3U+W7FzD5feoze23ycitZqlJpbqkOLqbkXtQ=";
-            definedAliases = [ "z" ];
+            definedAliases = [ "@z" ];
           };
           "google" = {
             name = "Google";
             urls = [ { template = "https://www.google.com/search?q={searchTerms}"; } ];
-            definedAliases = [ "g" ];
+            definedAliases = [ "@g" ];
           };
           "ddg" = {
             name = "DuckDuckGo";
             urls = [ { template = "https://duckduckgo.com/?q={searchTerms}"; } ];
-            definedAliases = [ "d" ];
+            definedAliases = [ "@d" ];
           };
           "applem" = {
             name = "Apple Music";
             urls = [ { template = "https://music.apple.com/us/search?term={searchTerms}"; } ];
-            definedAliases = [ "m" ];
+            definedAliases = [ "@m" ];
           };
           "perplexity".metaData.hidden = true;
           "bing".metaData.hidden = true;

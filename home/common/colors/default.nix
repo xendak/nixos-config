@@ -7,7 +7,7 @@
 {
   themes = {
     enable = true;
-    theme = "gorgoroth-material";
+    theme = "gorgoroth";
     palettesPath = ./palettes;
     templatesPath = ./templates;
     wallpaper = "/home/${config.home.username}/Flake/home/common/wallpapers/13.jpg";

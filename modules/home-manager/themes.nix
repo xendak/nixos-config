@@ -63,7 +63,6 @@ let
             qs -d -c "/home/${config.home.username}/Flake/home/common/programs/quickshell/niri/"
           ''
       }
-      foot --server
     '';
   };
 

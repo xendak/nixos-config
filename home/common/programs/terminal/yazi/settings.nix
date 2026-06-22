@@ -185,7 +185,10 @@
           url = "*.mpk";
           run = "noop";
         }
-
+        {
+          url = "*.gguf";
+          run = "noop";
+        }
       ];
       append_previewers = [
         {
@@ -226,6 +229,10 @@
         }
         {
           url = "*.mpk";
+          run = "noop";
+        }
+        {
+          url = "*.gguf";
           run = "noop";
         }
       ];
