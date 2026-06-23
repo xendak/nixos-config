@@ -17,7 +17,7 @@ let
       ];
     }
     { command = [ "awww-daemon" ]; }
-    { command = [ "nix-theme-starter" ]; }
+    { command = [ "vynta-start" ]; }
     { command = [ "xwayland-satellite" ]; }
     {
       command = [

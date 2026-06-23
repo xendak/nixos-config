@@ -20,10 +20,10 @@ Singleton {
     property string actualCurrent
 
     readonly property list<var> preppedSchemes: list.map(w => ({
-            name: Fuzzy.prepare(w.name),
-            path: Fuzzy.prepare(w.path),
-            scheme: w
-        }))
+                name: Fuzzy.prepare(w.name),
+                path: Fuzzy.prepare(w.path),
+                scheme: w
+            }))
 
     function fuzzyQuery(search: string): var {
         return Fuzzy.go(search, preppedSchemes, {
@@ -34,14 +34,8 @@ Singleton {
     }
 
     function setNixfile(theme: string): void {
-        setScheme.command = [
-            "sh", "-c",
-            `nix-theme-switcher ${theme}`
-        ]
-        notifyScheme.command = [
-            "sh", "-c", 
-            `notify-send "Theme Manager" --expire-time=2000 --app-name="Theme Manager" --icon=preferences-desktop-theme "Theme switched to ${theme}"`
-        ]
+        setScheme.command = ["sh", "-c", `vynta ${theme}`];
+        notifyScheme.command = ["sh", "-c", `notify-send "Theme Manager" --expire-time=2000 --app-name="Theme Manager" --icon=preferences-desktop-theme "Theme switched to ${theme}"`];
         notifyScheme.startDetached();
         setScheme.startDetached();
     }
@@ -50,14 +44,8 @@ Singleton {
         actualCurrent = path;
         setScheme.path = path;
         const schemeName = path.slice(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
-        setScheme.command = [
-            "sh", "-c",
-            `nix-theme-switcher ${schemeName}`
-        ]
-        notifyScheme.command = [
-            "sh", "-c", 
-            `notify-send "Theme Manager" --expire-time=2000 --app-name="Theme Manager" --icon=preferences-desktop-theme "Theme switched to ${schemeName}"`
-        ]
+        setScheme.command = ["sh", "-c", `vynta ${schemeName}`];
+        notifyScheme.command = ["sh", "-c", `notify-send "Theme Manager" --expire-time=2000 --app-name="Theme Manager" --icon=preferences-desktop-theme "Theme switched to ${schemeName}"`];
         notifyScheme.startDetached();
         setScheme.startDetached();
     }
@@ -66,10 +54,10 @@ Singleton {
         previewPath = path;
         showPreview = false;
         const schemeName = path.slice(path.lastIndexOf("/") + 1, path.lastIndexOf("."));
-        // getPreviewColoursProc.command = ["/home/flakes/tmp/nix-theme-switcher-preview", schemeName]
+        // getPreviewColoursProc.command = ["/home/flakes/tmp/vynta-preview", schemeName]
         // getPreviewColoursProc.command = [
-        //     "sh", "-c", 
-        //     // `/home/flakes/tmp/nix-theme-switcher-preview ${schemeName} && cat /home/flakes/.local/state/caelestia/scheme/preview.txt`
+        //     "sh", "-c",
+        //     // `/home/flakes/tmp/vynta-preview ${schemeName} && cat /home/flakes/.local/state/caelestia/scheme/preview.txt`
         //     // `/home/flakes/tmp/helper ${schemeName} && cat ${Paths.state}/scheme/preview.txt`
         //         `cat ${setNamePath}`
         // ]
@@ -111,7 +99,7 @@ Singleton {
             onRead: data => {
                 console.log(data);
                 Colours.load(data, true);
-                // Colours.showPreview = true;
+            // Colours.showPreview = true;
             }
         }
     }

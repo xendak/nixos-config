@@ -1517,6 +1517,7 @@
         "quickshell": "quickshell",
         "rust-overlay": "rust-overlay",
         "uwu-colors": "uwu-colors",
+        "vynta": "vynta",
         "wezterm": "wezterm",
         "wezterm-floating": "wezterm-floating",
         "xdg-termfilepickers": "xdg-termfilepickers",
@@ -1796,6 +1797,26 @@
       "original": {
         "owner": "q60",
         "repo": "uwu_colors",
+        "type": "github"
+      }
+    },
+    "vynta": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782186045,
+        "narHash": "sha256-N9IrzI+XWs1Pmt+Sll5KlWMzhwLm3o8XMuHpSB6szeY=",
+        "owner": "xendak",
+        "repo": "vynta",
+        "rev": "1bb3bf23441caccc20b22040bddb63dcadf974b4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "xendak",
+        "repo": "vynta",
         "type": "github"
       }
     },

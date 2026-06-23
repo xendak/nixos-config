@@ -69,7 +69,7 @@
         exec-once = [
           "awww-daemon"
           "fish $HOME/Flake/home/common/programs/quickshell/hyprland/wallpaper.fish -f ${wallpaper}"
-          "/home/${config.home.username}/Flake/bin/nix-theme-starter gorgoroth"
+          "vynta-start"
           "mkdir -p $HOME/tmp/Screenshots"
           "rmdir -r $HOME/Desktop"
           "hyprctl setcursor '${config.gtk.cursorTheme.name}' 32"

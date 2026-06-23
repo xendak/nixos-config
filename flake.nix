@@ -32,6 +32,10 @@
       url = "path:./pkgs/zellij-pane-toggle";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    vynta = {
+      url = "github:xendak/vynta";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     gobuild = {
       url = "github:xendak/gobuild";

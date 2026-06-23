@@ -52,17 +52,16 @@ Singleton {
     }
 
     function setMode(mode: string): void {
-        Nixschemes.setNixfile(mode)
+        Nixschemes.setNixfile(mode);
         // setModeProc.command = ["nix-theme-switcher", mode];
         // notifyScheme.command = [
-        //     "sh", "-c", 
+        //     "sh", "-c",
         //     `notify-send "Theme Manager" --expire-time=2000 --app-name="Theme Manager" --icon=preferences-desktop-theme "Theme switched to ${mode}"`
         // ]
-        // // 
+        // //
         // // setModeProc.command = ["caelestia", "scheme", "dynamic", "default", mode];
         // setModeProc.startDetached();
-        reload()
-
+        reload();
     }
 
     Process {

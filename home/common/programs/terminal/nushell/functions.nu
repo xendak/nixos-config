@@ -475,8 +475,8 @@ def get-ssh-flags [] {
   }
 }
 
-def "nu-complete nix-themes" [] {
-  let output = (nix-theme-switcher | complete | get stdout)
+def "nu-complete vynta-themes" [] {
+  let output = (vynta | complete | get stdout)
   
   $output 
   | lines 
@@ -486,6 +486,6 @@ def "nu-complete nix-themes" [] {
   | split row -r '\s+' 
   | where ($it | str length) > 0
 }
-export extern "nix-theme-switcher" [
-    theme?: string@"nu-complete nix-themes"
+export extern "vynta" [
+    theme?: string@"nu-complete vynta-themes"
 ]

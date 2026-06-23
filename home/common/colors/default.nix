@@ -2,107 +2,101 @@
   config,
   host,
   lib,
+  inputs,
   ...
 }:
 {
+  imports = [
+    inputs.vynta.homeManagerModules.default
+    inputs.vynta.homeManagerModules.targets
+  ];
+
   themes = {
     enable = true;
     theme = "gorgoroth";
-    palettesPath = ./palettes;
-    templatesPath = ./templates;
-    wallpaper = "/home/${config.home.username}/Flake/home/common/wallpapers/13.jpg";
+    wallpaper = "${config.home.homeDirectory}/Flake/home/common/wallpapers/13.jpg";
+    stateDir = "${config.home.homeDirectory}/Flake";
 
-    targets =
-      let
-        home = config.home.homeDirectory;
-      in
-      {
-        # GTK
-        "gtk/gtk.css" = "${home}/.config/gtk-3.0/gtk.css";
-        "gtk/gtk.css_clone_1" = "${home}/.config/gtk-3.0/gtk-dark.css";
-        "gtk/settings.ini" = "${home}/.config/gtk-3.0/settings.ini";
-        "gtk/gtk.css_clone_2" = "${home}/.config/gtk-4.0/gtk.css";
-        "gtk/gtk.css_clone_3" = "${home}/.config/gtk-4.0/gtk-dark.css";
-        "gtk/settings.ini_clone_1" = "${home}/.config/gtk-4.0/settings.ini";
-        "gtk/settings.ini_clone_2" = "${home}/.config/gtk-2.0/gtkrc";
+    wallpaperScript = [
+      "fish"
+      "${config.home.homeDirectory}/Flake/home/common/programs/quickshell/niri/wallpaper.fish"
+      "-f"
+    ];
 
-        # QT / KDE
-        "qt/qt.conf" = "${home}/.config/qt5ct/qt5ct.conf";
-        "qt/qt.conf_clone_1" = "${home}/.config/qt6ct/qt6ct.conf";
-        "qt/colors.conf" = "${home}/.config/qt5ct/colors/current.conf";
-        "qt/colors.conf_clone_1" = "${home}/.config/qt6ct/colors/current.conf";
-        "qt/kdeglobals" = "${home}/.config/kdeglobals";
-        "qt/current.colors" = "${home}/.local/share/color-schemes/current.colors";
+    palettes = inputs.vynta.builtinPalettes // { };
 
-        # Browsers
-        "zen/userChrome.css" = "${home}/.config/zen/${config.home.username}/chrome/userChrome.css";
-        "zen/userContent.css" = "${home}/.config/zen/${config.home.username}/chrome/userContent.css";
+    # vynta-start
+    starterExtraCommands =
+      # bash
+      ''
+        [ -d "$HOME/Desktop"   ] && rmdir "$HOME/Desktop"   2>/dev/null
+        [ -d "$HOME/Templates" ] && rmdir "$HOME/Templates" 2>/dev/null
+        [ -d "$HOME/Public"    ] && rmdir "$HOME/Public"    2>/dev/null
+        [ -d "$HOME/.cache"    ] && rm -rf "$HOME/.cache"   2>/dev/null
+        [ -d "$HOME/Projects"  ] && rmdir "$HOME/Projects"  2>/dev/null
+        [ -d "$HOME/tmp/Screenshots" ] || mkdir -p "$HOME/tmp/Screenshots" 2>/dev/null
+      ''
+      +
+        lib.optionalString (host != "Rain")
+          # bash
+          ''
+            pkill -x "quickshell" || true
+            sleep 0.2
+            qs -d -c "${config.home.homeDirectory}/Flake/home/common/programs/quickshell/niri/"
+          ''
+      +
+        lib.optionalString (host == "Rain")
+          # bash
+          ''
+            cp -r "/persist/home/${config.home.username}/Flake/home/mac/eww/elena-fonts" "/home/${config.home.username}/.local/share/fonts"
+            cp -r "/persist/home/${config.home.username}/Flake/home/mac/eww" "/home/${config.home.username}/.config/eww"
+            sh "/home/${config.home.username}/Flake/bin/battery-monitor" &
+          '';
 
-        # FZF
-        "fzf/colors" = "${home}/.config/fzf/colors";
+    # GTK / QT
+    targets-gtk.enable = true;
+    targets-qt.enable = true;
 
-        # Zellij
-        "zellij/default.kdl" = "${home}/.config/zellij/themes/default.kdl";
+    # Editors
+    targets-helix.enable = true;
+    targets-emacs.enable = true;
+    targets-nvim.enable = true;
+    targets-kak.enable = true;
 
-        # Obsidian
-        "obsidian/theme.css" = "${home}/Documents/Notes/xendak/.obsidian/snippets/material-theme.css";
-        "obsidian/shiki.json" = "${home}/Documents/Notes/xendak/.obsidian/themes/shiki.json";
+    # vaultDir defaults to ~/Documents/Notes/<username>
+    targets-obsidian.enable = true;
 
-        # Fcitx5
-        "fcitx5/theme.conf" = "${home}/.local/share/fcitx5/themes/current/theme.conf";
-        "fcitx5/highlight.svg" = "${home}/.local/share/fcitx5/themes/current/highlight.svg";
-        "fcitx5/panel.svg" = "${home}/.local/share/fcitx5/themes/current/panel.svg";
+    # Terminals
+    targets-foot.enable = true;
+    targets-zellij.enable = true;
+    targets-wezterm.enable = true;
 
-        # Zathura
-        "zathura/zathurarc" = "${home}/.config/zathura/zathurarc";
+    # Term Utils
+    targets-yazi.enable = true;
+    targets-zathura.enable = true;
+    targets-lazygit.enable = true;
+    targets-fzf.enable = true;
+    targets-rofi.enable = true;
+    targets-nushell = {
+      enable = true;
+      file = "${config.home.homeDirectory}/Flake/home/common/programs/terminal/nushell/colors.nu";
+    };
 
-        # Quickshell ( half of it is done by itself )
-        # "quickshell/theme.txt" = "${home}/.local/state/caelestia/scheme/current.txt";
-        "quickshell/theme.txt" = "${home}/.local/state/caelestia/scheme/preview.txt";
+    # Discord
+    targets-vesktop.enable = true;
+    targets-discordcanary.enable = true;
 
-        # Vesktop / Discord
-        "vesktop/quickCss.css" = "${home}/.config/vesktop/settings/quickCss.css";
-        "discord/settings.json" = "${home}/.config/discord/settings.json";
-        "discord/settings.json_clone_1" = "${home}/.config/discordcanary/settings.json";
+    # Desktop
+    targets-niri.enable = true;
+    targets-caelestia.enable = true;
+    targets-fcitx5.enable = true;
 
-        # Rofi
-        "rofi/config.rasi" = "${home}/.config/rofi/config.rasi";
-        "rofi/fullscreen-preview.rasi" = "${home}/.config/rofi/fullscreen-preview.rasi";
-        "rofi/powermenu.rasi" = "${home}/.config/rofi/powermenu.rasi";
+    # Browser
+    # profileDir defaults to ~/.config/zen/<username>
+    targets-zen.enable = true;
 
-        # Helix
-        "helix/themes/current.toml" = "${home}/.config/helix/themes/current.toml";
-
-        # Kakoune
-        "kak/colors/current.kak" = "${home}/.config/kak/colors/current.kak";
-
-        # Nvim
-        "nvim/colors.vim" = "${home}/.config/nvim/colors.vim";
-
-        # Niri
-        "niri/colors.kdl" = "${home}/.config/niri/colors.kdl";
-
-        # Yazi
-        "yazi/theme.toml" = "${home}/.config/yazi/theme.toml";
-
-        # Lazygit
-        "lazygit/config.yml" = "${home}/.config/lazygit/config.yml";
-
-        # Wezterm
-        "wezterm/colors/current.lua" = "${home}/.config/wezterm/colors/current.lua";
-
-        # Foot
-        "foot/colors.ini" = "${home}/.config/foot/colors.ini";
-
-        # Emacs
-        "emacs/themes/custom-nix-theme.el" = "${home}/.config/emacs/themes/custom-nix-theme.el";
-      }
-      // lib.optionalAttrs (host == "Rain") {
-        # Macbook Air only
-        "dunst/dunstrc" = "${home}/.config/dunst/dunstrc";
-        "eww/colors.scss" = "${home}/Flake/home/mac/eww/colors.scss";
-        "eww/colors.yuck" = "${home}/Flake/home/mac/eww/colors.yuck";
-      };
-
+    # :Rain
+    targets-dunst.enable = host == "Rain";
+    targets-eww.enable = host == "Rain";
   };
 }
