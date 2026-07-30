@@ -34,6 +34,7 @@ in
     pkgs.protontricks
     pkgs.mangohud
     pkgs.umu-launcher
+    pkgs.steam-run
     # steamtinkerlaunch
   ];
 

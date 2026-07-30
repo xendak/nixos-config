@@ -51,7 +51,7 @@ in
     pkgs.rich-cli
     pkgs.imv
     pkgs.ov
-    pkgs.moar
+    pkgs.moor
     pkgs.sxiv
 
     # :c :cpp

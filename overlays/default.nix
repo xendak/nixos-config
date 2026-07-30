@@ -51,6 +51,21 @@
       }
     );
 
+    # TODO(xendak): remove this later
+    libdisplay-info_0_3 = prev.libdisplay-info.overrideAttrs (_oldAttrs: {
+      version = "0.3.0";
+      src = prev.fetchFromGitLab {
+        domain = "gitlab.freedesktop.org";
+        owner = "emersion";
+        repo = "libdisplay-info";
+        rev = "0.3.0";
+        hash = "sha256-nXf2KGovNKvcchlHlzKBkAOeySMJXgxMpbi5z9gLrdc=";
+      };
+    });
+
+    niri = prev.niri.override { libdisplay-info = final.libdisplay-info_0_3; };
+    lact = prev.lact.override { libdisplay-info = final.libdisplay-info_0_3; };
+
     openldap = prev.openldap.overrideAttrs {
       doCheck = !prev.stdenv.hostPlatform.isi686;
     };

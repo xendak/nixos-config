@@ -4,11 +4,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
-    # impermanence.url = "github:nix-community/impermanence";
-    # impermanence.url = "github:misterio77/impermanence";
     impermanence = {
       # https://github.com/nix-community/impermanence/pull/272#discussion_r2230796215
-      url = "github:misterio77/impermanence";
+      # url = "github:misterio77/impermanence";
+      url = "github:nix-community/impermanence";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
@@ -36,7 +35,6 @@
       url = "github:xendak/vynta";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     gobuild = {
       url = "github:xendak/gobuild";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -95,7 +93,7 @@
     # matugen.url = "github:InioX/matugen";
 
     niri = {
-      url = "github:sodiboo/niri-flake";
+      url = "github:epireyn/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

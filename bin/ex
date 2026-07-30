@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  echo "Usage:"
+  echo "  extract <output_directory> <archive_file>"
+  echo "  extract <archive_file>  (extracts to current directory)"
+  exit 1
+}
+
+# Check for valid number of arguments
+if [ "$#" -eq 0 ] || [ "$#" -gt 2 ]; then
+  usage
+fi
+
+# Parse arguments based on count
+if [ "$#" -eq 1 ]; then
+  OUTDIR="$PWD"
+  ARCHIVE="$1"
+else
+  OUTDIR="$1"
+  ARCHIVE="$2"
+fi
+
+# Ensure the archive file exists
+if [ ! -f "$ARCHIVE" ]; then
+  echo "Error: Archive file '$ARCHIVE' not found." >&2
+  exit 1
+fi
+
+# Analyze the archive to count top-level files/folders
+# 1. '7zz l -slt' outputs technical list details
+# 2. 'tr -d \r' sanitizes carriage returns
+# 3. 'grep "^Path = "' grabs the path of every item
+# 4. 'sed 1d' skips the very first line (which is the archive file itself)
+# 5. 'sed' removes the "Path = " prefix
+# 6. 'awk' splits by slashes and grabs the very first folder/file name in the path
+# 7. 'sort -u | wc -l' counts the unique top-level items
+TOP_LEVEL_COUNT=$(7zz l -slt "$ARCHIVE" | tr -d '\r' | grep "^Path = " | sed '1d' | sed 's/^Path = //' | awk -F'[/\\\\]' '{print $1}' | grep -v '^$' | sort -u | wc -l)
+
+# If it's a "zipbomb" (multiple files/folders at the root), create a subfolder
+if [ "$TOP_LEVEL_COUNT" -gt 1 ]; then
+  BASENAME=$(basename -- "$ARCHIVE")
+  NOEXT="${BASENAME%.*}"
+  OUTDIR="$OUTDIR/$NOEXT"
+  echo "Archive contains multiple top-level items ($TOP_LEVEL_COUNT)."
+  echo "Redirecting to a new subfolder: $OUTDIR"
+else
+  echo "Archive is neatly contained (single top-level folder/file)."
+fi
+
+# Ensure output directory exists
+if [ ! -d "$OUTDIR" ]; then
+  mkdir -p "$OUTDIR"
+fi
+
+# Run extraction
+echo "Extracting '$ARCHIVE' to '$OUTDIR'..."
+7zz x "$ARCHIVE" -o"$OUTDIR"

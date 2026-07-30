@@ -1,2 +1,10 @@
 #!/bin/sh
-steam-run "$HOME/.local/share/umu/steamrt3/pressure-vessel/bin/steam-runtime-launch-client" --bus-name=:$1 -- bash
+
+REQUESTED_SHELL=${1:-fish}
+
+NIX_VAR=$(which "$REQUESTED_SHELL")
+MY_SHELL=$(readlink -f "$NIX_VAR")
+
+BUS=$(cat /home/xendak/tmp/umu-run.log | grep "bus" | cut -d: -f 2 | cut -d' ' -f 1 | tr -d '\n')
+
+steam-run "$HOME/.local/share/umu/steamrt3/pressure-vessel/bin/steam-runtime-launch-client" --bus-name=:"$BUS" -- "$MY_SHELL"

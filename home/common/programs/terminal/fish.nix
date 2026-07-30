@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  host,
   ...
 }:
 let
@@ -75,7 +76,7 @@ in
       fcd = ''
         $TERMBROWSER (fd -t d . | fzf) $argv
       '';
-      zcd = ''z (fd -t d . | fzf) $argv '';
+      zcd = "z (fd -t d . | fzf) $argv ";
       wh = "readlink -f (which $argv)";
       kp = ''
           set -l __kp__pid (ps -ef | sed 1d | eval "fzf $FZF_DEFAULT_OPTS -m --header='[kill:process]'" | awk '{print $2}')
@@ -141,44 +142,44 @@ in
         end
       ";
       fish_mode_prompt = "";
-      fish_prompt = "
-        set -l last_status $status
+      fish_prompt =
+        # fish
+        ''
+          set -l last_status $status
 
-        if not set -q __fish_prompt_hostname
-        set -g __fish_prompt_hostname (hostnamectl|cut -d: -f 2)
-        end
+          if not set -q __fish_prompt_hostname
+            set -g __fish_prompt_hostname "${host}"
+          end
 
-       # Setup colors
-       # Fish Vi Mode
-        set -l red (set_color red)
-        if test $fish_bind_mode = \"default\"
-          set red (set_color red)
-        else if test $fish_bind_mode = \"insert\"
-          set red (set_color green)
-        end
-        set -l normal (set_color normal)
-        set -l cyan (set_color cyan)
-        set -l white (set_color normal)
+          set -l red (set_color red)
+          if test $fish_bind_mode = \"default\"
+            set red (set_color red)
+          else if test $fish_bind_mode = \"insert\"
+            set red (set_color green)
+          end
+          set -l normal (set_color normal)
+          set -l cyan (set_color cyan)
+          set -l white (set_color normal)
 
-        # Configure __fish_git_prompt
-        set -g __fish_git_prompt_char_stateseparator ' '
-        set -g __fish_git_prompt_color normal
-        set -g __fish_git_prompt_color_flags red
-        set -g __fish_git_prompt_color_prefix cyan
-        set -g __fish_git_prompt_color_suffix cyan
-        set -g __fish_git_prompt_showdirtystate true
-        set -g __fish_git_prompt_showuntrackedfiles false
-        set -g __fish_git_prompt_showstashstate true
-        set -g __fish_git_prompt_show_informative_status false
+          # Configure __fish_git_prompt
+          set -g __fish_git_prompt_char_stateseparator ' '
+          set -g __fish_git_prompt_color normal
+          set -g __fish_git_prompt_color_flags red
+          set -g __fish_git_prompt_color_prefix cyan
+          set -g __fish_git_prompt_color_suffix cyan
+          set -g __fish_git_prompt_showdirtystate true
+          set -g __fish_git_prompt_showuntrackedfiles false
+          set -g __fish_git_prompt_showstashstate true
+          set -g __fish_git_prompt_show_informative_status false
 
-        # Line 1
-        echo -n $cyan'┌─('$red'^.^'$cyan')'$white'-'$cyan'('$white(prompt_pwd)$cyan')'
-        __fish_git_prompt \"-[git://%s]-\"
-        echo
+          # Line 1
+          echo -n $cyan'┌─('$red'^.^'$cyan')'$white'-'$cyan'('$white(prompt_pwd)$cyan')'
+          __fish_git_prompt \"-[git://%s]-\"
+          echo
 
-        # Line 2
-        echo -n $cyan'└─O'  $normal
-      ";
+          # Line 2
+          echo -n $cyan'└─O'  $normal
+        '';
 
       nn = {
         wraps = "nnn";

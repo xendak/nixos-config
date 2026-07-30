@@ -17,4 +17,5 @@
   #   pkgs.callPackage ./xdg-desktop-portal-termfilechooser
   #     { };
   suyu = pkgs.callPackage ./suyu-bin { };
+  lact-fixed = pkgs.callPackage ./lact-fixed { };
 }

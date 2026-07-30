@@ -1,6 +1,9 @@
 /bin/pw.sh
 /bin/m.sh
 /bin/p.sh
+/bin/tumu
+/bin/tumu-shell
+/bin/tumu-bus
 /bin/nixpkgs_list
 /home/common/desktop
 /home/common/programs/terminal/nushell/colors.nu

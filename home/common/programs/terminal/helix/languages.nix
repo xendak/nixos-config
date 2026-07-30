@@ -188,6 +188,12 @@ let
     }
     {
       name = "nu";
+      auto-format = true;
+      language-servers = [ "nu-lsp" ];
+      formatter = {
+        command = lib.getExe pkgs.nufmt;
+        args = [ "--stdin" ];
+      };
       inherit indent;
     }
     {
@@ -350,6 +356,10 @@ in
     bash-language-server = {
       command = lib.getExe pkgs.bash-language-server;
       args = [ "start" ];
+    };
+    nu-lsp = {
+      command = lib.getExe pkgs.nushell;
+      args = [ "--lsp" ];
     };
     fish-lsp = {
       command = lib.getExe pkgs.fish-lsp;

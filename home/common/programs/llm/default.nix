@@ -20,7 +20,7 @@ in
     end
   '';
   home.packages = [
-    pkgs.alpaca
+    # pkgs.alpaca
     pkgs.opencode
 
     # trying out

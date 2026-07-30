@@ -1,5 +1,4 @@
 {
-  inputs,
   lib,
   pkgs,
   config,
@@ -8,8 +7,6 @@
 }:
 {
   imports = [
-    inputs.impermanence.homeManagerModules.impermanence
-
     ./common/colors
   ]
   ++ (builtins.attrValues outputs.homeManagerModules);

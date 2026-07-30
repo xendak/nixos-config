@@ -1,0 +1,7 @@
+#!/bin/sh
+
+export LOCPATH="$HOME/tmp/locale-ja/"
+mkdir -p "$LOCPATH"
+localedef -f EUC-JP -i ja_JP "$LOCPATH/ja_JP.EUC-JP"
+localedef -c -f SHIFT_JIS -i ja_JP "$LOCPATH/ja_JP.SJIS"
+env LOCPATH="$HOME/tmp/locale-ja/" LANG=ja_JP.EUC-JP WINEPREFIX="$HOME/tmp/tmpWineJp" wine "$@"

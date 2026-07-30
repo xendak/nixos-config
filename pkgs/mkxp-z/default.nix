@@ -27,6 +27,7 @@
   fluidsynth,
   cmake,
   ruby,
+  makeWrapper,
 }:
 
 stdenv.mkDerivation {
@@ -36,7 +37,6 @@ stdenv.mkDerivation {
   src = fetchFromGitHub {
     owner = "mkxp-z";
     repo = "mkxp-z";
-    # https://github.com/mkxp-z/mkxp-z/commits/main
     rev = "80906e4785ec4cb39645d312d932d305f1d94bb5";
     sha256 = "sha256-TsfAaHWOtfvRB4tZJmV9a5V8XgsskOcSeEoq7qIIESg";
   };
@@ -73,23 +73,43 @@ stdenv.mkDerivation {
     pkg-config
     xxd
     git
+    makeWrapper
   ];
 
   postPatch = ''
-    # Use Meson's built-in handler for iconv
     sed -i -E "s/compilers\['cpp'\]\.find_library\('iconv'[^)]*\)/dependency('iconv')/g" src/meson.build
-
-    # Mock the charset dependency since it is already provided by glibc on Linux
     sed -i -E "s/compilers\['cpp'\]\.find_library\('charset'[^)]*\)/declare_dependency()/g" src/meson.build
-
-    # Fix compatibility with newer SDL2_ttf versions
     find src -type f -exec sed -i 's/_TTF_Font/TTF_Font/g' {} +
-
     patchShebangs linux/
   '';
 
   postInstall = ''
     rm -rf $out/lib{,64}
+
+    if [ -f "$out/bin/mkxp-z.x86_64" ]; then
+      mv "$out/bin/mkxp-z.x86_64" "$out/bin/mkxp-z"
+    fi
+
+    mv "$out/bin/mkxp-z" "$out/bin/.mkxp-z-real"
+
+    cat > "$out/bin/mkxp-z" << 'WRAPPER'
+    #!/bin/sh
+    RUBY_PATHS='["@ruby@/lib/ruby/@majMin@.0/x86_64-linux","@ruby@/lib/ruby/@majMin@.0"]'
+
+    if [ -f mkxp.json ]; then
+      tmp=$(mktemp)
+      jq --argjson paths "$RUBY_PATHS" '.rubyLoadpath = ($paths + (.rubyLoadpath // [])) | unique' mkxp.json > "$tmp" && mv "$tmp" mkxp.json
+    else
+      jq -n --argjson paths "$RUBY_PATHS" '{"rubyLoadpath": $paths}' > mkxp.json
+    fi
+
+    exec "$(dirname "$0")/.mkxp-z-real" "$@"
+    WRAPPER
+
+    chmod +x "$out/bin/mkxp-z"
+    substituteInPlace "$out/bin/mkxp-z" \
+      --replace '@ruby@' '${ruby}' \
+      --replace '@majMin@' '${ruby.version.majMin}'
   '';
 
   mesonFlags = [
@@ -99,8 +119,8 @@ stdenv.mkDerivation {
     "-Dcjk_fallback_font=true"
   ];
 
-  NIX_CFLAGS_COMPILE = "-I${lib.getDev openal}/include/AL -I${lib.getDev SDL2_sound}/include/SDL2";
-  NIX_LDFLAGS = "-ltheoradec";
+  NIX_CFLAGS_COMPILE = "-I${lib.getDev openal}/include/AL -I${lib.getDev SDL2_sound}/include/SDL2 -I${zlib.dev}/include";
+  NIX_LDFLAGS = "-ltheoradec -L${zlib}/lib -lz";
 
   meta = with lib; {
     description = "RGSS on Steroids. With a ridiculous name.";

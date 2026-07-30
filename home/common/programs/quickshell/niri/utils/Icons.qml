@@ -121,6 +121,7 @@ Singleton {
         "org.pwmt.zathura": "zathura.svg",
         "vesktop": "vesktop.png",
         "imv": "imv.svg",
+        "steam_app_216150": "maplestory.png"
         // "bottom": "bottom.svg",
     })
 

@@ -313,6 +313,19 @@ in
     #configPackages = [ pkgs.inputs.hyprland.hyprland ];
   };
 
+  # nix-ld
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc.lib
+    zlib
+    openssl
+    curl
+    glib
+    util-linux
+    icu
+    gamemode
+  ];
+
   # Gamemode
   programs.gamemode = {
     enable = true;
@@ -323,8 +336,8 @@ in
         renice = 10;
       };
       custom = {
-        start = "notify-send -a 'Gamemode' 'Optimizations activated'";
-        end = "notify-send -a 'Gamemode' 'Optimizations deactivated'";
+        start = "${pkgs.libnotify}/bin/notify-send -a 'Gamemode' 'Optimizations activated'";
+        end = "${pkgs.libnotify}/bin/notify-send -a 'Gamemode' 'Optimizations deactivated'";
       };
     };
   };

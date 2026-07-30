@@ -26,7 +26,7 @@ in
 
   programs.wezterm = {
     enable = true;
-    package = inputs.wezterm-floating.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    # package = inputs.wezterm-floating.packages.${pkgs.stdenv.hostPlatform.system}.default;
     extraConfig = # lua
       ''
         local config = wezterm.config_builder()

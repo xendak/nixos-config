@@ -1,3 +1,2 @@
 #!/bin/sh
-env WINEPREFIX="$HOME/tmp/tmpWine" PROTONPATH="$HOME/.local/share/Steam/compatibilitytools.d/GE-Proton-Latest" PRESSURE_VESSEL_SHELL=after umu-run "$@" &
-echo "\"\$PROTONPATH/proton\" run \"$HOME/Games/Wine/Cheat Engine/cheatengine-x86_64.exe"\" | wl-copy
+"$HOME/Flake/bin/tumu-shell" env WINEPREFIX="/home/xendak/tmp/tmpUmu" PROTON_DISABLE_LSTEAMCLIENT=1 WINEDLLOVERRIDES="winhttp=n,b;winmm=n,b" PROTONPATH="/home/xendak/.local/share/Steam/compatibilitytools.d/DenuvOwO" DXVK_ASYNC=1 umu-run "$@"

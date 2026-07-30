@@ -10,7 +10,7 @@
     inputs.nix-index-db.homeModules.nix-index
 
     ../setup.nix
-    ../common/programs/vesktop
+    # ../common/programs/vesktop
     ../../system/extras/mpd.nix
 
     ../common/programs/emacs

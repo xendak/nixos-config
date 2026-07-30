@@ -9,6 +9,7 @@
     # wineWowPackages.stable
     # wineWowPackages.staging
     wineWow64Packages.waylandFull
+    gamemode
   ];
 
   home.persistence = {

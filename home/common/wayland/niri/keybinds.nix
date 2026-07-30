@@ -122,6 +122,7 @@ let
 
     "super+e".action = spawn filebrowser;
 
+    "super+m".action = maximize-window-to-edges;
     "super+f".action = expand-column-to-available-width;
     "super+Shift+f".action = fullscreen-window;
     "super+Shift+Space".action = toggle-window-floating;
