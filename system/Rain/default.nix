@@ -26,22 +26,22 @@
 
   networking.hostName = "Rain";
 
-  # old macbook broadcom i guess
-  nixpkgs.config.allowInsecurePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "broadcom-sta"
-    ];
+  # # old macbook broadcom i guess
+  # nixpkgs.config.allowInsecurePredicate =
+  #   pkg:
+  #   builtins.elem (lib.getName pkg) [
+  #     "broadcom-sta"
+  #   ];
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "broadcom-sta-6.30.223.271-59-6.18.19"
-    "broadcom-sta-6.30.223.271-59-6.18.13"
-  ];
+  # nixpkgs.config.permittedInsecurePackages = [
+  #   "broadcom-sta-6.30.223.271-59-6.18.19"
+  #   "broadcom-sta-6.30.223.271-59-6.18.13"
+  # ];
 
   boot = {
 
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
-    extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+    # extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
     # https://forum.manjaro.org/t/kworker-kacpid-over-70-of-cpu-dual-boot-mac-manjaro/61981
     kernelParams = [
       "acpi_osi=Darwin"
@@ -74,7 +74,7 @@
       "i2c-dev"
       "i2c-i801"
       "coretemp"
-      "wl"
+      # "wl"
     ];
     loader.systemd-boot.enable = true;
   };
@@ -142,8 +142,11 @@
     };
   };
 
-  # TODO: maybe use the same as desktop
   networking.networkmanager.enable = true;
+  # TODO(xendak): try to gt iwd working eventually
+  # networking.networkmanager.wifi.backend = "iwd";
+  # networking.wireless.iwd.enable = true;
+  # networking.wireless.enable = false;
   networking.useDHCP = lib.mkDefault true;
   networking.nameservers = [
     "8.8.8.8"
@@ -193,6 +196,7 @@
   };
 
   hardware = {
+    enableRedistributableFirmware = true;
     i2c.enable = true;
 
     cpu.intel.updateMicrocode = true;
