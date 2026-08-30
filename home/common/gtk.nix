@@ -62,7 +62,6 @@ in
       fi
     '')
 
-    pkgs.gtk_engines
     pkgs.gtk4
     pkgs.adw-gtk3
     pkgs.catppuccin-gtk

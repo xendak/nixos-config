@@ -23,10 +23,9 @@
     # ../common/wayland/swayfx
 
     ../common/games
-
-    #../common/games/lutris.nix
-    #../common/games/steam.nix
-    #../common/games/mihoyo.nix
+    ../common/games/emulators
+    ../common/games/lutris.nix
+    ../common/games/steam.nix
 
     # ../common/wayland/hyprland/plugins/hyprbars.nix
     # ../common/wayland/hyprland/plugins/hyprexpo.nix
@@ -73,8 +72,11 @@
   # Home --------------------
   # maybe check these paths so they make better sense later?
   home.file = {
-    "Nixos/Games".source = config.lib.file.mkOutOfStoreSymlink "/local/nixos/games";
-    "Nixos/Data".source = config.lib.file.mkOutOfStoreSymlink "/local/nixos/data";
+    "Games/SDD".source = config.lib.file.mkOutOfStoreSymlink "/local/nixos/games";
+    "Drives/SDD".source = config.lib.file.mkOutOfStoreSymlink "/local/nixos/data";
+    "Drives/Database".source = config.lib.file.mkOutOfStoreSymlink "/local/nixos/dbs";
+    "Drives/Windows".source = config.lib.file.mkOutOfStoreSymlink "/local/windows";
+    "Drives/Storage".source = config.lib.file.mkOutOfStoreSymlink "/local/storage";
   };
 
   home = {
@@ -92,20 +94,21 @@
           "Programming"
           "Pictures"
           "Documents"
+
           ".config/fcitx5"
           ".config/OpenRGB"
           ".config/dconf"
           ".config/obs-studio"
-          # ".local/share/anime-game-launcher"
-          # ".local/share/honkers-railway-launcher"
-          # ".nixops"
+
           ".local/share/direnv"
-          # ".local/share/keyrings"
-          ".local/share/Terraria"
           ".local/share/fonts"
           ".local/state/wireplumber"
           ".local/share/ssh"
           ".local/share/fish"
+
+          # Games
+          ".local/share/Terraria"
+          ".config/feedback-desktop"
         ];
       };
     };

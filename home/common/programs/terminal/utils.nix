@@ -99,7 +99,6 @@ in
     pkgs.nvd # Differ
     pkgs.nix-output-monitor
     pkgs.nix-tree
-    pkgs.nh # Nice wrapper for NixOS and HM
 
     pkgs.ltex-ls # Spell checking LSP
   ];
@@ -142,6 +141,12 @@ in
   programs.fzf = {
     enable = true;
     # defaultOptions = [ "--color=base16" ];
+  };
+
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep 2";
   };
 
   home.sessionVariables = {

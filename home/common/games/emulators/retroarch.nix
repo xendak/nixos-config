@@ -1,6 +1,5 @@
 {
   pkgs,
-  config,
   ...
 }:
 {
@@ -34,7 +33,6 @@
       directories = [
         ".local/share/retroarch"
         ".config/retroarch"
-        "Games/Emulators/RetroArch"
       ];
     };
   };

@@ -12,8 +12,7 @@ let
 
   llama-server-bin = "${llama-cpp-custom}/bin/llama-server";
   modelPath = "/local/nixos/data/AI/models";
-
-  ctx_size = "32768";
+  ctx_size = "262144";
   llamaSwapYaml = pkgs.writeText "llama-swap.yaml" ''
     includeAliasesInList: true
 
@@ -26,7 +25,7 @@ let
           --host 0.0.0.0
           --model ${modelPath}/gemma4-coding-Q8_0.gguf
           -ngl 999
-          --ctx-size 16384
+          --ctx-size ${ctx_size}
           --flash-attn on
           --no-mmap
           --parallel 1
@@ -55,7 +54,7 @@ let
           --model ${modelPath}/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf
           --mmproj ${modelPath}/qwen-mmproj-BF16.gguf
           -ngl 999
-          --n-cpu-moe 18
+          --n-cpu-moe 20
           --fit on
           --fit-target 3072
           --ctx-size ${ctx_size}

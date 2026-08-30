@@ -110,18 +110,36 @@
     mgr = {
       linemode = "my_default";
     };
-    # preview = {
-    #   tab_size = 2;
-    #   max_width = 600;
-    #   max_height = 900;
-    #   cache_dir = "";
-    #   image_delay = 0;
-    #   image_filter = "triangle";
-    #   image_quality = 50;
-    #   sixel_fraction = 15;
-    #   ueberzug_scale = 1;
-    #   ueberzug_offset = [
-    # };
+
+    preview = {
+      tab_size = 2;
+      max_width = 1000;
+      max_height = 1000;
+      cache_dir = "";
+      image_delay = 30;
+      image_filter = "lanczos3";
+      image_quality = 75;
+      sixel_fraction = 15;
+      ueberzug_scale = 1;
+      ueberzug_offset = [
+        0
+        0
+        0
+        0
+      ];
+    };
+
+    tasks = {
+      micro_workers = 10;
+      macro_workers = 10;
+      bizarre_retry = 5;
+      image_alloc = 536870912;
+      image_bound = [
+        0
+        0
+      ];
+      suppress_preload = false;
+    };
 
     plugin = {
       prepend_previewers = [
@@ -190,43 +208,15 @@
           run = "noop";
         }
       ];
+
       append_previewers = [
         {
           url = "*";
-          run = ''faster-piper -- hexyl --border=none --terminal-width=$w "$1"'';
+          run = ''faster-piper -- hexyl -n 4096 --border=none --terminal-width=$w "$1"'';
         }
       ];
 
       prepend_preloaders = [
-        {
-          url = "*.csv";
-          run = "duckdb";
-          multi = false;
-        }
-        {
-          url = "*.tsv";
-          run = "duckdb";
-          multi = false;
-        }
-        {
-          url = "*.json";
-          run = "duckdb";
-          multi = false;
-        }
-        {
-          url = "*.parquet";
-          run = "duckdb";
-          multi = false;
-        }
-        {
-          url = "*.xlsx";
-          run = "duckdb";
-          multi = false;
-        }
-        {
-          mime = "{audio}/*";
-          run = "mediainfo";
-        }
         {
           url = "*.mpk";
           run = "noop";

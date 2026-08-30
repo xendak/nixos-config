@@ -19,7 +19,7 @@ Item {
 
     implicitWidth: hasCurrent ? (content.children.find(c => c.shouldBeActive)?.implicitWidth ?? 0) + Appearance.padding.large * 2 : 0
     implicitHeight: (content.children.find(c => c.shouldBeActive)?.implicitHeight ?? 0) + Appearance.padding.large * 2
- 
+
     Item {
         id: content
         anchors.fill: parent
@@ -31,6 +31,10 @@ Item {
         //     name: "activewindow"
         //     source: "ActiveWindow.qml"
         // }
+        Popout {
+            name: "recorder"
+            source: "Recorder.qml"
+        }
 
         Popout {
             name: "network"
@@ -63,7 +67,7 @@ Item {
                 // QUICK DIRTY FIX TO REMOVE UDISKIE
                 name: `traymenu_${modelData.id}`
                 sourceComponent: trayMenuComp
-                
+
                 Connections {
                     target: root
                     function onHasCurrentChanged(): void {

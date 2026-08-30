@@ -51,21 +51,6 @@
       }
     );
 
-    # TODO(xendak): remove this later
-    libdisplay-info_0_3 = prev.libdisplay-info.overrideAttrs (_oldAttrs: {
-      version = "0.3.0";
-      src = prev.fetchFromGitLab {
-        domain = "gitlab.freedesktop.org";
-        owner = "emersion";
-        repo = "libdisplay-info";
-        rev = "0.3.0";
-        hash = "sha256-nXf2KGovNKvcchlHlzKBkAOeySMJXgxMpbi5z9gLrdc=";
-      };
-    });
-
-    niri = prev.niri.override { libdisplay-info = final.libdisplay-info_0_3; };
-    lact = prev.lact.override { libdisplay-info = final.libdisplay-info_0_3; };
-
     openldap = prev.openldap.overrideAttrs {
       doCheck = !prev.stdenv.hostPlatform.isi686;
     };
@@ -83,6 +68,29 @@
           ];
         });
     zig-master = inputs.zig.packages.${final.stdenv.hostPlatform.system}."0.16.0";
+
+    # niri = prev.niri.override { libdisplay-info = final.libdisplay-info_0_3; };
+    niri =
+      let
+        # Define src once so we can pass it to both the derivation and cargoDeps
+        src = final.fetchFromGitHub {
+          owner = "MithicSpirit";
+          repo = "niri";
+          rev = "1352ddeefa7a2687d5f7babd346abe878625c3a1";
+          hash = "sha256-a0lM4jaIs5HppfEq0OudrXbvAw2bXlvAv81QAJ8Ex+c=";
+        };
+      in
+      (prev.niri).overrideAttrs (oldAttrs: {
+        inherit src;
+        version = "force-render-v2-2026-08-09";
+
+        # Override cargoDeps instead of cargoHash
+        cargoDeps = final.rustPlatform.fetchCargoVendor {
+          inherit src;
+          hash = "sha256-HypBB3PL4nVFMNH2+jEK0+dG9dJ920nHi8GwRoeH/v4=";
+        };
+        doInstallCheck = false;
+      });
   };
 
   stable = final: _: {

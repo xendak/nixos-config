@@ -44,7 +44,6 @@
   home.persistence = {
     "/persist" = {
       directories = [
-        "Games/Lutris-Prefix"
         ".config/lutris"
         ".local/share/lutris"
         ".local/cache/lutris"

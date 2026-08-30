@@ -6,6 +6,15 @@
 }:
 let
   baseURL = if host == "Snow" then "http://localhost:11434/v1" else "http://snow:11434/v1";
+  pi-wrapped = pkgs.symlinkJoin {
+    name = "pi-coding-agent-wrapped";
+    paths = [ pkgs.pi-coding-agent ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/pi \
+        --run 'export PI_CODING_AGENT_DIR="''${PI_CODING_AGENT_DIR:-$HOME/.config/picode}"'
+    '';
+  };
 in
 {
   imports = [
@@ -21,49 +30,14 @@ in
   '';
   home.packages = [
     # pkgs.alpaca
-    pkgs.opencode
-
-    # trying out
-    pkgs.pi-coding-agent
-    pkgs.jan
+    # pkgs.opencode
+    # pkgs.pi-coding-agent
+    pi-wrapped
   ];
-
-  xdg.configFile."opencode/config.json".text = builtins.toJSON {
-    "$schema" = "https://opencode.ai/config.json";
-    provider = {
-      local-swap = {
-        npm = "@ai-sdk/openai-compatible";
-        name = "Llama-Swap (Local)";
-        options = {
-          inherit baseURL;
-          apiKey = "dummy";
-        };
-        models = {
-          "Qwen:instruct" = {
-            name = "Qwen Instruct";
-          };
-          "Qwen:thinking" = {
-            name = "Qwen Thinking";
-          };
-          "Qwen:thinking-coding" = {
-            name = "Qwen Thinking (Coding)";
-          };
-          "Qwen:instruct-reasoning" = {
-            name = "Qwen Instruct + Reasoning";
-          };
-        };
-      };
-    };
-  };
 
   home.persistence."/persist" = {
     directories = [
-      ".config/com.jeffser.Alpaca"
-      ".local/share/com.jeffser.Alpaca"
-      ".local/cache/com.jeffser.Alpaca"
-
-      ".config/opencode"
-      ".local/share/opencode"
+      ".config/picode"
     ];
   };
 }

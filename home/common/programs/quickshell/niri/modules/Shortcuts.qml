@@ -29,6 +29,10 @@ Scope {
             root.launcherInterrupted = false;
         }
 
+        function toggleRecorder(): void {
+            Recorder.toggle();
+        }
+
         function toggleRbw(): void {
             root.launcherInterrupted = false;
             if (!root.launcherInterrupted) {

@@ -34,26 +34,19 @@ in
     pkgs.protontricks
     pkgs.mangohud
     pkgs.umu-launcher
+    pkgs.gamemode
+    pkgs.gamescope
     pkgs.steam-run
-    # steamtinkerlaunch
   ];
 
   home.persistence = {
     "/persist" = {
       directories = [
-        # {
-        #   directory = ".local/share/Steam";
-        #   method = "symlink";
-        # }
-
-        # ".config/steamtinkerlaunch"
-
         ".local/cache/mesa_shader_cache"
         ".local/cache/radv_builtin_shaders"
         ".config/MangoHud"
         ".local/share/umu"
         ".local/share/Steam"
-        "Games/Steam"
       ];
     };
   };

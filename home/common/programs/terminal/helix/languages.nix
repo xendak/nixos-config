@@ -78,7 +78,22 @@ let
     }
     {
       name = "python";
-      language-servers = [ "pyright" ];
+      language-servers = [
+        {
+          name = "ty";
+          except-features = [
+            "goto-definition"
+            "goto-declaration"
+            "goto-type-definition"
+            "goto-reference"
+            "goto-implementation"
+            "document-symbols"
+            "workspace-symbols"
+          ];
+        }
+        "ruff"
+        "python-fallback-lsp"
+      ];
       formatter = {
         command = lib.getExe pkgs.black;
         args = [
@@ -348,7 +363,16 @@ in
     nixd-lsp.command = lib.getExe pkgs.nixd;
     zls.command = lib.getExe pkgs.zls;
     ols.command = lib.getExe pkgs.ols;
-    pyright.command = lib.getExe pkgs.pyright;
+    python-fallback-lsp = {
+      command = lib.getExe pkgs.bash;
+      args = [
+        "-c"
+        "if command -v jedi-language-server >/dev/null 2>&1; then exec jedi-language-server; else exec ${pkgs.pyright}/bin/pyright-langserver --stdio; fi"
+      ];
+    };
+    ruff.command = lib.getExe pkgs.ruff;
+    ty.command = lib.getExe pkgs.ty;
+
     dart-lsp = {
       command = "dart";
       args = [ "language-server" ];

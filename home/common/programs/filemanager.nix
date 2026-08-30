@@ -31,6 +31,9 @@
       files = [
         ".config/dolphinrc"
         ".local/state/dolphinstaterc"
+        ".local/share/user-places.xbel"
+        ".local/share/user-places.xbel.bak"
+        ".local/share/user-places.xbel.tbcache"
       ];
     };
   };

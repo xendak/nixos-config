@@ -112,7 +112,8 @@ let
     ];
 
     "super+h".action = switch-preset-column-width;
-    "super+Shift+h".action = switch-preset-window-height;
+    "super+v".action = switch-preset-window-height;
+    "super+Shift+h".action = toggle-windowed-fullscreen;
 
     "super+q".action = close-window;
     "super+w".action = spawn browser;

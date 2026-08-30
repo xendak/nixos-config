@@ -10,7 +10,6 @@
       directories = [
         ".local/share/suyu"
         ".config/suyu"
-        "Games/Suyu"
       ];
     };
   };

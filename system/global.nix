@@ -18,6 +18,7 @@ in
     inputs.agenix.nixosModules.default
 
     ./extras/postMountFiles.nix
+    ./extras/bluetooth.nix
     ./extras/tailscale.nix
     ./extras/bash.nix
     ./extras/fish.nix
