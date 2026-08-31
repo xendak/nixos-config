@@ -338,107 +338,16 @@ def rsysd [] {
     sudo systemctl restart user@1000.service
 }
 
-def upb [
-  --show-trace (-l)      # Append --show-trace to rebuild
-  --no-cache (-c)        # Disable eval-cache
-  --delete-old (-d)      # Collect garbage after success
-  --reboot-sys (-r)      # Reboot after everything is done
-  --shutdown-sys (-u)    # shutdown after everything is done
-  --nom (-n)             # Disables Nix Output Monitor
-] {
-    cd ($env.HOME | path join "Flake")
-
-    mut flags = (get-ssh-flags)
-
-    if $no_cache {
-        $flags = ($flags | append ["--option" "eval-cache" "false"])
-    }
-
-    if $show_trace {
-        $flags = ($flags | append "--show-trace")
-    }
-
-    let host = sys host | get hostname
-
-    if not $nom {
-        sudo nixos-rebuild boot --flake $".#($host)" ...$flags --log-format internal-json -v e+o>| nom --json
-    } else {
-        sudo nixos-rebuild boot --flake $".#($host)" ...$flags
-    }
-
-    if $env.LAST_EXIT_CODE == 0 {
-        if $delete_old {
-            print "Cleaning up garbage..."
-            sudo nix-collect-garbage -d
-            nix-collect-garbage -d
-        }
-
-        if $reboot_sys {
-            print "Rebooting system..."
-            reboot
-        }
-
-        if $shutdown_sys {
-            print "Shutingdown system..."
-            poweroff
-        }
-    }
-}
-
 def upd [
-  --show-trace (-l)      # Append --show-trace to rebuild
-  --no-cache (-c)        # Disable eval-cache
-  --delete-old (-d)      # Collect garbage after success
-  --nom (-n)             # Disables Nix Output Monitor
-] {
-    cd ($env.HOME | path join "Flake")
-
-    # BS home-manager doesnt replace...
-    let to_del = [
-        $"($env.HOME)/.config/gtk-2.0/gtkrc"
-        $"($env.HOME)/.config/gtk-3.0/settings.ini"
-        $"($env.HOME)/.config/gtk-4.0/gtk.css"
-        $"($env.HOME)/.config/gtk-4.0/settings.ini"
-        $"($env.HOME)/.config/zathura/zathurarc"
-    ]
-    $to_del | each {|it| if ($it | path exists) { rm $it } }
-
-    mut flags = (get-ssh-flags)
-
-    if $no_cache {
-        $flags = ($flags | append ["--option" "eval-cache" "false"])
-    }
-
-    if $show_trace {
-        $flags = ($flags | append "--show-trace")
-    }
-
-    let host = sys host | get hostname
-
-    if not $nom {
-        sudo nixos-rebuild switch --flake $".#($host)" ...$flags --log-format internal-json -v e+o>| nom --json
-    } else {
-        sudo nixos-rebuild switch --flake $".#($host)" ...$flags
-    }
-
-    if $env.LAST_EXIT_CODE == 0 {
-        if $delete_old {
-            print "Cleaning up garbage..."
-            sudo nix-collect-garbage -d
-            nix-collect-garbage -d
-        }
-    }
-}
-
-def up [
-  --boot (-b)            # Run 'boot' instead of 'switch' (default is switch)
-  --update-flake (-f)    # Update flake.lock inputs before building
-  --show-trace (-l)      # Append --show-trace to rebuild
-  --no-cache (-c)        # Disable eval-cache
-  --delete-old (-d)      # Collect garbage after success (keeps last 2)
-  --reboot-sys (-r)      # Reboot after everything is done
-  --shutdown-sys (-u)    # Shutdown after everything is done
-  --nom (-n)             # Disables Nix Output Monitor
+  --boot (-b)                 # Run 'boot' instead of 'switch' (default is switch)
+  --update-flake (-f)         # Update all flake.lock inputs before building
+  --update-input (-i): string # Update a specific flake input (e.g. -i vynta)
+  --show-trace (-l)           # Append --show-trace to rebuild
+  --no-cache (-c)             # Disable eval-cache
+  --delete-old (-d)           # Collect garbage after success (keeps last 2)
+  --reboot-sys (-r)           # Reboot after everything is done
+  --shutdown-sys (-u)         # Shutdown after everything is done
+  --nom (-n)                  # Disables Nix Output Monitor
 ] {
     let flake_dir = $env.HOME | path join "Flake"
     let host = sys host | get hostname
@@ -459,8 +368,12 @@ def up [
     if $nom {
         $nh_args = ($nh_args | append "--no-nom")
     }
+
     if $update_flake {
         $nh_args = ($nh_args | append "--update")
+    }
+    if $update_input != null {
+        $nh_args = ($nh_args | append ["--update-input" $update_input])
     }
 
     mut nix_args = (get-ssh-flags)

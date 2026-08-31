@@ -13,58 +13,27 @@
 
     ../common
     ../common/wayland
-    # ../common/wayland/hyprland
     ../common/wayland/niri
-    ../common/programs/terminal/nushell
-
-    ../common/programs/hexecute.nix
-    ../common/programs/vesktop
-
-    # ../common/wayland/swayfx
-    # ../common/wayland/hyprland/plugins/hyprbars.nix
-    # ../common/wayland/hyprland/plugins/hyprexpo.nix
-
-    ../common/programs/terminal/wezterm
-    ../common/programs/terminal/foot.nix
-
-    ../common/programs/emacs
-
-    ../common/programs/quickshell
-    ../common/programs/obsidian
-
     ../common/games/wine.nix
-    ../common/games/launchers/steam.nix
-    ../common/games/emulators/retroarch.nix
-    # ../common/programs/pass.nix
-    # ../common/programs/browser/chromium.nix
-
     ../common/programs/browser/zen.nix
-    # ../common/programs/rustdesk.nix
+    ../common/programs/emacs
+    ../common/programs/obsidian
+    ../common/programs/terminal/foot.nix
+    ../common/programs/terminal/nushell
   ];
 
   home.packages = [
     # pkgs.obs-studio
 
-    # disable kanata and leave only external kb
     pkgs.evtest
     pkgs.fastfetchMinimal
 
     pkgs.eb-garamond
-    # pkgs.blender
-
-    pkgs.deluge
     pkgs.eww
 
-    # try
-    # pkgs.fuzzel
     pkgs.xdg-desktop-portal-termfilechooser
-    # pkgs.matugen
 
     pkgs.dunst
-
-    # keyboard
-    pkgs.qmk
-    pkgs.wally-cli
   ];
 
   programs = {
@@ -94,7 +63,6 @@
           ".config/fcitx5"
           ".config/dconf"
           ".local/share/direnv"
-          ".local/share/Terraria"
           ".local/share/fonts"
           ".local/state/wireplumber"
           ".local/share/ssh"

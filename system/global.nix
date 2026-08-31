@@ -399,9 +399,10 @@ in
   };
 
   # localtime specific
-  time.timeZone = lib.mkDefault "America/Sao_Paulo";
-  time.hardwareClockInLocalTime = false;
+  # time.timeZone = lib.mkDefault "America/Sao_Paulo";
   # services.localtimed.enable = true;
+
+  time.hardwareClockInLocalTime = false;
   services.automatic-timezoned.enable = true;
   services.geoclue2.enable = true;
   services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";

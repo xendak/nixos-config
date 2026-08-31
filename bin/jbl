@@ -1,0 +1,50 @@
+#!/bin/sh
+
+DEVICE_ID=$(wpctl status | awk '/Devices:/,/Sinks:/' | rg "\[bluez5\]" | head -n 1 | rg -o '[0-9]+\.' | tr -d '.')
+
+if [ -z "$DEVICE_ID" ]; then
+  echo "Error: No Bluetooth audio device found."
+  exit 1
+fi
+
+# Get Name, then find sink
+DEV_DESC=$(wpctl inspect "$DEVICE_ID" | rg 'device\.description = "([^"]+)"' -o -r '$1')
+SINK_ID=$(wpctl status | awk '/Sinks:/,/Sources:/' | rg "$DEV_DESC" | head -n 1 | rg -o '[0-9]+\.' | tr -d '.')
+
+if [ -z "$SINK_ID" ]; then
+  echo "Error: Could not find active sink for $DEV_DESC."
+  exit 1
+fi
+
+# CODEC
+CURRENT_CODEC=$(wpctl inspect "$SINK_ID" | rg 'api\.bluez5\.codec = "([^"]+)"' -o -r '$1')
+
+if [ "$CURRENT_CODEC" = "sbc_xq" ]; then
+  TARGET_PROFILE="a2dp-sink-sbc"
+else
+  TARGET_PROFILE="a2dp-sink-sbc_xq"
+fi
+
+TARGET_INDEX=$(pw-cli e "$DEVICE_ID" EnumProfile | awk -v target="\"$TARGET_PROFILE\"" '
+    /Profile:index/ { getline; idx=$2 }
+    /Profile:name/  { getline; if ($2 == target) { print idx; exit } }
+')
+
+if [ -z "$TARGET_INDEX" ]; then
+  echo "Error: Could not find integer index for $TARGET_PROFILE."
+  exit 1
+fi
+
+echo "Device ID  : $DEVICE_ID ($DEV_DESC)"
+echo "Sink ID    : $SINK_ID"
+echo "Codec Swap : $CURRENT_CODEC -> $TARGET_PROFILE (Index: $TARGET_INDEX)"
+
+# Switch to new.
+wpctl set-profile "$DEVICE_ID" "$TARGET_INDEX"
+if [ "$TARGET_PROFILE" = "a2dp-sink-sbc_xq" ]; then
+    DISPLAY_CODEC="SBC-XQ"
+else
+    DISPLAY_CODEC="SBC"
+fi
+
+notify-send -i audio-speakers-bluetooth "Rafael Speaker" "Codec: $DISPLAY_CODEC"
