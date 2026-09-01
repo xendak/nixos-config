@@ -10,108 +10,6 @@ let
     rocmSupport = false;
   };
 
-  llama-server-bin = "${llama-cpp-custom}/bin/llama-server";
-  modelPath = "/local/nixos/data/AI/models";
-  ctx_size = "262144";
-  llamaSwapYaml = pkgs.writeText "llama-swap.yaml" ''
-    includeAliasesInList: true
-
-    models:
-      "Gemma4":
-        ttl: 300
-        cmd: >
-          ${llama-server-bin}
-          --port ''${PORT}
-          --host 0.0.0.0
-          --model ${modelPath}/gemma4-coding-Q8_0.gguf
-          -ngl 999
-          --ctx-size ${ctx_size}
-          --flash-attn on
-          --no-mmap
-          --parallel 1
-          --jinja
-          --batch-size 2048
-          --ubatch-size 1024
-          --cache-type-k q8_0
-          --cache-type-v q8_0
-        filters:
-          stripParams: "temperature, top_p, top_k"
-          setParamsByID:
-            "Gemma4":
-              chat_template_kwargs:
-                enable_thinking: false
-              temperature: 1.0
-              top_p: 0.95
-              top_k: 64
-
-      "Qwen":
-        ttl: 300
-        cmd: >
-          env HSA_OVERRIDE_GFX_VERSION=10.3.0 ROC_ENABLE_PRE_VEGA=1 HIP_VISIBLE_DEVICES=0
-          ${llama-server-bin}
-          --port ''${PORT}
-          --host 0.0.0.0
-          --model ${modelPath}/Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf
-          --mmproj ${modelPath}/qwen-mmproj-BF16.gguf
-          -ngl 999
-          --n-cpu-moe 20
-          --fit on
-          --fit-target 3072
-          --ctx-size ${ctx_size}
-          --fit-ctx ${ctx_size}
-          --flash-attn on
-          --no-mmap
-          --parallel 1
-          --jinja
-          --batch-size 2048
-          --ubatch-size 1024
-          --cache-type-k q8_0
-          --cache-type-v q8_0
-        filters:
-          stripParams: "temperature, top_p, top_k, min_p, presence_penalty, repeat_penalty"
-          setParamsByID:
-            "Qwen:instruct":
-              chat_template_kwargs:
-                enable_thinking: false
-                preserve_thinking: false
-              temperature: 0.7
-              top_p: 0.8
-              top_k: 20
-              min_p: 0.0
-              presence_penalty: 1.5
-              repeat_penalty: 1.0
-            "Qwen:thinking":
-              chat_template_kwargs:
-                enable_thinking: true
-                preserve_thinking: true
-              reasoning_budget: 4096
-              temperature: 1.0
-              top_p: 0.95
-              top_k: 20
-              min_p: 0.05
-              presence_penalty: 1.5
-              repeat_penalty: 1.0
-            "Qwen:thinking-coding":
-              chat_template_kwargs:
-                enable_thinking: true
-                preserve_thinking: true
-              temperature: 0.6
-              top_p: 0.95
-              top_k: 20
-              min_p: 0.0
-              presence_penalty: 0.0
-              repeat_penalty: 1.0
-            "Qwen:instruct-reasoning":
-              chat_template_kwargs:
-                enable_thinking: false
-                preserve_thinking: false
-              temperature: 1.0
-              top_p: 0.95
-              top_k: 20
-              min_p: 0.0
-              presence_penalty: 1.5
-              repeat_penalty: 1.0
-  '';
   rocmEnv = {
     HSA_OVERRIDE_GFX_VERSION = "10.3.0";
     ROC_ENABLE_PRE_VEGA = "1";
@@ -136,11 +34,15 @@ in
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
     environment = rocmEnv;
+    path = [
+      llama-cpp-custom
+      pkgs.coreutils
+    ];
     serviceConfig = {
       ExecStart = ''
         ${pkgs.llama-swap}/bin/llama-swap \
           -listen 0.0.0.0:11434 \
-          -config ${llamaSwapYaml}
+          -config /local/nixos/data/AI/models/llama-swap.yaml
       '';
       Restart = "always";
       User = "xendak";

@@ -390,7 +390,7 @@ def upd [
     if $env.LAST_EXIT_CODE == 0 {
         if $delete_old {
             print "Cleaning up garbage (keeping last 2 generations)..."
-            nh clean all --keep 2
+            nh clean all --keep 2 --no-direnv --optimise
         }
 
         if $reboot_sys {

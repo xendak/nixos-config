@@ -1800,11 +1800,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785374099,
-        "narHash": "sha256-e/PU1T/C2CFvmBjrW7ZH7Rp3KEPviNnyIIdYJQScpD0=",
+        "lastModified": 1788266340,
+        "narHash": "sha256-SDhvmICK1X4HXzA60ECs0WmCvpmrvZz0liQCcY/X0CM=",
         "owner": "xendak",
         "repo": "vynta",
-        "rev": "bd14cd43c4e33553dcef4f2676f62cedce722d8d",
+        "rev": "f15cb07ae266c881125546d2a4737735e20fbc8d",
         "type": "github"
       },
       "original": {

@@ -399,14 +399,15 @@ in
   };
 
   # localtime specific
-  # time.timeZone = lib.mkDefault "America/Sao_Paulo";
-  # services.localtimed.enable = true;
-
+  time.timeZone = lib.mkDefault "America/Sao_Paulo";
+  services.localtimed.enable = true;
   time.hardwareClockInLocalTime = false;
-  services.automatic-timezoned.enable = true;
-  services.geoclue2.enable = true;
-  services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
-  location.provider = "geoclue2";
+
+  # per PROFILE?
+  # services.automatic-timezoned.enable = true;
+  # services.geoclue2.enable = true;
+  # services.geoclue2.geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
+  # location.provider = "geoclue2";
 
   # locale configs
   i18n.supportedLocales = [

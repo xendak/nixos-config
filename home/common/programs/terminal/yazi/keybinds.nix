@@ -144,39 +144,37 @@
       # plugin augment-command
       {
         on = "i";
-        run = "plugin augment-command -- shell --block 'bat -p --pager $PAGER %s'";
+        run = "plugin augment-command.shell -- 'bat -p --pager $PAGER %s' --block";
         desc = "Open with bat";
       }
       {
         on = "<Enter>";
-        run = "plugin augment-command -- enter";
+        run = "plugin augment-command.enter";
         desc = "Enter the child directory, or open the file";
-
       }
       {
         on = "<S-Enter>";
-        run = "plugin augment-command -- enter --interactive";
+        run = "plugin augment-command.enter -- --interactive";
         desc = "Enter the child directory, or open the file";
-
       }
       {
         on = "o";
-        run = "plugin augment-command -- open --interactive";
+        run = "plugin augment-command.open -- --interactive";
         desc = "Enter the child directory, or open the file";
       }
       {
         on = "O";
-        run = "plugin augment-command -- open";
+        run = "plugin augment-command.open";
         desc = "Enter the child directory, or open the file";
       }
       {
         on = "A";
-        run = "plugin augment-command -- archive";
+        run = "plugin augment-command.archive";
         desc = "Add files to an archive";
       }
       {
         on = "+";
-        run = "plugin augment-command -- create";
+        run = "plugin augment-command.create";
         desc = "Create a file or directory";
       }
 

@@ -14,7 +14,7 @@
     ../common
     ../common/wayland
     ../common/wayland/niri
-    ../common/games/wine.nix
+    ../common/games
     ../common/programs/browser/zen.nix
     ../common/programs/emacs
     ../common/programs/obsidian
@@ -30,6 +30,7 @@
 
     pkgs.eb-garamond
     pkgs.eww
+    pkgs.awww
 
     pkgs.xdg-desktop-portal-termfilechooser
 

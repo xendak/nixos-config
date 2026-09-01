@@ -8,22 +8,15 @@ let
     # https://github.com/hankertrix/augment-command.yazi
     owner = "hankertrix";
     repo = "augment-command.yazi";
-    rev = "681158d8a088b30ee947c97b864ce300346d9965";
-    hash = "sha256-ct0ieBbTmQb3LlSWP+txuzmKuugyDRVprFGCvhLOzYQ=";
+    rev = "352dc37dd737792370e86b09099c1551162a5d43";
+    hash = "sha256-PN8GE18MGYqpg8EdtCAH1cMRy1lFX9nA3y3lanmhY6E";
   };
   faster-piper = pkgs.fetchFromGitHub {
     # https://github.com/alberti42/faster-piper.yazi
     owner = "alberti42";
     repo = "faster-piper.yazi";
-    rev = "8b794bfa3bc9c780e3f03b6f5a0ccde7744e54bb";
-    hash = "sha256-m6ZiwA36lcdZORK3KIz4Xq3bs7mmtC6j62B/+BuDGAQ=";
-  };
-  epub-thumb = pkgs.fetchFromGitHub {
-    # https://github.com/kirasok/epub-preview.yazi
-    owner = "kirasok";
-    repo = "epub-preview.yazi";
-    rev = "2e8079e4a7f6315de99a5b968ed5fda479f1f39c";
-    hash = "sha256-wHTR8frrFL3cUD8fvSTO+m/77wQ7auVjTZ1uCTB/UzU=";
+    rev = "bb90261ce3952762b0de2d5720ea176615c1bbd9";
+    hash = "sha256-a7/KTIoIU9idxhYmYFsp6/ezmiBK/mEYfEz9zqZZiEU=";
   };
 in
 {
